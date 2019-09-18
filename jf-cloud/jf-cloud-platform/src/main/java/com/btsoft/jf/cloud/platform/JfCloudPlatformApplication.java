@@ -1,0 +1,18 @@
+package com.btsoft.jf.cloud.platform;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+/**
+ * JF Cloud 平台启动类
+ * @author jeo_cb
+ * @date 2019/8/28
+ **/
+@SpringBootApplication
+public class JfCloudPlatformApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(JfCloudPlatformApplication.class, args);
+	}
+
+}

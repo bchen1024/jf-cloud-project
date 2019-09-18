@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IAppMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.AppEntity">
+		<result column="APP_CODE" property="appCode"/>
+		<result column="ENABLE_FLAG" property="enableFlag"/>
+		<result column="CREATE_BY" property="createBy"/>
+		<result column="CREATION_DATE" property="creationDate"/>
+		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
+
+		<result column="APP_ID" property="appId"/>
+		<result column="APP_NAME" property="appName"/>
+		<result column="CONTEXT_PATH" property="contextPath"/>
+		<result column="APP_OWNER" property="appOwner"/>
+		<result column="APP_DESC" property="appDesc"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.APP_ID,
+			T.APP_CODE,
+			T.APP_NAME,
+			T.APP_OWNER,
+			T.APP_DESC,
+			T.CONTEXT_PATH,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_APP_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+			T.ENABLE_FLAG='Y'
+            <if test='vo.appCode!=null and vo.appCode!=""'>
+                AND T.APP_CODE LIKE CONCAT('%',TRIM(#{vo.appCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test='vo.appName!=null and vo.appName!=""'>
+                AND T.APP_NAME LIKE CONCAT('%',TRIM(#{vo.appName,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.appOwner!=null'>
+				AND T.APP_OWNER = #{vo.appOwner,jdbcType=NUMERIC}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		INSERT INTO SYS_APP_T (
+			APP_CODE,
+			APP_NAME,
+			APP_OWNER,
+			APP_DESC,
+			CONTEXT_PATH,
+			CREATE_BY
+		)VALUES(
+			#{vo.appCode,jdbcType=VARCHAR},
+			#{vo.appeName,jdbcType=VARCHAR},
+			#{vo.appOwner,jdbcType=NUMERIC},
+			#{vo.appDesc,jdbcType=VARCHAR},
+			#{vo.contextPath,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<delete id="deleteSingle">
+		DELETE FROM SYS_APP_T WHERE APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateSingle">
+		UPDATE SYS_APP_T T SET
+			T.APP_NAME=#{vo.appName,jdbcType=VARCHAR},
+			T.APP_DESC=#{vo.appDesc,jdbcType=VARCHAR},
+			T.CONTEXT_PATH=#{vo.contextPath,jdbcType=VARCHAR},
+			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=now()
+		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+	</update>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+</mapper>
