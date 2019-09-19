@@ -1,15 +1,30 @@
 export default{
     //菜单
     home:'首页',
+    workspace:'工作空间',
+    myImport:'我的导入',
+    myExport:'我的导出',
     accountMgt:'账户管理',
+    organizationMgt:'组织架构',
     roleMgt:'角色管理',
     userMgt:'用户管理',
     groupMgt:'群组管理',
     permissionMgt:'权限管理',
     appMgt:'应用管理',
     configMgt:'配置管理',
+    menuMgt:'菜单管理',
     propertyMgt:'数据字典',
     codeMgt:'代码管理',
     i18nMgt:'国际化管理',
-    personalizedMgt:'个性化配置'
+    personalizedMgt:'个性化配置',
+    noticeMgt:'公告管理',
+    importOrExportMgt:'导入导出',
+    importMonitor:'导入监控',
+    exportMonitor:'导出监控',
+    importTemplate:'导入模板',
+    exportTemplate:'导出模板',
+    personal:'个人中心',
+    logout:'退出登录',
+    login:'登录',
+    userDetail:'用户详情'
 };

@@ -1,4 +1,5 @@
 import constant from './constant'
+import Vue from 'vue';
 
 export default {
     /**
@@ -67,5 +68,16 @@ export default {
             lang=constant.ZH_CN;
         }
         return lang;
+    },
+    /**
+     * 设置语言
+     * @param {*} lang 
+     */
+    setLanguage:function(lang){
+        if(Vue.config.lang==lang){
+            return;
+        }
+        localStorage.setItem(constant.LANGUAGE,lang);
+        window.location.reload();
     }
 }

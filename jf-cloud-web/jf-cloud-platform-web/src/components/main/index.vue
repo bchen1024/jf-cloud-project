@@ -13,6 +13,9 @@
         <Layout>
             <Header class="header-con">
                 <HeaderBar :collapsed="collapsed" @on-collapsed-change="collapsedSider"> 
+                    <Personal/>
+                    <Language :lang="$util.getLanguage()"/>
+                    <FullScreen :v-model="false"/>
                 </HeaderBar>
             </Header>
             <Content class="main-content-con">
@@ -25,6 +28,9 @@
 import './index.less'
 import HeaderBar from './components/header-bar/index.vue'
 import SiderMenu from './components/sider-menu/index.vue'
+import Language from './components/language/index.vue'
+import FullScreen from './components/fullscreen/index.vue'
+import Personal from './components/personal/index.vue'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
 import minLogo from '@/assets/images/logo-min.jpg'
 import maxLogo from '@/assets/images/logo.png'
@@ -32,7 +38,10 @@ import routes from '@/router/routes'
 export default {
     components:{
         HeaderBar,
-        SiderMenu
+        SiderMenu,
+        Language,
+        FullScreen,
+        Personal
     },
     data(){
         return {
@@ -47,7 +56,10 @@ export default {
             let router=routes.filter(item=>{
                 return item.name=='main';
             });
-            return router[0].children;
+            let menus=router[0].children.filter(item=>{
+                return !item.meta || !item.meta.hideMenu;
+            });
+            return menus;
         }
     },
     methods:{

@@ -9,6 +9,9 @@
                 {{ $t($util.showTitle(item)) }}
             </BreadcrumbItem>
         </Breadcrumb>
+        <div class="custom-content-con">
+            <slot></slot>
+        </div>
     </div>
 </template>
 <script>
