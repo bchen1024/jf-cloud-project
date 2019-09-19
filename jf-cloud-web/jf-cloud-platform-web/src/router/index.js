@@ -8,14 +8,19 @@ import util from '@/libs/util'
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'hash',
+  //mode: 'hash',
   routes:routes
 });
 //路由前
 router.beforeEach((to, from, next) => {
   if(from.name!=to.name){
     iView.LoadingBar.start();
-    next();
+    if(to.name=='main'){
+      next({name:'home'});
+    }else{
+      next();
+    }
+   
   }
 });
 

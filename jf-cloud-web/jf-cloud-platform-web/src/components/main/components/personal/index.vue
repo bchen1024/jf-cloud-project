@@ -30,7 +30,7 @@ export default {
     logout(){
         this.$Modal.confirm({
             title: this.$t('logout'),
-            content: this.$t('message.logouConfirm'),
+            content: this.$t('message.logoutConfirm'),
             onOk: () => {
                this.$util.clearToken();
                this.$router.replace({name:'login'});

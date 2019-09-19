@@ -19,9 +19,8 @@ Vue.config.productionTip = false
 Vue.prototype.$http=http;
 Vue.prototype.$util=util;
 if (process.env.NODE_ENV !== 'production') require('@/mock')
-http.get("/jf-cloud-platform/config/menus",{}).then(res=>{
-  debugger;
-});
+
+
 
 /* eslint-disable no-new */
 new Vue({

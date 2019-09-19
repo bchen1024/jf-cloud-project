@@ -23,8 +23,14 @@ export default{
     exportMonitor:'Export Monitor',
     importTemplate:'Import Template',
     exportTemplate:'Export Template',
+    monitorMgt:'Monitor Mgt',
+    auditLog:'Audit Log',
+    serverLog:'Server Log',
     personal:'Personal',
     logout:'Logout',
     login:'Login',
-    userDetail:'User Detail'
+    userDetail:'User Detail',
+    message:{
+        logoutConfirm:'你确认要退出登录吗？'
+    }
 };

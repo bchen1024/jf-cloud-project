@@ -23,8 +23,14 @@ export default{
     exportMonitor:'导出监控',
     importTemplate:'导入模板',
     exportTemplate:'导出模板',
+    monitorMgt:'监控管理',
+    auditLog:'审计日志',
+    serverLog:'服务日志',
     personal:'个人中心',
     logout:'退出登录',
     login:'登录',
-    userDetail:'用户详情'
+    userDetail:'用户详情',
+    message:{
+        logoutConfirm:'你确认要退出登录吗？'
+    }
 };

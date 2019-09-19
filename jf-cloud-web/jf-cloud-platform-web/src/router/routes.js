@@ -2,11 +2,18 @@ import Main from '@/components/main/index.vue'
 import ParentView from '@/components/parent-view/index.vue'
 import Home from '@/views/home/index.vue'
 import Login from '@/views/login/index.vue'
+import Organization from '@/views/account/organization/index.vue'
 import Role from '@/views/account/role/index.vue'
 import User from '@/views/account/user/index.vue'
 import App from '@/views/account/app/index.vue'
 import Group from '@/views/account/group/index.vue'
 import Permission from '@/views/account/permission/index.vue'
+import I18n from '@/views/config/i18n/index.vue'
+import Code from '@/views/config/code/index.vue'
+import Property from '@/views/config/property/index.vue'
+import Menu from '@/views/config/menu/index.vue'
+import Personalized from '@/views/config/personalized/index.vue'
+import Notice from '@/views/config/notice/index.vue'
 export default[
     {
         path: '/',
@@ -62,7 +69,7 @@ export default[
                     {
                         path:'/account/organization',
                         name:'organizationMgt',
-                        component:Role,
+                        component:Organization,
                         meta:{
                             icon:'md-people'
                         }
@@ -121,7 +128,7 @@ export default[
                     {
                         path:'/config/menu',
                         name:'menuMgt',
-                        component:Role,
+                        component:Menu,
                         meta:{
                             icon:'md-menu'
                         }
@@ -129,7 +136,7 @@ export default[
                     {
                         path:'/config/property',
                         name:'propertyMgt',
-                        component:Role,
+                        component:Property,
                         meta:{
                             icon:'md-people'
                         }
@@ -137,7 +144,7 @@ export default[
                     {
                         path:'/config/i18n',
                         name:'i18nMgt',
-                        component:User,
+                        component:I18n,
                         meta:{
                             icon:'md-person'
                         }
@@ -145,7 +152,7 @@ export default[
                     {
                         path:'/config/code',
                         name:'codeMgt',
-                        component:User,
+                        component:Code,
                         meta:{
                             icon:'md-person'
                         }
@@ -153,7 +160,7 @@ export default[
                     {
                         path:'/config/personalized',
                         name:'personalizedMgt',
-                        component:User,
+                        component:Personalized,
                         meta:{
                             icon:'md-person'
                         }
@@ -161,7 +168,7 @@ export default[
                     {
                         path:'/config/notice',
                         name:'noticeMgt',
-                        component:User,
+                        component:Notice,
                         meta:{
                             icon:'md-person'
                         }
@@ -209,6 +216,33 @@ export default[
                             icon:'md-person'
                         }
                     },
+                ]
+            },
+            {
+                name:'monitorMgt',
+                path:'/monitor',
+                component:ParentView,
+                meta:{
+                    noLink:true,
+                    icon:'ios-settings'
+                },
+                children:[
+                    {
+                        path:'/monitor/auditLog',
+                        name:'auditLog',
+                        component:Role,
+                        meta:{
+                            icon:'md-people'
+                        }
+                    },
+                    {
+                        path:'/monitor/serverLog',
+                        name:'serverLog',
+                        component:User,
+                        meta:{
+                            icon:'md-person'
+                        }
+                    }
                 ]
             },
             {
