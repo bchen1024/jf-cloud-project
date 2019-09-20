@@ -15,29 +15,25 @@
     </div>
 </template>
 <script>
+import { mapMutations, mapActions, mapGetters } from 'vuex'
 export default {
     name: 'HeaderBar',
     data(){
         return{
         }
     },
-    props: {
-        collapsed: Boolean
-    },
     computed: {
         breadCrumbList () {
-            let vm=this;
-            return this.$store.state.menu.breadCrumbList
+            return this.$store.state.menu.breadCrumbList;
+        },
+        collapsed(){
+            return this.$store.state.menu.collapsed;
         }
     },
     methods:{
-        /**
-         * 左侧菜单折叠
-         */
-        collapsedSider(){
-            this.collapsed=!this.collapsed;
-            this.$emit('on-collapsed-change',this.collapsed);
-        }
+        ...mapMutations([
+            'collapsedSider'            
+        ])
     }
 }
 </script>

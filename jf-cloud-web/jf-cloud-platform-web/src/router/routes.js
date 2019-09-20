@@ -7,6 +7,7 @@ import Role from '@/views/account/role/index.vue'
 import User from '@/views/account/user/index.vue'
 import App from '@/views/account/app/index.vue'
 import Group from '@/views/account/group/index.vue'
+import Employee from '@/views/account/employee/index.vue'
 import Permission from '@/views/account/permission/index.vue'
 import I18n from '@/views/config/i18n/index.vue'
 import Code from '@/views/config/code/index.vue'
@@ -14,6 +15,14 @@ import Property from '@/views/config/property/index.vue'
 import Menu from '@/views/config/menu/index.vue'
 import Personalized from '@/views/config/personalized/index.vue'
 import Notice from '@/views/config/notice/index.vue'
+import Template from '@/views/config/template/index.vue'
+import ImportMonitor from '@/views/excel/import/importMonitor.vue'
+import ExportMonitor from '@/views/excel/export/exportMonitor.vue'
+import ImportTemplate from '@/views/excel/import/importTemplate.vue'
+import ExportTemplate from '@/views/excel/export/exportTemplate.vue'
+import MyImport from '@/views/excel/import/myImport.vue'
+import MyExport from '@/views/excel/export/myExport.vue'
+
 export default[
     {
         path: '/',
@@ -42,7 +51,7 @@ export default[
                     {
                         path:'/import/myImport',
                         name:'myImport',
-                        component:Role,
+                        component:MyImport,
                         meta:{
                             icon:'md-people'
                         }
@@ -50,7 +59,7 @@ export default[
                     {
                         path:'/export/myExport',
                         name:'myExport',
-                        component:Role,
+                        component:MyExport,
                         meta:{
                             icon:'md-people'
                         }
@@ -94,6 +103,14 @@ export default[
                         path:'/account/group',
                         name:'groupMgt',
                         component:Group,
+                        meta:{
+                            icon:'ios-people'
+                        }
+                    },
+                    {
+                        path:'/account/employee',
+                        name:'employeeMgt',
+                        component:Employee,
                         meta:{
                             icon:'ios-people'
                         }
@@ -150,6 +167,24 @@ export default[
                         }
                     },
                     {
+                        path:'/config/test',
+                        name:'i18nMgt11',
+                        component:ParentView,
+                        meta:{
+                            icon:'md-person'
+                        },
+                        children:[
+                            {
+                                path:'/config/i18n',
+                                name:'i18nMgt22',
+                                component:I18n,
+                                meta:{
+                                    icon:'md-person'
+                                }
+                            }
+                        ]
+                    },
+                    {
                         path:'/config/code',
                         name:'codeMgt',
                         component:Code,
@@ -172,6 +207,14 @@ export default[
                         meta:{
                             icon:'md-person'
                         }
+                    },
+                    {
+                        path:'/config/template',
+                        name:'templateMgt',
+                        component:Template,
+                        meta:{
+                            icon:'md-person'
+                        }
                     }
                 ]
             },
@@ -187,7 +230,7 @@ export default[
                     {
                         path:'/import/monitor',
                         name:'importMonitor',
-                        component:Role,
+                        component:ImportMonitor,
                         meta:{
                             icon:'md-people'
                         }
@@ -195,7 +238,7 @@ export default[
                     {
                         path:'/export/monitor',
                         name:'exportMonitor',
-                        component:User,
+                        component:ExportMonitor,
                         meta:{
                             icon:'md-person'
                         }
@@ -203,7 +246,7 @@ export default[
                     {
                         path:'/import/template',
                         name:'importTemplate',
-                        component:User,
+                        component:ImportTemplate,
                         meta:{
                             icon:'md-person'
                         }
@@ -211,7 +254,7 @@ export default[
                     {
                         path:'/export/template',
                         name:'exportTemplate',
-                        component:User,
+                        component:ExportTemplate,
                         meta:{
                             icon:'md-person'
                         }

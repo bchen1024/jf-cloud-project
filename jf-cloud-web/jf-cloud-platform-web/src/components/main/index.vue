@@ -1,18 +1,17 @@
 <template>
     <Layout style="height: 100%" class="jf-main">
-        <Sider hide-trigger collapsible class="left-sider"  v-model="collapsed" 
+        <Sider hide-trigger collapsible class="left-sider" v-model="collapsed" 
             :width="200" :collapsed-width="64">
-            <SiderMenu accordion ref="siderMenu" :collapsed="collapsed"  :menu-list="menuList" @on-select="turnToPage">
+            <SiderMenu accordion ref="siderMenu" :menu-list="menuList" @on-select="turnToPage">
                 <!-- 需要放在菜单上面的内容，如Logo，写在sider-menu标签内部，如下 -->
                 <div class="logo-con">
-                    <img v-show="!collapsed" :src="maxLogo" key="max-logo" />
-                    <img v-show="collapsed" :src="minLogo" key="min-logo" />
+                    {{collapsed?$t('logoMinTitle'):$t('logoTitle')}}
                 </div>
             </SiderMenu>
         </Sider>
         <Layout>
             <Header class="header-con">
-                <HeaderBar :collapsed="collapsed" @on-collapsed-change="collapsedSider"> 
+                <HeaderBar> 
                     <Personal/>
                     <Language :lang="$util.getLanguage()"/>
                     <FullScreen :v-model="false"/>
@@ -32,8 +31,6 @@ import Language from './components/language/index.vue'
 import FullScreen from './components/fullscreen/index.vue'
 import Personal from './components/personal/index.vue'
 import { mapMutations, mapActions, mapGetters } from 'vuex'
-import minLogo from '@/assets/images/logo-min.jpg'
-import maxLogo from '@/assets/images/logo.png'
 import routes from '@/router/routes'
 export default {
     components:{
@@ -45,10 +42,6 @@ export default {
     },
     data(){
         return {
-            //菜单是否折叠
-            collapsed:false,
-            minLogo,
-            maxLogo,
         }
     },
     computed: {
@@ -60,19 +53,15 @@ export default {
                 return !item.meta || !item.meta.hideMenu;
             });
             return menus;
+        },
+        collapsed(){
+            return this.$store.state.menu.collapsed;
         }
     },
     methods:{
         ...mapMutations([
-            'setBreadCrumb'
+            'setBreadCrumb'            
         ]),
-        
-        /**
-         * 左侧菜单折叠
-         */
-        collapsedSider(){
-            this.collapsed=!this.collapsed;
-        },
         turnToPage (route) {
             if(route==this.$route.name || route.name==this.$route.name){
                 return;

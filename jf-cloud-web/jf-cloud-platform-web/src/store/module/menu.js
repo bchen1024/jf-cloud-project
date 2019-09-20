@@ -1,11 +1,15 @@
 export default {
     state: {
-      breadCrumbList: []
+      breadCrumbList: [],
+      collapsed:false
     },
     getters: {
       
     },
     mutations: {
+      collapsedSider(state){
+        state.collapsed=!state.collapsed;
+      },
       setBreadCrumb (state, route) {
         let homeRouter={name:'home',path:'/home',meta:{icon:'md-home'}};
         if(route.name=='home'){
