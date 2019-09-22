@@ -167,24 +167,6 @@ export default[
                         }
                     },
                     {
-                        path:'/config/test',
-                        name:'i18nMgt11',
-                        component:ParentView,
-                        meta:{
-                            icon:'md-person'
-                        },
-                        children:[
-                            {
-                                path:'/config/i18n',
-                                name:'i18nMgt22',
-                                component:I18n,
-                                meta:{
-                                    icon:'md-person'
-                                }
-                            }
-                        ]
-                    },
-                    {
                         path:'/config/code',
                         name:'codeMgt',
                         component:Code,

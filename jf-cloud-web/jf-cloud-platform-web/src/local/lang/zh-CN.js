@@ -43,7 +43,10 @@ export default{
     },
 
     //公共
+    pleaseEnter:'请输入',
     applyStatus:'可申请',
+    tableSetting:'表格配置',
+    advancedFilter:'高级筛选',
 
     //角色相关
     roleCode:'角色编码',

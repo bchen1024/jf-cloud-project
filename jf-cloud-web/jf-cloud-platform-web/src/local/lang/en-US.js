@@ -36,5 +36,17 @@ export default{
     userDetail:'User Detail',
     message:{
         logoutConfirm:'你确认要退出登录吗？'
-    }
+    },
+
+    //公共
+    pleaseEnter:'Please Enter',
+    applyStatus:'Apply Status',
+    tableSetting:'Table Setting',
+    advancedFilter:'Advanced Filter',
+
+    //角色相关
+    roleCode:'Role Code',
+    roleName:'Role Name',
+    roleOwner:'Role Owner',
+    roleDesc:'Role Desc'
 };
