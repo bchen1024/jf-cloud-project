@@ -51,6 +51,11 @@ export default{
     noApply:'不可申请',
     all:'全部',
     queryPlaceholder:'请输入搜索条件',
+    createBy:'创建人',
+    createDate:'创建时间',
+    lastUpdateBy:'最后更新人',
+    lastUpdateDate:'最后更新时间',
+    selectDateTimeRange:'请选择一个时间范围',
 
 
     //角色相关

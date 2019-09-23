@@ -7,7 +7,10 @@ export default {
         return {
             gridOp:{
                 search:{
-                    url:'/security/role/page'
+                    url:'jfcloud/jf-cloud-platform/security/role/page',
+                    advancedQueryFields:[
+                        {key:'createDate',type:'datePicker'}
+                    ]
                 },
                 table:{
                     columns:[

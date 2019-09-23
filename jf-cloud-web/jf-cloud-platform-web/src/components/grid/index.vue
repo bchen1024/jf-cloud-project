@@ -37,6 +37,11 @@
                             <Radio v-for="radio in item.items" :key="radio.value"  :label="radio.value">{{radio.label}}</Radio>
                         </RadioGroup>
                     </template>
+                    <template v-if="item.type=='datePicker'">
+                        <DatePicker :type="item.dateType || 'datetimerange'" format="yyyy-MM-dd HH:mm:ss" 
+                            v-model="searchOp.queryParams[item.key]" style="width: 280px"
+                            :placeholder="$t('selectDateTimeRange')"></DatePicker>
+                    </template>
                 </FormItem>
             </Form>
         </div>
@@ -78,7 +83,9 @@ export default {
                 indexWidth:60,
                 selectionWidth:60,
                 indexAlign:'center',
-                selectionAlign:'center'
+                selectionAlign:'center',
+                showAuditCreate:false,
+                showAuditUpdate:true
             };
             let tableOp=Object.assign({},defaultOp,op.table);
             return tableOp;
@@ -138,6 +145,20 @@ export default {
                         columns.push(column);
                     }
                 });
+            }
+
+            //显示审计列
+            if(tableOp.showAuditCreate){
+                columns.push(
+                    {key:'createBy',title:vm.$t('createBy'),width:150},
+                    {key:'createDate',title:vm.$t('createDate'),width:155,align: 'center'}
+                );
+            }
+            if(tableOp.showAuditUpdate){
+                columns.push(
+                    {key:'lastUpdateBy',title:vm.$t('lastUpdateBy'),width:150},
+                    {key:'lastUpdateDate',title:vm.$t('lastUpdateDate'),width:155,align: 'center'}
+                );
             }
             return columns;
         },
@@ -202,8 +223,20 @@ export default {
                 let count=0;
                 let queryParams=this.searchOp.queryParams;
                 for(let p in queryParams){
-                    if(queryParams[p] && this.advancedFilterFields.includes(p)){
+                    if(!(queryParams[p] instanceof Array) && queryParams[p] && this.advancedFilterFields.includes(p)){
                         count++;
+                    }else if(queryParams[p] instanceof Array && this.advancedFilterFields.includes(p)){
+                        if(queryParams[p].length>0){
+                            var flag=false;
+                            queryParams[p].forEach(v=>{
+                                if(v){
+                                    flag=true;
+                                }
+                            });
+                            if(flag){
+                                count++;
+                            }
+                        }
                     }
                 }
                 return count;

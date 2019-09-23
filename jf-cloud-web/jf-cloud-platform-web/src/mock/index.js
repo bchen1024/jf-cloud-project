@@ -10,8 +10,4 @@ Mock.mock(/\/jf-cloud-platform\/config\/menus/, res=>{
   return {data:[]};
 });
 
-Mock.mock(/\/security\/role\/page/,'post', res=>{
-  return {data:{list:[{roleCode:'admin'}],total:1,curPage:1,pageSize:10}};
-});
-
 export default Mock

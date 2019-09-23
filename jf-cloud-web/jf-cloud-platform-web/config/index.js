@@ -11,11 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api':{
-        target:'http://localhost:20000',
+      '/jfcloud':{
+        target:'http://localhost:10003',
         changeOrigin:true,
         pathRewrite:{
-          '^/api': '/' 
+          '^/jfcloud': '/jfcloud' 
         }
       }
     },
