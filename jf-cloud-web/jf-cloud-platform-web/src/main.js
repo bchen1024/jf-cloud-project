@@ -9,11 +9,13 @@ import store from '@/store'
 import router from '@/router'
 import http from '@/libs/request'
 import util from '@/libs/util'
+import JFView from '@/components';
 
 
 Vue.use(iView,{
   i18n: (key, value) => i18n.t(key, value)
 });
+Vue.use(JFView);
 Vue.config.productionTip = false
 
 Vue.prototype.$http=http;

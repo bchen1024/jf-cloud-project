@@ -44,9 +44,14 @@ export default{
 
     //公共
     pleaseEnter:'请输入',
-    applyStatus:'可申请',
+    applyStatus:'申请状态',
     tableSetting:'表格配置',
     advancedFilter:'高级筛选',
+    canApply:'可申请',
+    noApply:'不可申请',
+    all:'全部',
+    queryPlaceholder:'请输入搜索条件',
+
 
     //角色相关
     roleCode:'角色编码',
