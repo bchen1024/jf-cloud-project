@@ -5,7 +5,7 @@
 		<result column="app_code" property="appCode"/>
 		<result column="enable_flag" property="enableFlag"/>
 		<result column="create_by" property="createBy"/>
-		<result column="creation_date" property="creationDate"/>
+		<result column="create_date" property="createDate"/>
 		<result column="last_update_by" property="lastUpdateBy"/>
 		<result column="last_update_date" property="lastUpdateDate"/>
 
@@ -44,6 +44,12 @@
             <if test='vo.roleName!=null and vo.roleName!=""'>
                 AND T.ROLE_NAME LIKE CONCAT('%',TRIM(#{vo.roleName,jdbcType=VARCHAR}),'%')
             </if>
+			<if test='vo.roleDesc!=null and vo.roleDesc!=""'>
+				AND T.ROLE_DESC LIKE CONCAT('%',TRIM(#{vo.roleDesc,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.applyStatus!=null and vo.applyStatus!=""'>
+				AND T.APPLY_STATUS = #{vo.applyStatus,jdbcType=VARCHAR}
+			</if>
 			<if test='vo.roleOwner!=null'>
 				AND T.ROLE_OWNER = #{vo.roleOwner,jdbcType=NUMERIC}
 			</if>
