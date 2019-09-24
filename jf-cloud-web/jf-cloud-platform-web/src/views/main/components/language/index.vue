@@ -1,5 +1,5 @@
 <template>
-    <Dropdown trigger="click" @on-click="selectLang">
+    <Dropdown @on-click="selectLang">
       <a href="javascript:void(0)">
         {{ title }}
         <Icon :size="18" type="md-arrow-dropdown" />

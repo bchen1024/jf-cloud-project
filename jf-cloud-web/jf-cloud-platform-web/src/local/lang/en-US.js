@@ -43,6 +43,8 @@ export default{
     applyStatus:'Apply Status',
     tableSetting:'Table Setting',
     advancedFilter:'Advanced Filter',
+    operation:'Operation',
+    search:'Search',
 
     //角色相关
     roleCode:'Role Code',

@@ -3,29 +3,33 @@
         <div style="margin-bottom:12px;">
             <!--搜索框-->
             <Input v-if="queryKeywordFields.length>0"
-                autofocus search enter-button style="max-width:350px;display:inline-table;"
-                class="jf-toolbar-item jf-input-search"
+                autofocus style="max-width:320px;display:inline-table;"
                 :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
-                :disabled="loading"
+                :disabled="loading" 
                 v-model="searchOp.queryParams.keywordValue"
-                @on-search="search">
-                <Select v-model="searchOp.queryParams.keywordField" slot="prepend" style="width:auto;">
+                @on-enter="search">
+                <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend" style="width:auto;">
                     <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
                         {{field.title?field.title:$t(field.key)}}
                     </Option>
                 </Select>
             </Input>
+            <Button type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
             <Badge :count="advancedFilterCount">
-                <Button @click="showAdvancedFilter" v-if="advancedQueryFields && advancedQueryFields.length>0">
+                <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" v-if="advancedQueryFields && advancedQueryFields.length>0">
                     {{$t('advancedFilter')}}
-                    <Icon :type="advancedFilter?'ios-arrow-up':'ios-arrow-down'"></Icon>
+                    <Icon :type="advancedFilterShow?'ios-arrow-up':'ios-arrow-down'"></Icon>
                 </Button>
             </Badge>
-            <Tooltip :content="$t('tableSetting')" placement="bottom" style="float:right;margin-top: 4px;margin-right:12px;">
-                <Icon type="ios-settings-outline" size="24" style="cursor: pointer;"/>
-            </Tooltip>
-            <Form v-if="advancedQueryFields && advancedQueryFields.length>0" :model="searchOp.queryParams" 
-                :label-width="100" v-show="advancedFilter" style="background-color: #fff;
+            <div style="float:right;margin-right:12px;">
+                <slot name="toolbar"></slot>
+                <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom" >
+                    <Icon type="ios-settings-outline" size="20" style="cursor: pointer;"/>
+                </Tooltip>
+            </div>
+            
+            <Form v-if="advancedQueryFields && advancedQueryFields.length>0" inline :model="searchOp.queryParams" 
+                :label-width="100" v-show="advancedFilterShow" style="background-color: #fff;
     margin-top: 6px;
     box-shadow: 0 2px 7px rgba(0,0,0,.15);
     border-color: transparent;
@@ -49,6 +53,9 @@
             :columns="columns" :data="data||[]"  
             :loading="loading"
             :no-data-text="tableOp.noDataText">
+             <template slot-scope="{row,index,column}" slot="action"  >
+                 <slot name='operation' scope="{row,index,column}"/>
+             </template>
         </Table>
         <!--分页-->
         <Page v-if='tableOp.showPager' @on-change="onPageChange"
@@ -217,7 +224,7 @@ export default {
             return fields;
         },
         advancedFilterCount(){
-            if(this.advancedFilter){
+            if(this.advancedFilterShow){
                 return 0;
             }else{
                 let count=0;
@@ -241,19 +248,15 @@ export default {
                 }
                 return count;
             }
-        },
-        queryPlaceholder(){
-            // let searchOp=this.searchOp;
-            // if(searchOp.queryParams.keywordField){
-            //     return this.$t('pleaseEnter')+this.$t(searchOp.queryParams.keywordField);
-            // }
-            // return this.$t('pleaseEnterCondition');
         }
     },
     data(){
         return {
+            //是否在加载
             loading:false,
-            advancedFilter:false,
+            //是否显示高级筛选
+            advancedFilterShow:false,
+            //高级筛选字段
             advancedFilterFields:[],
             data:[]
         }
@@ -279,12 +282,7 @@ export default {
         onSelectionChange(selection){
             this.selectItems=selection;
         },
-        /**
-         * 是否显示高级筛选
-         */
-        showAdvancedFilter(){
-            this.advancedFilter=!this.advancedFilter;
-        },
+
         search(){
             var vm=this;
             vm.loading=true;
@@ -306,6 +304,9 @@ export default {
                 vm.loading=false;
                 vm.tableOp.noDataText=error;
             });
+        },
+        show(row,index,column){
+           console.info(index);
         }
     },
     created(){

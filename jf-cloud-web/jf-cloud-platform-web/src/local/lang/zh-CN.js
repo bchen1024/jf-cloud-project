@@ -56,6 +56,8 @@ export default{
     lastUpdateBy:'最后更新人',
     lastUpdateDate:'最后更新时间',
     selectDateTimeRange:'请选择一个时间范围',
+    operation:'操作',
+    search:'搜索',
 
 
     //角色相关

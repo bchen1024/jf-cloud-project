@@ -1,5 +1,5 @@
-import Main from '@/components/main/index.vue'
-import ParentView from '@/components/parent-view/index.vue'
+import Main from '@/views/main/index.vue'
+import ParentView from '@/views/main/components/parent-view/index.vue'
 import Home from '@/views/home/index.vue'
 import Login from '@/views/login/index.vue'
 import Organization from '@/views/account/organization/index.vue'
