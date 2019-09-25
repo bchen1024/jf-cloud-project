@@ -58,11 +58,14 @@ export default{
     selectDateTimeRange:'请选择一个时间范围',
     operation:'操作',
     search:'搜索',
+    edit:'编辑',
+    delete:'删除',
 
 
     //角色相关
     roleCode:'角色编码',
     roleName:'角色名称',
     roleOwner:'角色责任人',
-    roleDesc:'角色描述'
+    roleDesc:'角色描述',
+    createRole:'创建角色'
 };

@@ -13,7 +13,7 @@
             <Header class="header-con">
                 <HeaderBar> 
                     <Personal/>
-                    <Language :lang="$util.getLanguage()"/>
+                    <Language/>
                     <FullScreen :v-model="false"/>
                 </HeaderBar>
             </Header>

@@ -5,7 +5,7 @@
         <Icon :size="18" type="md-arrow-dropdown" />
       </a>
       <DropdownMenu slot="list">
-        <DropdownItem v-for="(value, key) in localList" :name="key" :key="`lang-${key}`">{{ value }}</DropdownItem>
+        <DropdownItem v-for="(value, key) in localList" :selected="key==lang" :name="key" :key="`lang-${key}`">{{ value }}</DropdownItem>
       </DropdownMenu>
     </Dropdown>
 </template>
@@ -13,9 +13,6 @@
 <script>
 export default {
   name: 'Language',
-  props: {
-    lang: String
-  },
   data () {
     return {
       localList: {
@@ -25,8 +22,11 @@ export default {
     }
   },
   computed: {
+    lang(){
+      return this.$util.getLanguage();
+    },
     title () {
-      return this.localList[this.lang]
+      return this.localList[this.lang];
     }
   },
   methods: {

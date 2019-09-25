@@ -43,12 +43,19 @@ export default{
     applyStatus:'Apply Status',
     tableSetting:'Table Setting',
     advancedFilter:'Advanced Filter',
+    canApply:'Can Apply',
+    noApply:'No Apply',
+    all:'All',
+    queryPlaceholder:'Please enter the search condition',
     operation:'Operation',
     search:'Search',
+    edit:'Edit',
+    delete:'Delete',
 
     //角色相关
     roleCode:'Role Code',
     roleName:'Role Name',
     roleOwner:'Role Owner',
-    roleDesc:'Role Desc'
+    roleDesc:'Role Desc',
+    createRole:'Create Role'
 };

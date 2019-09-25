@@ -1,26 +1,28 @@
 <template>
     <div>
-        <div style="margin-bottom:12px;">
-            <!--搜索框-->
-            <Input v-if="queryKeywordFields.length>0"
-                autofocus style="max-width:320px;display:inline-table;"
-                :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
-                :disabled="loading" 
-                v-model="searchOp.queryParams.keywordValue"
-                @on-enter="search">
-                <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend" style="width:auto;">
-                    <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
-                        {{field.title?field.title:$t(field.key)}}
-                    </Option>
-                </Select>
-            </Input>
-            <Button type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
-            <Badge :count="advancedFilterCount">
-                <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" v-if="advancedQueryFields && advancedQueryFields.length>0">
-                    {{$t('advancedFilter')}}
-                    <Icon :type="advancedFilterShow?'ios-arrow-up':'ios-arrow-down'"></Icon>
-                </Button>
-            </Badge>
+        <div style="margin-bottom:12px;min-height: 32px;">
+            <div style="min-height: 32px;display: inline-block;min-width:600px;">
+                <!--搜索框-->
+                <Input v-if="queryKeywordFields.length>0"
+                    autofocus style="max-width:320px;display:inline-table;"
+                    :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
+                    :disabled="loading" 
+                    v-model="searchOp.queryParams.keywordValue"
+                    @on-enter="search">
+                    <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend" style="width:auto;">
+                        <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
+                            {{field.title?field.title:$t(field.key)}}
+                        </Option>
+                    </Select>
+                </Input>
+                <Button v-if="queryKeywordFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
+                <Badge :count="advancedFilterCount" v-if="queryKeywordFields.length>0 && advancedQueryFields.length>0">
+                    <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" >
+                        {{$t('advancedFilter')}}
+                        <Icon :type="advancedFilterShow?'ios-arrow-up':'ios-arrow-down'"></Icon>
+                    </Button>
+                </Badge>
+            </div>
             <div style="float:right;margin-right:12px;">
                 <slot name="toolbar"></slot>
                 <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom" >
@@ -29,7 +31,7 @@
             </div>
             
             <Form v-if="advancedQueryFields && advancedQueryFields.length>0" inline :model="searchOp.queryParams" 
-                :label-width="100" v-show="advancedFilterShow" style="background-color: #fff;
+                :label-width="100" v-show="(queryKeywordFields.length==0) || advancedFilterShow" style="background-color: #fff;
     margin-top: 6px;
     box-shadow: 0 2px 7px rgba(0,0,0,.15);
     border-color: transparent;
@@ -46,6 +48,7 @@
                             v-model="searchOp.queryParams[item.key]" style="width: 280px"
                             :placeholder="$t('selectDateTimeRange')"></DatePicker>
                     </template>
+                    <Button v-if="queryKeywordFields.length==0 && advancedQueryFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
                 </FormItem>
             </Form>
         </div>
@@ -53,9 +56,6 @@
             :columns="columns" :data="data||[]"  
             :loading="loading"
             :no-data-text="tableOp.noDataText">
-             <template slot-scope="{row,index,column}" slot="action"  >
-                 <slot name='operation' scope="{row,index,column}"/>
-             </template>
         </Table>
         <!--分页-->
         <Page v-if='tableOp.showPager' @on-change="onPageChange"
@@ -79,20 +79,38 @@ export default {
          */
         tableOp(){
             let vm=this,op=vm.gridOp || {};
+            //默认表格配置
             let defaultOp={
+                //列配置
                 columns:[],
+                //是否允许设置表格
                 allowSetting:true,
+                //是否显示tip提示
                 showTip:false,
+                //文本超长是否显示省略号
                 ellipsis:true,
+                //是否显示序号列
                 showIndex:true,
+                //是否多选
                 showSelection:true,
+                //是否显示分页
                 showPager:true,
+                //是否默认显示高级筛选
+                showAdvancedFilter:false,
+                //序号列的宽度
                 indexWidth:60,
+                //选择列的宽度
                 selectionWidth:60,
+                //序号列的位置
                 indexAlign:'center',
+                //选择列列的位置
                 selectionAlign:'center',
+                //是否显示创建信息字段
                 showAuditCreate:false,
-                showAuditUpdate:true
+                //是否显示更新信息字段
+                showAuditUpdate:false,
+                //列标题需要国际化
+                titleI18n:true
             };
             let tableOp=Object.assign({},defaultOp,op.table);
             return tableOp;
@@ -102,6 +120,7 @@ export default {
         */
         pagerOp(){
             let vm=this,op=vm.gridOp || {};
+            //默认分页配置
             let defaultOp={
                 total:0,
                 curPage:1,
@@ -111,6 +130,9 @@ export default {
             let pagerOp=Object.assign({},defaultOp,op.pager);
             return pagerOp;
         },
+        /**
+         * 列配置
+         */
         columns(){
             let vm=this,tableOp=vm.tableOp || {},columns=[];
             //显示序号列
@@ -138,13 +160,15 @@ export default {
                         if(tableOp.showTip){
                             column.tooltip=true;
                         }
+                        //如果配置
                         if(!column.title){
                             column.title=column.key;
                         }
-                        if(typeof column.title==='string'){
+                        //列标题国际化
+                        if(tableOp.titleI18n){
                             column.title=vm.$t(column.title);
                         }
-                        //配置默认宽度
+                        //未指定宽度的列配置默认宽度
                         if(!column.width){
                             column.tooltip=true;
                             column.minWidth=200;
@@ -173,10 +197,14 @@ export default {
          * 查询配置
          */
         searchOp(){
-            var vm=this,gridOp=vm.gridOp || {};;
+            var vm=this,gridOp=vm.gridOp || {};
+            //默认的查询配置
             var defaultOp={
+                //是否自动加载
                 autoLoad:true,
+                //查询参数
                 queryParams:{},
+                //请求方法
                 method:"post"
             };
             var searchOp=Object.assign({},defaultOp,gridOp.search);
@@ -211,8 +239,7 @@ export default {
             var fields=[];
             (vm.columns || []).forEach(field => {
                 if(field.condition && typeof field.condition=='object'){
-                    let condition=field.condition;
-                    fields.push(Object.assign({},{key:field.key},condition));
+                    fields.push(Object.assign({},{key:field.key},field.condition));
                 }
             });
             if(searchOp.advancedQueryFields && searchOp.advancedQueryFields.length>0){
@@ -223,6 +250,9 @@ export default {
             });
             return fields;
         },
+        /**
+         * 高级筛选数量
+         */
         advancedFilterCount(){
             if(this.advancedFilterShow){
                 return 0;
@@ -230,18 +260,20 @@ export default {
                 let count=0;
                 let queryParams=this.searchOp.queryParams;
                 for(let p in queryParams){
-                    if(!(queryParams[p] instanceof Array) && queryParams[p] && this.advancedFilterFields.includes(p)){
-                        count++;
-                    }else if(queryParams[p] instanceof Array && this.advancedFilterFields.includes(p)){
-                        if(queryParams[p].length>0){
-                            var flag=false;
-                            queryParams[p].forEach(v=>{
-                                if(v){
-                                    flag=true;
+                    if(this.advancedFilterFields.includes(p)){
+                        if(!(queryParams[p] instanceof Array) && queryParams[p]){
+                            count++;
+                        }else if(queryParams[p] instanceof Array){
+                            if(queryParams[p].length>0){
+                                var flag=false;
+                                queryParams[p].forEach(v=>{
+                                    if(v){
+                                        flag=true;
+                                    }
+                                });
+                                if(flag){
+                                    count++;
                                 }
-                            });
-                            if(flag){
-                                count++;
                             }
                         }
                     }
@@ -310,6 +342,9 @@ export default {
         }
     },
     created(){
+        if(this.tableOp.showAdvancedFilter){
+            this.advancedFilterShow=true;
+        }
         if(this.searchOp.autoLoad){
             this.search();
         }
