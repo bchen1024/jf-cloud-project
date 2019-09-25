@@ -1,17 +1,26 @@
 <template>
-    <JFGrid :gridOp="gridOp">
-        <template slot="toolbar">
-            <Button icon="md-add" type="primary">
-                {{$t('createRole')}}
-            </Button>
-        </template>
-    </JFGrid>
+    <div>
+        <JFGrid :gridOp="gridOp">
+            <template slot="toolbar">
+                <Button icon="md-add" type="primary">
+                    {{$t('createRole')}}
+                </Button>
+            </template>
+        </JFGrid>
+        <EditRole :visible.sync="editRole" @submitCallback="submitCallback"/>
+    </div>
+    
 </template>
 <script>
+import EditRole from './edit.vue';
 export default {
+    components:{
+        EditRole
+    },
     data(){
         let vm=this;
         return {
+            editRole:false,
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/role/page'
@@ -31,7 +40,7 @@ export default {
                                 h('DropdownMenu',{slot:'list'},[
                                     h('DropdownItem',{nativeOn:{
                                         click:(name)=>{
-                                            alert(params.row.roleCode);
+                                            vm.editRole=true;
                                         }
                                     }},vm.$t('edit')),
                                      h('DropdownItem',{},vm.$t('delete'))
@@ -46,6 +55,9 @@ export default {
     methods:{
         show(row,index,column){
            console.info(index);
+        },
+        submitCallback(formData){
+            alert(JSON.stringify(formData));
         }
     }
 }
