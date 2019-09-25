@@ -67,5 +67,6 @@ export default{
     roleName:'角色名称',
     roleOwner:'角色责任人',
     roleDesc:'角色描述',
-    createRole:'创建角色'
+    createRole:'创建角色',
+    editRole:'编辑角色'
 };

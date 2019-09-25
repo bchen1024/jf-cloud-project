@@ -57,5 +57,6 @@ export default{
     roleName:'Role Name',
     roleOwner:'Role Owner',
     roleDesc:'Role Desc',
-    createRole:'Create Role'
+    createRole:'Create Role',
+    editRole:'Edit Role'
 };

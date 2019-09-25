@@ -2,12 +2,12 @@
     <div>
         <JFGrid :gridOp="gridOp">
             <template slot="toolbar">
-                <Button icon="md-add" type="primary">
+                <Button icon="md-add" type="primary" @click="createRole">
                     {{$t('createRole')}}
                 </Button>
             </template>
         </JFGrid>
-        <EditRole :visible.sync="editRole" @submitCallback="submitCallback"/>
+        <EditRole :visible.sync="editRole" :formData="formData" @submitCallback="submitCallback"/>
     </div>
     
 </template>
@@ -21,6 +21,7 @@ export default {
         let vm=this;
         return {
             editRole:false,
+            formData:{},
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/role/page'
@@ -40,6 +41,7 @@ export default {
                                 h('DropdownMenu',{slot:'list'},[
                                     h('DropdownItem',{nativeOn:{
                                         click:(name)=>{
+                                            vm.formData=params.row;
                                             vm.editRole=true;
                                         }
                                     }},vm.$t('edit')),
@@ -53,8 +55,9 @@ export default {
         }
     },
     methods:{
-        show(row,index,column){
-           console.info(index);
+        createRole(){
+            this.formData={applyStatus:'N'};
+            this.editRole=true;
         },
         submitCallback(formData){
             alert(JSON.stringify(formData));

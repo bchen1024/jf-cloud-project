@@ -11,7 +11,7 @@ Mock.mock(/\/jf-cloud-platform\/config\/menus/, res=>{
 });
 // 登录相关和获取用户信息
 Mock.mock(/\/security\/role\/page/, res=>{
-  return {data:{list:[{roleCode:'admin',roleName:'管理员',roleOwner:1,applyStatus:'Y',roleDesc:'desc'}],total:1,curPage:1,pageSize:10}};
+  return {data:{list:[{roleId:1,roleCode:'admin',roleName:'管理员',roleOwner:1,applyStatus:'Y',roleDesc:'desc'}],total:1,curPage:1,pageSize:10}};
 });
 
 export default Mock
