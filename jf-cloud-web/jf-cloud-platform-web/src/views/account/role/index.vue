@@ -38,7 +38,8 @@ export default {
             formData:{},
             gridOp:{
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/role/page'
+                    url:'jfcloud/jf-cloud-platform/security/role/page1',
+                    defaultParams:{appCode:'jf-cloud-platform'}
                 },
                 table:{
                     columns:[

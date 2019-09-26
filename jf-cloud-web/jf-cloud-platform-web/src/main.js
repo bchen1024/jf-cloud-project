@@ -7,24 +7,20 @@ import App from './App'
 import i18n from '@/local'
 import store from '@/store'
 import router from '@/router'
-import http from '@/libs/request'
-import util from '@/libs/util'
+import libs from '@/libs'
 import JFView from '@/components';
 
-
+//注册iview
 Vue.use(iView,{
   i18n: (key, value) => i18n.t(key, value)
 });
+//注册JFView
 Vue.use(JFView);
-Vue.config.productionTip = false
+//注册工具
+Vue.use(libs);
 
-Vue.prototype.$http=http;
-Vue.prototype.$util=util;
-if (process.env.NODE_ENV !== 'production') require('@/mock')
+//if (process.env.NODE_ENV !== 'production') require('@/mock')
 
-
-
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,

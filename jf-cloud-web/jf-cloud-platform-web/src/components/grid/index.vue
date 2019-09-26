@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="margin-bottom:12px;min-height: 32px;">
-            <div style="min-height: 32px;display: inline-block;min-width:600px;">
+            <div style="display: inline-block;min-width:600px;">
                 <!--搜索框-->
                 <Input v-if="queryKeywordFields.length>0"
                     autofocus style="max-width:320px;display:inline-table;"
@@ -55,7 +55,7 @@
         <Table stripe
             :columns="columns" :data="data||[]"  
             :loading="loading"
-            :no-data-text="tableOp.noDataText">
+            :no-data-text="tableNoDataText">
         </Table>
         <!--分页-->
         <Page v-if='tableOp.showPager' @on-change="onPageChange"
@@ -65,7 +65,8 @@
             :current="pagerOp.curPage" 
             :page-size-opts="pagerOp.pageList"
             placement="top" show-elevator show-sizer show-total transfer
-            style="margin-top:6px;margin-bottom:6px;">
+            class="jf-grid-pager"
+            :style="'text-align:'+(pagerOp.align || 'left')">
         </Page>
     </div>
 </template>
@@ -84,7 +85,7 @@ export default {
                 //列配置
                 columns:[],
                 //是否允许设置表格
-                allowSetting:true,
+                allowSetting:false,
                 //是否显示tip提示
                 showTip:false,
                 //文本超长是否显示省略号
@@ -125,7 +126,8 @@ export default {
                 total:0,
                 curPage:1,
                 pageSize:10,
-                pageList:[10,15,30,50,100,200]
+                pageList:[10,15,30,50,100,200],
+                align:'right'
             };
             let pagerOp=Object.assign({},defaultOp,op.pager);
             return pagerOp;
@@ -280,6 +282,11 @@ export default {
                 }
                 return count;
             }
+        },
+        tableNoDataText(){
+            if(this.loadError){
+                return "<font color='red'>"+this.errorMsg+"</font>"
+            }
         }
     },
     data(){
@@ -290,7 +297,12 @@ export default {
             advancedFilterShow:false,
             //高级筛选字段
             advancedFilterFields:[],
-            data:[]
+            //表格数据
+            data:[],
+            //是否加载错误
+            loadError:false,
+            //错误信息
+            errorMsg:null
         }
     },
     methods:{
@@ -314,27 +326,49 @@ export default {
         onSelectionChange(selection){
             this.selectItems=selection;
         },
-
+        /**
+         * 表格搜索
+         */
         search(){
-            var vm=this;
-            vm.loading=true;
-            var params=Object.assign({},vm.searchOp.queryParams,{
-                pageSize:vm.pagerOp.pageSize,
-                curPage:vm.pagerOp.curPage,
-                //TODO
-                appCode:'jf-cloud-platform'
+            let vm=this,tableOp=vm.tableOp,searchOp=vm.searchOp,pagerOp=vm.pagerOp;        
+            //参数组装
+            var params=Object.assign({},
+                searchOp.defaultParams,
+                searchOp.queryParams,{
+                pageSize:pagerOp.pageSize,
+                curPage:pagerOp.curPage
             });
+            vm.loading=true;
             vm.$http({
-                method:vm.searchOp.method,
-                url:vm.searchOp.url,
+                method:searchOp.method,
+                url:searchOp.url,
                 data:params
             }).then(result=>{
-                vm.pagerOp.total=result.data.total;
-                vm.data=result.data.list;
-                vm.loading=false;
+                 vm.loading=false;
+                //成功
+                if(result && result.success){
+                    vm.loadError=false;
+                    let data=result.data;
+                    //分页结果
+                    if(tableOp.showPager){
+                        if(data){
+                            pagerOp.total=data.total;
+                            vm.data=data.list;
+                        }else{
+                            pagerOp.total=0;
+                            vm.data=[];
+                        }
+                    }else{
+                        vm.data=data || [];
+                    }
+                }else{
+                    vm.loadError=true;
+                    vm.errorMsg=vm.$t(result.code) || result.msg;
+                }
             }).catch(error=>{
+                vm.loadError=true;
                 vm.loading=false;
-                vm.tableOp.noDataText=error;
+                vm.errorMsg=error;
             });
         },
         show(row,index,column){
@@ -351,3 +385,9 @@ export default {
     }
 }
 </script>
+<style lang="less" scoped>
+    .jf-grid-pager{
+        margin-top:6px;
+        margin-bottom:6px;
+    }
+</style>
