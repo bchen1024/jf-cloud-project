@@ -2,12 +2,26 @@
     <div>
         <JFGrid :gridOp="gridOp">
             <template slot="toolbar">
-                <Button icon="md-add" type="primary" @click="createRole">
+                <Button icon="md-add" type="primary" @click="editRole">
                     {{$t('createRole')}}
+                </Button>
+                <Dropdown>
+                    <Button type="info">
+                        导入导出
+                        <Icon type="ios-arrow-down"></Icon>
+                    </Button>
+                    <DropdownMenu slot="list">
+                        <DropdownItem>导出角色</DropdownItem>
+                        <DropdownItem>导入角色</DropdownItem>
+                        <DropdownItem>下载模板</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Button>
+                    {{$t('operationLog')}}
                 </Button>
             </template>
         </JFGrid>
-        <EditRole :visible.sync="editRole" :formData="formData" @submitCallback="submitCallback"/>
+        <EditRole :visible.sync="showEditRole" :formData="formData" @submitCallback="submitCallback"/>
     </div>
     
 </template>
@@ -20,7 +34,7 @@ export default {
     data(){
         let vm=this;
         return {
-            editRole:false,
+            showEditRole:false,
             formData:{},
             gridOp:{
                 search:{
@@ -41,11 +55,15 @@ export default {
                                 h('DropdownMenu',{slot:'list'},[
                                     h('DropdownItem',{nativeOn:{
                                         click:(name)=>{
-                                            vm.formData=params.row;
-                                            vm.editRole=true;
+                                            vm.editRole(params.row);
                                         }
                                     }},vm.$t('edit')),
-                                     h('DropdownItem',{},vm.$t('delete'))
+                                    h('DropdownItem',{},vm.$t('delete')),
+                                    h('DropdownItem',{},vm.$t('detail')),
+                                    h('DropdownItem',{},vm.$t('roleUsers')),
+                                    h('DropdownItem',{},vm.$t('rolePermission')),
+                                    h('DropdownItem',{},vm.$t('roleGroups'))
+                                    
                                 ])
                             ]);
                         }}
@@ -55,9 +73,13 @@ export default {
         }
     },
     methods:{
-        createRole(){
-            this.formData={applyStatus:'N'};
-            this.editRole=true;
+        editRole(data){
+            this.showEditRole=true;
+            if(data){
+                this.formData=data;
+            }else{
+                this.formData={applyStatus:'N'};
+            }
         },
         submitCallback(formData){
             alert(JSON.stringify(formData));

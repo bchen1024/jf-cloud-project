@@ -6,24 +6,24 @@
             :visible.sync="show"
             :mask-closable="false"
         >
-            <Form ref='roleForm' :model="formData" :rules="formRules">
+            <Form ref='roleForm' :model="data" :rules="formRules">
                 <FormItem :label="$t('roleCode')" label-position="top" prop="roleCode" required>
-                    <Input v-model="formData.roleCode" />
+                    <Input v-model="data.roleCode" />
                 </FormItem>
                 <FormItem :label="$t('roleName')" label-position="top" required>
-                    <Input v-model="formData.roleName"/>
+                    <Input v-model="data.roleName"/>
                 </FormItem>
                 <FormItem :label="$t('roleOwner')" label-position="top" required>
-                    <Input v-model="formData.roleOwner"/>
+                    <Input v-model="data.roleOwner"/>
                 </FormItem>
                 <FormItem :label="$t('applyStatus')" label-position="top" required>
-                    <RadioGroup v-model="formData.applyStatus">
+                    <RadioGroup v-model="data.applyStatus">
                         <Radio  label="Y">{{$t('canApply')}}</Radio>
                         <Radio  label="N">{{$t('noApply')}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem :label="$t('roleDesc')" label-position="top">
-                    <Input type="textarea" v-model="formData.roleDesc" :rows="4" :maxlength="200" />
+                    <Input type="textarea" v-model="data.roleDesc" :rows="4" :maxlength="200" />
                 </FormItem>
             </Form>
             <div class="demo-drawer-footer">
@@ -44,6 +44,7 @@
         data () {
             let vm=this;
             return {
+                data:{},
                 show: false,
                 title:vm.$t('createRole'),
                 formRules:{
@@ -56,8 +57,10 @@
         watch: {
             visible: function (newval) {
                 if (newval) {
+                    this.$refs.roleForm.resetFields();
                     this.show = newval;
-                    if(this.formData.roleId){
+                    this.data=Object.assign({},this.formData);
+                    if(this.data.roleId){
                         this.title=this.$t('editRole');
                     }
                 }

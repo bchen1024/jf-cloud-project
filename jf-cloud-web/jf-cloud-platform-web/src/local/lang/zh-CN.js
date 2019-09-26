@@ -60,6 +60,8 @@ export default{
     search:'搜索',
     edit:'编辑',
     delete:'删除',
+    detail:'详情',
+    operationLog:'操作日志',
 
 
     //角色相关
@@ -68,5 +70,8 @@ export default{
     roleOwner:'角色责任人',
     roleDesc:'角色描述',
     createRole:'创建角色',
-    editRole:'编辑角色'
+    editRole:'编辑角色',
+    rolePermission:'角色权限',
+    roleUsers:'角色用户',
+    roleGroups:'角色群组'
 };

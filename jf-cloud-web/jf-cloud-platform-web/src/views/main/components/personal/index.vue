@@ -1,7 +1,8 @@
 <template>
   <div class="user-avatar-dropdown" style="margin-left:12px;">
     <Dropdown @on-click="handleClick">
-        <Avatar icon="ios-person"/>
+      <Avatar icon="ios-person"/>
+      {{$store.state.user.userInfo.userName}}
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
         <DropdownItem name="personal">{{$t('personal')}}</DropdownItem>
