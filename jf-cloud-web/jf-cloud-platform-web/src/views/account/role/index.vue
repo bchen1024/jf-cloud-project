@@ -1,7 +1,7 @@
 <template>
     <div>
         <JFGrid :gridOp="gridOp">
-            <template slot="toolbar">
+            <template slot="grid-search-toolbar">
                 <Button icon="md-add" type="primary" @click="editRole">
                     {{$t('createRole')}}
                 </Button>
@@ -38,21 +38,21 @@ export default {
             formData:{},
             gridOp:{
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/role/page1',
+                    url:'jfcloud/jf-cloud-platform/security/role/page',
                     defaultParams:{appCode:'jf-cloud-platform'}
                 },
                 table:{
                     columns:[
                         {key:'roleCode',width:120,condition:true},
                         {key:'roleName',width:150,condition:true},
-                        {key:'roleOwner',width:150},
+                        {key:'roleOwner',width:150,condition:{}},
                         {key:'applyStatus',width:120,condition:{
                            type:'radio',items:[{value:'Y',label:vm.$t('canApply')},{value:'N',label:vm.$t('noApply')}]
                         }},
                         {key:'roleDesc',condition:true},
                         {key:'operation',width:100,align:'center',fixed:'right', render: (h, params) => {
                             return h('Dropdown',{props:{transfer:true}}, [
-                                h('Icon',{props:{type:'ios-more'}}),
+                                h('Icon',{props:{type:'ios-more',size:20}}),
                                 h('DropdownMenu',{slot:'list'},[
                                     h('DropdownItem',{nativeOn:{
                                         click:(name)=>{

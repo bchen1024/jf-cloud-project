@@ -1,57 +1,62 @@
 <template>
     <div>
         <div style="margin-bottom:12px;min-height: 32px;">
-            <div style="display: inline-block;min-width:600px;">
-                <!--搜索框-->
-                <Input v-if="queryKeywordFields.length>0"
-                    autofocus style="max-width:320px;display:inline-table;"
-                    :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
-                    :disabled="loading" 
-                    v-model="searchOp.queryParams.keywordValue"
-                    @on-enter="search">
-                    <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend" style="width:auto;">
-                        <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
-                            {{field.title?field.title:$t(field.key)}}
-                        </Option>
-                    </Select>
-                </Input>
-                <Button v-if="queryKeywordFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
-                <Badge :count="advancedFilterCount" v-if="queryKeywordFields.length>0 && advancedQueryFields.length>0">
-                    <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" >
-                        {{$t('advancedFilter')}}
-                        <Icon :type="advancedFilterShow?'ios-arrow-up':'ios-arrow-down'"></Icon>
-                    </Button>
-                </Badge>
-            </div>
-            <div style="float:right;margin-right:12px;">
-                <slot name="toolbar"></slot>
-                <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom" >
-                    <Icon type="ios-settings-outline" size="20" style="cursor: pointer;"/>
-                </Tooltip>
-            </div>
-            
             <Form v-if="advancedQueryFields && advancedQueryFields.length>0" inline :model="searchOp.queryParams" 
-                :label-width="100" v-show="(queryKeywordFields.length==0) || advancedFilterShow" style="background-color: #fff;
-    margin-top: 6px;
-    box-shadow: 0 2px 7px rgba(0,0,0,.15);
-    border-color: transparent;
-    border-radius: 4px;border: 1px solid #E5F4F3;padding-top: 10px">
-                <FormItem style="margin-bottom:10px;" v-for="item in advancedQueryFields" :label="$t(item.key)" :key="item.key" :prop="item.key">
+                :label-width="100" v-show="(queryKeywordFields.length==0) || advancedFilterShow" class="jf-grid-advanced-filter-form">
+                <FormItem v-for="item in advancedQueryFields" :label="$t(item.key)" :key="item.key" :prop="item.key">
                     <template v-if="item.type=='radio'">
                         <RadioGroup v-model="searchOp.queryParams[item.key]">
                             <Radio   label="">{{$t('all')}}</Radio>
                             <Radio v-for="radio in item.items" :key="radio.value"  :label="radio.value">{{radio.label}}</Radio>
                         </RadioGroup>
                     </template>
-                    <template v-if="item.type=='datePicker'">
+                    <template v-else-if="item.type=='datePicker'">
                         <DatePicker :type="item.dateType || 'datetimerange'" format="yyyy-MM-dd HH:mm:ss" 
                             v-model="searchOp.queryParams[item.key]" style="width: 280px"
                             :placeholder="$t('selectDateTimeRange')"></DatePicker>
                     </template>
-                    <Button v-if="queryKeywordFields.length==0 && advancedQueryFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
+                    <template v-else>
+                        <Input v-model="searchOp.queryParams[item.key]" style="width: 150px;"/>
+                    </template>
                 </FormItem>
+                <Button v-if="queryKeywordFields.length==0 && advancedQueryFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
             </Form>
+
+            <div class="jf-grid-search">
+                <!--关键字搜索框-->
+                <Input v-if="queryKeywordFields.length>0"
+                    autofocus class="jf-grid-search-input"
+                    :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
+                    :disabled="loading" 
+                    v-model="searchOp.queryParams.keywordValue"
+                    @on-enter="search">
+                    <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend">
+                        <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
+                            {{field.title?field.title:$t(field.key)}}
+                        </Option>
+                    </Select>
+                </Input>
+                <!--关键字筛选，存在关键字筛选框才显示-->
+                <Button v-if="queryKeywordFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
+                <!--高级筛选，存在关键字筛选框和高级筛选条件才显示-->
+                <Badge :count="advancedFilterCount" v-if="queryKeywordFields.length>0 && advancedQueryFields.length>0">
+                    <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" >
+                        {{$t('advancedFilter')}}
+                        <Icon :type="advancedFilterShow?'ios-arrow-down':'ios-arrow-up'"></Icon>
+                    </Button>
+                </Badge>
+            </div>
+            <div style="float:right;margin-right:12px;">
+                <slot name="grid-search-toolbar"></slot>
+                <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom">
+                    <Icon type="ios-settings-outline" size="20" style="cursor: pointer;"/>
+                </Tooltip>
+            </div>
         </div>
+        <div style="margin-bottom:12px;">
+            <slot name="grid-toolbar"></slot>
+        </div>
+        <!--表格-->
         <Table stripe
             :columns="columns" :data="data||[]"  
             :loading="loading"
@@ -85,7 +90,7 @@ export default {
                 //列配置
                 columns:[],
                 //是否允许设置表格
-                allowSetting:false,
+                allowSetting:true,
                 //是否显示tip提示
                 showTip:false,
                 //文本超长是否显示省略号
@@ -339,6 +344,7 @@ export default {
                 curPage:pagerOp.curPage
             });
             vm.loading=true;
+            vm.errorMsg=null;
             vm.$http({
                 method:searchOp.method,
                 url:searchOp.url,
@@ -370,9 +376,6 @@ export default {
                 vm.loading=false;
                 vm.errorMsg=error;
             });
-        },
-        show(row,index,column){
-           console.info(index);
         }
     },
     created(){
@@ -389,5 +392,27 @@ export default {
     .jf-grid-pager{
         margin-top:6px;
         margin-bottom:6px;
+    }
+    .jf-grid-search{
+        display: inline-block;
+        min-width:600px;
+    }
+    .jf-grid-search-input{
+        max-width:320px;
+        display:inline-table;
+    }
+    .jf-grid-search-input .ivu-select{
+        width:auto;
+    }
+    .jf-grid-advanced-filter-form{
+        background-color: #fff;
+        margin-bottom: 12px;
+        box-shadow: 0 1px 5px rgba(0,0,0,.15);
+        border-color: transparent;
+        border-radius: 4px;
+        border: 1px solid #E5F4F3;padding-top: 10px
+    }
+    .jf-grid-advanced-filter-form .ivu-form-item{
+        margin-bottom: 10px;
     }
 </style>

@@ -64,7 +64,8 @@
 			ROLE_OWNER,
 			APPLY_STATUS,
 			APP_CODE,
-			CREATE_BY
+			CREATE_BY,
+			LAST_UPDATE_BY
 		)VALUES(
 			#{vo.roleCode,jdbcType=VARCHAR},
 			#{vo.roleName,jdbcType=VARCHAR},
@@ -72,6 +73,7 @@
 			#{vo.roleOwner,jdbcType=NUMERIC},
 			#{vo.applyStatus,jdbcType=VARCHAR},
 			#{vo.appCode,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
