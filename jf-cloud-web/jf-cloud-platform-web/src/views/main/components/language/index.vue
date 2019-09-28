@@ -31,7 +31,16 @@ export default {
   },
   methods: {
     selectLang (name) {
-        this.$util.setLanguage(name);
+      if(name==this.lang){
+        return;
+      }
+      this.$Modal.confirm({
+          title: this.$t('confirm'),
+          content: this.$t('message.switchLangConfirm'),
+          onOk: () => {
+              this.$util.setLanguage(name);
+          }
+      });
     }
   }
 }

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IUserMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.UserEntity">
+		<result column="enable_flag" property="enableFlag"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="last_update_by" property="lastUpdateBy"/>
+		<result column="last_update_date" property="lastUpdateDate"/>
+
+		<result column="user_id" property="userId"/>
+		<result column="user_no" property="userNo"/>
+		<result column="user_cn" property="userCn"/>
+		<result column="user_en" property="userEn"/>
+		<result column="password" property="password"/>
+		<result column="mobile" property="mobile"/>
+		<result column="mobile_validated" property="mobileValidated"/>
+		<result column="email" property="email"/>
+		<result column="email_validated" property="emailValidated"/>
+		<result column="user_type" property="userType"/>
+		<result column="user_status" property="userStatus"/>
+		<result column="password_update_time" property="passwordUpdateTime"/>
+		<result column="password_error_num" property="passwordErrorNum"/>
+		<result column="lock_time" property="lockTime"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.USER_ID,
+			T.USER_NO,
+		    T.USER_CN,
+		    T.USER_EN,
+			T.MOBILE,
+			T.MOBILE_VALIDATED,
+			T.EMAIL,
+		    T.EMAIL_VALIDATED,
+			T.USER_TYPE,
+		    T.USER_STATUS,
+		    T.PASSWORD_UPDATE_TIME,
+		    T.PASSWORD_ERROR_NUM,
+		    T.LOCK_TIME,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_USER_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+		    T.ENABLE_FLAG='Y'
+            <if test='vo.userNo!=null and vo.userNo!=""'>
+                AND T.USER_NO LIKE CONCAT('%',TRIM(#{vo.userNo,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.userCn!=null and vo.userCn!=""'>
+				AND T.USER_CN LIKE CONCAT('%',TRIM(#{vo.userCn,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.userEn!=null and vo.userEn!=""'>
+				AND T.USER_EN LIKE CONCAT('%',TRIM(#{vo.userEn,jdbcType=VARCHAR}),'%')
+			</if>
+            <if test='vo.mobile!=null and vo.mobile!=""'>
+                AND T.MOBILE LIKE CONCAT('%',TRIM(#{vo.mobile,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.email!=null and vo.email!=""'>
+				AND T.EMAIL LIKE CONCAT('%',TRIM(#{vo.email,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.userType!=null and vo.userType!=""'>
+				AND T.USER_TYPE=#{vo.userType,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.userStatus!=null and vo.userStatus!=""'>
+				AND T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.mobileValidated!=null and vo.mobileValidated!=""'>
+				AND T.MOBILE_VALIDATED=#{vo.mobileValidated,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.emailValidated!=null and vo.emailValidated!=""'>
+				AND T.EMAIL_VALIDATED=#{vo.emailValidated,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle" useGeneratedKeys="true" keyProperty="userId" parameterType="com.btsoft.jf.cloud.platform.security.entity.UserEntity">
+		INSERT INTO SYS_USER_T (
+			USER_NO,
+		    USER_CN,
+		    USER_EN,
+		    PASSWORD,
+			USER_TYPE,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{vo.userNo,jdbcType=VARCHAR},
+			#{vo.userCn,jdbcType=VARCHAR},
+			#{vo.userEn,jdbcType=VARCHAR},
+			#{vo.password,jdbcType=VARCHAR},
+			#{vo.userType,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+
+	<select id="findUserCountByUserCn" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.USER_CN=#{userCn,jdbcType=VARCHAR}
+	</select>
+</mapper>

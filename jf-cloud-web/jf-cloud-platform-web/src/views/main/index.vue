@@ -14,7 +14,8 @@
                 <HeaderBar> 
                     <Personal/>
                     <Language/>
-                    <FullScreen :v-model="false"/>
+                    <FullScreen/>
+                    <App/>
                 </HeaderBar>
             </Header>
             <Content class="main-content-con">
@@ -27,6 +28,7 @@
 import './index.less'
 import HeaderBar from './components/header-bar/index.vue'
 import SiderMenu from './components/sider-menu/index.vue'
+import App from './components/app/index.vue'
 import Language from './components/language/index.vue'
 import FullScreen from './components/fullscreen/index.vue'
 import Personal from './components/personal/index.vue'
@@ -37,6 +39,7 @@ export default {
         HeaderBar,
         SiderMenu,
         Language,
+        App,
         FullScreen,
         Personal
     },
@@ -85,12 +88,12 @@ export default {
         },
     },
     watch: {
-    '$route' (newRoute) {
-        this.setBreadCrumb(newRoute);
+        '$route' (newRoute) {
+            this.setBreadCrumb(newRoute);
+        }
+    },
+    mounted () {
+        this.setBreadCrumb(this.$route);
     }
-  },
-  mounted () {
-    this.setBreadCrumb(this.$route);
-  }
 }
 </script>

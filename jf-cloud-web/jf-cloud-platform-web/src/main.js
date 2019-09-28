@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import iView from 'iview';
 import './index.less'
+import '@/assets/style/common.less'
 import App from './App'
 import i18n from '@/local'
 import store from '@/store'

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="showFullScreenBtn" class="full-screen-btn-con">
+  <div v-if="showFullScreenBtn" class="full-screen-btn-con" style="margin-left:12px;">
     <Tooltip :content="value ? '退出全屏' : '全屏'" placement="bottom">
       <Icon @click.native="handleChange" :type="value ? 'md-contract' : 'md-expand'" :size="23"></Icon>
     </Tooltip>
@@ -14,10 +14,9 @@ export default {
       return window.navigator.userAgent.indexOf('MSIE') < 0
     }
   },
-  props: {
-    value: {
-      type: Boolean,
-      default: false
+  data(){
+    return {
+      value:false
     }
   },
   methods: {

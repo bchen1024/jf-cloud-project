@@ -95,7 +95,7 @@ public class RoleServiceImpl implements IRoleService {
      **/
     @Override
     public CommonResult<PageResult<RoleVO>> findRolePage(RoleQueryDTO dto) {
-        RoleEntity entity= EntityUtils.dtoToEntity(RoleEntity.class,dto);
+        RoleEntity entity= EntityUtils.queryDtoToEntity(RoleEntity.class,dto);
         Page page=PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
         return CommonResultUtils.pageResult(RoleVO.class,page);

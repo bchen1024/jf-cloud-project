@@ -26,7 +26,7 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   response => {
     //响应成功处理
-    const isSuccess = (response.data && response.data.success) || response.status
+    const isSuccess = (response.data && response.data.success) && (response.status==200)
     if (!isSuccess) {
       return Promise.reject(response.data)
     } else {

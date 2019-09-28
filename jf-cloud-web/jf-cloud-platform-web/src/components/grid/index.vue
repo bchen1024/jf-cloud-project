@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="margin-bottom:12px;min-height: 32px;">
+        <div class="jf-margin-bottom12">
             <Form v-if="advancedQueryFields && advancedQueryFields.length>0" inline :model="searchOp.queryParams" 
                 :label-width="100" v-show="(queryKeywordFields.length==0) || advancedFilterShow" class="jf-grid-advanced-filter-form">
                 <FormItem v-for="item in advancedQueryFields" :label="$t(item.key)" :key="item.key" :prop="item.key">
@@ -19,41 +19,46 @@
                         <Input v-model="searchOp.queryParams[item.key]" style="width: 150px;"/>
                     </template>
                 </FormItem>
-                <Button v-if="queryKeywordFields.length==0 && advancedQueryFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
+                <Button v-if="queryKeywordFields.length==0 && advancedQueryFields.length>0" type="primary" icon="ios-search" @click="search()" :loading="loading">{{$t('search')}}</Button>
             </Form>
-
-            <div class="jf-grid-search">
-                <!--关键字搜索框-->
-                <Input v-if="queryKeywordFields.length>0"
-                    autofocus class="jf-grid-search-input"
-                    :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
-                    :disabled="loading" 
-                    v-model="searchOp.queryParams.keywordValue"
-                    @on-enter="search">
-                    <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend">
-                        <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
-                            {{field.title?field.title:$t(field.key)}}
-                        </Option>
-                    </Select>
-                </Input>
-                <!--关键字筛选，存在关键字筛选框才显示-->
-                <Button v-if="queryKeywordFields.length>0" type="primary" icon="ios-search" @click="search" :loading="loading">{{$t('search')}}</Button>
-                <!--高级筛选，存在关键字筛选框和高级筛选条件才显示-->
-                <Badge :count="advancedFilterCount" v-if="queryKeywordFields.length>0 && advancedQueryFields.length>0">
-                    <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" >
-                        {{$t('advancedFilter')}}
-                        <Icon :type="advancedFilterShow?'ios-arrow-down':'ios-arrow-up'"></Icon>
+            <div  class="jf-grid-search">
+                <div>
+                    <!--关键字搜索框-->
+                    <Input v-if="queryKeywordFields.length>0"
+                        autofocus clearable class="jf-grid-search-input"
+                        :placeholder="searchOp.queryPlaceholder || $t('queryPlaceholder')"
+                        :disabled="loading" 
+                        v-model="searchOp.queryParams.keywordValue"
+                        @on-enter="search">
+                        <Select :disabled="loading" v-model="searchOp.queryParams.keywordField" slot="prepend">
+                            <Option v-for="field in queryKeywordFields" :key="field.key" :value="field.key">
+                                {{field.title?field.title:$t(field.key)}}
+                            </Option>
+                        </Select>
+                    </Input>
+                    <!--关键字筛选，存在关键字筛选框才显示-->
+                    <Button v-if="queryKeywordFields.length>0" type="primary" icon="ios-search" @click="search()" :loading="loading">{{$t('search')}}</Button>
+                    <!--高级筛选，存在关键字筛选框和高级筛选条件才显示-->
+                    <Badge :count="advancedFilterCount" v-if="queryKeywordFields.length>0 && advancedQueryFields.length>0">
+                        <Button @click="advancedFilterShow=!advancedFilterShow" :disabled="loading" >
+                            {{$t('advancedFilter')}}
+                            <Icon :type="advancedFilterShow?'ios-arrow-down':'ios-arrow-up'"></Icon>
+                        </Button>
+                    </Badge>
+                </div>
+                <div class="jf-search-toolbar-right">
+                    <slot name="grid-search-toolbar"></slot>
+                    <Button v-if="tableOp.logSetting && tableOp.logSetting.module" @click="viewLog">
+                        {{$t('operationLog')}}
                     </Button>
-                </Badge>
-            </div>
-            <div style="float:right;margin-right:12px;">
-                <slot name="grid-search-toolbar"></slot>
-                <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom">
-                    <Icon type="ios-settings-outline" size="20" style="cursor: pointer;"/>
-                </Tooltip>
+                    <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom">
+                        <Icon type="ios-settings-outline" size="20" style="cursor: pointer;"/>
+                    </Tooltip>
+                </div>
             </div>
         </div>
-        <div style="margin-bottom:12px;">
+        <!--操作按钮区-->
+        <div style="jf-margin-bottom12">
             <slot name="grid-toolbar"></slot>
         </div>
         <!--表格-->
@@ -73,6 +78,7 @@
             class="jf-grid-pager"
             :style="'text-align:'+(pagerOp.align || 'left')">
         </Page>
+        <slot name="grid-drawer"></slot>
     </div>
 </template>
 <script>
@@ -90,7 +96,7 @@ export default {
                 //列配置
                 columns:[],
                 //是否允许设置表格
-                allowSetting:true,
+                allowSetting:false,
                 //是否显示tip提示
                 showTip:false,
                 //文本超长是否显示省略号
@@ -98,7 +104,7 @@ export default {
                 //是否显示序号列
                 showIndex:true,
                 //是否多选
-                showSelection:true,
+                showSelection:false,
                 //是否显示分页
                 showPager:true,
                 //是否默认显示高级筛选
@@ -116,7 +122,9 @@ export default {
                 //是否显示更新信息字段
                 showAuditUpdate:false,
                 //列标题需要国际化
-                titleI18n:true
+                titleI18n:true,
+                //是否显示操作日志按钮
+                logSetting:{}
             };
             let tableOp=Object.assign({},defaultOp,op.table);
             return tableOp;
@@ -218,6 +226,20 @@ export default {
             return searchOp;
         },
         /**
+         * 删除配置
+         */
+        deleteOp(){
+            var vm=this,gridOp=vm.gridOp || {};
+            //默认的查询配置
+            var defaultOp={
+                //请求方法
+                method:"delete",
+                confirmMsg:vm.$t('deleteConfirm')
+            };
+            var deleteOp=Object.assign({},defaultOp,gridOp.delete);
+            return deleteOp;
+        },
+        /**
          * 关键字查询字段
          */
         queryKeywordFields(){
@@ -264,6 +286,7 @@ export default {
             if(this.advancedFilterShow){
                 return 0;
             }else{
+                //如果高级筛选区隐藏，计算存在高级筛选条件个数
                 let count=0;
                 let queryParams=this.searchOp.queryParams;
                 for(let p in queryParams){
@@ -288,6 +311,9 @@ export default {
                 return count;
             }
         },
+        /**
+         * 如果加载错误，红色标记错误信息
+         */
         tableNoDataText(){
             if(this.loadError){
                 return "<font color='red'>"+this.errorMsg+"</font>"
@@ -367,42 +393,102 @@ export default {
                     }else{
                         vm.data=data || [];
                     }
-                }else{
-                    vm.loadError=true;
-                    vm.errorMsg=vm.$t(result.code) || result.msg;
                 }
             }).catch(error=>{
                 vm.loadError=true;
                 vm.loading=false;
-                vm.errorMsg=error;
+                if(typeof error=='string'){
+                    vm.errorMsg=error;
+                }else if(error.code){
+                    vm.errorMsg=vm.$t(error.code);
+                }else{
+                    vm.errorMsg=error.msg || error.message;
+                }
             });
+        },
+        /**
+         * 表格数据删除方法
+         */
+        gridDelete(data){
+            this.$Modal.confirm({
+                title: this.$t('confirm'),
+                content: this.deleteOp.confirmMsg,
+                onOk: () => {
+                    this.$Message.loading({
+                        content: this.$t('deleteing'),
+                        duration: 0
+                    });
+                    let deleteOp=Object.assign({},this.deleteOp,{data:Object.assign({},this.deleteOp.defaultParams,data)});
+                    this.$http(deleteOp).then(result=>{
+                        this.$Message.destroy();
+                        //成功
+                        if(result && result.success){
+                            this.$Message.success(this.$t('deleteSuccessful'));
+                            this.search();
+                        }
+                    }).catch(error=>{
+                        this.$Message.destroy();
+                        if(typeof error=='string'){
+                            errorMsg=error;
+                        }else if(error.code){
+                            errorMsg=this.$t(error.code);
+                        }else{
+                            errorMsg=error.msg || error.message;
+                        }
+                        this.$Message.error(errorMsg);
+                    });
+                }
+            });
+        },
+        /**
+         * 查看操作日志
+         */
+        viewLog(){
+            let vm=this,tableOp=vm.tableOp;
+            if(tableOp.logSetting && tableOp.logSetting.module){
+                let routeData = vm.$router.resolve({
+                    name: "auditLog",
+                    query: {
+                        module:tableOp.logSetting.module
+                    }
+                });
+                window.open(routeData.href, '_blank');
+            }
         }
     },
     created(){
+        //默认显示高级筛选区域
         if(this.tableOp.showAdvancedFilter){
             this.advancedFilterShow=true;
         }
+        //字段加载数据
         if(this.searchOp.autoLoad){
             this.search();
         }
     }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
+    .jf-margin-bottom12{
+        margin-bottom: 12px;
+    }
     .jf-grid-pager{
         margin-top:6px;
         margin-bottom:6px;
     }
     .jf-grid-search{
-        display: inline-block;
-        min-width:600px;
+        display: flex;
     }
     .jf-grid-search-input{
-        max-width:320px;
+        width:auto;
         display:inline-table;
     }
     .jf-grid-search-input .ivu-select{
         width:auto;
+    }
+    .jf-search-toolbar-right{
+        flex:1;
+        text-align: right;
     }
     .jf-grid-advanced-filter-form{
         background-color: #fff;
@@ -414,5 +500,8 @@ export default {
     }
     .jf-grid-advanced-filter-form .ivu-form-item{
         margin-bottom: 10px;
+    }
+    .jf-grid-advanced-filter-form .ivu-form-item-label{
+        font-weight: bold;
     }
 </style>

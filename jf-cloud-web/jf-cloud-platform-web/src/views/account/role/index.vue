@@ -1,29 +1,17 @@
 <template>
     <div>
-        <JFGrid :gridOp="gridOp">
+        <JFGrid ref="roleGrid" :gridOp="gridOp">
             <template slot="grid-search-toolbar">
-                <Button icon="md-add" type="primary" @click="editRole">
+                <Button icon="md-add" type="primary" @click="roleEdit()">
                     {{$t('createRole')}}
                 </Button>
-                <Dropdown>
-                    <Button type="info">
-                        导入导出
-                        <Icon type="ios-arrow-down"></Icon>
-                    </Button>
-                    <DropdownMenu slot="list">
-                        <DropdownItem>导出角色</DropdownItem>
-                        <DropdownItem>导入角色</DropdownItem>
-                        <DropdownItem>下载模板</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
-                <Button>
-                    {{$t('operationLog')}}
-                </Button>
             </template>
+            <EditRole slot="grid-drawer" formId="roleForm"   formKey="roleId"
+                :visible.sync="showEditRole" 
+                :formData="formData"
+                @saveCallback="saveCallback"/>
         </JFGrid>
-        <EditRole :visible.sync="showEditRole" :formData="formData" @submitCallback="submitCallback"/>
     </div>
-    
 </template>
 <script>
 import EditRole from './edit.vue';
@@ -39,13 +27,18 @@ export default {
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/role/page',
-                    defaultParams:{appCode:'jf-cloud-platform'}
+                    defaultParams:{appCode:this.$store.state.app.appInfo.appCode}
+                },
+                delete:{
+                    url:'jfcloud/jf-cloud-platform/security/role/delete',
+                    defaultParams:{appCode:this.$store.state.app.appInfo.appCode}
                 },
                 table:{
+                    logSetting:{module:'Role'},
                     columns:[
                         {key:'roleCode',width:120,condition:true},
                         {key:'roleName',width:150,condition:true},
-                        {key:'roleOwner',width:150,condition:{}},
+                        {key:'roleOwner',width:150},
                         {key:'applyStatus',width:120,condition:{
                            type:'radio',items:[{value:'Y',label:vm.$t('canApply')},{value:'N',label:vm.$t('noApply')}]
                         }},
@@ -56,14 +49,34 @@ export default {
                                 h('DropdownMenu',{slot:'list'},[
                                     h('DropdownItem',{nativeOn:{
                                         click:(name)=>{
-                                            vm.editRole(params.row);
+                                            vm.roleEdit(params.row);
                                         }
                                     }},vm.$t('edit')),
-                                    h('DropdownItem',{},vm.$t('delete')),
-                                    h('DropdownItem',{},vm.$t('detail')),
-                                    h('DropdownItem',{},vm.$t('roleUsers')),
-                                    h('DropdownItem',{},vm.$t('rolePermission')),
-                                    h('DropdownItem',{},vm.$t('roleGroups'))
+                                    h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            vm.roleDelete(params.row);
+                                        }
+                                    }},vm.$t('delete')),
+                                    h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            vm.roleDetail(params.row);
+                                        }
+                                    }},vm.$t('detail')),
+                                    h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            vm.roleDetail(params.row,'roleUsers');
+                                        }
+                                    }},vm.$t('roleUsers')),
+                                    h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            vm.roleDetail(params.row,'rolePermission');
+                                        }
+                                    }},vm.$t('rolePermission')),
+                                    h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            vm.roleDetail(params.row,'roleGroups');
+                                        }
+                                    }},vm.$t('roleGroups'))
                                     
                                 ])
                             ]);
@@ -74,16 +87,44 @@ export default {
         }
     },
     methods:{
-        editRole(data){
-            this.showEditRole=true;
+        //创建、编辑角色
+        roleEdit(data){
             if(data){
                 this.formData=data;
             }else{
-                this.formData={applyStatus:'N'};
+                this.formData={};
             }
+            this.showEditRole=true;
         },
-        submitCallback(formData){
-            alert(JSON.stringify(formData));
+        /**
+         * 角色删除
+         */
+        roleDelete(data){
+            if(data.roleCode=='admin'){
+                this.$Message.warning(this.$t('role.adminNotDelete'));
+                return;
+            }
+            this.$refs.roleGrid.gridDelete({id:data.roleId});
+        },
+        /**
+         * 查看角色详情
+         */
+        roleDetail(data,tabId){
+            let vm=this;
+            let routeData = vm.$router.resolve({
+                name: "roleDetail",
+                query: {
+                    id:data.roleId,
+                    tabId:tabId
+                }
+            });
+            window.open(routeData.href, '_blank');
+        },
+        /**
+         * 保存回调刷新表格
+         */
+        saveCallback(formData){
+            this.$refs.roleGrid.search();
         }
     }
 }

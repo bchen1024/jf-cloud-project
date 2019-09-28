@@ -4,6 +4,7 @@ import Home from '@/views/home/index.vue'
 import Login from '@/views/login/index.vue'
 import Organization from '@/views/account/organization/index.vue'
 import Role from '@/views/account/role/index.vue'
+import RoleDetail from '@/views/account/role/detail.vue'
 import User from '@/views/account/user/index.vue'
 import App from '@/views/account/app/index.vue'
 import Group from '@/views/account/group/index.vue'
@@ -22,6 +23,7 @@ import ImportTemplate from '@/views/excel/import/importTemplate.vue'
 import ExportTemplate from '@/views/excel/export/exportTemplate.vue'
 import MyImport from '@/views/excel/import/myImport.vue'
 import MyExport from '@/views/excel/export/myExport.vue'
+import AuditLog from '@/views/monitor/auditLog/index.vue'
 
 export default[
     {
@@ -255,7 +257,7 @@ export default[
                     {
                         path:'/monitor/auditLog',
                         name:'auditLog',
-                        component:Role,
+                        component:AuditLog,
                         meta:{
                             icon:'md-people'
                         }
@@ -285,6 +287,16 @@ export default[
                 component:User,
                 meta:{
                     parent:['accountMgt','userMgt'],
+                    hideMenu:true,
+                    icon:'md-person'
+                }
+            },
+            {
+                path:'/account/role/detail',
+                name:'roleDetail',
+                component:RoleDetail,
+                meta:{
+                    parent:['accountMgt','roleMgt'],
                     hideMenu:true,
                     icon:'md-person'
                 }
