@@ -25,7 +25,7 @@
             </Form>
             <div class="jf-drawer-footer">
                 <Button @click="cancelForm()" icon="md-close">{{$t('cancel')}}</Button>
-                <Button type="primary" @click="saveForm" :loading="loading" icon="md-checkmark">{{$t('save')}}</Button>
+                <Button type="primary" @click="saveForm()" :loading="loading" icon="md-checkmark">{{$t('save')}}</Button>
             </div>
         </Drawer>  
 </template>

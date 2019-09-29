@@ -1,7 +1,9 @@
 import JFGrid from './grid/index.vue';
+import JFUser from './user/index.vue';
 
 const jfviews={
-    JFGrid
+    JFGrid,
+    JFUser
 };
 
 const install=function(Vue){

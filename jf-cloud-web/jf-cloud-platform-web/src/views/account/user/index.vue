@@ -1,29 +1,28 @@
 <template>
-    <div>
-        <JFGrid ref="userGrid" :gridOp="gridOp">
-            <template slot="grid-search-toolbar">
-                <Button icon="md-add" type="primary" @click="userEdit()">
-                    {{$t('createUser')}}
-                </Button>
-            </template>
-            <EditUser slot="grid-drawer" formId="userForm"   formKey="userId"
-                :visible.sync="showEditUser" 
-                :formData="formData"
-                @saveCallback="saveCallback"/>
-        </JFGrid>
-    </div>
+    <JFGrid :ref="gridId" :gridOp="gridOp">
+        <template slot="grid-search-toolbar">
+            <Button icon="md-add" type="primary" @click="openEdit()">
+                {{$t('createUser')}}
+            </Button>
+        </template>
+        <EditUser slot="grid-drawer" :formId="formId" :formKey="formKey"
+            :visible.sync="showEdit" 
+            :formData="formData"
+            @saveCallback="saveCallback"/>
+    </JFGrid>
 </template>
 <script>
 import EditUser from './edit.vue';
+import curdGrid from '@/mixins/curdGrid';
 export default {
+    mixins:[curdGrid],
     components:{
        EditUser
     },
     data(){
         let vm=this;
         return {
-            showEditUser:false,
-            formData:{},
+            formKey:'userId',
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/user/page',
@@ -39,7 +38,31 @@ export default {
                     ]
                 },
                 table:{
+                    pkId:'userId',
                     logSetting:{module:'User'},
+                    detail:{name:'userDetail'},
+                    buttons:[
+                        {title:vm.$t('edit'),click:(params)=>{
+                            vm.openEdit(params.row);
+                        }},
+                        {title:vm.$t('delete'),show:(row)=>{
+                            if(row.userStatus!='D'){
+                                return true;
+                            }
+                            return false;
+                        }},
+                        {title:(row)=>{
+                            if(row.userStatus=='L'){
+                                return vm.$t('unlock');
+                            }if(row.userStatus=='D'){
+                                return vm.$t('enable');
+                            }
+                            return vm.$t('lock');
+                        },click:(params)=>{
+                            alert(params.row.userId);
+                        }},
+                        {title:vm.$t('detail'),gridDetail:true},
+                    ],
                     columns:[
                         {key:'userNo',width:120,condition:true},
                         {key:'userCn',width:100,condition:true},
@@ -92,44 +115,10 @@ export default {
                             return '';
                         }},
                         {key:'passwordUpdateTime',width:160},
-                        {key:'lockTime',width:160},
-                        {key:'operation',width:100,align:'center',fixed:'right', render: (h, params) => {
-                            return h('Dropdown',{props:{transfer:true}}, [
-                                h('Icon',{props:{type:'ios-more',size:20}}),
-                                h('DropdownMenu',{slot:'list'},[
-                                    h('DropdownItem',{nativeOn:{
-                                        click:(name)=>{
-                                            vm.userEdit(params.row);
-                                        }
-                                    }},vm.$t('edit')),
-                                    h('DropdownItem',{nativeOn:{
-                                        click:(name)=>{
-                                           
-                                        }
-                                    }},vm.$t('lock'))                                    
-                                ])
-                            ]);
-                        }}
+                        {key:'lockTime',width:160}
                     ]
                 }
             }
-        }
-    },
-    methods:{
-        //创建、编辑账号
-        userEdit(data){
-            if(data){
-                this.formData=data;
-            }else{
-                this.formData={};
-            }
-            this.showEditUser=true;
-        },
-        /**
-         * 保存回调刷新表格
-         */
-        saveCallback(formData){
-            this.$refs.userGrid.search();
         }
     }
 }

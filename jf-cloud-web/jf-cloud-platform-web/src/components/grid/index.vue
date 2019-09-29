@@ -188,6 +188,11 @@ export default {
                             column.tooltip=true;
                             column.minWidth=200;
                         }
+                        if(column.format=='user'){
+                            column.render=(h,params)=>{
+                                return h('JFUser',{props:{userInfo:vm.userMap[params.row[column.key]]}});
+                            }
+                        }
                         columns.push(column);
                     }
                 });
@@ -217,16 +222,27 @@ export default {
                         {key:'operation',title:vm.$t('operation'),width:100,align:'center',fixed:'right',render: (h, params) => {
                             let menuItems=[];
                             btns.forEach(btn=>{
+                                if(btn.show && !btn.show(params.row)){
+                                    return false;
+                                }
+                                let title;
+                                if(typeof btn.title =='function'){
+                                    title=btn.title(params.row);
+                                }else{
+                                    title=btn.title;
+                                }
                                 menuItems.push(h('DropdownItem',{nativeOn:{
-                                        click:(name)=>{
-                                            if(btn.gridDelete){
-                                                vm.gridDelete({id:params.row[btn.pkId]});
-                                            }else if(btn.click){
-                                                btn.click(name,params);
-                                            }
-                                           
+                                    click:(name)=>{
+                                        if(btn.gridDelete){
+                                            vm.gridDelete(params.row);
+                                        }else if(btn.gridDetail){
+                                            vm.gridDetail(btn.gridDetail.tabId,params.row);
+                                        }else if(btn.click){
+                                            btn.click(params);
                                         }
-                                }},btn.title));
+                                        
+                                    }
+                                }},title));
                             })
                             return h('Dropdown',{props:{transfer:true}}, [
                                 h('Icon',{props:{type:'ios-more',size:20}}),
@@ -364,7 +380,9 @@ export default {
             //是否加载错误
             loadError:false,
             //错误信息
-            errorMsg:null
+            errorMsg:null,
+            //用户缓存map
+            userMap:{}
         }
     },
     methods:{
@@ -424,6 +442,7 @@ export default {
                     }else{
                         vm.data=data || [];
                     }
+                    vm._loadUserMap();
                 }
             }).catch(error=>{
                 vm.loadError=true;
@@ -437,20 +456,48 @@ export default {
                 }
             });
         },
+        _loadUserMap(){
+            let vm=this;
+            let userColumns=[];
+            vm.columns.forEach(v=>{
+                if(!v.hidden && v.format=='user'){
+                    userColumns.push(v.key);
+                }
+            });
+            let userIds=[];
+            (vm.data || []).forEach(rowData=>{
+                userColumns.forEach(col=>{
+                    if(rowData[col] && !userIds.includes(rowData[col]) && !vm.userMap[rowData[col]]){
+                        userIds.push(rowData[col]);
+                    }
+                });
+            });
+            if(userIds.length>0){
+                userIds.forEach(v=>{
+                    vm.userMap[v]={userCn:'陈斌',userEn:'Jeo',userSex:'1',userStatus:'Y',userType:'1'};
+                });
+            }
+            
+        },
         /**
          * 表格数据删除方法
          */
         gridDelete(data){
+            let deleteOp=this.deleteOp;
             this.$Modal.confirm({
                 title: this.$t('confirm'),
-                content: this.deleteOp.confirmMsg,
+                content: deleteOp.confirmMsg,
                 onOk: () => {
                     this.$Message.loading({
                         content: this.$t('deleteing'),
                         duration: 0
                     });
-                    let deleteOp=Object.assign({},this.deleteOp,{data:Object.assign({},this.deleteOp.defaultParams,data)});
-                    this.$http(deleteOp).then(result=>{
+                    let deleteOption={
+                        method:deleteOp.method,
+                        url:deleteOp.url,
+                        data:Object.assign({},deleteOp.defaultParams,{id:data[this.tableOp.pkId]})
+                    };
+                    this.$http(deleteOption).then(result=>{
                         this.$Message.destroy();
                         //成功
                         if(result && result.success){
@@ -470,6 +517,22 @@ export default {
                     });
                 }
             });
+        },
+        /**
+         * 详情查看
+         */
+        gridDetail(tabId,row){
+            let vm=this,tableOp=vm.tableOp;
+            if(tableOp.detail){
+                let routeData = vm.$router.resolve({
+                    name: tableOp.detail.name,
+                    query: {
+                        id:row[tableOp.pkId],
+                        tabId:tabId
+                    }
+                });
+                window.open(routeData.href, '_blank');
+            }
         },
         /**
          * 查看操作日志

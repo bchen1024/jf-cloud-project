@@ -2,6 +2,7 @@ export default{
     data(){
         return {
             gridId:'jfGrid',
+            formId:'editForm',
             showEdit:false,
             formData:{}
         }

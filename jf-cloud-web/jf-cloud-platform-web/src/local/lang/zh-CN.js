@@ -76,9 +76,11 @@ export default{
     email:'邮箱',
     normal:'正常',
     lock:'锁定',
+    unlock:'解锁',
     male:'男',
     female:'女',
     userSex:'性别',
+    enable:'启用',
 
 
     //角色相关
