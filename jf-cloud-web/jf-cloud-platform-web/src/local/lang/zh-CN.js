@@ -111,6 +111,15 @@ export default{
     validated:'已验证',
     noValidated:'未验证',
     createUser:'创建用户',
+
+    appCode:'应用编码',
+    appName:'应用名称',
+    appOwner:'应用责任人',
+    contextPath:'应用根路径',
+    appDesc:'应用描述',
+    createApp:'创建应用',
+
+
     'server.error':'请求异常，请联系管理员',
 
     validator:{

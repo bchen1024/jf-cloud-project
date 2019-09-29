@@ -206,6 +206,37 @@ export default {
                     {key:'lastUpdateDate',title:vm.$t('lastUpdateDate'),width:155,align: 'center'}
                 );
             }
+            if(tableOp.buttons && tableOp.buttons.length>0){
+                let btns=[];
+                (tableOp.buttons || []).forEach(btn=>{
+                    //TODO 校验权限
+                    btns.push(btn);
+                });
+                if(btns.length>0){
+                     columns.push(
+                        {key:'operation',title:vm.$t('operation'),width:100,align:'center',fixed:'right',render: (h, params) => {
+                            let menuItems=[];
+                            btns.forEach(btn=>{
+                                menuItems.push(h('DropdownItem',{nativeOn:{
+                                        click:(name)=>{
+                                            if(btn.gridDelete){
+                                                vm.gridDelete({id:params.row[btn.pkId]});
+                                            }else if(btn.click){
+                                                btn.click(name,params);
+                                            }
+                                           
+                                        }
+                                }},btn.title));
+                            })
+                            return h('Dropdown',{props:{transfer:true}}, [
+                                h('Icon',{props:{type:'ios-more',size:20}}),
+                                h('DropdownMenu',{slot:'list'},menuItems)
+                            ]);
+                        }}
+                    );
+                }
+            }
+            
             return columns;
         },
         /**

@@ -54,13 +54,15 @@
 			APP_OWNER,
 			APP_DESC,
 			CONTEXT_PATH,
-			CREATE_BY
+			CREATE_BY,
+			LAST_UPDATE_BY
 		)VALUES(
 			#{vo.appCode,jdbcType=VARCHAR},
-			#{vo.appeName,jdbcType=VARCHAR},
+			#{vo.appName,jdbcType=VARCHAR},
 			#{vo.appOwner,jdbcType=NUMERIC},
 			#{vo.appDesc,jdbcType=VARCHAR},
 			#{vo.contextPath,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
@@ -72,7 +74,7 @@
     </select>
 
 	<delete id="deleteSingle">
-		DELETE FROM SYS_APP_T WHERE APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		DELETE FROM SYS_APP_T WHERE APP_ID=#{vo.appId,jdbcType=NUMERIC}
 	</delete>
 
 	<update id="updateSingle">
