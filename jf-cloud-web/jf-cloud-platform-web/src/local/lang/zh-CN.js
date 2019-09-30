@@ -65,6 +65,7 @@ export default{
     edit:'编辑',
     delete:'删除',
     detail:'详情',
+    refresh:'刷新',
     confirm:'确认',
     deleteing:'删除中',
     deleteSuccessful:'删除成功',

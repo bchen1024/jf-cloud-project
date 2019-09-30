@@ -63,7 +63,7 @@ public class RequestContext implements IRequestContext {
             //TODO 解密token得到userId
         }
         if(currentUserId==null && JfCloud.isDev()){
-            currentUserId=-1L;
+            currentUserId=1000L;
         }
         return currentUserId;
     }

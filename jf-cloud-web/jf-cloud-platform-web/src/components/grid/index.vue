@@ -192,15 +192,10 @@ export default {
                             column.render=(h,params)=>{
                                 return h('JFUser',{props:{userId:params.row[column.key]}});
                             }
-                        }else if(column.format=='applyStatus'){
+                        }else if(column.format=='applyStatus' || column.format=='userStatus'){
                             column.render=(h,params)=>{
                                 let value=params.row[column.key];
-                                if(value=='Y'){
-                                    return h('Tag',{props:{color:'success'}},vm.$t('canApply'));
-                                }else if(value=='N'){
-                                    return h('Tag',{props:{color:'error'}},vm.$t('noApply'));
-                                }
-                                return '';
+                                return h('JFStatus',{props:{value:value,type:column.format}});
                             }
                         }
 

@@ -98,21 +98,12 @@ export default {
                             }
                             return '';
                         }},
-                        {key:'userStatus',width:90,condition:{
+                        {key:'userStatus',width:90,format:'userStatus',condition:{
                            type:'radio',items:[
                                {value:'Y',label:vm.$t('normal')},
                                {value:'L',label:vm.$t('lock')},
                                {value:'D',label:vm.$t('delete')}
                             ]
-                        },render: (h, params) => {
-                            if(params.row.userStatus=='Y'){
-                                return h('Tag',{props:{color:'success'}},vm.$t('normal'));
-                            }else if(params.row.userStatus=='L'){
-                                return h('Tag',{props:{color:'warning'}},vm.$t('lock'));
-                            }else if(params.row.userStatus=='D'){
-                                return h('Tag',{props:{color:'error'}},vm.$t('delete'));
-                            }
-                            return '';
                         }},
                         {key:'passwordUpdateTime',width:160},
                         {key:'lockTime',width:160}

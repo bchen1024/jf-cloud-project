@@ -1,7 +1,7 @@
 <template>
     <div v-if="displayName">
         <template v-if="userId==displayName">
-            <Spin v-if="loading">
+            <Spin v-if="loading" style="text-align:left">
                 <Icon type='ios-loading' size="18" class="jf-spin-icon-load"/>
                 {{displayName}}
             </Spin>
@@ -37,6 +37,10 @@ export default {
         join:{
             type:String,
             default:'/'
+        },
+        autoLoad:{
+            type:Boolean,
+            default:false
         }
     },
     data(){

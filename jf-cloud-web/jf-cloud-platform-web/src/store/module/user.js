@@ -17,7 +17,7 @@ export default {
           }else{
             userIdList=userIdList.concat(userIds);
           }
-          let userIdsList=userIdList.filter(v=>!state.userCache[v]);
+          let userIdsList=Array.from(new Set(userIdList)).filter(v=>!state.userCache[v]);
           
           if(userIdsList && userIdsList.length>0){
             this._vm.$http({
