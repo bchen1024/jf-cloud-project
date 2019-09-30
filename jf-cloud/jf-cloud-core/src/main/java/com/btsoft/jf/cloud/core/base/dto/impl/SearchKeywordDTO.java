@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/9/7
  **/
-public class SearchKeywordDTO extends BaseDTO implements ISearchKeyword {
+public class SearchKeywordDTO extends PageAppDTO implements ISearchKeyword {
 
     @ApiModelProperty("关键字字段")
     private String keywordField;

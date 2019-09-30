@@ -190,9 +190,20 @@ export default {
                         }
                         if(column.format=='user'){
                             column.render=(h,params)=>{
-                                return h('JFUser',{props:{userInfo:vm.userMap[params.row[column.key]]}});
+                                return h('JFUser',{props:{userId:params.row[column.key]}});
+                            }
+                        }else if(column.format=='applyStatus'){
+                            column.render=(h,params)=>{
+                                let value=params.row[column.key];
+                                if(value=='Y'){
+                                    return h('Tag',{props:{color:'success'}},vm.$t('canApply'));
+                                }else if(value=='N'){
+                                    return h('Tag',{props:{color:'error'}},vm.$t('noApply'));
+                                }
+                                return '';
                             }
                         }
+
                         columns.push(column);
                     }
                 });
@@ -380,9 +391,7 @@ export default {
             //是否加载错误
             loadError:false,
             //错误信息
-            errorMsg:null,
-            //用户缓存map
-            userMap:{}
+            errorMsg:null
         }
     },
     methods:{
@@ -467,15 +476,13 @@ export default {
             let userIds=[];
             (vm.data || []).forEach(rowData=>{
                 userColumns.forEach(col=>{
-                    if(rowData[col] && !userIds.includes(rowData[col]) && !vm.userMap[rowData[col]]){
+                    if(rowData[col] && !userIds.includes(rowData[col])){
                         userIds.push(rowData[col]);
                     }
                 });
             });
             if(userIds.length>0){
-                userIds.forEach(v=>{
-                    vm.userMap[v]={userCn:'陈斌',userEn:'Jeo',userSex:'1',userStatus:'Y',userType:'1'};
-                });
+                vm.$store.dispatch('loadUser',userIds);
             }
             
         },

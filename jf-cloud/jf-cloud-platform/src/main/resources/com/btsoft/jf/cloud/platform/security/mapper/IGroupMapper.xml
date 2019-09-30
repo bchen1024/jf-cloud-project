@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IGroupMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.GroupEntity">
+		<result column="app_code" property="appCode"/>
+		<result column="enable_flag" property="enableFlag"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="last_update_by" property="lastUpdateBy"/>
+		<result column="last_update_date" property="lastUpdateDate"/>
+
+		<result column="group_id" property="groupId"/>
+		<result column="group_code" property="groupCode"/>
+		<result column="group_name" property="groupName"/>
+		<result column="group_owner" property="groupOwner"/>
+		<result column="group_desc" property="groupDesc"/>
+		<result column="apply_status" property="applyStatus"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.GROUP_ID,
+			T.GROUP_CODE,
+			T.GROUP_NAME,
+			T.GROUP_OWNER,
+			T.GROUP_DESC,
+			T.APPLY_STATUS,
+			T.APP_CODE,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_GROUP_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+		    T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		    AND T.ENABLE_FLAG='Y'
+            <if test='vo.groupCode!=null and vo.groupCode!=""'>
+                AND T.GROUP_CODE LIKE CONCAT('%',TRIM(#{vo.groupCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test='vo.groupName!=null and vo.groupName!=""'>
+                AND T.GROUP_NAME LIKE CONCAT('%',TRIM(#{vo.groupName,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.groupDesc!=null and vo.groupDesc!=""'>
+				AND T.GROUP_DESC LIKE CONCAT('%',TRIM(#{vo.groupDesc,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.applyStatus!=null and vo.applyStatus!=""'>
+				AND T.APPLY_STATUS = #{vo.applyStatus,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.groupOwner!=null'>
+				AND T.GROUP_OWNER = #{vo.groupOwner,jdbcType=NUMERIC}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		INSERT INTO SYS_GROUP_T (
+			GROUP_CODE,
+			GROUP_NAME,
+			GROUP_DESC,
+			GROUP_OWNER,
+			APPLY_STATUS,
+			APP_CODE,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{vo.groupCode,jdbcType=VARCHAR},
+			#{vo.groupName,jdbcType=VARCHAR},
+			#{vo.groupDesc,jdbcType=VARCHAR},
+			#{vo.groupOwner,jdbcType=NUMERIC},
+			#{vo.applyStatus,jdbcType=VARCHAR},
+			#{vo.appCode,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+	<delete id="deleteSingle">
+		DELETE FROM SYS_GROUP_T WHERE GROUP_ID=#{vo.groupId,jdbcType=NUMERIC} AND APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+	</delete>
+
+	<update id="updateSingle">
+		UPDATE SYS_GROUP_T T SET
+			T.GROUP_CODE=#{vo.groupCode,jdbcType=VARCHAR},
+			T.GROUP_NAME=#{vo.groupName,jdbcType=VARCHAR},
+			T.GROUP_DESC=#{vo.groupDesc,jdbcType=VARCHAR},
+			T.APPLY_STATUS=#{vo.applyStatus,jdbcType=VARCHAR},
+			T.GROUP_OWNER=#{vo.groupOwner,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=now()
+		WHERE T.GROUP_ID=#{vo.groupId,jdbcType=NUMERIC}
+	</update>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.GROUP_ID=#{vo.groupId,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+</mapper>

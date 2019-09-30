@@ -30,10 +30,12 @@ public class RequestContextManagement {
         if(StringUtils.isEmpty(token)){
             token=StringUtils.trim(req.getParameter(RequestConstants.Url.TOKEN));
         }
+        //TODO 校验token有效性
         rc.setToken(token);
 
         //App Code
         String appCode=StringUtils.trim(req.getHeader(RequestConstants.Header.X_CLOUD_APP));
+        //TODO 校验app有效性
         rc.setRequestApp(appCode);
 
         //Language
@@ -41,6 +43,7 @@ public class RequestContextManagement {
         if(StringUtils.isEmpty(language)){
             language=StringUtils.trim(req.getParameter(RequestConstants.Header.CURRENT_LANGUAGE));
         }
+        //TODO 校验语言合法性
         rc.setLanguage(language);
 
         //Request IP

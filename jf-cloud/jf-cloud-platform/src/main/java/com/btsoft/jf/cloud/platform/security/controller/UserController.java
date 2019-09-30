@@ -1,11 +1,13 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 账号管理
@@ -52,5 +57,18 @@ public class UserController {
     @ApiOperation("创建用户")
     public Result createUser(@RequestBody UserCreateDTO dto){
         return service.createUser(dto);
+    }
+
+
+    @PostMapping("/userByIds")
+    @ApiOperation("根据用户id获取用户集合")
+    public CommonResult<List<UserBaseVO>> findUserBaseInfoList(@RequestBody BaseIdListDTO dto){
+        return service.findUserBaseInfoList(dto);
+    }
+
+    @PostMapping("/userMapByIds")
+    @ApiOperation("根据用户id获取用户Map")
+    public CommonResult<Map<Long, UserBaseVO>> findUserBaseInfoMap(@RequestBody BaseIdListDTO dto){
+        return service.findUserBaseInfoMap(dto);
     }
 }

@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -13,6 +14,7 @@ import com.btsoft.jf.cloud.platform.security.enums.UserTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.IUserDetailMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IUserMapper;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -20,6 +22,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 账号Service实现类
@@ -49,6 +55,13 @@ public class UserServiceImpl implements IUserService {
         return CommonResultUtils.pageResult(UserVO.class,page);
     }
 
+    /**
+     * 创建用户
+     * @author jeo_cb
+     * @date 2019/9/28
+     * @param  dto 创建参数
+     * @return 创建结果
+     **/
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result createUser(UserCreateDTO dto) {
@@ -78,5 +91,18 @@ public class UserServiceImpl implements IUserService {
             System.out.println("创建员工信息:"+entity.getUserId());
         }
         return CommonResultUtils.success(OperationTypeEnum.Create);
+    }
+
+    @Override
+    public CommonResult<List<UserBaseVO>> findUserBaseInfoList(BaseIdListDTO dto) {
+        List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
+        return CommonResultUtils.success(userBaseList);
+    }
+
+    @Override
+    public CommonResult<Map<Long, UserBaseVO>> findUserBaseInfoMap(BaseIdListDTO dto) {
+        List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
+        Map<Long, UserBaseVO> userMap=userBaseList.stream().collect(Collectors.toMap(UserBaseVO::getUserId,u->u));
+        return CommonResultUtils.success(userMap);
     }
 }

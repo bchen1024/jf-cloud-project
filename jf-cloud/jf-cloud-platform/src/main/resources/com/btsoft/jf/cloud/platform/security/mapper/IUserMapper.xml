@@ -114,4 +114,26 @@
 	<select id="findUserCountByUserCn" resultType="int">
 		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.USER_CN=#{userCn,jdbcType=VARCHAR}
 	</select>
+
+	<select id="findUserListByIds" resultType="com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO">
+		SELECT
+			T.USER_ID AS userId,
+			T.USER_NO AS userNo,
+			T.USER_CN AS userCn,
+			T.USER_EN AS userEn,
+			T.USER_TYPE AS userType,
+			T.USER_STATUS as userStatus,
+			D.USER_SEX AS userSex,
+			D.USER_PHOTO AS userPhoto
+		FROM SYS_USER_T T
+		LEFT JOIN SYS_USER_DETAIL_T D ON D.USER_ID=T.USER_ID
+		<if test="userIds!=null and userIds.size()>0">
+			<foreach collection="userIds" item="item" open="WHERE T.USER_ID IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+		<if test="userIds==null or userIds.isEmpty()">
+			WHERE 1=2
+		</if>
+	</select>
 </mapper>

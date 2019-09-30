@@ -121,6 +121,12 @@ export default{
     appDesc:'应用描述',
     createApp:'创建应用',
 
+    createGroup:'创建群组',
+    groupCode:'群组编码',
+    groupName:'群组名称',
+    groupOwner:'群组责任',
+    groupDesc:'群组描述',
+
 
     'server.error':'请求异常，请联系管理员',
 

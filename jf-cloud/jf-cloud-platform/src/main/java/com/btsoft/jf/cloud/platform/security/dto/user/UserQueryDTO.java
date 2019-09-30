@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.dto.user;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/9/28
  **/
-public class UserQueryDTO extends SearchKeywordAppDTO {
+public class UserQueryDTO extends SearchKeywordDTO {
 
     private String userType;
     private String userStatus;

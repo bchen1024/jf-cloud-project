@@ -2,8 +2,11 @@ package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 账号mapper
@@ -21,4 +24,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity> {
      * @return 用户数量
      **/
     int findUserCountByUserCn(@Param("userCn") String userCn);
+
+
+    List<UserBaseVO> findUserListByIds(@Param("userIds") List<Long> userIds);
 }
