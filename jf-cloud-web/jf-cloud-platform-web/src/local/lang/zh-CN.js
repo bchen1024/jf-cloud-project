@@ -102,6 +102,7 @@ export default{
     userNo:'账号',
     userCn:'中文名称',
     userEn:'英文名称',
+    userName:'用户名称',
     userType:'用户类型',
     userStatus:'用户状态',
     passwordUpdateTime:'密码更新时间',
@@ -121,6 +122,14 @@ export default{
     contextPath:'应用根路径',
     appDesc:'应用描述',
     createApp:'创建应用',
+    appDetail:'应用详情',
+    appUsers:'应用用户',
+    appType:'应用类型',
+    systemApp:'系统应用',
+    businessApp:'业务应用',
+    appToken:'应用Token',
+    appPort:'应用端口',
+    addUser:'添加用户',
 
     createGroup:'创建群组',
     groupCode:'群组编码',
@@ -133,5 +142,11 @@ export default{
 
     validator:{
         notEmpty:'该值不能为空'
+    },
+    type:{
+        appType:{
+            1:'系统应用',
+            2:'业务应用'
+        }
     }
 };

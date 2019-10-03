@@ -1,12 +1,15 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,7 +50,7 @@ public class AppController {
      * @return 删除结果
      **/
     @DeleteMapping("/delete")
-    @ApiOperation("删除角色")
+    @ApiOperation("删除应用")
     public Result deleteApp(@RequestBody BaseIdAppDTO dto){
         return service.deleteApp(dto);
     }
@@ -76,5 +79,31 @@ public class AppController {
     @ApiOperation("分页查询应用")
     public CommonResult<PageResult<AppVO>> findAppPage(@RequestBody AppQueryDTO dto){
         return service.findAppPage(dto);
+    }
+
+    /**
+     * 应用用户列表
+     * @author jeo_cb
+     * @date 2019/10/3
+     * @param  dto 查询参数
+     * @return 应用用户
+     **/
+    @PostMapping("/user/page")
+    @ApiOperation("分页查询应用用户")
+    public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
+        return service.findAppUserPage(dto);
+    }
+
+    /**
+     * 删除单个应用用户
+     * @author jeo_cb
+     * @date 2019/9/29
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    @DeleteMapping("/user/delete")
+    @ApiOperation("删除应用用户")
+    public Result deleteAppUser(@RequestBody BaseIdDTO dto){
+        return service.deleteAppUser(dto);
     }
 }

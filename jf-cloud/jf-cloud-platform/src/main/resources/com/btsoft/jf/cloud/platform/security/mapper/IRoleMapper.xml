@@ -104,4 +104,16 @@
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
 	</select>
+
+	<select id="findListByIds" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<if test='list!=null and list.size()>0'>
+			<foreach collection="list" item="item" open="WHERE T.ROLE_ID IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+		<if test='list==null or list.size()==0'>
+			AND 1=2
+		</if>
+	</select>
 </mapper>

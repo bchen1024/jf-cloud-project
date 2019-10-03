@@ -5,32 +5,31 @@
                 {{$t('createRole')}}
             </Button>
         </template>
-        <EditRole slot="grid-drawer" :formId="formId" :formKey="formKey"
+        <Edit slot="grid-drawer" :formId="formId" formKey="roleId"
             :visible.sync="showEdit" 
             :formData="formData"
-            @saveCallback="saveCallback"/>
+            @saveCallback="gridSearch"/>
     </JFGrid>
 </template>
 <script>
-import EditRole from './edit.vue';
+import Edit from './edit.vue';
 import curdGrid from '@/mixins/curdGrid';
 export default {
     mixins:[curdGrid],
     components:{
-        EditRole
+        Edit
     },
     data(){
         let vm=this;
         return {
-            formKey:'roleId',
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/role/page',
-                    defaultParams:{appCode:this.$store.state.app.appInfo.appCode}
+                    defaultParams:{appCode:vm.$store.state.app.appInfo.appCode}
                 },
                 delete:{
                     url:'jfcloud/jf-cloud-platform/security/role/delete',
-                    defaultParams:{appCode:this.$store.state.app.appInfo.appCode}
+                    defaultParams:{appCode:vm.$store.state.app.appInfo.appCode}
                 },
                 table:{
                     pkId:'roleId',
@@ -40,14 +39,19 @@ export default {
                         {title:vm.$t('edit'),click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),gridDelete:true},
+                        {title:vm.$t('delete'),gridDelete:true,show:(row)=>{
+                            if(row.roleCode!='superAdmin'){
+                                return true;
+                            }
+                            return false;
+                        }},
                         {title:vm.$t('detail'),gridDetail:true},
                         {title:vm.$t('roleUsers'),gridDetail:{tabId:'roleUsers'}},
                         {title:vm.$t('rolePermission'),gridDetail:{tabId:'rolePermission'}},
                         {title:vm.$t('roleGroups'),gridDetail:{tabId:'roleGroups'}}
                     ],
                     columns:[
-                        {key:'roleCode',width:120,condition:true},
+                        {key:'roleCode',width:150,condition:true},
                         {key:'roleName',width:150,condition:true},
                         {key:'roleOwner',width:150,format:'user'},
                         {key:'applyStatus',width:120,format:'applyStatus',condition:{

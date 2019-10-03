@@ -1,6 +1,8 @@
 export default {
     state: {
       breadCrumbList: [],
+      activeName:'',
+      openNames:[],
       collapsed:false
     },
     getters: {
@@ -28,7 +30,9 @@ export default {
                 delete obj.path;
               }
               return obj
-            })
+            });
+            state.activeName=route.name;
+            state.openNames=[res[res.length-2].name];
             state.breadCrumbList = [homeRouter, ...res];
           }else{
             let res=[];

@@ -7,14 +7,19 @@
             </Spin>
         </template>
         <template v-else>
-            <Tooltip  :content="displayName" transfer>
-                <Avatar icon="ios-person" v-if="showPhoto"/>
+            <Tooltip  transfer>
+                <Avatar :icon="userIcon" v-if="showPhoto" :style="'color:'+bgColor"/>
                 <a v-if="viewDetail">
                     {{displayName}}
                 </a>
                 <label v-else>
                     {{displayName}}
                 </label>
+                <div slot="content">
+                    <div v-if="displayName">{{$t('userName')}}:{{displayName}}</div>
+                    <div v-if="userStatus">{{$t('userStatus')}}:{{userStatus}}</div>
+                    <div v-if="userSex">{{$t('userSex')}}:{{userSex}}</div>
+                </div>
             </Tooltip>
         </template>
     </div>
@@ -69,6 +74,42 @@ export default {
                 this.loading=true;
                 return this.userId;
             }
+        },
+        bgColor(){
+            let vm=this;
+            let bgColor='';
+            if(vm.userInfo.userStatus=='Y'){
+                bgColor='#19be6b';
+            }if(vm.userInfo.userStatus=='L'){
+                bgColor='#ff9900';
+            }if(vm.userInfo.userStatus=='D'){
+                bgColor='#ed4014';
+            }
+            return bgColor;
+        },
+        userSex(){
+            let vm=this;
+            let userSex='';
+            if(vm.userInfo.userSex=='1'){
+                userSex=vm.$t('male')
+            }if(vm.userInfo.userSex=='2'){
+                userSex=vm.$t('female')
+            }
+            return userSex;
+        },
+        userStatus(){
+            let vm=this;
+            return vm.$util.getUserStatus(vm.userInfo.userStatus,vm);
+        },
+        userIcon(){
+            let vm=this;
+            let icon='ios-person';
+            if(vm.userInfo.userSex=='1'){
+                icon='ios-man';
+            }else if(vm.userInfo.userSex=='2'){
+                icon='ios-woman';
+            }
+            return icon;
         }
     }
 }

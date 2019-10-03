@@ -16,6 +16,8 @@ public class AppVO extends BaseVO {
     private String contextPath;
     private String appDesc;
     private Long appOwner;
+    private String appType;
+    private Integer appPort;
 
     public Long getAppId() {
         return appId;
@@ -63,6 +65,22 @@ public class AppVO extends BaseVO {
 
     public void setAppOwner(Long appOwner) {
         this.appOwner = appOwner;
+    }
+
+    public String getAppType() {
+        return appType;
+    }
+
+    public void setAppType(String appType) {
+        this.appType = appType;
+    }
+
+    public Integer getAppPort() {
+        return appPort;
+    }
+
+    public void setAppPort(Integer appPort) {
+        this.appPort = appPort;
     }
 
     @Override

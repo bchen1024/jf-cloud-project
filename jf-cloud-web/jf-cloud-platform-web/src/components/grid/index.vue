@@ -98,7 +98,7 @@ export default {
                 //是否允许设置表格
                 allowSetting:false,
                 //是否显示tip提示
-                showTip:false,
+                showTip:true,
                 //文本超长是否显示省略号
                 ellipsis:true,
                 //是否显示序号列
@@ -197,8 +197,12 @@ export default {
                                 let value=params.row[column.key];
                                 return h('JFStatus',{props:{value:value,type:column.format}});
                             }
+                        }else if(column.format=='type'){
+                            column.render=(h,params)=>{
+                                let value=params.row[column.key];
+                                return h('JFType',{props:{value:value,type:column.key}});
+                            }
                         }
-
                         columns.push(column);
                     }
                 });
@@ -207,13 +211,17 @@ export default {
             //显示审计列
             if(tableOp.showAuditCreate){
                 columns.push(
-                    {key:'createBy',title:vm.$t('createBy'),width:150},
+                    {key:'createBy',title:vm.$t('createBy'),width:150,format:'user',render:(h,params)=>{
+                         return h('JFUser',{props:{userId:params.row['createBy']}});
+                    }},
                     {key:'createDate',title:vm.$t('createDate'),width:155,align: 'center'}
                 );
             }
             if(tableOp.showAuditUpdate){
                 columns.push(
-                    {key:'lastUpdateBy',title:vm.$t('lastUpdateBy'),width:150},
+                    {key:'lastUpdateBy',title:vm.$t('lastUpdateBy'),width:150,format:'user',render:(h,params)=>{
+                         return h('JFUser',{props:{userId:params.row['lastUpdateBy']}});
+                    }},
                     {key:'lastUpdateDate',title:vm.$t('lastUpdateDate'),width:155,align: 'center'}
                 );
             }
@@ -300,8 +308,13 @@ export default {
             //查询
             var fields=[];
             (vm.columns || []).forEach(field => {
-                if(field.condition && typeof field.condition=='boolean'){
-                    fields.push({key:field.key});
+                let condition=field.condition;
+                if(condition && (typeof condition=='boolean' || condition.type=='string')){
+                    if(condition.key){
+                        fields.push({key:condition.key});
+                    }else{
+                        fields.push({key:field.key});
+                    } 
                 }
             });
             if(searchOp.queryKeywordFields && searchOp.queryKeywordFields.length>0){
@@ -320,7 +333,7 @@ export default {
             //查询
             var fields=[];
             (vm.columns || []).forEach(field => {
-                if(field.condition && typeof field.condition=='object'){
+                if(field.condition && typeof field.condition=='object' && field.condition.type!='string'){
                     fields.push(Object.assign({},{key:field.key},field.condition));
                 }
             });
@@ -424,6 +437,7 @@ export default {
             });
             vm.loading=true;
             vm.errorMsg=null;
+             vm.data=[];
             vm.$http({
                 method:searchOp.method,
                 url:searchOp.url,
@@ -451,13 +465,7 @@ export default {
             }).catch(error=>{
                 vm.loadError=true;
                 vm.loading=false;
-                if(typeof error=='string'){
-                    vm.errorMsg=error;
-                }else if(error.code){
-                    vm.errorMsg=vm.$t(error.code);
-                }else{
-                    vm.errorMsg=error.msg || error.message;
-                }
+                vm.errorMsg=vm.$util.handerError(error,vm);
             });
         },
         _loadUserMap(){
@@ -545,7 +553,8 @@ export default {
                 let routeData = vm.$router.resolve({
                     name: "auditLog",
                     query: {
-                        module:tableOp.logSetting.module
+                        module:tableOp.logSetting.module,
+                        operation:tableOp.logSetting.operation
                     }
                 });
                 window.open(routeData.href, '_blank');

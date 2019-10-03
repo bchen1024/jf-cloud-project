@@ -1,11 +1,15 @@
 import JFGrid from './grid/index.vue';
 import JFUser from './user/index.vue';
 import JFStatus from './status/index.vue';
+import JFType from './type/index.vue';
+import JFDetail from './detail/index.vue';
 
 const jfviews={
     JFGrid,
     JFUser,
-    JFStatus
+    JFStatus,
+    JFType,
+    JFDetail
 };
 
 const install=function(Vue){

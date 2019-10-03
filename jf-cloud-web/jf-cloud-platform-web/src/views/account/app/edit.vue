@@ -16,6 +16,15 @@
                 <FormItem :label="$t('appOwner')" label-position="top" prop="appOwner">
                     <Input v-model="data.appOwner"/>
                 </FormItem>
+                <FormItem :label="$t('appPort')" label-position="top" prop="appPort">
+                    <InputNumber v-model="data.appPort"/>
+                </FormItem>
+                <FormItem :label="$t('appType')" label-position="top" prop="appType">
+                    <RadioGroup v-model="data.appType">
+                        <Radio  label="1">{{$t('systemApp')}}</Radio>
+                        <Radio  label="2">{{$t('businessApp')}}</Radio>
+                    </RadioGroup>
+                </FormItem>
                 <FormItem :label="$t('contextPath')" label-position="top" prop="contextPath">
                     <Input v-model="data.contextPath"/>
                 </FormItem>
@@ -36,6 +45,7 @@
         data () {
             let vm=this;
             return {
+                defaultValue:{appType:'1'},
                 saveOp:{
                     url:'jfcloud/jf-cloud-platform/security/app/save'
                 },
@@ -47,6 +57,9 @@
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ],
                     appOwner:[
+                        {required:true,message:vm.$t('validator.notEmpty')}
+                    ],
+                    appType:[
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ]
                 }

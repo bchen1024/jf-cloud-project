@@ -2,7 +2,7 @@
   <div class="side-menu-wrapper">
     <slot></slot>
     <Menu ref="menu" width="auto" v-show="!collapsed" @on-select="handleSelect" theme="dark" 
-      :active-name="$route.name" :open-names="openedNames" accordion>
+      :active-name="activeName" :open-names="openedNames" accordion>
       <template v-for="item in menuList">
             <SiderMenuItem v-if="item.children && item.children.length>0" :key="`menu-${item.name}`" :parent-item="item"></SiderMenuItem>
             <menu-item v-else :name="item.name" :key="`menu-${item.name}`"><Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/><span>{{ $t($util.showTitle(item)) }}</span></menu-item>
@@ -40,11 +40,27 @@ export default {
   computed: {
         collapsed(){
             return this.$store.state.menu.collapsed;
+        },
+        openedNames(){
+          if(this.$route.meta && this.$route.meta.parent){
+            return [this.$route.meta.parent[0]];
+          }else{
+            let openedNames = this.$route.matched.map(item => item.name).filter(item => item !== name);
+            return openedNames;
+          }
+        },
+        activeName(){
+          if(this.$route.meta && this.$route.meta.parent){
+            let parent=this.$route.meta.parent;
+            return [parent[parent.length-1]];
+          }else{
+            return this.$route.name;
+          }
         }
     },
   data () {
     return {
-      openedNames: []
+      
     }
   },
   methods: {
@@ -53,17 +69,11 @@ export default {
     }
   },
   watch: {
-    activeName (name) {
-      this.openedNames = this.$route.matched.map(item => item.name).filter(item => item !== name);
-    },
     openedNames () {
       this.$nextTick(() => {
         this.$refs.menu.updateOpened()
       })
     }
-  },
-  mounted () {
-    this.openedNames = this.$route.matched.map(item => item.name).filter(item => item !== name);
   }
 }
 </script>

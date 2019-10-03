@@ -2,6 +2,7 @@ package com.btsoft.jf.cloud.core.base.mapper;
 
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
 import java.util.List;
 /**
  * 
@@ -52,5 +53,14 @@ public interface IBaseMapper<T> extends IBaseBatchMapper<T>{
 	 * @return 返回对象列表
 	 */
 	List<T> findList(@Param("vo") T t);
+
+	/**
+	 * 根据id获取列表
+	 * @author jeo_cb
+	 * @date 2019/10/3
+	 * @param  ids 主键id集合
+	 * @return 对象列表
+	 **/
+	List<T> findListByIds(Collection<? extends Long> ids);
 
 }

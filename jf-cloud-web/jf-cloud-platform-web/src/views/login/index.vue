@@ -28,6 +28,7 @@
     </div>
 </template>
 <script>
+    import util from '@/libs/util';
     export default {
         data(){
             let vue=this;
@@ -50,33 +51,35 @@
         },
         methods:{
             handleSubmit(name) {
-                var vue=this;
-                vue.loginMsg=null;
-                this.$refs[name].validate((valid) => {
-                    if (valid) {
-                        var params={
-                            userAccount:this.formInline.userAccount,
-                            password:this.formInline.password
-                        };
-                        this.loginLoading=true;
-                        common.login(params).then(result => {
-                            vue.loginLoading=false;
-                            if(result){
-                                sessionStorage.setItem("token",result.token);
-                                if(vue.$route.query.redirectName){
-                                    vue.$router.replace({name:vue.$route.query.redirectName});
-                                }else{
-                                    vue.$router.replace({name:'home'});
-                                }
-                            }else{
-                                vue.loginMsg=vue.$t(result.errorMsg);
-                            }
-                        }).catch(error => {
-                            vue.loginLoading=false;
-                            vue.loginMsg=error.errorMsg || error.message;
-                        });
-                    }
-                })
+                util.setToken("abddd");
+                this.$router.replace({name:'home'});
+                // var vue=this;
+                // vue.loginMsg=null;
+                // this.$refs[name].validate((valid) => {
+                //     if (valid) {
+                //         var params={
+                //             userAccount:this.formInline.userAccount,
+                //             password:this.formInline.password
+                //         };
+                //         this.loginLoading=true;
+                //         common.login(params).then(result => {
+                //             vue.loginLoading=false;
+                //             if(result){
+                //                 sessionStorage.setItem("token",result.token);
+                //                 if(vue.$route.query.redirectName){
+                //                     vue.$router.replace({name:vue.$route.query.redirectName});
+                //                 }else{
+                //                     vue.$router.replace({name:'home'});
+                //                 }
+                //             }else{
+                //                 vue.loginMsg=vue.$t(result.errorMsg);
+                //             }
+                //         }).catch(error => {
+                //             vue.loginLoading=false;
+                //             vue.loginMsg=error.errorMsg || error.message;
+                //         });
+                //     }
+                // })
             }
         }
     };

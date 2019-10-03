@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -9,17 +10,27 @@ import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
+import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
-import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 应用Service实现类
@@ -31,6 +42,12 @@ public class AppServiceImpl implements IAppService {
 
     @Autowired
     private IAppMapper mapper;
+
+    @Autowired
+    private IAppRoleUserMapper appUserMapper;
+
+    @Autowired
+    private IRoleMapper roleMapper;
 
     @Override
     public Result saveApp(AppSaveDTO dto) {
@@ -70,5 +87,37 @@ public class AppServiceImpl implements IAppService {
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
         return CommonResultUtils.pageResult(AppVO.class,page);
+    }
+
+    @Override
+    public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(AppUserQueryDTO dto) {
+        Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
+        appUserMapper.findAppUserPage(dto);
+        List<Long> roleIds=new ArrayList<>();
+        CommonResult<PageResult<AppRoleUserVO>> result=CommonResultUtils.pageResult(AppRoleUserVO.class,page);
+        if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
+            result.getData().getList().forEach(v->{
+                roleIds.add(v.getRoleId());
+            });
+        }
+        if(!CollectionUtils.isEmpty(roleIds)){
+            List<RoleEntity> roleList=roleMapper.findListByIds(roleIds);
+            Map<Long,RoleEntity> roleMap=roleList.stream().collect(Collectors.toMap(RoleEntity::getRoleId,p->p));
+            result.getData().getList().forEach(v->{
+                RoleEntity role=roleMap.get(v.getRoleId());
+                if(role!=null){
+                    v.setRoleName(role.getRoleName());
+                }
+            });
+        }
+        return result;
+    }
+
+    @Override
+    public Result deleteAppUser(BaseIdDTO dto) {
+        AppRoleUserEntity entity=new AppRoleUserEntity();
+        entity.setId(dto.getId());
+        int rows=appUserMapper.deleteSingle(entity);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 }

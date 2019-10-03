@@ -13,7 +13,7 @@
                 <FormItem :label="$t('userEn')" label-position="top" prop="userEn">
                     <Input v-model="data.userEn"/>
                 </FormItem>
-                 <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
+                <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
                     <RadioGroup v-model="data.userSex">
                         <Radio  label="1">{{$t('male')}}</Radio>
                         <Radio  label="2">{{$t('female')}}</Radio>

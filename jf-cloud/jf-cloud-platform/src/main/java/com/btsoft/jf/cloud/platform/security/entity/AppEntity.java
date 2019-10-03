@@ -17,6 +17,9 @@ public class AppEntity extends BaseEntity {
     private String contextPath;
     private String appDesc;
     private Long appOwner;
+    private String appType;
+    private String appToken;
+    private Integer appPort;
 
     public Long getAppId() {
         return appId;
@@ -64,6 +67,30 @@ public class AppEntity extends BaseEntity {
 
     public void setAppOwner(Long appOwner) {
         this.appOwner = appOwner;
+    }
+
+    public String getAppType() {
+        return appType;
+    }
+
+    public void setAppType(String appType) {
+        this.appType = appType;
+    }
+
+    public String getAppToken() {
+        return appToken;
+    }
+
+    public void setAppToken(String appToken) {
+        this.appToken = appToken;
+    }
+
+    public Integer getAppPort() {
+        return appPort;
+    }
+
+    public void setAppPort(Integer appPort) {
+        this.appPort = appPort;
     }
 
     @Override

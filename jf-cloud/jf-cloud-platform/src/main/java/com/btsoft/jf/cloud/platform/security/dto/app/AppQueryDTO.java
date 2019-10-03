@@ -14,12 +14,23 @@ public class AppQueryDTO extends SearchKeywordAppDTO {
     @ApiModelProperty("应用责任人id")
     private Long appOwner;
 
+    @ApiModelProperty("应用类型")
+    private String appType;
+
     public Long getAppOwner() {
         return appOwner;
     }
 
     public void setAppOwner(Long appOwner) {
         this.appOwner = appOwner;
+    }
+
+    public String getAppType() {
+        return appType;
+    }
+
+    public void setAppType(String appType) {
+        this.appType = appType;
     }
 
     @Override

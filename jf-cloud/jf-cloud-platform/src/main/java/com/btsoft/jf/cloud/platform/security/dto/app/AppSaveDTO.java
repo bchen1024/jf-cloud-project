@@ -23,6 +23,10 @@ public class AppSaveDTO extends BaseDTO {
     private String appDesc;
     @ApiModelProperty("应用上下文")
     private String contextPath;
+    @ApiModelProperty("应用类型")
+    private String appType;
+    @ApiModelProperty("应用端口")
+    private Integer appPort;
 
     public Long getAppId() {
         return appId;
@@ -70,6 +74,22 @@ public class AppSaveDTO extends BaseDTO {
 
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
+    }
+
+    public String getAppType() {
+        return appType;
+    }
+
+    public void setAppType(String appType) {
+        this.appType = appType;
+    }
+
+    public Integer getAppPort() {
+        return appPort;
+    }
+
+    public void setAppPort(Integer appPort) {
+        this.appPort = appPort;
     }
 
     @Override

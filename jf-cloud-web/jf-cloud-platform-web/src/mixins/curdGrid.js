@@ -23,7 +23,7 @@ export default{
         /**
          * 保存回调刷新表格
          */
-        saveCallback(formData){
+        gridSearch(formData){
             let grid=this.$refs[this.gridId];
             if(grid){
                 grid.search();

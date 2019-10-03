@@ -8,7 +8,7 @@
         <Edit slot="grid-drawer" :formId="formId" :formKey="formKey"
             :visible.sync="showEdit" 
             :formData="formData"
-            @saveCallback="saveCallback"/>
+            @saveCallback="gridSearch"/>
     </JFGrid>
 </template>
 <script>

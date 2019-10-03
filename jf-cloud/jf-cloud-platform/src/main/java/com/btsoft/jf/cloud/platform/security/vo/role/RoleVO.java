@@ -3,8 +3,6 @@ package com.btsoft.jf.cloud.platform.security.vo.role;
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseAppVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Date;
-
 /**
  * 角色VO
  * @author jeo_cb
@@ -18,10 +16,6 @@ public class RoleVO extends BaseAppVO {
     private String roleDesc;
     private Long roleOwner;
     private String applyStatus;
-    private Long createBy;
-    private Date createDate;
-    private Long lastUpdateBy;
-    private Date lastUpdateDate;
 
     public Long getRoleId() {
         return roleId;
@@ -69,38 +63,6 @@ public class RoleVO extends BaseAppVO {
 
     public void setApplyStatus(String applyStatus) {
         this.applyStatus = applyStatus;
-    }
-
-    public Long getCreateBy() {
-        return createBy;
-    }
-
-    public void setCreateBy(Long createBy) {
-        this.createBy = createBy;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public Long getLastUpdateBy() {
-        return lastUpdateBy;
-    }
-
-    public void setLastUpdateBy(Long lastUpdateBy) {
-        this.lastUpdateBy = lastUpdateBy;
-    }
-
-    public Date getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public void setLastUpdateDate(Date lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
     }
 
     @Override

@@ -5,10 +5,10 @@
                 {{$t('createApp')}}
             </Button>
         </template>
-        <EditApp slot="grid-drawer" :formId="formId" :formKey="formKey"
+        <EditApp slot="grid-drawer" :formId="formId" formKey="appId"
             :visible.sync="showEdit" 
             :formData="formData"
-            @saveCallback="saveCallback"/>
+            @saveCallback="gridSearch"/>
     </JFGrid>
 </template>
 <script>
@@ -22,7 +22,6 @@ export default {
     data(){
         let vm=this;
         return {
-            formKey:'appId',
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/app/page'
@@ -33,16 +32,37 @@ export default {
                 table:{
                     pkId:'appId',
                     logSetting:{module:'App'},
+                    detail:{name:'appDetail'},
                     buttons:[
                         {title:vm.$t('edit'),click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),gridDelete:true}
+                        {title:vm.$t('delete'),gridDelete:true},
+                        {title:vm.$t('detail'),gridDetail:true},
+                        {title:vm.$t('appUsers'),gridDetail:{tabId:'appUsers'},show:(row)=>{
+                            if(row.appType=='2'){
+                                return true;
+                            }
+                            return false;
+                        }},
+                        {title:vm.$t('appToken'),gridDetail:{tabId:'appToken'},show:(row)=>{
+                            if(row.appType=='2'){
+                                return true;
+                            }
+                            return false;
+                        }},
                     ],
                     columns:[
-                        {key:'appCode',width:150,condition:true},
-                        {key:'appName',width:250,condition:true},
+                        {key:'appCode',width:180,condition:true},
+                        {key:'appName',width:200,condition:true},
                         {key:'appOwner',width:150,format:'user'},
+                        {key:'appType',width:100,format:'type',condition:{
+                            type:'radio',items:[
+                               {value:'1',label:vm.$t('systemApp')},
+                               {value:'2',label:vm.$t('businessApp')}
+                            ]
+                        }},
+                        {key:'appPort',width:100},
                         {key:'contextPath',width:120},
                         {key:'appDesc',condition:true}
                     ]

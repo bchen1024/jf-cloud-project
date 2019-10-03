@@ -5,7 +5,7 @@
 		<result column="APP_CODE" property="appCode"/>
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
-		<result column="CREATION_DATE" property="creationDate"/>
+		<result column="CREATE_DATE" property="createDate"/>
 		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
 		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
 
@@ -14,6 +14,9 @@
 		<result column="CONTEXT_PATH" property="contextPath"/>
 		<result column="APP_OWNER" property="appOwner"/>
 		<result column="APP_DESC" property="appDesc"/>
+		<result column="APP_TYPE" property="appType"/>
+		<result column="APP_TOKEN" property="appToken"/>
+		<result column="APP_PORT" property="appPort"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -24,6 +27,9 @@
 			T.APP_OWNER,
 			T.APP_DESC,
 			T.CONTEXT_PATH,
+		    T.APP_TYPE,
+		    T.APP_TOKEN,
+		    T.APP_PORT,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -44,6 +50,9 @@
 			<if test='vo.appOwner!=null'>
 				AND T.APP_OWNER = #{vo.appOwner,jdbcType=NUMERIC}
 			</if>
+			<if test='vo.appType!=null and vo.appType!=""'>
+				AND T.APP_TYPE = #{vo.appType,jdbcType=VARCHAR}
+			</if>
 		</trim>
 	</sql>
 
@@ -54,6 +63,8 @@
 			APP_OWNER,
 			APP_DESC,
 			CONTEXT_PATH,
+		    APP_TYPE,
+		    APP_PORT,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
@@ -62,6 +73,8 @@
 			#{vo.appOwner,jdbcType=NUMERIC},
 			#{vo.appDesc,jdbcType=VARCHAR},
 			#{vo.contextPath,jdbcType=VARCHAR},
+			#{vo.appType,jdbcType=VARCHAR},
+			#{vo.appPort,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
@@ -82,7 +95,9 @@
 			T.APP_NAME=#{vo.appName,jdbcType=VARCHAR},
 			T.APP_DESC=#{vo.appDesc,jdbcType=VARCHAR},
 			T.CONTEXT_PATH=#{vo.contextPath,jdbcType=VARCHAR},
+			T.APP_TYPE=#{vo.appType,jdbcType=VARCHAR},
 			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
+			T.APP_PORT=#{vo.appPort,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=now()
 		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}

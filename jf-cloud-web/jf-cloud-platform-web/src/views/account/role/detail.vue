@@ -1,72 +1,11 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
         <TabPane :label="$t('detail')" name="detail">
-            <Spin size="large" fix v-if="loading"></Spin>
-            <Form :model="roleData" label-position="right" :label-width="120" class="jf-detail-form">
-                <Row :gutter="32">
-                    <Col span="12">
-                        <FormItem :label="$t('roleCode')">
-                            {{roleData.roleCode}}
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem :label="$t('roleName')">
-                            {{roleData.roleName}}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="12">
-                        <FormItem :label="$t('roleOwner')">
-                            <JFUser :userId="roleData.roleOwner"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem :label="$t('applyStatus')">
-                            <JFStatus :value="roleData.applyStatus" type="applyStatus"/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="12">
-                        <FormItem :label="$t('createBy')">
-                            <JFUser :userId="roleData.createBy"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem :label="$t('createDate')">
-                            {{roleData.createDate}}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
-                    <Col span="12">
-                        <FormItem :label="$t('lastUpdateBy')">
-                            <JFUser :userId="roleData.lastUpdateBy"/>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem :label="$t('lastUpdateDate')">
-                            {{roleData.lastUpdateDate}}
-                        </FormItem>
-                    </Col>
-                </Row>
-                <FormItem :label="$t('roleDesc')" class="jf-form-detail-desc">
-                    {{roleData.roleDesc}}
-                </FormItem>
-                <div style="text-align:right;">
-                    <Button icon="md-create"  @click="openEdit(roleData)">
-                        {{$t('edit')}}
-                    </Button>
-                    <Button icon="md-refresh"  @click="loadDetail(true)">
-                        {{$t('refresh')}}
-                    </Button>
-                </div>
-            </Form>
-            <EditRole :formId="formId" :formKey="formKey"
+            <JFDetail ref="roleDetail" :op="detailOp" :id="id" @detailEdit="openEdit"/>
+            <EditRole ref="roleEditDialog" :formId="formId" formKey="roleId"
                 :visible.sync="showEdit" 
                 :formData="formData"
-                @saveCallback="loadDetail(true)"/>
+                @saveCallback="loadDetail()"/>
         </TabPane>
         <TabPane :label="$t('roleUsers')" name="roleUsers">标签二的内容</TabPane>
         <TabPane :label="$t('rolePermission')" name="rolePermission">标签三的内容</TabPane>
@@ -83,12 +22,28 @@ export default {
     },
     data(){
         return {
-            formKey:'roleId',
             tabId:'detail',
             id:null,
             loadMap:{},
-            roleData:{},
-            loading:false
+            detailOp:{
+                search:{
+                    url:'jfcloud/jf-cloud-platform/security/role/single'
+                },
+                autoLoad:!this.$route.query.tabId,
+                userFields:['roleOwner'],
+                items:[
+                    {cols:[
+                        {key:'roleCode'},
+                        {key:'roleName'},
+                    ]},
+                    {cols:[
+                        {key:'roleOwner',type:'user'},
+                        {key:'applyStatus',type:'status'}
+                    ]},
+                    
+                    {key:'roleDesc',desc:true}
+                ]
+            }
         }
     },
     created(){
@@ -105,28 +60,18 @@ export default {
             if(name){
                 vm.tabId=name;
             }
-            if(vm.tabId=='detail'){
-                vm.loadDetail();
+            if(!vm.loadMap[vm.tabId]){
+                if(vm.tabId=='detail'){
+                    vm.loadDetail();
+                }
+                vm.loadMap[vm.tabId]=true;
             }
         },
-        loadDetail(reload){
+        loadDetail(){
             let vm=this;
-            if(vm.id && (!vm.loadMap['detail'] || reload)){
-                vm.loading=true;
-                vm.$http({
-                    method:'get',
-                    url:'jfcloud/jf-cloud-platform/security/role/single',
-                    params:{appCode:vm.$store.state.app.appInfo.appCode,id:vm.id}
-                }).then(result=>{
-                    vm.loading=false;
-                    vm.loadMap['detail']=true;
-                    if(result && result.success){
-                        vm.roleData=result.data;
-                        let userIds=[vm.roleData.roleOwner,vm.roleData.createBy,vm.roleData.lastUpdateBy];
-                        vm.$store.dispatch('loadUser',userIds);
-                    }
-                    
-                });
+            let roleDetail=vm.$refs.roleDetail;
+            if(roleDetail){
+                roleDetail.load();
             }
         }
     }

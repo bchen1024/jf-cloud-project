@@ -1,35 +1,9 @@
-import Main from '@/views/main/index.vue'
 import ParentView from '@/views/main/components/parent-view/index.vue'
-import Home from '@/views/home/index.vue'
-import Login from '@/views/login/index.vue'
-import Organization from '@/views/account/organization/index.vue'
-import Role from '@/views/account/role/index.vue'
-import RoleDetail from '@/views/account/role/detail.vue'
-import User from '@/views/account/user/index.vue'
-import App from '@/views/account/app/index.vue'
-import Group from '@/views/account/group/index.vue'
-import Employee from '@/views/account/employee/index.vue'
-import Permission from '@/views/account/permission/index.vue'
-import I18n from '@/views/config/i18n/index.vue'
-import Code from '@/views/config/code/index.vue'
-import Property from '@/views/config/property/index.vue'
-import Menu from '@/views/config/menu/index.vue'
-import Personalized from '@/views/config/personalized/index.vue'
-import Notice from '@/views/config/notice/index.vue'
-import Template from '@/views/config/template/index.vue'
-import ImportMonitor from '@/views/excel/import/importMonitor.vue'
-import ExportMonitor from '@/views/excel/export/exportMonitor.vue'
-import ImportTemplate from '@/views/excel/import/importTemplate.vue'
-import ExportTemplate from '@/views/excel/export/exportTemplate.vue'
-import MyImport from '@/views/excel/import/myImport.vue'
-import MyExport from '@/views/excel/export/myExport.vue'
-import AuditLog from '@/views/monitor/auditLog/index.vue'
-
 export default[
     {
         path: '/',
         name: 'main',
-        component: Main,
+        component: resolve =>require(['@/views/main/index.vue'],resolve),
         meta:{
             mainMenu:true
         },
@@ -37,7 +11,7 @@ export default[
             {
                 path:'/home',
                 name:'home',
-                component:Home,
+                component:resolve =>require(['@/views/home/index.vue'],resolve),
                 meta:{
                     icon:'md-home'
                 }
@@ -53,7 +27,7 @@ export default[
                     {
                         path:'/import/myImport',
                         name:'myImport',
-                        component:MyImport,
+                        component:resolve =>require(['@/views/excel/import/myImport.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -61,7 +35,7 @@ export default[
                     {
                         path:'/export/myExport',
                         name:'myExport',
-                        component:MyExport,
+                        component:resolve =>require(['@/views/excel/export/myExport.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -80,7 +54,7 @@ export default[
                     {
                         path:'/account/organization',
                         name:'organizationMgt',
-                        component:Organization,
+                        component:resolve =>require(['@/views/account/organization/index.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -88,7 +62,7 @@ export default[
                     {
                         path:'/account/role',
                         name:'roleMgt',
-                        component:Role,
+                        component:resolve =>require(['@/views/account/role/index.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -96,7 +70,7 @@ export default[
                     {
                         path:'/account/user',
                         name:'userMgt',
-                        component:User,
+                        component:resolve =>require(['@/views/account/user/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -104,7 +78,7 @@ export default[
                     {
                         path:'/account/group',
                         name:'groupMgt',
-                        component:Group,
+                        component:resolve =>require(['@/views/account/group/index.vue'],resolve),
                         meta:{
                             icon:'ios-people'
                         }
@@ -112,7 +86,7 @@ export default[
                     {
                         path:'/account/employee',
                         name:'employeeMgt',
-                        component:Employee,
+                        component:resolve =>require(['@/views/account/employee/index.vue'],resolve),
                         meta:{
                             icon:'ios-people'
                         }
@@ -120,7 +94,7 @@ export default[
                     {
                         path:'/account/permission',
                         name:'permissionMgt',
-                        component:Permission,
+                        component:resolve =>require(['@/views/account/permission/index.vue'],resolve),
                         meta:{
                             icon:'md-lock'
                         }
@@ -128,7 +102,7 @@ export default[
                     {
                         path:'/account/app',
                         name:'appMgt',
-                        component:App,
+                        component:resolve =>require(['@/views/account/app/index.vue'],resolve),
                         meta:{
                             icon:'md-apps'
                         }
@@ -147,7 +121,7 @@ export default[
                     {
                         path:'/config/menu',
                         name:'menuMgt',
-                        component:Menu,
+                        component:resolve =>require(['@/views/config/menu/index.vue'],resolve),
                         meta:{
                             icon:'md-menu'
                         }
@@ -155,7 +129,7 @@ export default[
                     {
                         path:'/config/property',
                         name:'propertyMgt',
-                        component:Property,
+                        component:resolve =>require(['@/views/config/property/index.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -163,7 +137,7 @@ export default[
                     {
                         path:'/config/i18n',
                         name:'i18nMgt',
-                        component:I18n,
+                        component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -171,7 +145,7 @@ export default[
                     {
                         path:'/config/code',
                         name:'codeMgt',
-                        component:Code,
+                        component:resolve =>require(['@/views/config/code/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -179,7 +153,7 @@ export default[
                     {
                         path:'/config/personalized',
                         name:'personalizedMgt',
-                        component:Personalized,
+                        component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -187,7 +161,7 @@ export default[
                     {
                         path:'/config/notice',
                         name:'noticeMgt',
-                        component:Notice,
+                        component:resolve =>require(['@/views/config/notice/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -195,7 +169,7 @@ export default[
                     {
                         path:'/config/template',
                         name:'templateMgt',
-                        component:Template,
+                        component:resolve =>require(['@/views/config/template/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -214,7 +188,7 @@ export default[
                     {
                         path:'/import/monitor',
                         name:'importMonitor',
-                        component:ImportMonitor,
+                        component:resolve =>require(['@/views/excel/import/importMonitor.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -222,7 +196,7 @@ export default[
                     {
                         path:'/export/monitor',
                         name:'exportMonitor',
-                        component:ExportMonitor,
+                        component:resolve =>require(['@/views/excel/export/exportMonitor.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -230,7 +204,7 @@ export default[
                     {
                         path:'/import/template',
                         name:'importTemplate',
-                        component:ImportTemplate,
+                        component:resolve =>require(['@/views/excel/import/importTemplate.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -238,7 +212,7 @@ export default[
                     {
                         path:'/export/template',
                         name:'exportTemplate',
-                        component:ExportTemplate,
+                        component:resolve =>require(['@/views/excel/export/exportTemplate.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -257,7 +231,7 @@ export default[
                     {
                         path:'/monitor/auditLog',
                         name:'auditLog',
-                        component:AuditLog,
+                        component:resolve =>require(['@/views/monitor/auditLog/index.vue'],resolve),
                         meta:{
                             icon:'md-people'
                         }
@@ -265,7 +239,7 @@ export default[
                     {
                         path:'/monitor/serverLog',
                         name:'serverLog',
-                        component:User,
+                        component:resolve =>require(['@/views/monitor/auditLog/index.vue'],resolve),
                         meta:{
                             icon:'md-person'
                         }
@@ -275,7 +249,7 @@ export default[
             {
                 path:'/personal',
                 name:'personal',
-                component:User,
+                component:resolve =>require(['@/views/personal/index.vue'],resolve),
                 meta:{
                     hideMenu:true,
                     icon:'md-person'
@@ -284,7 +258,7 @@ export default[
             {
                 path:'/account/user/detail',
                 name:'userDetail',
-                component:User,
+                component:resolve =>require(['@/views/account/role/detail.vue'],resolve),
                 meta:{
                     parent:['accountMgt','userMgt'],
                     hideMenu:true,
@@ -294,18 +268,32 @@ export default[
             {
                 path:'/account/role/detail',
                 name:'roleDetail',
-                component:RoleDetail,
+                component:resolve =>require(['@/views/account/role/detail.vue'],resolve),
                 meta:{
                     parent:['accountMgt','roleMgt'],
                     hideMenu:true,
                     icon:'md-person'
                 }
+            },
+            {
+                path:'/account/app/detail',
+                name:'appDetail',
+                component:resolve =>require(['@/views/account/app/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','appMgt'],
+                    hideMenu:true,
+                    icon:'md-person'
+                }
             }
+            
         ]
     },
     {
         path:'/login',
         name:'login',
-        component:Login
+        component:resolve =>require(['@/views/login/index.vue'],resolve),
+        meta:{
+            noNeedLogin:true
+        }
     }
 ]

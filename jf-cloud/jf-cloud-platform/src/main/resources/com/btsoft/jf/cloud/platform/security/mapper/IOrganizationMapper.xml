@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IOrganizationMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.OrganizationEntity">
+		<result column="ENABLE_FLAG" property="enableFlag"/>
+		<result column="CREATE_BY" property="createBy"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
+
+		<result column="ORG_ID" property="orgId"/>
+		<result column="ORG_CN" property="orgCn"/>
+		<result column="ORG_EN" property="orgEn"/>
+		<result column="PARENT_ID" property="parentId"/>
+		<result column="ORG_DESC" property="orgDesc"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.ORG_ID,
+			T.ORG_CN,
+			T.ORG_EN,
+			T.ORG_DESC,
+			T.PARENT_ID,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_ORGANIZATION_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+			T.ENABLE_FLAG='Y'
+            <if test='vo.orgCn!=null and vo.orgCn!=""'>
+                AND T.ORG_CN LIKE CONCAT('%',TRIM(#{vo.orgCn,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test='vo.orgEn!=null and vo.orgEn!=""'>
+                AND T.ORG_EN LIKE CONCAT('%',TRIM(#{vo.orgEn,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.orgDesc!=null and vo.orgDesc!=""'>
+				AND T.ORG_DESC LIKE CONCAT('%',TRIM(#{vo.orgDesc,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.parentId!=null'>
+				AND T.PARENT_ID= #{vo.parentId,jdbcType=NUMERIC}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		INSERT INTO SYS_ORGANIZATION_T (
+			ORG_CN,
+			ORG_EN,
+			ORG_DESC,
+			PARENT_ID,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{vo.orgCn,jdbcType=VARCHAR},
+			#{vo.orgEn,jdbcType=VARCHAR},
+			#{vo.orgDesc,jdbcType=VARCHAR},
+			IFNULL(#{vo.parentId,jdbcType=VARCHAR},0),
+			#{vo.currentUserId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.ORG_ID=#{vo.orgId,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<delete id="deleteSingle">
+		DELETE FROM SYS_ORGANIZATION_T WHERE ORG_ID=#{vo.orgId,jdbcType=NUMERIC}
+	</delete>
+
+	<update id="updateSingle">
+		UPDATE SYS_ORGANIZATION_T T SET
+			T.ORG_CN=#{vo.orgCn,jdbcType=VARCHAR},
+			T.ORG_EN=#{vo.orgEn,jdbcType=VARCHAR},
+			T.ORG_DESC=#{vo.orgDesc,jdbcType=VARCHAR},
+			T.PARENT_ID=IFNULL(#{vo.parentId,jdbcType=VARCHAR},0),
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=now()
+		WHERE T.ORG_ID=#{vo.orgId,jdbcType=NUMERIC}
+	</update>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+</mapper>

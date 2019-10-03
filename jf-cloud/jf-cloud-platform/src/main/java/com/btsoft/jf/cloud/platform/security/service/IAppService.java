@@ -1,11 +1,14 @@
 package com.btsoft.jf.cloud.platform.security.service;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 
 /**
@@ -43,11 +46,29 @@ public interface IAppService {
     CommonResult<AppVO> findApp(Long id);
 
     /**
-     * 分页查询角色列表
+     * 分页查询应用列表
      * @author jeo_cb
      * @date 2019/9/5
      * @param  dto 查询参数
-     * @return 角色分页列表
+     * @return 分页列表
      **/
     CommonResult<PageResult<AppVO>> findAppPage(AppQueryDTO dto);
+
+    /**
+     * 应用用户列表
+     * @author jeo_cb
+     * @date 2019/10/3
+     * @param  dto 查询参数
+     * @return 应用用户
+     **/
+    CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(AppUserQueryDTO dto);
+
+    /**
+     * 删除单个应用用户
+     * @author jeo_cb
+     * @date 2019/9/29
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    Result deleteAppUser(BaseIdDTO dto);
 }

@@ -79,5 +79,27 @@ export default {
         }
         localStorage.setItem(constant.LANGUAGE,lang);
         window.location.reload();
+    },
+    handerError(error,vm){
+        let errorMsg='';
+        if(typeof error=='string'){
+            errorMsg=error;
+        }else if(error.code){
+            errorMsg=vm.$t(error.code);
+        }else{
+            errorMsg=error.msg || error.message;
+        }
+        return errorMsg;
+    },
+    getUserStatus(value,vm){
+        let title='';
+        if(value=='Y'){
+            title=vm.$t('normal');
+        }else if(value=='L'){
+            title=vm.$t('lock');
+        }else if(value=='D'){
+            title=vm.$t('delete');
+        }
+        return title;
     }
 }

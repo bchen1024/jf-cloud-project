@@ -14,7 +14,18 @@ const router = new VueRouter({
 //路由前
 router.beforeEach((to, from, next) => {
   if(from.name!=to.name){
+    let isNeedLogin=true;
+    if(to.meta && to.meta.noNeedLogin){
+      isNeedLogin=false;
+    }
     iView.LoadingBar.start();
+    if(isNeedLogin){
+      let token=util.getToken();
+      if(!token){
+        next({name:'login'});
+        return;
+      }
+    }
     if(to.name=='main'){
       next({name:'home'});
     }else{

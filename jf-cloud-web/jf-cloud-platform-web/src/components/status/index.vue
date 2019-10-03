@@ -38,13 +38,7 @@ export default {
                     title=vm.$t('noApply');
                 }
             }else if(vm.type=='userStatus'){
-                if(vm.value=='Y'){
-                    title=vm.$t('normal');
-                }else if(vm.value=='L'){
-                    title=vm.$t('lock');
-                }else if(vm.value=='D'){
-                    title=vm.$t('delete');
-                }
+                title=vm.$util.getUserStatus(vm.value,vm);
             }
             return title;
         }
