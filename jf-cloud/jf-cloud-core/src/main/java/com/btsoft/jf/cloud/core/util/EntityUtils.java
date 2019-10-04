@@ -5,9 +5,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.btsoft.jf.cloud.core.base.dto.IBaseDTO;
 import com.btsoft.jf.cloud.core.base.dto.ISearchKeyword;
 
+import java.util.List;
+
 /**
- * TODO 类描述
- *
+ * 实体工具类
  * @author jeo_cb
  * @date 2019/9/7
  **/
@@ -26,5 +27,9 @@ public class EntityUtils {
     public static <T> T baseDtoToEntity(Class<T> clazz, IBaseDTO dto)  {
         T entity=JSON.parseObject(JSON.toJSONString(dto),clazz);
         return entity;
+    }
+
+    public static <T> List<T> entityToList(Class<T> clazz,Object obj){
+        return JSON.parseArray(JSON.toJSONString(obj),clazz);
     }
 }

@@ -10,10 +10,14 @@
         <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1'">
             <JFGrid ref="appUserGrid" :gridOp="appUserGrid">
                 <template slot="grid-search-toolbar">
-                    <Button icon="md-add" type="primary">
+                    <Button icon="md-add" type="primary" @click="openAddUser()">
                         {{$t('addUser')}}
                     </Button>
                 </template>
+                <AddUser slot="grid-drawer" formId="addUserForm" formKey="id"
+                    :visible.sync="showAddUser" 
+                    :formData="addUserFormData"
+                    @saveCallback="loadAppUsers"/>
             </JFGrid>
         </TabPane>
         <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'">标签二的内容</TabPane>
@@ -21,11 +25,13 @@
 </template>
 <script>
 import EditApp from './edit.vue';
+import AddUser from './addUser.vue';
 import curdGrid from '@/mixins/curdGrid';
 export default {
     mixins:[curdGrid],
     components:{
-        EditApp
+        EditApp,
+        AddUser
     },
     data(){
         let vm=this,query=vm.getQuery(),tabId=query.tabId || 'detail',id=query.id;
@@ -78,7 +84,9 @@ export default {
                         {key:'roleName',condition:true}
                     ]
                 }
-            }
+            },
+            showAddUser:false,
+            addUserFormData:{appId:id}
         }
     },
     created(){
@@ -123,6 +131,9 @@ export default {
         },
         detailCallback(formData){
             this.detailData=formData;
+        },
+        openAddUser(){
+            this.showAddUser=true;
         }
     }
 }

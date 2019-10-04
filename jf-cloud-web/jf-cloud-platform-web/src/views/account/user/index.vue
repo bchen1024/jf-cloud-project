@@ -85,18 +85,11 @@ export default {
                             }
                             return h('label',params.row.email);
                         }},
-                        {key:'userType',width:90,condition:{
+                        {key:'userType',width:90,format:'type',condition:{
                             type:'radio',items:[
-                               {value:'1',label:vm.$t('employee')},
-                               {value:'2',label:vm.$t('register')}
+                               {value:'1',label:vm.$t('type.userType.1')},
+                               {value:'2',label:vm.$t('type.userType.2')}
                             ]
-                        },render: (h, params) => {
-                            if(params.row.userType=='1'){
-                                return h('div',vm.$t('employee'));
-                            }else if(params.row.userType=='2'){
-                                return h('div',vm.$t('register'));
-                            }
-                            return '';
                         }},
                         {key:'userStatus',width:90,format:'userStatus',condition:{
                            type:'radio',items:[

@@ -14,6 +14,7 @@ const router = new VueRouter({
 //路由前
 router.beforeEach((to, from, next) => {
   if(from.name!=to.name){
+    //判断是否需要登录
     let isNeedLogin=true;
     if(to.meta && to.meta.noNeedLogin){
       isNeedLogin=false;
@@ -22,16 +23,25 @@ router.beforeEach((to, from, next) => {
     if(isNeedLogin){
       let token=util.getToken();
       if(!token){
-        next({name:'login'});
-        return;
+        next({name:'login',query:{routerName:to.name}});
+      }else{
+        if (router.app.$store.state.user.userInfo) {
+          next();
+        }else{
+          router.app.$http.get('jfcloud/jf-cloud-platform/security/user/environment').then(result=>{
+            if(result && result.success){
+              router.app.$store.dispatch('setUserInfo',result.data.user);
+              router.app.$store.dispatch('setAppList',result.data.appList);
+              next();
+            }
+          }).catch(error=>{
+            debugger;
+          });
+        }
       }
-    }
-    if(to.name=='main'){
-      next({name:'home'});
     }else{
       next();
     }
-   
   }
 });
 

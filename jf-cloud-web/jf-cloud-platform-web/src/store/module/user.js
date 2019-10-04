@@ -1,14 +1,14 @@
 import Vue from 'vue';
 export default {
     state: {
-      userInfo: {
-        userId:1,
-        userName:'陈斌'
-      },
+      userInfo: null,
       userCache:{
       }
     },
     mutations:{
+      setUserInfo(state,userInfo){
+        state.userInfo=userInfo;
+      },
       loadUser(state,userIds){
         if(userIds){
           let userIdList=[];
@@ -31,14 +31,14 @@ export default {
               }
             });
           }
-          // userIdList.forEach(v=>{
-          //   Vue.set(state.userCache,v,{userCn:'userCn'+v,userEn:'userEn'+v});
-          // });
         }
         
       }
     },
     actions:{
+      setUserInfo({commit},userInfo){
+        commit('setUserInfo',userInfo);
+      },
       loadUser({commit},userIds){
         commit('loadUser',userIds);
       }

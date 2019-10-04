@@ -8,6 +8,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
@@ -105,5 +106,18 @@ public class AppController {
     @ApiOperation("删除应用用户")
     public Result deleteAppUser(@RequestBody BaseIdDTO dto){
         return service.deleteAppUser(dto);
+    }
+
+    /**
+     * 添加应用用户
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @param  dto 保存参数
+     * @return 保存结果
+     **/
+    @PostMapping("/user/add")
+    @ApiOperation("添加应用用户")
+    public Result addAppUser(@RequestBody AppUserSaveDTO dto){
+        return service.addAppUser(dto);
     }
 }

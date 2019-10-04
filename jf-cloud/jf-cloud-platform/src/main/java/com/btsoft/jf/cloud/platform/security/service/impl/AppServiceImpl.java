@@ -11,6 +11,7 @@ import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
@@ -92,7 +93,7 @@ public class AppServiceImpl implements IAppService {
     @Override
     public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(AppUserQueryDTO dto) {
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
-        appUserMapper.findAppUserPage(dto);
+        appUserMapper.findAppUserList(dto);
         List<Long> roleIds=new ArrayList<>();
         CommonResult<PageResult<AppRoleUserVO>> result=CommonResultUtils.pageResult(AppRoleUserVO.class,page);
         if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
@@ -119,5 +120,13 @@ public class AppServiceImpl implements IAppService {
         entity.setId(dto.getId());
         int rows=appUserMapper.deleteSingle(entity);
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
+    }
+
+    @Override
+    public Result addAppUser(AppUserSaveDTO dto) {
+        AppRoleUserEntity entity=new AppRoleUserEntity();
+        BeanUtils.copyProperties(dto,entity);
+        int rows=appUserMapper.createSingle(entity);
+        return CommonResultUtils.result(rows, OperationTypeEnum.Save);
     }
 }

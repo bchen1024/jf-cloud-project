@@ -21,7 +21,7 @@ export default {
      * 清除token
      */
     clearToken:function(){
-        sessionStorage.removeItem(constant.token);
+        sessionStorage.removeItem(constant.TOKEN);
     },
 
     /**
@@ -80,6 +80,11 @@ export default {
         localStorage.setItem(constant.LANGUAGE,lang);
         window.location.reload();
     },
+    /**
+     * 通用异常信息处理
+     * @param {*} error 
+     * @param {*} vm 
+     */
     handerError(error,vm){
         let errorMsg='';
         if(typeof error=='string'){
@@ -91,6 +96,11 @@ export default {
         }
         return errorMsg;
     },
+    /**
+     * 用户状态
+     * @param {*} value 
+     * @param {*} vm 
+     */
     getUserStatus(value,vm){
         let title='';
         if(value=='Y'){
@@ -101,5 +111,36 @@ export default {
             title=vm.$t('delete');
         }
         return title;
+    },
+    /**
+     * 获取当前应用编码
+     */
+    getApp(){
+        return localStorage.getItem(constant.APP_CODE);
+    },
+    /**
+     * 设置app编码
+     * @param {*} appCode 
+     */
+    setApp(appCode){
+        localStorage.setItem(constant.APP_CODE,appCode);
+    },
+    clearApp(){
+        localStorage.removeItem(constant.APP_CODE);
+    },
+    getUserName(userInfo){
+        let names=[];
+        if(userInfo){
+            if(userInfo.userCn){
+                names.push(userInfo.userCn);
+            }
+            if(userInfo.userEn){
+                names.push(userInfo.userEn);
+            }
+        }
+        if(names.length>0){
+            return names.join('/');
+        }
+        return '';
     }
 }

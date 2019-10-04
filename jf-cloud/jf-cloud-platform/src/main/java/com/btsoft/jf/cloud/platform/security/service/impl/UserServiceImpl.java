@@ -4,17 +4,25 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
+import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.*;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
+import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.UserDetailEntity;
 import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
 import com.btsoft.jf.cloud.platform.security.enums.UserTypeEnum;
+import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IUserDetailMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IUserMapper;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -22,7 +30,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,6 +49,10 @@ public class UserServiceImpl implements IUserService {
     private IUserMapper mapper;
     @Autowired
     private IUserDetailMapper detailMapper;
+    @Autowired
+    private IAppRoleUserMapper appRoleUserMapper;
+    @Autowired
+    private IAppMapper appMapper;
 
     /**
      * 账号分页查询
@@ -94,6 +108,16 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public CommonResult<UserVO> findUser(Long id) {
+        UserEntity entity=new UserEntity();
+        entity.setUserId(id);
+        UserEntity userEntity=mapper.findSingle(entity);
+        UserVO vo=new UserVO();
+        BeanUtils.copyProperties(userEntity,vo);
+        return CommonResultUtils.success(vo);
+    }
+
+    @Override
     public CommonResult<List<UserBaseVO>> findUserBaseInfoList(BaseIdListDTO dto) {
         List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
         return CommonResultUtils.success(userBaseList);
@@ -104,5 +128,30 @@ public class UserServiceImpl implements IUserService {
         List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
         Map<Long, UserBaseVO> userMap=userBaseList.stream().collect(Collectors.toMap(UserBaseVO::getUserId,u->u));
         return CommonResultUtils.success(userMap);
+    }
+
+    @Override
+    public CommonResult<UserEnvironmentVO> findUserEnvironment() {
+        UserEnvironmentVO result=new UserEnvironmentVO();
+        Long userId= JfCloud.getCurrent().getCurrentUserId();
+
+        //获取用户基本信息
+        List<UserBaseVO> userBaseList=mapper.findUserListByIds(Arrays.asList(userId));
+        if(!CollectionUtils.isEmpty(userBaseList)){
+            result.setUser(userBaseList.get(0));
+        }
+
+        //查询用户拥有的应用
+        AppUserQueryDTO queryDTO=new AppUserQueryDTO();
+        queryDTO.setUserId(userId);
+        List<AppRoleUserEntity> appRoleUserEntityList=appRoleUserMapper.findAppUserList(queryDTO);
+        if(!CollectionUtils.isEmpty(appRoleUserEntityList)){
+            List<Long> appIds=appRoleUserEntityList.stream().map(v->v.getAppId()).collect(Collectors.toList());
+            List<AppEntity> appList=appMapper.findListByIds(appIds);
+            List<AppBaseVO> appBaseList=EntityUtils.entityToList(AppBaseVO.class,appList);
+            result.setAppList(appBaseList);
+        }
+
+        return CommonResultUtils.success(result);
     }
 }

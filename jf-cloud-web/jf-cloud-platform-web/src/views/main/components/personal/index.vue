@@ -1,8 +1,8 @@
 <template>
-  <div class="user-avatar-dropdown" style="margin-left:12px;">
+  <div v-if="userInfo && userInfo.userId" class="user-avatar-dropdown" style="margin-left:12px;">
     <Dropdown @on-click="handleClick">
       <Avatar icon="ios-person"/>
-      {{$store.state.user.userInfo.userName}}
+      <a>{{$util.getUserName(userInfo)}}</a>
       <Icon :size="18" type="md-arrow-dropdown"></Icon>
       <DropdownMenu slot="list">
         <DropdownItem name="personal">{{$t('personal')}}</DropdownItem>
@@ -15,6 +15,11 @@
 <script>
 export default {
   name: 'Personal',
+  computed:{
+    userInfo(){
+      return this.$store.state.user.userInfo || {}
+    }
+  },
   methods: {
     logout () {
       

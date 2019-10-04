@@ -8,14 +8,12 @@ import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -59,6 +57,19 @@ public class UserController {
         return service.createUser(dto);
     }
 
+    /**
+     * 根据id获取单个用户
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  id 主键id
+     * @return 用户信息
+     **/
+    @GetMapping("/single")
+    @ApiOperation("根据id获取单个用户")
+    public CommonResult<UserVO> findUser(Long id){
+        return service.findUser(id);
+    }
+
 
     @PostMapping("/userByIds")
     @ApiOperation("根据用户id获取用户集合")
@@ -70,5 +81,17 @@ public class UserController {
     @ApiOperation("根据用户id获取用户Map")
     public CommonResult<Map<Long, UserBaseVO>> findUserBaseInfoMap(@RequestBody BaseIdListDTO dto){
         return service.findUserBaseInfoMap(dto);
+    }
+
+    /**
+     * 获取用当前登录信息
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @return 获取用户当前信息
+     **/
+    @GetMapping("/environment")
+    @ApiOperation("获取当前登录用户信息")
+    public CommonResult<UserEnvironmentVO> findUserEnvironment(){
+        return service.findUserEnvironment();
     }
 }

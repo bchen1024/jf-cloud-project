@@ -60,7 +60,7 @@
 	</sql>
 
 	<insert id="createSingle">
-		INSERT INTO SYS_APP_ROLE_USER_RT (
+		REPLACE INTO SYS_APP_ROLE_USER_RT (
 			APP_ID,
 			USER_ID,
 		    ROLE_ID,
@@ -84,7 +84,7 @@
 		<include refid="base_condition"/>
 	</select>
 
-	<select id="findAppUserPage" resultMap="sqlResultMap">
+	<select id="findAppUserList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
 	</select>

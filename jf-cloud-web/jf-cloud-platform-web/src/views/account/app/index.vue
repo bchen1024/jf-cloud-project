@@ -58,8 +58,8 @@ export default {
                         {key:'appOwner',width:150,format:'user'},
                         {key:'appType',width:100,format:'type',condition:{
                             type:'radio',items:[
-                               {value:'1',label:vm.$t('systemApp')},
-                               {value:'2',label:vm.$t('businessApp')}
+                               {value:'1',label:vm.$t('type.appType.1')},
+                               {value:'2',label:vm.$t('type.appType.2')}
                             ]
                         }},
                         {key:'appPort',width:100},

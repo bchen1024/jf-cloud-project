@@ -17,10 +17,10 @@
                         </Input>
                     </FormItem>
                     <div class='login-forget-panel'>
-                        <a class='login-forget-pwd' href='javascript:void(0)'>{{$t('common.forgetPassword')}}</a>
+                        <a class='login-forget-pwd' href='javascript:void(0)'>{{$t('forgetPassword')}}</a>
                     </div>
                     <FormItem class='login-item'>
-                        <Button long :loading='loginLoading' type="primary" @click="handleSubmit('formInline')">{{$t('common.login')}}</Button>
+                        <Button long :loading='loginLoading' type="primary" @click="handleSubmit('formInline')">{{$t('login')}}</Button>
                     </FormItem>
                 </Form>
             </Card>
@@ -52,7 +52,13 @@
         methods:{
             handleSubmit(name) {
                 util.setToken("abddd");
-                this.$router.replace({name:'home'});
+                let routerName=this.$route.query.routerName
+                if(routerName){
+                    this.$router.replace({name:routerName});
+                }else{
+                    this.$router.replace({name:'home'});
+                }
+                
                 // var vue=this;
                 // vue.loginMsg=null;
                 // this.$refs[name].validate((valid) => {

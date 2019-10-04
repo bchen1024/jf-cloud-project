@@ -1,6 +1,6 @@
 <template>
-    <Dropdown @on-click="selectLang">
-      <a href="javascript:void(0)">
+    <Dropdown @on-click="selectLang" style="margin-left:12px;">
+      <a>
         {{ title }}
         <Icon :size="18" type="md-arrow-dropdown" />
       </a>

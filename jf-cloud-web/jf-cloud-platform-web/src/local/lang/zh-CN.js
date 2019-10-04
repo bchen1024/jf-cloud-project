@@ -99,6 +99,7 @@ export default{
         adminNotDelete:'管理员角色不能被删除'
     },
 
+    userId:'用户ID',
     userNo:'账号',
     userCn:'中文名称',
     userEn:'英文名称',
@@ -108,8 +109,6 @@ export default{
     passwordUpdateTime:'密码更新时间',
     passwordErrorNum:'密码错误次数',
     lockTime:'锁定时间',
-    employee:'员工',
-    register:'注册用户',
     mobileValidated:'手机验证',
     emailValidated:'邮箱验证',
     validated:'已验证',
@@ -125,8 +124,6 @@ export default{
     appDetail:'应用详情',
     appUsers:'应用用户',
     appType:'应用类型',
-    systemApp:'系统应用',
-    businessApp:'业务应用',
     appToken:'应用Token',
     appPort:'应用端口',
     addUser:'添加用户',
@@ -137,6 +134,15 @@ export default{
     groupOwner:'群组责任',
     groupDesc:'群组描述',
 
+    employeeType:'员工类型',
+    employeeStatus:'员工状态',
+    employeeJob:'员工职位',
+    employeeParent:'员工上级',
+    fullTimeJob:'全职',
+    partTimeJob:'兼职',
+    onTrial:'试用',
+    incumbency:'在职',
+    leaveJob:'离职',
 
     'server.error':'请求异常，请联系管理员',
 
@@ -147,6 +153,10 @@ export default{
         appType:{
             1:'系统应用',
             2:'业务应用'
+        },
+        userType:{
+            1:'员工',
+            2:'注册用户'
         }
     }
 };

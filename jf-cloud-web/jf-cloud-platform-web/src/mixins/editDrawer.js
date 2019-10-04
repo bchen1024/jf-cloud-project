@@ -50,6 +50,9 @@ export default{
             }else{
                 this.title=this.$t('create');
             }
+            if(this.showCallback){
+                this.showCallback();
+            }
         },
         saveForm(){
             let vm=this;

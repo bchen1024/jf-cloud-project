@@ -23,6 +23,6 @@ public interface IAppRoleUserMapper extends IBaseMapper<AppRoleUserEntity> {
      * @param  dto 查询参数
      * @return 应用用户列表
      **/
-    List<AppRoleUserEntity> findAppUserPage(@Param("vo") AppUserQueryDTO dto);
+    List<AppRoleUserEntity> findAppUserList(@Param("vo") AppUserQueryDTO dto);
 
 }

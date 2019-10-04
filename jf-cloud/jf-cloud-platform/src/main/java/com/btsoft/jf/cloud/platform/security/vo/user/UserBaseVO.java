@@ -1,6 +1,5 @@
 package com.btsoft.jf.cloud.platform.security.vo.user;
 
-import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @desc 用户基本信息
  * @date 2019/9/30 14:03
  **/
-public class UserBaseVO extends BaseVO {
+public class UserBaseVO {
 
     private Long userId;
     private String userNo;

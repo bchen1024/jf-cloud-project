@@ -3,6 +3,7 @@ export default[
     {
         path: '/',
         name: 'main',
+        redirect:'home',
         component: resolve =>require(['@/views/main/index.vue'],resolve),
         meta:{
             mainMenu:true
@@ -258,7 +259,7 @@ export default[
             {
                 path:'/account/user/detail',
                 name:'userDetail',
-                component:resolve =>require(['@/views/account/role/detail.vue'],resolve),
+                component:resolve =>require(['@/views/account/user/detail.vue'],resolve),
                 meta:{
                     parent:['accountMgt','userMgt'],
                     hideMenu:true,

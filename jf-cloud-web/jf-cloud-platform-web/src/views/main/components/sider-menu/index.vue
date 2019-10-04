@@ -52,7 +52,7 @@ export default {
         activeName(){
           if(this.$route.meta && this.$route.meta.parent){
             let parent=this.$route.meta.parent;
-            return [parent[parent.length-1]];
+            return parent[parent.length-1];
           }else{
             return this.$route.name;
           }

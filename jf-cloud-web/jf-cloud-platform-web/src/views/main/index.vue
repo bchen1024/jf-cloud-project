@@ -13,9 +13,9 @@
             <Header class="header-con">
                 <HeaderBar> 
                     <Personal/>
+                    <App/>
                     <Language/>
                     <FullScreen/>
-                    <App/>
                 </HeaderBar>
             </Header>
             <Content class="main-content-con">

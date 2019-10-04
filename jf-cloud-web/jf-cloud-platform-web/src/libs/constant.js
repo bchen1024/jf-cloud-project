@@ -3,6 +3,8 @@ export default {
     DEFAULT_TITLE:'defaultTitle',
     //token存储key值
     TOKEN:'Token',
+    //appCode存储key值
+    APP_CODE:'appCode',
     //中文key
     ZH_CN:'zh-CN',
     //英文key

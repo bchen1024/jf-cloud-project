@@ -7,6 +7,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
+import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
 
 import java.util.List;
@@ -37,8 +38,38 @@ public interface IUserService {
      **/
     Result createUser(UserCreateDTO dto);
 
+    /**
+     * 根据id获取单个对象
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  id 主键id
+     * @return 用户信息
+     **/
+    CommonResult<UserVO> findUser(Long id);
 
+    /**
+     * 根据用户id查询用户基本信息
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @param  dto 用户id集合
+     * @return 用户基本信息集合
+     **/
     CommonResult<List<UserBaseVO>> findUserBaseInfoList(BaseIdListDTO dto);
 
+    /**
+     * 根据用户id查询用户基本信息
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @param  dto 用户id集合
+     * @return 用户基本信息Map
+     **/
     CommonResult<Map<Long,UserBaseVO>> findUserBaseInfoMap(BaseIdListDTO dto);
+
+    /**
+     * 获取用当前登录信息
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @return 获取用户当前信息
+     **/
+    CommonResult<UserEnvironmentVO> findUserEnvironment();
 }
