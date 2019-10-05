@@ -48,8 +48,6 @@ export default{
     applyStatus:'申请状态',
     tableSetting:'表格配置',
     advancedFilter:'高级筛选',
-    canApply:'可申请',
-    noApply:'不可申请',
     all:'全部',
     queryPlaceholder:'请输入搜索条件',
     createBy:'创建人',
@@ -100,7 +98,7 @@ export default{
     },
 
     userId:'用户ID',
-    userNo:'账号',
+    userNo:'用户账号',
     userCn:'中文名称',
     userEn:'英文名称',
     userName:'用户名称',
@@ -134,15 +132,11 @@ export default{
     groupOwner:'群组责任',
     groupDesc:'群组描述',
 
+    employeeNo:'员工工号',
     employeeType:'员工类型',
     employeeStatus:'员工状态',
     employeeJob:'员工职位',
     employeeParent:'员工上级',
-    fullTimeJob:'全职',
-    partTimeJob:'兼职',
-    onTrial:'试用',
-    incumbency:'在职',
-    leaveJob:'离职',
 
     'server.error':'请求异常，请联系管理员',
 
@@ -157,6 +151,26 @@ export default{
         userType:{
             1:'员工',
             2:'注册用户'
+        },
+        employeeType:{
+            1:'全职',
+            2:'兼职',
+            3:'试用'
+        }
+    },
+    status:{
+        userStatus:{
+            'Y':'正常',
+            'L':'锁定',
+            'D':'删除'
+        },
+        employeeStatus:{
+            '1':'在职',
+            '2':'离职'
+        },
+        applyStatus:{
+            'Y':'可申请',
+            'N':'不可申请'
         }
     }
 };

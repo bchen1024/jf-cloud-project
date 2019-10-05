@@ -20,7 +20,18 @@
                     @saveCallback="loadAppUsers"/>
             </JFGrid>
         </TabPane>
-        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'">标签二的内容</TabPane>
+        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'">
+            <Form  :model="appData" :rules="appFormRules">
+                <Spin size="large" fix v-if="appTokenLoading"></Spin>
+                <FormItem :label="$t('appToken')" prop="appToken">
+                    <Input type="textarea" v-model="appData.appToken" :rows="5" :maxlength="500" />
+                </FormItem>
+                <div style="text-align:right;">
+                    <Button icon="md-refresh" @click="loadAppToken()">{{$t('refresh')}}</Button>
+                    <Button type="primary"  @click="saveAppToken()" icon="md-checkmark">{{$t('save')}}</Button>
+                </div>
+            </Form>
+        </TabPane>
     </Tabs>
 </template>
 <script>
@@ -86,7 +97,16 @@ export default {
                 }
             },
             showAddUser:false,
-            addUserFormData:{appId:id}
+            addUserFormData:{appId:id},
+
+            //应用Token
+            appData:{},
+            appTokenLoading:false,
+            appFormRules:{
+                appToken:[
+                    {required:true,message:vm.$t('validator.notEmpty')}
+                ]
+            }
         }
     },
     created(){
@@ -112,6 +132,8 @@ export default {
                     vm.loadDetail();
                 }else if(vm.tabId=='appUsers'){
                     vm.loadAppUsers();
+                }else if(vm.tabId=='appToken'){
+                    vm.loadAppToken();
                 }
                 vm.loadMap[vm.tabId]=true;
             }
@@ -134,6 +156,37 @@ export default {
         },
         openAddUser(){
             this.showAddUser=true;
+        },
+        loadAppToken(){
+            let vm=this;
+            vm.appTokenLoading=true;
+            vm.$http({
+                method:'get',
+                url:'jfcloud/jf-cloud-platform/security/app/token',
+                params:{id:vm.id}
+            }).then(result=>{
+                vm.appTokenLoading=false;
+                if(result && result.success){
+                    vm.appData=result.data;
+                }
+            }).catch(error=>{
+                vm.appTokenLoading=false;
+            });
+        },
+        saveAppToken(){
+            let vm=this;
+            vm.$http({
+                method:'post',
+                url:'jfcloud/jf-cloud-platform/security/app/token/save',
+                data:{appId:vm.id,appToken:vm.appData.appToken}
+            }).then(result=>{
+                vm.appTokenLoading=false;
+                if(result && result.success){
+                    vm.$Message.success(vm.$t('saveSuccessful'));
+                }
+            }).catch(error=>{
+                vm.$Message.error(vm.$util.handerError(error,vm));
+            });
         }
     }
 }

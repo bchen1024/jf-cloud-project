@@ -61,11 +61,11 @@ export default[
                         }
                     },
                     {
-                        path:'/account/role',
-                        name:'roleMgt',
-                        component:resolve =>require(['@/views/account/role/index.vue'],resolve),
+                        path:'/account/app',
+                        name:'appMgt',
+                        component:resolve =>require(['@/views/account/app/index.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-apps'
                         }
                     },
                     {
@@ -77,14 +77,6 @@ export default[
                         }
                     },
                     {
-                        path:'/account/group',
-                        name:'groupMgt',
-                        component:resolve =>require(['@/views/account/group/index.vue'],resolve),
-                        meta:{
-                            icon:'ios-people'
-                        }
-                    },
-                    {
                         path:'/account/employee',
                         name:'employeeMgt',
                         component:resolve =>require(['@/views/account/employee/index.vue'],resolve),
@@ -93,21 +85,32 @@ export default[
                         }
                     },
                     {
+                        path:'/account/role',
+                        name:'roleMgt',
+                        component:resolve =>require(['@/views/account/role/index.vue'],resolve),
+                        meta:{
+                            icon:'md-people',
+                            needApp:true
+                        }
+                    },
+                    {
+                        path:'/account/group',
+                        name:'groupMgt',
+                        component:resolve =>require(['@/views/account/group/index.vue'],resolve),
+                        meta:{
+                            icon:'ios-people',
+                            needApp:true
+                        }
+                    },
+                    {
                         path:'/account/permission',
                         name:'permissionMgt',
                         component:resolve =>require(['@/views/account/permission/index.vue'],resolve),
                         meta:{
-                            icon:'md-lock'
+                            icon:'md-lock',
+                            needApp:true
                         }
-                    },
-                    {
-                        path:'/account/app',
-                        name:'appMgt',
-                        component:resolve =>require(['@/views/account/app/index.vue'],resolve),
-                        meta:{
-                            icon:'md-apps'
-                        }
-                    },
+                    }
                 ]
             },
             {
@@ -124,7 +127,8 @@ export default[
                         name:'menuMgt',
                         component:resolve =>require(['@/views/config/menu/index.vue'],resolve),
                         meta:{
-                            icon:'md-menu'
+                            icon:'md-menu',
+                            needApp:true
                         }
                     },
                     {
@@ -132,7 +136,8 @@ export default[
                         name:'propertyMgt',
                         component:resolve =>require(['@/views/config/property/index.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            needApp:true
                         }
                     },
                     {
@@ -140,7 +145,8 @@ export default[
                         name:'i18nMgt',
                         component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                     {
@@ -148,7 +154,8 @@ export default[
                         name:'codeMgt',
                         component:resolve =>require(['@/views/config/code/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                     {
@@ -156,7 +163,8 @@ export default[
                         name:'personalizedMgt',
                         component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                     {
@@ -164,7 +172,8 @@ export default[
                         name:'noticeMgt',
                         component:resolve =>require(['@/views/config/notice/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                     {
@@ -172,7 +181,8 @@ export default[
                         name:'templateMgt',
                         component:resolve =>require(['@/views/config/template/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     }
                 ]

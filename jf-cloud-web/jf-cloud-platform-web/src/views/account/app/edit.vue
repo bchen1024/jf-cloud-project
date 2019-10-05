@@ -5,6 +5,7 @@
             :width="width"
             :visible.sync="drawerShow"
             :mask-closable="false"
+            :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
                 <FormItem :label="$t('appCode')" label-position="top" prop="appCode">
@@ -21,8 +22,8 @@
                 </FormItem>
                 <FormItem :label="$t('appType')" label-position="top" prop="appType">
                     <RadioGroup v-model="data.appType">
-                        <Radio  label="1">{{$t('systemApp')}}</Radio>
-                        <Radio  label="2">{{$t('businessApp')}}</Radio>
+                        <Radio  label="1">{{$t('type.appType.1')}}</Radio>
+                        <Radio  label="2">{{$t('type.appType.2')}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem :label="$t('contextPath')" label-position="top" prop="contextPath">

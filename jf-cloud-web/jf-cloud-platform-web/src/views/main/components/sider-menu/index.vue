@@ -21,7 +21,6 @@
 <script>
 import SiderMenuItem from './sider-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
-import { mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'SiderMenu',

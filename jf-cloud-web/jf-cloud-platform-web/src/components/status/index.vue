@@ -1,5 +1,6 @@
 <template>
-    <Tag :color="color" v-if="value">{{title}}</Tag>
+    <Tag :color="color" v-if="value && color">{{title}}</Tag>
+    <div v-else>{{title}}</div>
 </template>
 <script>
 export default {
@@ -9,10 +10,7 @@ export default {
             type:String
         },
         type:{
-            type:String,
-            validator:(value)=>{
-                return ['applyStatus', 'userStatus'].includes(value);
-            }
+            type:String
         }
     },
     computed:{
@@ -31,14 +29,8 @@ export default {
         title(){
             let vm=this;
             let title='';
-            if(vm.type=='applyStatus'){
-                if(vm.value=='Y'){
-                    title=vm.$t('canApply');
-                }else if(vm.value=='N'){
-                    title=vm.$t('noApply');
-                }
-            }else if(vm.type=='userStatus'){
-                title=vm.$util.getUserStatus(vm.value,vm);
+            if(vm.value){
+                title=vm.$t('status.'+vm.type+'.'+vm.value);
             }
             return title;
         }

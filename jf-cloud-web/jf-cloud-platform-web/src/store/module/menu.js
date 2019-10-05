@@ -32,15 +32,24 @@ export default {
               return obj
             });
             state.activeName=route.name;
-            state.openNames=[res[res.length-2].name];
+            if(res.length>1){
+              state.openNames=[res[res.length-2].name];
+            }
             state.breadCrumbList = [homeRouter, ...res];
           }else{
             let res=[];
               let parent=route.meta.parent;
               parent.forEach(item => {
-                res.push({
-                  name:item
-                });
+                if(typeof item=='string'){
+                  res.push({
+                    name:item
+                  });
+                }else{
+                  res.push({
+                    name:item.name,
+                    meta:item.meta
+                  });
+                }
               });
               res.push({name:route.name,meta: route.meta});
               state.breadCrumbList = [homeRouter, ...res];

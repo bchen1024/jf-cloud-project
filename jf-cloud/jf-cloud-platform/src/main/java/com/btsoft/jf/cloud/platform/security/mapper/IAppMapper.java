@@ -3,6 +3,7 @@ package com.btsoft.jf.cloud.platform.security.mapper;
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 应用管理Mapper
@@ -11,4 +12,13 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface IAppMapper extends IBaseMapper<AppEntity> {
+    
+    /**
+     * 更新应用Token
+     * @author jeo_cb
+     * @date 2019/10/5
+     * @param  entity 更新数据
+     * @return 受影响行数
+     **/
+    int updateAppToken(@Param("vo") AppEntity entity);
 }

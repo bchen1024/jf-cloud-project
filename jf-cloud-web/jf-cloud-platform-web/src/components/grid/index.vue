@@ -192,10 +192,10 @@ export default {
                             column.render=(h,params)=>{
                                 return h('JFUser',{props:{userId:params.row[column.key]}});
                             }
-                        }else if(column.format=='applyStatus' || column.format=='userStatus'){
+                        }else if(column.format=='status'){
                             column.render=(h,params)=>{
                                 let value=params.row[column.key];
-                                return h('JFStatus',{props:{value:value,type:column.format}});
+                                return h('JFStatus',{props:{value:value,type:column.key}});
                             }
                         }else if(column.format=='type'){
                             column.render=(h,params)=>{

@@ -5,6 +5,7 @@
             :width="width"
             :visible.sync="drawerShow"
             :mask-closable="false"
+            :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
                 <FormItem :label="$t('userCn')" label-position="top" prop="userCn">
@@ -13,38 +14,46 @@
                 <FormItem :label="$t('userEn')" label-position="top" prop="userEn">
                     <Input v-model="data.userEn"/>
                 </FormItem>
-                <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
-                    <RadioGroup v-model="data.userSex">
-                        <Radio  label="1">{{$t('male')}}</Radio>
-                        <Radio  label="2">{{$t('female')}}</Radio>
-                    </RadioGroup>
+                <FormItem :label="$t('mobile')" label-position="top" prop="mobile">
+                    <Input v-model="data.mobile" :disabled="!isCreate && data.mobileValidated=='Y'"/>
                 </FormItem>
-                <FormItem  :label="$t('userType')" label-position="top" prop="userType">
-                    <RadioGroup  v-model="data.userType">
-                        <Radio :disabled="!isCreate"  label="1">{{$t('employee')}}</Radio>
-                        <Radio :disabled="!isCreate"  label="2">{{$t('register')}}</Radio>
-                    </RadioGroup>
+                <FormItem :label="$t('email')" label-position="top" prop="email">
+                    <Input v-model="data.email" :disabled="!isCreate && data.emailValidated=='Y'"/>
                 </FormItem>
-                <template v-if="data.userType=='1'" >
-                    <FormItem :label="$t('employeeType')" label-position="top" prop="employeeType">
-                        <RadioGroup v-model="data.employeeType">
-                            <Radio  label="1">{{$t('fullTimeJob')}}</Radio>
-                            <Radio  label="2">{{$t('partTimeJob')}}</Radio>
-                            <Radio  label="3">{{$t('onTrial')}}</Radio>
+                 <template v-if="isCreate">
+                    <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
+                        <RadioGroup v-model="data.userSex">
+                            <Radio  label="1">{{$t('male')}}</Radio>
+                            <Radio  label="2">{{$t('female')}}</Radio>
                         </RadioGroup>
                     </FormItem>
-                    <FormItem :label="$t('employeeStatus')" label-position="top" prop="employeeStatus">
-                        <RadioGroup v-model="data.employeeStatus">
-                            <Radio  label="1">{{$t('incumbency')}}</Radio>
-                            <Radio  label="2">{{$t('leaveJob')}}</Radio>
+                    <FormItem  :label="$t('userType')" label-position="top" prop="userType">
+                        <RadioGroup  v-model="data.userType">
+                            <Radio :disabled="!isCreate"  label="1">{{$t('type.userType.1')}}</Radio>
+                            <Radio :disabled="!isCreate"  label="2">{{$t('type.userType.2')}}</Radio>
                         </RadioGroup>
                     </FormItem>
-                    <FormItem :label="$t('employeeJob')" label-position="top" prop="employeeJob">
-                        <Input v-model="data.employeeJob" />
-                    </FormItem>
-                    <FormItem :label="$t('employeeParent')" label-position="top" prop="parentId">
-                        <Input v-model="data.parentId" />
-                    </FormItem>
+                    <template v-if="data.userType=='1'" >
+                        <FormItem :label="$t('employeeType')" label-position="top" prop="employeeType">
+                            <RadioGroup v-model="data.employeeType">
+                                <Radio  label="1">{{$t('type.employeeType.1')}}</Radio>
+                                <Radio  label="2">{{$t('type.employeeType.2')}}</Radio>
+                                <Radio  label="3">{{$t('type.employeeType.3')}}</Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <FormItem :label="$t('employeeStatus')" label-position="top" prop="employeeStatus">
+                            <RadioGroup v-model="data.employeeStatus">
+                                <Radio  label="1">{{$t('status.employeeStatus.1')}}</Radio>
+                                <Radio  label="2">{{$t('status.employeeStatus.2')}}</Radio>
+                            </RadioGroup>
+                        </FormItem>
+                        <FormItem :label="$t('employeeJob')" label-position="top" prop="employeeJob">
+                            <Input v-model="data.employeeJob" />
+                        </FormItem>
+                        <FormItem :label="$t('employeeParent')" label-position="top" prop="parentId">
+                            <Input v-model="data.parentId" />
+                        </FormItem>
+                    </template>
                 </template>
             </Form>
             <div class="jf-drawer-footer">
@@ -64,7 +73,7 @@
                 mobileValidated:false,
                 defaultValue:{userType:'1',userSex:'1',employeeType:'1',employeeStatus:'1'},
                 saveOp:{
-                    url:'jfcloud/jf-cloud-platform/security/user/create',
+                    url:'jfcloud/jf-cloud-platform/security/user/save',
                     method:'post'
                 },
                 formRules:{

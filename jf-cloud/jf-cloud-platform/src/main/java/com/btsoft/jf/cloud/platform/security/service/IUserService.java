@@ -4,7 +4,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
@@ -36,7 +36,7 @@ public interface IUserService {
      * @param  dto 创建参数
      * @return 创建结果
      **/
-    Result createUser(UserCreateDTO dto);
+    Result saveUser(UserSaveDTO dto);
 
     /**
      * 根据id获取单个对象

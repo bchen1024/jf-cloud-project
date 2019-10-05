@@ -68,22 +68,34 @@ export default {
                         {key:'userCn',width:100,condition:true},
                         {key:'userEn',width:100,condition:true},
                         {key:'mobile',width:120,condition:true,render: (h, params) => {
-                            if(params.row.mobileValidated=='Y'){
+                            if(params.row.mobile){
+                                let props={};
+                                if(params.row.mobileValidated=='Y'){
+                                    props={type:'md-checkmark',color:'#19be6b',size:18}
+                                }else{
+                                    props={type:'md-close',color:'#ed4014',size:18};
+                                }
                                 return h('div',{},[
-                                    h('Icon',{props:{type:'md-checkmark',color:'#19be6b',size:18}}),
+                                    h('Icon',{props:props}),
                                     h('label',params.row.mobile)
                                 ]);
                             }
-                            return h('label',params.row.mobile);
+                            return '';
                         }},
                         {key:'email',condition:true,render: (h, params) => {
-                            if(params.row.emailValidated=='Y'){
+                            if(params.row.email){
+                                let props={};
+                                if(params.row.emailValidated=='Y'){
+                                    props={type:'md-checkmark',color:'#19be6b',size:18}
+                                }else{
+                                    props={type:'md-close',color:'#ed4014',size:18};
+                                }
                                 return h('div',{},[
-                                    h('Icon',{props:{type:'md-checkmark',color:'#19be6b',size:18}}),
+                                    h('Icon',{props:props}),
                                     h('label',params.row.email)
                                 ]);
                             }
-                            return h('label',params.row.email);
+                            return '';
                         }},
                         {key:'userType',width:90,format:'type',condition:{
                             type:'radio',items:[
@@ -91,11 +103,11 @@ export default {
                                {value:'2',label:vm.$t('type.userType.2')}
                             ]
                         }},
-                        {key:'userStatus',width:90,format:'userStatus',condition:{
+                        {key:'userStatus',width:90,format:'status',condition:{
                            type:'radio',items:[
-                               {value:'Y',label:vm.$t('normal')},
-                               {value:'L',label:vm.$t('lock')},
-                               {value:'D',label:vm.$t('delete')}
+                               {value:'Y',label:vm.$t('status.userStatus.Y')},
+                               {value:'L',label:vm.$t('status.userStatus.L')},
+                               {value:'D',label:vm.$t('status.userStatus.D')}
                             ]
                         }},
                         {key:'passwordUpdateTime',width:160},

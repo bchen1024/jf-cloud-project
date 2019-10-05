@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
               next();
             }
           }).catch(error=>{
-            debugger;
+            next();
           });
         }
       }

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IEmployeeMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.EmployeeEntity">
+		<result column="enable_flag" property="enableFlag"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="last_update_by" property="lastUpdateBy"/>
+		<result column="last_update_date" property="lastUpdateDate"/>
+
+		<result column="user_id" property="userId"/>
+		<result column="employee_no" property="employeeNo"/>
+		<result column="employee_type" property="employeeType"/>
+		<result column="employee_status" property="employeeStatus"/>
+		<result column="employee_job" property="employeeJob"/>
+		<result column="parent_id" property="parentId"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.USER_ID,
+			T.EMPLOYEE_NO,
+		    T.EMPLOYEE_TYPE,
+		    T.EMPLOYEE_STATUS,
+		    T.EMPLOYEE_JOB,
+		    T.PARENT_ID,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_EMPLOYEE_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+		    T.ENABLE_FLAG='Y'
+			<if test='vo.employeeType!=null and vo.employeeType!=""'>
+				AND T.EMPLOYEE_TYPE=#{vo.employeeType,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.employeeStatus!=null and vo.employeeStatus!=""'>
+				AND T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.keywordField!=null and vo.keywordField!="" and
+				vo.keywordValue!=null and vo.keywordValue!="" '>
+				<if test='vo.keywordField=="userName"'>
+					AND EXISTS(
+					SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
+						AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+						OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
+					)
+				</if>
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		INSERT INTO SYS_EMPLOYEE_T (
+			USER_ID,
+		    EMPLOYEE_TYPE,
+		    EMPLOYEE_STATUS,
+			EMPLOYEE_JOB,
+		    PARENT_ID,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{vo.userId,jdbcType=NUMERIC},
+			#{vo.employeeType,jdbcType=VARCHAR},
+			#{vo.employeeStatus,jdbcType=VARCHAR},
+			#{vo.employeeJob,jdbcType=NUMERIC},
+			#{vo.parentId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+	<select id="findEmployeeList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+
+</mapper>

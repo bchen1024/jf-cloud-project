@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.dto.app;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordDTO;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/9/5
  **/
-public class AppQueryDTO extends SearchKeywordAppDTO {
+public class AppQueryDTO extends SearchKeywordDTO {
 
     @ApiModelProperty("应用责任人id")
     private Long appOwner;

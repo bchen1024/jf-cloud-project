@@ -1,16 +1,18 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
+import com.btsoft.jf.cloud.core.annotation.JAuditLog;
+import com.btsoft.jf.cloud.core.annotation.JOperator;
+import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
+import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/security/app")
 @Api(tags = "应用管理")
+@JResource(code = "app", descCN = "应用管理", descEN = "App Mgt")
 public class AppController {
 
     @Autowired
@@ -37,8 +40,10 @@ public class AppController {
      * @param  dto 应用保存参数
      * @return 保存结果
      **/
-    @PutMapping("/save")
+    @PutMapping(ControllerContants.Path.SAVE)
     @ApiOperation("保存应用，创建或者更新")
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存应用", descEN = "Save App")
+    @JAuditLog
     public Result saveApp(@RequestBody AppSaveDTO dto){
         return service.saveApp(dto);
     }
@@ -50,8 +55,10 @@ public class AppController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping("/delete")
+    @DeleteMapping(ControllerContants.Path.DELETE)
     @ApiOperation("删除应用")
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除应用", descEN = "Delete App")
+    @JAuditLog
     public Result deleteApp(@RequestBody BaseIdAppDTO dto){
         return service.deleteApp(dto);
     }
@@ -63,8 +70,9 @@ public class AppController {
      * @param  id 应用id
      * @return 应用信息
      **/
-    @GetMapping("/single")
+    @GetMapping(ControllerContants.Path.SINGLE)
     @ApiOperation("根据应用id获取单个应用")
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "应用详情", descEN = "App Detail")
     public CommonResult<AppVO> findApp(Long id){
         return service.findApp(id);
     }
@@ -76,8 +84,9 @@ public class AppController {
      * @param  dto 查询参数
      * @return 分页列表
      **/
-    @PostMapping("/page")
+    @PostMapping(ControllerContants.Path.PAGE)
     @ApiOperation("分页查询应用")
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "应用列表", descEN = "App List")
     public CommonResult<PageResult<AppVO>> findAppPage(@RequestBody AppQueryDTO dto){
         return service.findAppPage(dto);
     }
@@ -91,6 +100,7 @@ public class AppController {
      **/
     @PostMapping("/user/page")
     @ApiOperation("分页查询应用用户")
+    @JOperator(code ="appUsers", descCN = "应用用户列表", descEN = "App User List")
     public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
         return service.findAppUserPage(dto);
     }
@@ -104,6 +114,8 @@ public class AppController {
      **/
     @DeleteMapping("/user/delete")
     @ApiOperation("删除应用用户")
+    @JOperator(code ="deleteAppUser", descCN = "删除应用用户", descEN = "Delete App User")
+    @JAuditLog
     public Result deleteAppUser(@RequestBody BaseIdDTO dto){
         return service.deleteAppUser(dto);
     }
@@ -117,7 +129,38 @@ public class AppController {
      **/
     @PostMapping("/user/add")
     @ApiOperation("添加应用用户")
+    @JOperator(code ="addAppUser", descCN = "添加应用用户", descEN = "Add App User")
+    @JAuditLog
     public Result addAppUser(@RequestBody AppUserSaveDTO dto){
         return service.addAppUser(dto);
+    }
+
+    /**
+     * 获取应用Token
+     * @author jeo_cb
+     * @date 2019/10/5
+     * @param  id 应用id
+     * @return 应用token
+     **/
+    @GetMapping("/token")
+    @ApiOperation("获取应用Token")
+    @JOperator(code ="appToken", descCN = "应用Token", descEN = "App Token")
+    public CommonResult<AppTokenVO> findAppToken(Long id){
+        return service.findAppToken(id);
+    }
+
+    /**
+     * 保存应用Token
+     * @author jeo_cb
+     * @date 2019/10/5
+     * @param  dto 保存参数
+     * @return 保存结果
+     **/
+    @PostMapping("/token/save")
+    @ApiOperation("保存应用Token")
+    @JOperator(code ="saveAppToken", descCN = "保存应用Token", descEN = "Save App Token")
+    @JAuditLog
+    public Result saveAppToken(@RequestBody AppTokenSaveDTO dto){
+        return service.saveAppToken(dto);
     }
 }

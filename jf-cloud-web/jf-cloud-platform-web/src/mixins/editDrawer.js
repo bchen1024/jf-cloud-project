@@ -24,7 +24,13 @@ export default{
             title:this.$t('create'),
             loading:false,
             drawerShow: false,
-            saveOp:{}
+            saveOp:{},
+            styles: {
+                height: 'calc(100% - 55px)',
+                overflow: 'auto',
+                paddingBottom: '53px',
+                position: 'static'
+            }
         }
     },
     watch: {
@@ -74,15 +80,7 @@ export default{
                         }
                     }).catch(error=>{
                         vm.loading=false;
-                        let errorMsg='';
-                        if(typeof error=='string'){
-                            errorMsg=error;
-                        }else if(error.code){
-                            errorMsg=vm.$t(error.code);
-                        }else{
-                            errorMsg=error.msg || error.message;
-                        }
-                        vm.$Message.error(errorMsg);
+                        vm.$Message.error(vm.$util.handerError(error,vm));
                     });
                     
                 }

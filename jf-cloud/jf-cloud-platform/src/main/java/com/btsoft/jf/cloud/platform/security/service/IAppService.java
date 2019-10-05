@@ -5,11 +5,9 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 
 /**
@@ -81,4 +79,22 @@ public interface IAppService {
      * @return 保存结果
      **/
     Result addAppUser(AppUserSaveDTO dto);
+
+    /**
+     * 获取应用Token
+     * @author jeo_cb
+     * @date 2019/10/5
+     * @param  id 应用id
+     * @return 应用token
+     **/
+    CommonResult<AppTokenVO> findAppToken(Long id);
+
+    /**
+     * 保存应用Token
+     * @author jeo_cb
+     * @date 2019/10/5
+     * @param  dto 保存参数
+     * @return 保存结果
+     **/
+    Result saveAppToken(AppTokenSaveDTO dto);
 }

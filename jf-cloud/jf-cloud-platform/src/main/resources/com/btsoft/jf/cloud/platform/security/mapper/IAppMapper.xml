@@ -99,7 +99,7 @@
 			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
 			T.APP_PORT=#{vo.appPort,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
-			T.LAST_UPDATE_DATE=now()
+			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
 	</update>
 
@@ -119,4 +119,12 @@
 			AND 1=2
 		</if>
 	</select>
+
+	<update id="updateAppToken">
+		UPDATE SYS_APP_T T SET
+			T.APP_TOKEN=#{vo.appToken,jdbcType=VARCHAR},
+		    T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+		    T.LAST_UPDATE_DATE=NOW()
+		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+	</update>
 </mapper>

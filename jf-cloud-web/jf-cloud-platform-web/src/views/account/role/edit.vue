@@ -5,6 +5,7 @@
             :width="width"
             :visible.sync="drawerShow"
             :mask-closable="false"
+            :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
                 <FormItem :label="$t('roleCode')" label-position="top" prop="roleCode">
@@ -18,8 +19,8 @@
                 </FormItem>
                 <FormItem :label="$t('applyStatus')" label-position="top" prop="applyStatus">
                     <RadioGroup v-model="data.applyStatus">
-                        <Radio  label="Y">{{$t('canApply')}}</Radio>
-                        <Radio  label="N">{{$t('noApply')}}</Radio>
+                        <Radio  label="Y">{{$t('status.applyStatus.Y')}}</Radio>
+                        <Radio  label="N">{{$t('status.applyStatus.N')}}</Radio>
                     </RadioGroup>
                 </FormItem>
                 <FormItem :label="$t('roleDesc')" label-position="top">

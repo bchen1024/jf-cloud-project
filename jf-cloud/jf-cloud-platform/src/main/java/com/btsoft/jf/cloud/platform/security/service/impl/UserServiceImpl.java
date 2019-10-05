@@ -8,17 +8,11 @@ import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.*;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserCreateDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
-import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
-import com.btsoft.jf.cloud.platform.security.entity.UserDetailEntity;
-import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.entity.*;
 import com.btsoft.jf.cloud.platform.security.enums.UserTypeEnum;
-import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
-import com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper;
-import com.btsoft.jf.cloud.platform.security.mapper.IUserDetailMapper;
-import com.btsoft.jf.cloud.platform.security.mapper.IUserMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.*;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
@@ -53,6 +47,8 @@ public class UserServiceImpl implements IUserService {
     private IAppRoleUserMapper appRoleUserMapper;
     @Autowired
     private IAppMapper appMapper;
+    @Autowired
+    private IEmployeeMapper employeeMapper;
 
     /**
      * 账号分页查询
@@ -78,31 +74,39 @@ public class UserServiceImpl implements IUserService {
      **/
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result createUser(UserCreateDTO dto) {
+    public Result saveUser(UserSaveDTO dto) {
         UserEntity entity= EntityUtils.baseDtoToEntity(UserEntity.class,dto);
-        //校验userNo是否重复
-        int userCount=mapper.findUserCountByUserCn(entity.getUserCn());
-        //根据中文名称生成userNo
-        String userNo=PinyinUtils.toPinyin(entity.getUserCn());
-        if(userCount==0){
-            entity.setUserNo(userNo);
+        if(dto.getUserId()!=null){
+
         }else{
-            entity.setUserNo(userNo + StringUtils.zeroFill(userCount));
-        }
-        //生成密码
-        entity.setPassword(DESEncrypt.encrypt(entity.getUserNo()));
+            //校验userNo是否重复
+            int userCount=mapper.findUserCountByUserCn(entity.getUserCn());
+            //根据中文名称生成userNo
+            String userNo= PinyinUtils.toPinyin(entity.getUserCn());
+            if(userCount==0){
+                entity.setUserNo(userNo);
+            }else{
+                entity.setUserNo(userNo + StringUtils.zeroFill(userCount));
+            }
+            //生成密码
+            entity.setPassword(DESEncrypt.encrypt(entity.getUserNo()));
 
-        //创建用户
-        mapper.createSingle(entity);
+            //创建用户
+            mapper.createSingle(entity);
 
-        //创建用户详情
-        UserDetailEntity detailEntity=new UserDetailEntity();
-        BeanUtils.copyProperties(dto,detailEntity);
-        detailEntity.setUserId(entity.getUserId());
-        detailMapper.createSingle(detailEntity);
+            //创建用户详情
+            UserDetailEntity detailEntity=new UserDetailEntity();
+            BeanUtils.copyProperties(dto,detailEntity);
+            detailEntity.setUserId(entity.getUserId());
+            detailMapper.createSingle(detailEntity);
 
-        if(UserTypeEnum.Employee.getValue().toString().equals(entity.getUserType())){
-            System.out.println("创建员工信息:"+entity.getUserId());
+            //创建员工信息
+            if(UserTypeEnum.Employee.getValue().toString().equals(entity.getUserType())){
+                EmployeeEntity employeeEntity=new EmployeeEntity();
+                BeanUtils.copyProperties(dto,employeeEntity);
+                employeeEntity.setUserId(entity.getUserId());
+                employeeMapper.createSingle(employeeEntity);
+            }
         }
         return CommonResultUtils.success(OperationTypeEnum.Create);
     }

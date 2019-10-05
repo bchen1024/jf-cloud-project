@@ -8,10 +8,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.EntityUtils;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
@@ -20,6 +17,7 @@ import com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -127,6 +125,25 @@ public class AppServiceImpl implements IAppService {
         AppRoleUserEntity entity=new AppRoleUserEntity();
         BeanUtils.copyProperties(dto,entity);
         int rows=appUserMapper.createSingle(entity);
+        return CommonResultUtils.result(rows, OperationTypeEnum.Save);
+    }
+
+    @Override
+    public CommonResult<AppTokenVO> findAppToken(Long id) {
+        AppEntity entity=new AppEntity();
+        entity.setAppId(id);
+        AppEntity appEntity=mapper.findSingle(entity);
+        AppTokenVO vo=new AppTokenVO();
+        BeanUtils.copyProperties(appEntity,vo);
+        return CommonResultUtils.success(vo);
+    }
+
+    @Override
+    public Result saveAppToken(AppTokenSaveDTO dto) {
+        AppEntity entity=new AppEntity();
+        AppTokenVO vo=new AppTokenVO();
+        BeanUtils.copyProperties(dto,entity);
+        int rows=mapper.updateAppToken(entity);
         return CommonResultUtils.result(rows, OperationTypeEnum.Save);
     }
 }
