@@ -50,6 +50,11 @@ export default {
                                 return true;
                             }
                             return false;
+                        },click:(params)=>{
+                            vm.updateUserStatus({
+                                userId:params.row.userId,
+                                userStatus:'D'
+                            });
                         }},
                         {title:(row)=>{
                             if(row.userStatus=='L'){
@@ -59,7 +64,16 @@ export default {
                             }
                             return vm.$t('lock');
                         },click:(params)=>{
-                            alert(params.row.userId);
+                            let userStatus='';
+                            if(params.row.userStatus=='L' || params.row.userStatus=='D'){
+                               userStatus='Y';
+                            }if(params.row.userStatus=='Y'){
+                                userStatus='L'
+                            }
+                            vm.updateUserStatus({
+                                userId:params.row.userId,
+                                userStatus:userStatus
+                            });
                         }},
                         {title:vm.$t('detail'),gridDetail:true},
                     ],
@@ -115,6 +129,33 @@ export default {
                     ]
                 }
             }
+        }
+    },
+    methods:{
+        /**
+         * 更新用户状态
+         */
+        updateUserStatus(data){
+            let vm=this;
+            vm.$Message.loading({
+                content: this.$t('updating'),
+                duration: 0
+            });
+            vm.$http({
+                method:'put',
+                url:'jfcloud/jf-cloud-platform/security/user/updateStatus',
+                data:data
+            }).then(result=>{
+                vm.$Message.destroy();
+                //成功
+                if(result && result.success){
+                    vm.$Message.success(vm.$t('updateSuccessful'));
+                    vm.gridSearch();
+                }
+            }).catch(error=>{
+                vm.$Message.destroy();
+                vm.$Message.error(vm.$util.handerError(error,vm));
+            });
         }
     }
 }

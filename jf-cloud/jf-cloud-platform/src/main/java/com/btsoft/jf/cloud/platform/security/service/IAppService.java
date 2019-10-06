@@ -6,8 +6,8 @@ import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.app.*;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 
 /**
@@ -60,7 +60,7 @@ public interface IAppService {
      * @param  dto 查询参数
      * @return 应用用户
      **/
-    CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(AppUserQueryDTO dto);
+    CommonResult<PageResult<AppUserVO>> findAppUserPage(AppUserQueryDTO dto);
 
     /**
      * 删除单个应用用户

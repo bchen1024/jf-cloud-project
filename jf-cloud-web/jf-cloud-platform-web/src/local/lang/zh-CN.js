@@ -30,6 +30,7 @@ export default{
     monitorMgt:'监控管理',
     auditLog:'审计日志',
     serverLog:'服务日志',
+    jobMgt:'岗位配置',
 
     //非菜单路由
     personal:'个人中心',
@@ -40,7 +41,8 @@ export default{
     //提示信息
     message:{
         logoutConfirm:'你确认要退出登录吗？',
-        switchLangConfirm:'你确定要切换语言吗？'
+        switchLangConfirm:'你确定要切换语言吗？',
+        switchAppConfirm:'你确定要切换应用吗？'
     },
 
     //公共
@@ -80,6 +82,11 @@ export default{
     female:'女',
     userSex:'性别',
     enable:'启用',
+    synching:'同步中',
+    updating:'更新中',
+    syncSuccessful:'同步成功',
+    syncPermission:'同步权限',
+    updateSuccessful:'更新成功',
 
 
     //角色相关
@@ -141,7 +148,9 @@ export default{
     'server.error':'请求异常，请联系管理员',
 
     validator:{
-        notEmpty:'该值不能为空'
+        notEmpty:'该值不能为空',
+        email:'请输入正确的邮箱地址',
+        tel:'请输入正确的手机号码'
     },
     type:{
         appType:{

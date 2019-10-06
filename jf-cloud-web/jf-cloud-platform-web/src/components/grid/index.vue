@@ -516,14 +516,7 @@ export default {
                         }
                     }).catch(error=>{
                         this.$Message.destroy();
-                        if(typeof error=='string'){
-                            errorMsg=error;
-                        }else if(error.code){
-                            errorMsg=this.$t(error.code);
-                        }else{
-                            errorMsg=error.msg || error.message;
-                        }
-                        this.$Message.error(errorMsg);
+                        this.$Message.error(vm.$util.handerError(error,vm));
                     });
                 }
             });

@@ -1,11 +1,19 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
+        <Edit slot="grid-drawer" :formId="formId" formKey="userId"
+            :visible.sync="showEdit" 
+            :formData="formData"
+            @saveCallback="gridSearch"/>
     </JFGrid>
 </template>
 <script>
+import Edit from './edit.vue';
 import curdGrid from '@/mixins/curdGrid';
 export default {
     mixins:[curdGrid],
+    components:{
+        Edit
+    },
     data(){
         let vm=this;
         return {
@@ -15,7 +23,7 @@ export default {
                 },
                 table:{
                     pkId:'userId',
-                    //logSetting:{module:'Employee'},
+                    logSetting:{module:'Employee'},
                     detail:{name:'employeeDetail'},
                     buttons:[
                         {title:vm.$t('edit'),click:(params)=>{

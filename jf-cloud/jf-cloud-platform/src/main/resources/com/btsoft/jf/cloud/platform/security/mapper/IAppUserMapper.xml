@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper">
-	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.AppUserEntity">
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
 		<result column="CREATE_DATE" property="createDate"/>
@@ -25,7 +25,7 @@
 			T.CREATE_DATE,
 			T.LAST_UPDATE_BY,
 			T.LAST_UPDATE_DATE
-		FROM SYS_APP_ROLE_USER_RT T
+		FROM SYS_APP_USER_RT T
 	</sql>
 
 	<sql id="base_condition">
@@ -60,7 +60,7 @@
 	</sql>
 
 	<insert id="createSingle">
-		REPLACE INTO SYS_APP_ROLE_USER_RT (
+		REPLACE INTO SYS_APP_USER_RT (
 			APP_ID,
 			USER_ID,
 		    ROLE_ID,
@@ -76,7 +76,7 @@
 	</insert>
 
 	<delete id="deleteSingle">
-		DELETE FROM SYS_APP_ROLE_USER_RT WHERE ID=#{vo.id,jdbcType=NUMERIC}
+		DELETE FROM SYS_APP_USER_RT WHERE ID=#{vo.id,jdbcType=NUMERIC}
 	</delete>
 
 	<select id="findList" resultMap="sqlResultMap">

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IPermissionMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.PermissionEntity">
+		<result column="app_code" property="appCode"/>
+		<result column="enable_flag" property="enableFlag"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="last_update_by" property="lastUpdateBy"/>
+		<result column="last_update_date" property="lastUpdateDate"/>
+
+		<result column="permission_id" property="permissionId"/>
+		<result column="permission_code" property="permissionCode"/>
+		<result column="permission_desc_cn" property="permissionDescCn"/>
+		<result column="permission_desc_en" property="permissionDescEn"/>
+		<result column="permission_type" property="permissionType"/>
+		<result column="permission_source" property="permissionSource"/>
+		<result column="parent_code" property="parentCode"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.PERMISSION_ID,
+			T.PERMISSION_CODE,
+			T.PERMISSION_DESC_CN,
+			T.PERMISSION_DESC_EN,
+			T.PERMISSION_TYPE,
+			T.PERMISSION_SOURCE,
+			T.PARENT_CODE,
+			T.APP_CODE,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_PERMISSION_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="where" prefixOverrides="and || or">
+			T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+            <if test='vo.permissionCode!=null and vo.permissionCode!=""'>
+                AND T.PERMISSION_CODE LIKE CONCAT('%',TRIM(#{vo.permissionCode,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test='vo.permissionDescCN!=null and vo.permissionDescCN!=""'>
+                AND T.PERMISSION_DESC_CN LIKE CONCAT('%',TRIM(#{vo.permissionDescCn,jdbcType=VARCHAR}),'%')
+            </if>
+            <if test='vo.permissionDescEN!=null and vo.permissionDescEN!=""'>
+                AND T.PERMISSION_DESC_EN LIKE CONCAT('%',trim(#{vo.permissionDescEn,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='vo.permissionType!=null and vo.permissionType!=""'>
+				AND T.PERMISSION_TYPE #{vo.permissionType,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		INSERT INTO SYS_PERMISSION_T (
+			PERMISSION_CODE,
+			PERMISSION_DESC_CN,
+			PERMISSION_DESC_EN,
+			PERMISSION_TYPE,
+			PERMISSION_SOURCE,
+		    PARENT_CODE,
+			APP_CODE,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{vo.permissionCode,jdbcType=VARCHAR},
+			#{vo.permissionDescCn,jdbcType=VARCHAR},
+			#{vo.permissionDescEn,jdbcType=VARCHAR},
+			#{vo.permissionType,jdbcType=VARCHAR},
+			#{vo.permissionSource,jdbcType=VARCHAR},
+			IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
+			#{vo.appCode,jdbcType=VARCHAR},
+			#{vo.currentUserId,jdbcType=NUMERIC},
+			#{vo.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingle" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC}
+    </select>
+
+	<delete id="deleteSingle">
+		DELETE FROM SYS_PERMISSION_T WHERE PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC}
+	</delete>
+
+	<update id="updateSingle">
+		UPDATE SYS_PERMISSION_T T SET
+			T.PERMISSION_CODE=#{vo.permissionCode,jdbcType=VARCHAR},
+			T.PERMISSION_DESC_CN=#{vo.permissionDescCn,jdbcType=VARCHAR},
+			T.PERMISSION_DESC_EN=#{vo.permissionDescEn,jdbcType=VARCHAR},
+			T.PERMISSION_TYPE=#{vo.permissionType,jdbcType=VARCHAR},
+			T.PARENT_CODE=IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		where t.permission_id=#{vo.permissionId,jdbcType=NUMERIC}
+	</update>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+
+	<insert id="createMultiple">
+		INSERT INTO SYS_PERMISSION_T (
+			PERMISSION_CODE,
+			PERMISSION_DESC_CN,
+			PERMISSION_DESC_EN,
+			PERMISSION_TYPE,
+			PARENT_CODE,
+			PERMISSION_SOURCE,
+			APP_CODE,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)
+		VALUES
+		<foreach collection="vo.list" item="item" separator=",">
+			(#{item.permissionCode,jdbcType=VARCHAR},
+			#{item.permissionDescCn,jdbcType=VARCHAR},
+			#{item.permissionDescEn,jdbcType=VARCHAR},
+			#{item.permissionType,jdbcType=VARCHAR},
+			IFNULL(#{item.parentCode,jdbcType=VARCHAR},''),
+			#{item.permissionSource,jdbcType=VARCHAR},
+			#{item.appCode,jdbcType=VARCHAR},
+			#{item.currentUserId,jdbcType=NUMERIC},
+			#{item.currentUserId,jdbcType=NUMERIC})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+			PERMISSION_DESC_CN=VALUES(PERMISSION_DESC_CN),
+			PERMISSION_DESC_EN=VALUES(PERMISSION_DESC_EN),
+			LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
+			LAST_UPDATE_DATE=NOW()
+	</insert>
+</mapper>

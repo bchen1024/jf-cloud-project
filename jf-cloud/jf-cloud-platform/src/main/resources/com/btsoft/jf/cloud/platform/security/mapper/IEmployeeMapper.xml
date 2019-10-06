@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IEmployeeMapper">
 	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.EmployeeEntity">
-		<result column="enable_flag" property="enableFlag"/>
-		<result column="create_by" property="createBy"/>
-		<result column="create_date" property="createDate"/>
-		<result column="last_update_by" property="lastUpdateBy"/>
-		<result column="last_update_date" property="lastUpdateDate"/>
+		<result column="ENABLE_FLAG" property="enableFlag"/>
+		<result column="CREATE_BY" property="createBy"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
 
-		<result column="user_id" property="userId"/>
-		<result column="employee_no" property="employeeNo"/>
-		<result column="employee_type" property="employeeType"/>
-		<result column="employee_status" property="employeeStatus"/>
-		<result column="employee_job" property="employeeJob"/>
-		<result column="parent_id" property="parentId"/>
+		<result column="USER_ID" property="userId"/>
+		<result column="EMPLOYEE_NO" property="employeeNo"/>
+		<result column="EMPLOYEE_TYPE" property="employeeType"/>
+		<result column="EMPLOYEE_STATUS" property="employeeStatus"/>
+		<result column="EMPLOYEE_JOB" property="employeeJob"/>
+		<result column="PARENT_ID" property="parentId"/>
 	</resultMap>
 
 	<sql id="base_sql">

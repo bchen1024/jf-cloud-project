@@ -12,6 +12,12 @@ export default {
       collapsedSider(state){
         state.collapsed=!state.collapsed;
       },
+      setActiveName(state,activeName){
+        state.activeName=activeName;
+      },
+      setOpenNames(state,openNames){
+        state.openNames=openNames;
+      },
       setBreadCrumb (state, route) {
         let homeRouter={name:'home',path:'/home',meta:{icon:'md-home'}};
         if(route.name=='home'){
@@ -58,6 +64,11 @@ export default {
       }
     },
     actions: {
-      
+      setActiveName({commit},activeName){
+        commit('setActiveName',activeName);
+      },
+      setOpenNames({commit},openNames){
+        commit('setOpenNames',openNames);
+      }
     }
   }

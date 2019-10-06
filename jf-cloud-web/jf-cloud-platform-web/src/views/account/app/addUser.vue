@@ -11,7 +11,9 @@
                     <Input v-model="data.userId" />
                 </FormItem>
                 <FormItem :label="$t('roleName')" label-position="top" prop="roleId">
-                    <Input v-model="data.roleId"/>
+                    <Select v-model="data.roleId" clearable filterable>
+                        <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
+                    </Select>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">
@@ -38,11 +40,27 @@
                     roleId:[
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ]
-                }
+                },
+                roleLoad:false,
+                roleList:[]
             }
         },
         methods:{
-            
+            showCallback(){
+                let vm=this;
+                if(!vm.roleLoad){
+                    vm.$http({
+                        method:'post',
+                        url:'jfcloud/jf-cloud-platform/security/role/select/roles',
+                        data:{appCode:'jf-cloud-platform'}
+                    }).then(result=>{
+                        vm.roleLoad=true;
+                        if(result && result.success){
+                            vm.roleList=result.data;
+                        }
+                    });
+                }
+            }
         }
     }
 </script>

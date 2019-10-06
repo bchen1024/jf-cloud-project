@@ -1,9 +1,13 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
+import com.btsoft.jf.cloud.core.annotation.JAuditLog;
+import com.btsoft.jf.cloud.core.annotation.JOperator;
+import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
+import com.btsoft.jf.cloud.core.constant.ControllerContants;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IGroupService;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/security/group")
 @Api(tags = "群组管理")
+@JResource(code = "group", descCN = "群组管理", descEN = "Group")
 public class GroupController {
 
     @Autowired
@@ -33,8 +38,10 @@ public class GroupController {
      * @param  dto 群组包存参数
      * @return 保存结果
      **/
-    @PutMapping("/save")
+    @PutMapping(ControllerContants.Path.SAVE)
     @ApiOperation("保存群组，创建或者更新")
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存群组", descEN = "Save Group")
+    @JAuditLog
     public Result saveGroup(@RequestBody GroupSaveDTO dto){
         return service.saveGroup(dto);
     }
@@ -46,8 +53,10 @@ public class GroupController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping("/delete")
+    @DeleteMapping(ControllerContants.Path.DELETE)
     @ApiOperation("删除群组")
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除群组", descEN = "Delete Group")
+    @JAuditLog
     public Result deleteGroup(@RequestBody BaseIdAppDTO dto){
         return service.deleteGroup(dto);
     }
@@ -59,8 +68,9 @@ public class GroupController {
      * @param  id 群组
      * @return 群组信息
      **/
-    @GetMapping("/single")
+    @GetMapping(ControllerContants.Path.SINGLE)
     @ApiOperation("根据群组id获取单个群组")
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "群组详情", descEN = "Group Detail")
     public CommonResult<GroupVO> findRole(Long id){
         return service.findGroup(id);
     }
@@ -74,6 +84,7 @@ public class GroupController {
      **/
     @PostMapping("/page")
     @ApiOperation("分页查询群组")
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "群组列表", descEN = "Group List")
     public CommonResult<PageResult<GroupVO>> findGroupPage(@RequestBody GroupQueryDTO dto){
         return service.findGroupPage(dto);
     }

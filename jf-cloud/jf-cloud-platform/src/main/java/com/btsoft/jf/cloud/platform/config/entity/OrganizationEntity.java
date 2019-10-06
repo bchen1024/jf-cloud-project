@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.entity;
+package com.btsoft.jf.cloud.platform.config.entity;
 
 import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;

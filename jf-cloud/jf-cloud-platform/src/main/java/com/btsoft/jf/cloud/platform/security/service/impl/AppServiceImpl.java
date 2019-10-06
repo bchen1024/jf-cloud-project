@@ -10,14 +10,14 @@ import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
-import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
+import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
-import com.btsoft.jf.cloud.platform.security.mapper.IAppRoleUserMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -43,7 +43,7 @@ public class AppServiceImpl implements IAppService {
     private IAppMapper mapper;
 
     @Autowired
-    private IAppRoleUserMapper appUserMapper;
+    private IAppUserMapper appUserMapper;
 
     @Autowired
     private IRoleMapper roleMapper;
@@ -89,11 +89,11 @@ public class AppServiceImpl implements IAppService {
     }
 
     @Override
-    public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(AppUserQueryDTO dto) {
+    public CommonResult<PageResult<AppUserVO>> findAppUserPage(AppUserQueryDTO dto) {
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         appUserMapper.findAppUserList(dto);
         List<Long> roleIds=new ArrayList<>();
-        CommonResult<PageResult<AppRoleUserVO>> result=CommonResultUtils.pageResult(AppRoleUserVO.class,page);
+        CommonResult<PageResult<AppUserVO>> result=CommonResultUtils.pageResult(AppUserVO.class,page);
         if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
             result.getData().getList().forEach(v->{
                 roleIds.add(v.getRoleId());
@@ -114,7 +114,7 @@ public class AppServiceImpl implements IAppService {
 
     @Override
     public Result deleteAppUser(BaseIdDTO dto) {
-        AppRoleUserEntity entity=new AppRoleUserEntity();
+        AppUserEntity entity=new AppUserEntity();
         entity.setId(dto.getId());
         int rows=appUserMapper.deleteSingle(entity);
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
@@ -122,7 +122,7 @@ public class AppServiceImpl implements IAppService {
 
     @Override
     public Result addAppUser(AppUserSaveDTO dto) {
-        AppRoleUserEntity entity=new AppRoleUserEntity();
+        AppUserEntity entity=new AppUserEntity();
         BeanUtils.copyProperties(dto,entity);
         int rows=appUserMapper.createSingle(entity);
         return CommonResultUtils.result(rows, OperationTypeEnum.Save);

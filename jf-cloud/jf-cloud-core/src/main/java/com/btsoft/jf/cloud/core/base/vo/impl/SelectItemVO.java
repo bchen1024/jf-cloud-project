@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class SelectItemVO implements ISelectItem {
 
     private Object value;
-    private Object text;
+    private Object label;
     private Boolean disabled;
     private Boolean selected;
 
@@ -25,12 +25,12 @@ public class SelectItemVO implements ISelectItem {
     }
 
     @Override
-    public Object getText() {
-        return text;
+    public Object getLabel() {
+        return label;
     }
 
-    public void setText(Object text) {
-        this.text = text;
+    public void setLabel(Object label) {
+        this.label = label;
     }
 
     @Override

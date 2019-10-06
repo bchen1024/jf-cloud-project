@@ -69,8 +69,6 @@
         data () {
             let vm=this;
             return {
-                isCreate:true,
-                mobileValidated:false,
                 defaultValue:{userType:'1',userSex:'1',employeeType:'1',employeeStatus:'1'},
                 saveOp:{
                     url:'jfcloud/jf-cloud-platform/security/user/save',
@@ -85,16 +83,13 @@
                     ],
                     userType:[
                         {required:true,message:vm.$t('validator.notEmpty')}
+                    ],
+                    mobile:[
+                        {type:'string',message:vm.$t('validator.tel'),pattern:/^1[3456789]\d{9}$/}
+                    ],
+                    email:[
+                        {type:'email',message:vm.$t('validator.email')}
                     ]
-                }
-            }
-        },
-        methods:{
-            showCallback(){
-                if(this.data[this.formKey]){
-                    this.isCreate=false;
-                }else{
-                    this.isCreate=true;
                 }
             }
         }

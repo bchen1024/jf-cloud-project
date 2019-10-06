@@ -2,7 +2,7 @@
     <Tabs :value="tabId" v-if="id" @on-click="load">
         <TabPane :label="$t('detail')" name="detail">
             <JFDetail ref="roleDetail" :op="detailOp" :id="id" @detailEdit="openEdit"/>
-            <EditRole ref="roleEditDialog" :formId="formId" formKey="roleId"
+            <EditRole :formId="formId" formKey="roleId"
                 :visible.sync="showEdit" 
                 :formData="formData"
                 @saveCallback="loadDetail()"/>

@@ -6,6 +6,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserVO;
@@ -72,4 +73,13 @@ public interface IUserService {
      * @return 获取用户当前信息
      **/
     CommonResult<UserEnvironmentVO> findUserEnvironment();
+
+    /**
+     * 更新用户状态
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  dto 状态更新参数
+     * @return 更新结果
+     **/
+    Result updateUserStatus(UserStatusUpdateDTO dto);
 }

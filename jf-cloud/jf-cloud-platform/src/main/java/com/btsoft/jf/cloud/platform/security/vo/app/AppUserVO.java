@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/10/3
  **/
-public class AppRoleUserVO extends BaseVO {
+public class AppUserVO extends BaseVO {
 
     private Long id;
     private Long appId;

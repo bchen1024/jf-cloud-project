@@ -6,7 +6,10 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
+import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
+
+import java.util.List;
 
 /**
  * 角色Service接口
@@ -50,4 +53,13 @@ public interface IRoleService{
      * @return 角色分页列表
      **/
     CommonResult<PageResult<RoleVO>> findRolePage(RoleQueryDTO dto);
+
+    /**
+     * 查询角色列表
+     * @author jeo_cb
+     * @date 2019/10/6
+     * @param  dto 查询参数
+     * @return 角色列表
+     **/
+    CommonResult<List<RoleBaseVO>> findRoleList(RoleQueryDTO dto);
 }

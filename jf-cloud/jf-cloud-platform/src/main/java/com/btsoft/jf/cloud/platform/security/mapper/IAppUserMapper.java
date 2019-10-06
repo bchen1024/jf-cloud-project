@@ -2,7 +2,7 @@ package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.entity.AppRoleUserEntity;
+import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/3
  **/
 @Mapper
-public interface IAppRoleUserMapper extends IBaseMapper<AppRoleUserEntity> {
+public interface IAppUserMapper extends IBaseMapper<AppUserEntity> {
 
     /**
      * 分页查询应用用户列表
@@ -23,6 +23,6 @@ public interface IAppRoleUserMapper extends IBaseMapper<AppRoleUserEntity> {
      * @param  dto 查询参数
      * @return 应用用户列表
      **/
-    List<AppRoleUserEntity> findAppUserList(@Param("vo") AppUserQueryDTO dto);
+    List<AppUserEntity> findAppUserList(@Param("vo") AppUserQueryDTO dto);
 
 }

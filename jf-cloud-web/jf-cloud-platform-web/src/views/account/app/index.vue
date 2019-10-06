@@ -51,6 +51,14 @@ export default {
                             }
                             return false;
                         }},
+                        {title:vm.$t('syncPermission'),show:(row)=>{
+                            if(row.appType=='2'){
+                                return true;
+                            }
+                            return false;
+                        },click:(params)=>{
+                            vm.syncPermission(params.row);
+                        }}
                     ],
                     columns:[
                         {key:'appCode',width:180,condition:true},
@@ -68,6 +76,29 @@ export default {
                     ]
                 }
             }
+        }
+    },
+    methods:{
+        syncPermission(rows){
+            let vm=this;
+            vm.$Message.loading({
+                content: this.$t('synching'),
+                duration: 0
+            });
+            vm.$http({
+                method:'post',
+                url:'jfcloud/jf-cloud-platform/security/permission/sync',
+                data:{appCode:rows.appCode,contextPath:rows.contextPath}
+            }).then(result=>{
+                this.$Message.destroy();
+                //成功
+                if(result && result.success){
+                    vm.$Message.success(vm.$t('syncSuccessful'));
+                }
+            }).catch(error=>{
+                vm.$Message.destroy();
+                vm.$Message.error(vm.$util.handerError(error,vm));
+            });
         }
     }
 }

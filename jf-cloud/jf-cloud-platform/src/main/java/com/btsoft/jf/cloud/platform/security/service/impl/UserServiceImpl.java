@@ -10,6 +10,7 @@ import com.btsoft.jf.cloud.core.util.*;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.entity.*;
 import com.btsoft.jf.cloud.platform.security.enums.UserTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.*;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDetailMapper detailMapper;
     @Autowired
-    private IAppRoleUserMapper appRoleUserMapper;
+    private IAppUserMapper appRoleUserMapper;
     @Autowired
     private IAppMapper appMapper;
     @Autowired
@@ -75,9 +76,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result saveUser(UserSaveDTO dto) {
+        int rows=0;
         UserEntity entity= EntityUtils.baseDtoToEntity(UserEntity.class,dto);
         if(dto.getUserId()!=null){
-
+            rows=mapper.updateUserBaseInfo(entity);
         }else{
             //校验userNo是否重复
             int userCount=mapper.findUserCountByUserCn(entity.getUserCn());
@@ -92,7 +94,7 @@ public class UserServiceImpl implements IUserService {
             entity.setPassword(DESEncrypt.encrypt(entity.getUserNo()));
 
             //创建用户
-            mapper.createSingle(entity);
+            rows=mapper.createSingle(entity);
 
             //创建用户详情
             UserDetailEntity detailEntity=new UserDetailEntity();
@@ -108,7 +110,7 @@ public class UserServiceImpl implements IUserService {
                 employeeMapper.createSingle(employeeEntity);
             }
         }
-        return CommonResultUtils.success(OperationTypeEnum.Create);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Save);
     }
 
     @Override
@@ -148,7 +150,7 @@ public class UserServiceImpl implements IUserService {
         //查询用户拥有的应用
         AppUserQueryDTO queryDTO=new AppUserQueryDTO();
         queryDTO.setUserId(userId);
-        List<AppRoleUserEntity> appRoleUserEntityList=appRoleUserMapper.findAppUserList(queryDTO);
+        List<AppUserEntity> appRoleUserEntityList=appRoleUserMapper.findAppUserList(queryDTO);
         if(!CollectionUtils.isEmpty(appRoleUserEntityList)){
             List<Long> appIds=appRoleUserEntityList.stream().map(v->v.getAppId()).collect(Collectors.toList());
             List<AppEntity> appList=appMapper.findListByIds(appIds);
@@ -157,5 +159,13 @@ public class UserServiceImpl implements IUserService {
         }
 
         return CommonResultUtils.success(result);
+    }
+
+    @Override
+    public Result updateUserStatus(UserStatusUpdateDTO dto) {
+        UserEntity userEntity=new UserEntity();
+        BeanUtils.copyProperties(dto,userEntity);
+        int rows=mapper.updateUserStatus(userEntity);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Update);
     }
 }

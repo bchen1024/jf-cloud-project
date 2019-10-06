@@ -12,7 +12,7 @@
       <template v-for="item in menuList">
         <CollapsedMenu v-if="item.children && item.children.length > 1" @on-click="handleSelect" hide-title  :parentItem="item" :key="`drop-menu-${item.name}`"></CollapsedMenu>
         <Tooltip transfer v-else :content="$t($util.showTitle(item.children && item.children[0] ? item.children[0] : item))" placement="right" :key="`drop-menu-${item.name}`">
-          <a @click="handleSelect(item.name)" class="drop-menu-a" :style="{textAlign: 'center'}">{{ $t($util.showTitle(item)) }}</a>
+          <a @click="handleSelect(item.name)" class="drop-menu-a" :style="($store.state.menu.openNames || []).includes(item.name)?'color: #2d8cf0; font-size: larger;':''">{{ $t($util.showTitle(item)) }}</a>
         </Tooltip>
       </template>
     </div>
@@ -41,20 +41,25 @@ export default {
             return this.$store.state.menu.collapsed;
         },
         openedNames(){
+          let openedNames=[];
           if(this.$route.meta && this.$route.meta.parent){
-            return [this.$route.meta.parent[0]];
+            openedNames =[this.$route.meta.parent[0]];
           }else{
-            let openedNames = this.$route.matched.map(item => item.name).filter(item => item !== name);
-            return openedNames;
+            openedNames = this.$route.matched.map(item => item.name).filter(item => item !== name);
           }
+          this.$store.dispatch('setOpenNames',openedNames);
+          return openedNames;
         },
         activeName(){
+          let activeName='';
           if(this.$route.meta && this.$route.meta.parent){
             let parent=this.$route.meta.parent;
-            return parent[parent.length-1];
+            activeName= parent[parent.length-1];
           }else{
-            return this.$route.name;
+            activeName= this.$route.name;
           }
+          this.$store.dispatch('setActiveName',activeName);
+          return activeName;
         }
     },
   data () {

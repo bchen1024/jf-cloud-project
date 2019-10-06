@@ -1,12 +1,22 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
         <TabPane :label="$t('detail')" name="detail">
-            <JFDetail ref="userDetail" :op="detailOp" :id="id"/>
+            <JFDetail ref="userDetail" :op="detailOp" :id="id" @detailEdit="openEdit"/>
+            <EditUser :formId="formId" formKey="userId"
+                :visible.sync="showEdit" 
+                :formData="formData"
+                @saveCallback="loadDetail()"/>
         </TabPane>
     </Tabs>
 </template>
 <script>
+import EditUser from './edit.vue';
+import curdGrid from '@/mixins/curdGrid';
 export default {
+    mixins:[curdGrid],
+    components:{
+        EditUser
+    },
     data(){
         return {
             tabId:'detail',
@@ -28,8 +38,8 @@ export default {
                         {key:'userEn'}
                     ]},
                     {cols:[
-                        {key:'mobile'},
-                        {key:'email'}
+                        {key:'mobile',valid:'mobileValidated'},
+                        {key:'email',valid:'emailValidated'}
                     ]},
                     {cols:[
                         {key:'userType',type:'type'},

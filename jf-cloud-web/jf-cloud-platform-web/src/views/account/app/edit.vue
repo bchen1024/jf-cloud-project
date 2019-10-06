@@ -9,7 +9,7 @@
         >
             <Form :ref='formId' :model="data" :rules="formRules">
                 <FormItem :label="$t('appCode')" label-position="top" prop="appCode">
-                    <Input v-model="data.appCode" />
+                    <Input v-model="data.appCode" :disabled="!isCreate"/>
                 </FormItem>
                 <FormItem :label="$t('appName')" label-position="top" prop="appName">
                     <Input v-model="data.appName"/>
@@ -65,9 +65,6 @@
                     ]
                 }
             }
-        },
-        methods:{
-            
         }
     }
 </script>

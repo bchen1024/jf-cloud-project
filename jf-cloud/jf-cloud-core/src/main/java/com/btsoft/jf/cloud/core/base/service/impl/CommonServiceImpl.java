@@ -5,6 +5,7 @@ import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.service.ICommonService;
 import com.btsoft.jf.cloud.core.context.impl.JfCloud;
+import com.btsoft.jf.cloud.core.enums.impl.PermissionSourceEnum;
 import com.btsoft.jf.cloud.core.enums.impl.PermissionTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -42,6 +43,7 @@ public class CommonServiceImpl implements ICommonService {
                 resourceMap.put("permissionDescCN", jr.descCN());
                 resourceMap.put("permissionDescEN", jr.descEN());
                 resourceMap.put("permissionType", PermissionTypeEnum.Resources.getKey());
+                resourceMap.put("permissionSource", PermissionSourceEnum.Annotation.getKey());
                 String appCode=jr.appCode();
                 if(StringUtils.isEmpty(appCode)) {
                     appCode=JfCloud.getCurrentAppCode();
@@ -60,6 +62,7 @@ public class CommonServiceImpl implements ICommonService {
                         methodMap.put("permissionDescEN", jo.descEN());
                         methodMap.put("parentCode", jr.code());
                         methodMap.put("permissionType", PermissionTypeEnum.Method.getKey());
+                        methodMap.put("permissionSource", PermissionSourceEnum.Annotation.getKey());
                         methodMap.put("appCode", appCode);
                         methodList.add(methodMap);
                     }

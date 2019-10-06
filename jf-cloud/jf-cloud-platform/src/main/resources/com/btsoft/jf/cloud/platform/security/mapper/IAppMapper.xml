@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IAppMapper">
-	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.AppEntity">
+	<resultMap id="sqlResultMap"  type="com.btsoft.jf.cloud.platform.security.entity.AppEntity">
 		<result column="APP_CODE" property="appCode"/>
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
@@ -47,6 +47,9 @@
             <if test='vo.appName!=null and vo.appName!=""'>
                 AND T.APP_NAME LIKE CONCAT('%',TRIM(#{vo.appName,jdbcType=VARCHAR}),'%')
             </if>
+			<if test='vo.appDesc!=null and vo.appDesc!=""'>
+				AND T.APP_DESC LIKE CONCAT('%',TRIM(#{vo.appDesc,jdbcType=VARCHAR}),'%')
+			</if>
 			<if test='vo.appOwner!=null'>
 				AND T.APP_OWNER = #{vo.appOwner,jdbcType=NUMERIC}
 			</if>

@@ -25,6 +25,30 @@ public interface IUserMapper extends IBaseMapper<UserEntity> {
      **/
     int findUserCountByUserCn(@Param("userCn") String userCn);
 
-
+    /**
+     * 根据用户id获取用户基本信息
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  userIds 用户id集合
+     * @return 用户基本信息集合
+     **/
     List<UserBaseVO> findUserListByIds(@Param("userIds") List<Long> userIds);
+
+    /**
+     * 更新用户基本信息
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  entity 基本信息入参
+     * @return 受影响行数
+     **/
+    int updateUserBaseInfo(@Param("vo") UserEntity entity);
+
+    /**
+     * 更新用户状态
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  entity 状态更新参数
+     * @return 受影响行数
+     **/
+    int updateUserStatus(@Param("vo") UserEntity entity);
 }

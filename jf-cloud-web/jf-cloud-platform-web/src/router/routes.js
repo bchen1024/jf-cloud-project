@@ -53,14 +53,6 @@ export default[
                 },
                 children:[
                     {
-                        path:'/account/organization',
-                        name:'organizationMgt',
-                        component:resolve =>require(['@/views/account/organization/index.vue'],resolve),
-                        meta:{
-                            icon:'md-people'
-                        }
-                    },
-                    {
                         path:'/account/app',
                         name:'appMgt',
                         component:resolve =>require(['@/views/account/app/index.vue'],resolve),
@@ -140,15 +132,7 @@ export default[
                             needApp:true
                         }
                     },
-                    {
-                        path:'/config/i18n',
-                        name:'i18nMgt',
-                        component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
-                        meta:{
-                            icon:'md-person',
-                            needApp:true
-                        }
-                    },
+                    
                     {
                         path:'/config/code',
                         name:'codeMgt',
@@ -159,12 +143,19 @@ export default[
                         }
                     },
                     {
-                        path:'/config/personalized',
-                        name:'personalizedMgt',
-                        component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
+                        path:'/config/organization',
+                        name:'organizationMgt',
+                        component:resolve =>require(['@/views/config/organization/index.vue'],resolve),
                         meta:{
-                            icon:'md-person',
-                            needApp:true
+                            icon:'md-people'
+                        }
+                    },
+                    {
+                        path:'/config/job',
+                        name:'jobMgt',
+                        component:resolve =>require(['@/views/config/job/index.vue'],resolve),
+                        meta:{
+                            icon:'md-person'
                         }
                     },
                     {
@@ -180,6 +171,24 @@ export default[
                         path:'/config/template',
                         name:'templateMgt',
                         component:resolve =>require(['@/views/config/template/index.vue'],resolve),
+                        meta:{
+                            icon:'md-person',
+                            needApp:true
+                        }
+                    },
+                    {
+                        path:'/config/i18n',
+                        name:'i18nMgt',
+                        component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
+                        meta:{
+                            icon:'md-person',
+                            needApp:true
+                        }
+                    },
+                    {
+                        path:'/config/personalized',
+                        name:'personalizedMgt',
+                        component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             needApp:true

@@ -22,10 +22,10 @@ router.beforeEach((to, from, next) => {
     iView.LoadingBar.start();
     if(isNeedLogin){
       let token=util.getToken();
-      if(!token){
+      if(!token){//需要登录，如果没有token,跳转到登录页
         next({name:'login',query:{routerName:to.name}});
       }else{
-        if (router.app.$store.state.user.userInfo) {
+        if (router.app.$store.state.user.userInfo) {//如果已经获取到登录信息，则直接跳转
           next();
         }else{
           router.app.$http.get('jfcloud/jf-cloud-platform/security/user/environment').then(result=>{
@@ -39,7 +39,7 @@ router.beforeEach((to, from, next) => {
           });
         }
       }
-    }else{
+    }else{//不需要登录
       next();
     }
   }

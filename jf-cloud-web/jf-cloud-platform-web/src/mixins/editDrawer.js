@@ -30,7 +30,8 @@ export default{
                 overflow: 'auto',
                 paddingBottom: '53px',
                 position: 'static'
-            }
+            },
+            isCreate:true
         }
     },
     watch: {
@@ -51,9 +52,12 @@ export default{
         initForm(){
             this.$refs[this.formId].resetFields();
             this.data=Object.assign({},this.defaultValue,this.formData);
-            if(this.data[this.formKey]){
+            let id=this.data[this.formKey];
+            if(id){
+                this.isCreate=false;
                 this.title=this.$t('edit');
             }else{
+                this.isCreate=true;
                 this.title=this.$t('create');
             }
             if(this.showCallback){

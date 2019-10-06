@@ -12,6 +12,7 @@ import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
+import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * 角色管理Service实现类
@@ -99,5 +102,12 @@ public class RoleServiceImpl implements IRoleService {
         Page page=PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
         return CommonResultUtils.pageResult(RoleVO.class,page);
+    }
+
+    @Override
+    public CommonResult<List<RoleBaseVO>> findRoleList(RoleQueryDTO dto) {
+        RoleEntity entity= EntityUtils.queryDtoToEntity(RoleEntity.class,dto);
+        List<RoleEntity> roleList=mapper.findList(entity);
+        return CommonResultUtils.success(EntityUtils.entityToList(RoleBaseVO.class,roleList));
     }
 }

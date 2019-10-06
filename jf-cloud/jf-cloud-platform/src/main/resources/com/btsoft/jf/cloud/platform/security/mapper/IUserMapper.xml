@@ -140,4 +140,38 @@
 			WHERE 1=2
 		</if>
 	</select>
+
+	<update id="updateUserBaseInfo">
+		UPDATE SYS_USER_T T SET
+			T.USER_CN=#{vo.userCn,jdbcType=VARCHAR},
+			T.USER_EN=#{vo.userEn,jdbcType=VARCHAR},
+			T.MOBILE=IF(T.MOBILE_VALIDATED='Y',T.MOBILE,#{vo.mobile,jdbcType=VARCHAR}),
+			T.EMAIL=IF(T.EMAIL_VALIDATED='Y',T.EMAIL,#{vo.email,jdbcType=VARCHAR}),
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+	</update>
+
+	<update id="updateUserStatus">
+		UPDATE SYS_USER_T T SET
+			T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR},
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+				T.LOCK_TIME=NOW(),
+			</if>
+			<if test="vo.userStatus!=@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+				T.LOCK_TIME=NULL,
+			</if>
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@Y.getKey">
+			AND T.USER_STATUS IN('L','D')
+		</if>
+		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			AND T.USER_STATUS='Y'
+		</if>
+		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@D.getKey">
+			AND T.USER_STATUS IN('L','Y')
+		</if>
+	</update>
 </mapper>

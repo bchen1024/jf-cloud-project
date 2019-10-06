@@ -1,3 +1,3 @@
 <template>
-    <h1>菜单管理</h1>
+    <h1>职位配置</h1>
 </template>

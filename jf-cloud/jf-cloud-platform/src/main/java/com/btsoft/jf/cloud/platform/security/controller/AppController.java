@@ -11,8 +11,8 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
 import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppRoleUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/security/app")
 @Api(tags = "应用管理")
-@JResource(code = "app", descCN = "应用管理", descEN = "App Mgt")
+@JResource(code = "app", descCN = "应用管理", descEN = "App")
 public class AppController {
 
     @Autowired
@@ -101,7 +101,7 @@ public class AppController {
     @PostMapping("/user/page")
     @ApiOperation("分页查询应用用户")
     @JOperator(code ="appUsers", descCN = "应用用户列表", descEN = "App User List")
-    public CommonResult<PageResult<AppRoleUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
+    public CommonResult<PageResult<AppUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
         return service.findAppUserPage(dto);
     }
 
@@ -163,4 +163,5 @@ public class AppController {
     public Result saveAppToken(@RequestBody AppTokenSaveDTO dto){
         return service.saveAppToken(dto);
     }
+
 }

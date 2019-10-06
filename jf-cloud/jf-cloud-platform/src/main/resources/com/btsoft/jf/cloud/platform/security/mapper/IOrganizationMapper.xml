@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IOrganizationMapper">
-	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.OrganizationEntity">
+<mapper namespace="com.btsoft.jf.cloud.platform.config.mapper.IOrganizationMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.config.entity.OrganizationEntity">
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
 		<result column="CREATE_DATE" property="createDate"/>

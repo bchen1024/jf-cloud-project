@@ -23,7 +23,7 @@ public interface ISelectItem extends Serializable {
      * @date 2019/8/29
      * @return Text显示值
      **/
-    Object getText();
+    Object getLabel();
 
     /**
      * 获取是否禁用
