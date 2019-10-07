@@ -12,6 +12,7 @@ public class AppBaseVO {
     private Long appId;
     private String appCode;
     private String appName;
+    private String contextPath;
 
     public Long getAppId() {
         return appId;
@@ -35,6 +36,14 @@ public class AppBaseVO {
 
     public void setAppName(String appName) {
         this.appName = appName;
+    }
+
+    public String getContextPath() {
+        return contextPath;
+    }
+
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
     }
 
     @Override

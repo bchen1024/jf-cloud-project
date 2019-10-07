@@ -42,6 +42,8 @@ router.beforeEach((to, from, next) => {
     }else{//不需要登录
       next();
     }
+  }else{
+    iView.LoadingBar.finish();
   }
 });
 
@@ -49,5 +51,6 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to) => {
   iView.LoadingBar.finish();
   util.setTitle(router,to);
+  router.app.$store.dispatch('setBreadCrumb',to);
 });
 export default router;

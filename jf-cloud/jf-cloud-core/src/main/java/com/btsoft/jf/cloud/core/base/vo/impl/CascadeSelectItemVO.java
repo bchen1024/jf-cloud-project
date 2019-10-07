@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.core.base.vo.impl;
 
-import com.btsoft.jf.cloud.core.base.vo.ICascadeSelectItem;
+import com.btsoft.jf.cloud.core.base.vo.ICascadeSelectItemVO;
+import com.btsoft.jf.cloud.core.base.vo.ISelectItemVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
@@ -10,17 +11,17 @@ import java.util.List;
  * @author jeo_cb
  * @date 2019/8/29
  **/
-public class CascadeSelectItemVO extends SelectItemVO implements ICascadeSelectItem {
+public class CascadeSelectItemVO extends SelectItemVO implements ICascadeSelectItemVO {
 
-    private List<SelectItemVO> children;
+    private List<ISelectItemVO> children;
     private Object parent;
 
     @Override
-    public List<SelectItemVO> getChildren() {
+    public List<ISelectItemVO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<SelectItemVO> children) {
+    public void setChildren(List<ISelectItemVO> children) {
         this.children = children;
     }
 

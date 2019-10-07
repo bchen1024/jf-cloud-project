@@ -1,11 +1,13 @@
 <template>
-    <Submenu :name="`${parentName}`">
+    <Submenu :name="parentItem.name">
         <template slot="title">
-        <span><Icon v-if="parentItem.meta && parentItem.meta.icon" :type="parentItem.meta.icon"/>{{ $t($util.showTitle(parentItem)) }}</span>
+            <Icon v-if="parentItem.meta && parentItem.meta.icon" :type="parentItem.meta.icon"/><span>{{ $t($util.showTitle(parentItem)) }}</span>
         </template>
         <template v-for="item in children">
             <SiderMenuItem v-if="item.children && item.children.length>0" :key="`menu-${item.name}`" :parent-item="item"></SiderMenuItem>
-            <menu-item v-else :name="item.name" :key="`menu-${item.name}`"><Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/><span>{{ $t($util.showTitle(item)) }}</span></menu-item>
+            <menu-item v-else :name="item.name" :key="`menu-${item.name}`">
+                <Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/><span>{{ $t($util.showTitle(item)) }}</span>
+            </menu-item>
         </template>
     </Submenu>
 </template>
@@ -16,9 +18,7 @@ export default {
         parentItem: {
             type: Object,
             default: () => {}
-        },
-        theme: String,
-        iconSize: Number
+        }
     },
     computed: {
         parentName () {

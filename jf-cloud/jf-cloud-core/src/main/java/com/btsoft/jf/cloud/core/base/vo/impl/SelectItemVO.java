@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.core.base.vo.impl;
 
-import com.btsoft.jf.cloud.core.base.vo.ISelectItem;
+import com.btsoft.jf.cloud.core.base.vo.ISelectItemVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/8/29
  **/
-public class SelectItemVO implements ISelectItem {
+public class SelectItemVO implements ISelectItemVO {
 
     private Object value;
     private Object label;
@@ -35,6 +35,9 @@ public class SelectItemVO implements ISelectItem {
 
     @Override
     public Boolean getDisabled() {
+        if(disabled==null){
+            disabled=false;
+        }
         return disabled;
     }
 
@@ -44,6 +47,9 @@ public class SelectItemVO implements ISelectItem {
 
     @Override
     public Boolean getSelected() {
+        if(selected==null){
+            selected=false;
+        }
         return selected;
     }
 

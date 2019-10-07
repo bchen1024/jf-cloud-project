@@ -2,8 +2,9 @@ export default {
     state: {
       breadCrumbList: [],
       activeName:'',
-      openNames:[],
-      collapsed:false
+      openedNames:[],
+      collapsed:false,
+      theme:'dark'
     },
     getters: {
       
@@ -12,11 +13,8 @@ export default {
       collapsedSider(state){
         state.collapsed=!state.collapsed;
       },
-      setActiveName(state,activeName){
-        state.activeName=activeName;
-      },
-      setOpenNames(state,openNames){
-        state.openNames=openNames;
+      setTheme(state,theme){
+        state.theme=theme;
       },
       setBreadCrumb (state, route) {
         let homeRouter={name:'home',path:'/home',meta:{icon:'md-home'}};
@@ -61,14 +59,30 @@ export default {
               state.breadCrumbList = [homeRouter, ...res];
           }
         }
+
+        //设置openedNames和当前激活的菜单
+        let openedNames=[],activeName='';
+        if(route.meta && route.meta.parent){
+          let parent=route.meta.parent;
+          openedNames =[parent[0]];
+          activeName= parent[parent.length-1];
+        }else{
+          openedNames = route.matched.map(item => item.name).filter(item => item !== name);
+          activeName= route.name;
+        }
+        state.openedNames=openedNames;
+        state.activeName=activeName
       }
     },
     actions: {
-      setActiveName({commit},activeName){
-        commit('setActiveName',activeName);
+      setBreadCrumb({commit},route){
+        commit('setBreadCrumb',route);
       },
-      setOpenNames({commit},openNames){
-        commit('setOpenNames',openNames);
+      setTheme({commit},theme){
+        commit('setTheme',theme);
+      },
+      collapsedSider({commit}){
+        commit('collapsedSider');
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <Dropdown ref="dropdown" @on-click="handleClick" :class="hideTitle ? '' : 'collased-menu-dropdown'" :transfer="true" :placement="placement">
+  <Dropdown ref="dropdown" @on-click="handleClick" transfer :placement="placement">
     <a class="drop-menu-a" :style="($store.state.menu.openNames || []).includes(parentItem.name)?'color: #2d8cf0; font-size: larger;':''" @mouseover="handleMousemove($event, children)"><span>{{ $t($util.showTitle(parentItem)) }}</span></a>
     <DropdownMenu ref="dropdown" slot="list">
       <template v-for="child in children">
@@ -14,14 +14,6 @@
 export default {
   name: 'CollapsedMenu',
   props: {
-    hideTitle: {
-      type: Boolean,
-      default: false
-    },
-    rootIconSize: {
-      type: Number,
-      default: 16
-    },
     parentItem: {
       type: Object,
       default: () => {}

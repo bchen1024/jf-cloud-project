@@ -30,7 +30,8 @@ export default[
                         name:'myImport',
                         component:resolve =>require(['@/views/excel/import/myImport.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            needApp:true
                         }
                     },
                     {
@@ -38,7 +39,8 @@ export default[
                         name:'myExport',
                         component:resolve =>require(['@/views/excel/export/myExport.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            needApp:true
                         }
                     }
                 ]
@@ -226,7 +228,8 @@ export default[
                         name:'importTemplate',
                         component:resolve =>require(['@/views/excel/import/importTemplate.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                     {
@@ -234,7 +237,8 @@ export default[
                         name:'exportTemplate',
                         component:resolve =>require(['@/views/excel/export/exportTemplate.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            needApp:true
                         }
                     },
                 ]

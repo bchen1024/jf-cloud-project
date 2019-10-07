@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author jeo_cb
  * @date 2019/8/29
  **/
-public interface ISelectItem extends Serializable {
+public interface ISelectItemVO extends Serializable {
 
     /**
      * 获取Value值

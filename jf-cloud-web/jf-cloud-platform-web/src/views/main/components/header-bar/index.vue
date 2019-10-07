@@ -1,6 +1,6 @@
 <template>
     <div class="header-bar">
-        <a @click="collapsedSider" type="text" :class="['sider-trigger-a', collapsed ? 'collapsed' : '']">
+        <a @click="collapsedSider" :class="['sider-trigger-a', collapsed ? 'collapsed' : '']">
             <Icon type="md-menu" size="24"></Icon>
         </a>
         <Breadcrumb class="jf-bread-crumb">
@@ -15,13 +15,8 @@
     </div>
 </template>
 <script>
-import { mapMutations, mapActions, mapGetters } from 'vuex'
 export default {
     name: 'HeaderBar',
-    data(){
-        return{
-        }
-    },
     computed: {
         breadCrumbList () {
             return this.$store.state.menu.breadCrumbList;
@@ -31,9 +26,9 @@ export default {
         }
     },
     methods:{
-        ...mapMutations([
-            'collapsedSider'            
-        ])
+        collapsedSider(){
+            this.$store.dispatch('collapsedSider');
+        }
     }
 }
 </script>

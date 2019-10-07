@@ -145,6 +145,24 @@ export default{
     employeeJob:'员工职位',
     employeeParent:'员工上级',
 
+    addPermission:'添加权限',
+    permissionType:'权限类型',
+    permissionCode:'权限编码',
+    permissionDescCn:'中文名',
+    permissionDescEn:'英文名',
+    permissionSource:'权限来源',
+    parentCode:'父编码',
+    resources:'资源',
+    method:'方法',
+    annotation:'注解',
+    custom:'自定义',
+    forceSyncPermission:'强制同步权限',
+    noPermissionData:'无权限数据，请先同步权限或者添加权限',
+    syncPermissionTip:'同步权限，存在重复即更新，不存在即新增',
+    forceSyncPermissionTip:'强制同步权限，删除原来同步的全部权限重新同步',
+    checkInvalidPermission:'检查无效权限',
+    checkInvalidPermissionTip:'检查已同步权限，但是后来程序已删除的注解权限',
+
     'server.error':'请求异常，请联系管理员',
 
     validator:{

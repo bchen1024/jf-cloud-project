@@ -10,5 +10,7 @@ export default {
     //英文key
     EN_US:'en-US',
     //语言key
-    LANGUAGE:'lang'
+    LANGUAGE:'lang',
+    //主题
+    THEME:'theme'
 }

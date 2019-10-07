@@ -1,7 +1,5 @@
 package com.btsoft.jf.cloud.core.base.vo;
 
-import com.btsoft.jf.cloud.core.base.vo.impl.SelectItemVO;
-
 import java.util.List;
 
 /**
@@ -9,7 +7,7 @@ import java.util.List;
  * @author jeo_cb
  * @date 2019/8/29
  **/
-public interface ICascadeSelectItem extends ISelectItem {
+public interface ICascadeSelectItemVO extends ISelectItemVO {
 
     /**
      * 获取子项集合
@@ -17,5 +15,5 @@ public interface ICascadeSelectItem extends ISelectItem {
      * @date 2019/8/29
      * @return 子项集合
      **/
-    List<SelectItemVO> getChildren();
+    List<ISelectItemVO> getChildren();
 }
