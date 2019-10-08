@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.entity;
 
 import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 员工实体
@@ -62,5 +63,10 @@ public class EmployeeEntity extends BaseEntity {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

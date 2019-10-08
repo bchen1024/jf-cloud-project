@@ -19,6 +19,7 @@ public class CommonResultUtils {
         CommonResult commonResult=new CommonResult();
         commonResult.setData(result);
         commonResult.setSuccess(true);
+        commonResult.setMsg("success");
         commonResult.setCode(ErrorCodeConstants.Global.SUCCESS);
         return commonResult;
     }
@@ -60,6 +61,7 @@ public class CommonResultUtils {
         pageResult.setList(JSON.parseArray(JSON.toJSONString(page.getResult()),clazz));
         commonResult.setData(pageResult);
         commonResult.setSuccess(true);
+        commonResult.setMsg("success");
         commonResult.setCode(ErrorCodeConstants.Global.SUCCESS);
         return commonResult;
     }

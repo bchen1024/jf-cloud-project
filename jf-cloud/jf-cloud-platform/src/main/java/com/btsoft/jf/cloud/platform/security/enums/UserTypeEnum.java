@@ -4,8 +4,7 @@ import com.btsoft.jf.cloud.core.enums.IBaseEnum;
 import com.btsoft.jf.cloud.core.enums.impl.LanguageEnum;
 
 /**
- * TODO 枚举描述
- *
+ * 用户类型枚举
  * @author jeo_cb
  * @date 2019/9/28
  **/

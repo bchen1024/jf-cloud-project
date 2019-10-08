@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.entity;
 
 import com.btsoft.jf.cloud.core.base.entity.impl.BaseAppEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 权限点Entity
@@ -71,5 +72,10 @@ public class PermissionEntity extends BaseAppEntity {
 
     public void setPermissionSource(String permissionSource) {
         this.permissionSource = permissionSource;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
