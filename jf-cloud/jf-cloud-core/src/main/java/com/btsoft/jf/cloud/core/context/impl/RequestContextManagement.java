@@ -33,10 +33,15 @@ public class RequestContextManagement {
         //TODO 校验token有效性
         rc.setToken(token);
 
+        //Request App
+        String requestApp=StringUtils.trim(req.getHeader(RequestConstants.Header.X_CLOUD_APP));
+        //TODO 校验app有效性，判断app是否合法
+        rc.setRequestApp(requestApp);
+
         //App Code
-        String appCode=StringUtils.trim(req.getHeader(RequestConstants.Header.X_CLOUD_APP));
-        //TODO 校验app有效性
-        rc.setRequestApp(appCode);
+        String appCode=StringUtils.trim(req.getHeader(RequestConstants.Header.APP_CODE));
+        //TODO 校验app有效性，判断app是否合法
+        rc.setAppCode(appCode);
 
         //Language
         String language=StringUtils.trim(req.getHeader(RequestConstants.Header.LANGUAGE));

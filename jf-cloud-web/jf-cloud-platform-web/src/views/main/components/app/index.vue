@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import util from '@/libs/util';
 export default {
   name: 'App',
   data () {
@@ -35,7 +36,8 @@ export default {
           title: this.$t('confirm'),
           content: this.$t('message.switchAppConfirm'),
           onOk: () => {
-              this.$store.commit('swtichApp',name);
+              util.setApp(name);
+              location.reload();
           }
       });
     }

@@ -45,11 +45,13 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserDetailMapper detailMapper;
     @Autowired
-    private IAppUserMapper appRoleUserMapper;
+    private IAppUserMapper appUserMapper;
     @Autowired
     private IAppMapper appMapper;
     @Autowired
     private IEmployeeMapper employeeMapper;
+    @Autowired
+    private IPermissionMapper permissionMapper;
 
     /**
      * 账号分页查询
@@ -148,14 +150,36 @@ public class UserServiceImpl implements IUserService {
         }
 
         //查询用户拥有的应用
-        AppUserQueryDTO queryDTO=new AppUserQueryDTO();
-        queryDTO.setUserId(userId);
-        List<AppUserEntity> appRoleUserEntityList=appRoleUserMapper.findAppUserList(queryDTO);
-        if(!CollectionUtils.isEmpty(appRoleUserEntityList)){
-            List<Long> appIds=appRoleUserEntityList.stream().map(v->v.getAppId()).collect(Collectors.toList());
+        AppUserQueryDTO appUserEntity=new AppUserQueryDTO();
+        appUserEntity.setUserId(userId);
+        List<AppUserEntity> appUserEntityList=appUserMapper.findAppUserList(appUserEntity);
+        if(!CollectionUtils.isEmpty(appUserEntityList)){
+
+            //根据应用id获取应用信息
+            List<Long> appIds=appUserEntityList.stream().map(v->v.getAppId()).collect(Collectors.toList());
             List<AppEntity> appList=appMapper.findListByIds(appIds);
-            List<AppBaseVO> appBaseList=EntityUtils.entityToList(AppBaseVO.class,appList);
-            result.setAppList(appBaseList);
+            if(!CollectionUtils.isEmpty(appList)){
+
+                //设置拥有拥有的应用列表
+                List<AppBaseVO> appBaseList=EntityUtils.entityToList(AppBaseVO.class,appList);
+                result.setAppList(appBaseList);
+
+                //设置用户当前应用
+                String appCode=JfCloud.getCurrent().getAppCode();
+                List<AppBaseVO> currentAppList=appBaseList.stream().filter(v->v.getAppCode().equals(appCode))
+                        .collect(Collectors.toList());
+                if(!CollectionUtils.isEmpty(currentAppList)){
+                    result.setAppInfo(currentAppList.get(0));
+                }else{
+                    result.setAppInfo(appBaseList.get(0));
+                }
+
+                //筛选出当前应用拥有的角色id
+                List<Long> roleIds=appUserEntityList.stream()
+                        .filter(v->v.getAppId().equals(result.getAppInfo().getAppId()))
+                        .map(AppUserEntity::getRoleId).collect(Collectors.toList());
+                result.setPermissionList(permissionMapper.findPermissionCodeList(roleIds));
+            }
         }
 
         return CommonResultUtils.success(result);

@@ -57,4 +57,11 @@ public interface IRequestContext extends Serializable {
      **/
     String getSessionId();
 
+    /**
+     * 获取当前访问的APP
+     * @author jeo_cb
+     * @date 2019/10/8
+     * @return 当前访问的应用编码
+     **/
+    String getAppCode();
 }

@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.vo.user;
 
 import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.List;
 
@@ -14,6 +15,10 @@ public class UserEnvironmentVO {
     private UserBaseVO user;
 
     private List<AppBaseVO> appList;
+
+    private AppBaseVO appInfo;
+
+    private List<String> permissionList;
 
     public UserBaseVO getUser() {
         return user;
@@ -29,5 +34,26 @@ public class UserEnvironmentVO {
 
     public void setAppList(List<AppBaseVO> appList) {
         this.appList = appList;
+    }
+
+    public AppBaseVO getAppInfo() {
+        return appInfo;
+    }
+
+    public void setAppInfo(AppBaseVO appInfo) {
+        this.appInfo = appInfo;
+    }
+
+    public List<String> getPermissionList() {
+        return permissionList;
+    }
+
+    public void setPermissionList(List<String> permissionList) {
+        this.permissionList = permissionList;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

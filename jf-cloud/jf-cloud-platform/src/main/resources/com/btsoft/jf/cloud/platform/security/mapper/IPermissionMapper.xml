@@ -134,4 +134,24 @@
 			LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
 			LAST_UPDATE_DATE=NOW()
 	</insert>
+
+	<select id="findPermissionCodeList" resultType="string">
+		SELECT CONCAT(T.PARENT_CODE,'$',T.PERMISSION_CODE) FROM SYS_PERMISSION_T T
+		WHERE T.ENABLE_FLAG='Y'
+		  AND T.PERMISSION_TYPE='method'
+		<if test="roleIds!=null and roleIds.size()>0">
+		    AND EXISTS(
+		    	SELECT 1 FROM SYS_ROLE_PERMISSION_RT RP
+		    		WHERE RP.ENABLE_FLAG='Y'
+		    		  AND RP.PERMISSION_ID=T.PERMISSION_ID
+				<foreach collection="roleIds" item="item" open="AND RP.ROLE_ID IN(" close=")" separator=",">
+					#{item,jdbcType=NUMERIC}
+				</foreach>
+			)
+
+		</if>
+		<if test="roleIds==null or roleIds.isEmpty()">
+			AND 1=2
+		</if>
+	</select>
 </mapper>

@@ -4,8 +4,8 @@
     <Menu ref="menu" width="auto" v-show="!collapsed" @on-select="handleSelect" :theme="theme" 
       :active-name="activeName" :open-names="openedNames" accordion>
       <template v-for="item in menuList">
-            <SiderMenuItem v-if="item.children && item.children.length>0" :key="`menu-${item.name}`" :parent-item="item"></SiderMenuItem>
-            <menu-item v-else :name="item.name" :key="`menu-${item.name}`">
+            <SiderMenuItem v-if="checkMenu(item.children)" :key="`menu-${item.name}`" :parent-item="item"></SiderMenuItem>
+            <menu-item v-else-if="!item.children" :name="item.name" :key="`menu-${item.name}`">
               <Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/>
               <span>{{ $t($util.showTitle(item)) }}</span>
             </menu-item>
@@ -13,8 +13,8 @@
     </Menu>
     <div class="menu-collapsed" v-show="collapsed">
       <template v-for="item in menuList">
-        <CollapsedMenu v-if="item.children && item.children.length > 1" @on-click="handleSelect" hide-title  :parentItem="item" :key="`drop-menu-${item.name}`"></CollapsedMenu>
-        <Tooltip transfer v-else :content="$t($util.showTitle(item.children && item.children[0] ? item.children[0] : item))" placement="right" :key="`drop-menu-${item.name}`">
+        <CollapsedMenu v-if="checkMenu(item.children)" @on-click="handleSelect" hide-title  :parentItem="item" :key="`drop-menu-${item.name}`"></CollapsedMenu>
+        <Tooltip transfer v-else-if="!item.children" :content="$t($util.showTitle(item.children && item.children[0] ? item.children[0] : item))" placement="right" :key="`drop-menu-${item.name}`">
           <a @click="handleSelect(item.name)" class="drop-menu-a" :style="($store.state.menu.openNames || []).includes(item.name)?'color: #2d8cf0; font-size: larger;':''">{{ $t($util.showTitle(item)) }}</a>
         </Tooltip>
       </template>
@@ -24,7 +24,8 @@
 <script>
 import SiderMenuItem from './sider-menu-item.vue'
 import CollapsedMenu from './collapsed-menu.vue'
-import routes from '@/router/routes'
+import routes from '@/router/routes';
+import util from '@/libs/util';
 export default {
   name: 'SiderMenu',
   components: {
@@ -76,6 +77,17 @@ export default {
           params,
           query
       });
+    },
+    checkMenu(children){
+      if(!children || children.length==0){
+        return false;
+      }else{
+        let filterMenu=children.filter(v=>util.checkPermission((v.meta && v.meta.permissionCode),this.$store.state.permission.permissionList));
+        if(filterMenu.length>0){
+          return true;
+        }
+        return false;
+      }
     }
   },
   watch: {

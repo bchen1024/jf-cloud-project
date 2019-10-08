@@ -142,5 +142,26 @@ export default {
             return names.join('/');
         }
         return '';
+    },
+    checkPermission(permissionCode,permissionList){
+        if(!permissionCode){
+            return true;
+        }else{
+            if(permissionList || permissionList.length>0){
+                let flag=false;
+                if(permissionCode.indexOf('&')){
+                    let permissionCodes=permissionCode.split('&');
+                    let filterList=permissionList.filter(v=>permissionCodes.includes(v));
+                    flag=(filterList.length==permissionCodes.length);
+                }else if(permissionCode.indexOf('|')){
+                    let permissionCodes=permissionCode.split('|');
+                    flag=permissionList.same(v=>permissionCodes.includes(v));
+                }else{
+                    flag=permissionList.includes(permissionCode);
+                }
+                return flag;
+            }
+            return false;
+        }
     }
 }

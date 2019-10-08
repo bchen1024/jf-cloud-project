@@ -3,8 +3,8 @@
     <a class="drop-menu-a" :style="($store.state.menu.openNames || []).includes(parentItem.name)?'color: #2d8cf0; font-size: larger;':''" @mouseover="handleMousemove($event, children)"><span>{{ $t($util.showTitle(parentItem)) }}</span></a>
     <DropdownMenu ref="dropdown" slot="list">
       <template v-for="child in children">
-        <CollapsedMenu v-if="child.children && child.children.length>0"  :parentItem="child" :key="`drop-${child.name}`"/>
-        <DropdownItem :selected="child.name==$store.state.menu.activeName" v-else :key="`drop-${child.name}`" :name="child.name"><Icon :type="child.icon"/><span class="menu-title">{{ $t($util.showTitle(child))  }}</span></DropdownItem>
+        <CollapsedMenu v-if="checkMenu(child.children)"  :parentItem="child" :key="`drop-${child.name}`"/>
+        <DropdownItem v-else-if="$util.checkPermission((child.meta && child.meta.permissionCode),$store.state.permission.permissionList)" :selected="child.name==$store.state.menu.activeName" :key="`drop-${child.name}`" :name="child.name"><Icon :type="child.icon"/><span class="menu-title">{{ $t($util.showTitle(child))  }}</span></DropdownItem>
       </template>
     </DropdownMenu>
   </Dropdown>
@@ -41,6 +41,17 @@ export default {
       const height = children.length * 38
       const isOverflow = pageY + height < window.innerHeight
       this.placement = isOverflow ? 'right-start' : 'right-end'
+    },
+    checkMenu(children){
+        if(!children || children.length==0){
+            return false;
+        }else{
+            let filterMenu=children.filter(v=>util.checkPermission((v.meta && v.meta.permissionCode),this.$store.state.permission.permissionList));
+            if(filterMenu.length>0){
+            return true;
+            }
+            return false;
+        }
     }
   },
   mounted () {

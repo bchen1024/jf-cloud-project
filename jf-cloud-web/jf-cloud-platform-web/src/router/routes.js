@@ -30,8 +30,7 @@ export default[
                         name:'myImport',
                         component:resolve =>require(['@/views/excel/import/myImport.vue'],resolve),
                         meta:{
-                            icon:'md-people',
-                            needApp:true
+                            icon:'md-people'
                         }
                     },
                     {
@@ -39,8 +38,7 @@ export default[
                         name:'myExport',
                         component:resolve =>require(['@/views/excel/export/myExport.vue'],resolve),
                         meta:{
-                            icon:'md-people',
-                            needApp:true
+                            icon:'md-people'
                         }
                     }
                 ]
@@ -59,7 +57,8 @@ export default[
                         name:'appMgt',
                         component:resolve =>require(['@/views/account/app/index.vue'],resolve),
                         meta:{
-                            icon:'md-apps'
+                            icon:'md-apps',
+                            permissionCode:'app$page'
                         }
                     },
                     {
@@ -67,7 +66,8 @@ export default[
                         name:'userMgt',
                         component:resolve =>require(['@/views/account/user/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            permissionCode:'user$page'
                         }
                     },
                     {
@@ -75,7 +75,8 @@ export default[
                         name:'employeeMgt',
                         component:resolve =>require(['@/views/account/employee/index.vue'],resolve),
                         meta:{
-                            icon:'ios-people'
+                            icon:'ios-people',
+                            permissionCode:'employee$page'
                         }
                     },
                     {
@@ -84,7 +85,7 @@ export default[
                         component:resolve =>require(['@/views/account/role/index.vue'],resolve),
                         meta:{
                             icon:'md-people',
-                            needApp:true
+                            permissionCode:'role$page'
                         }
                     },
                     {
@@ -93,7 +94,7 @@ export default[
                         component:resolve =>require(['@/views/account/group/index.vue'],resolve),
                         meta:{
                             icon:'ios-people',
-                            needApp:true
+                            permissionCode:'group$page'
                         }
                     },
                     {
@@ -102,7 +103,7 @@ export default[
                         component:resolve =>require(['@/views/account/permission/index.vue'],resolve),
                         meta:{
                             icon:'md-lock',
-                            needApp:true
+                            permissionCode:'permission$list'
                         }
                     }
                 ]
@@ -117,21 +118,12 @@ export default[
                 },
                 children:[
                     {
-                        path:'/config/menu',
-                        name:'menuMgt',
-                        component:resolve =>require(['@/views/config/menu/index.vue'],resolve),
-                        meta:{
-                            icon:'md-menu',
-                            needApp:true
-                        }
-                    },
-                    {
                         path:'/config/property',
                         name:'propertyMgt',
                         component:resolve =>require(['@/views/config/property/index.vue'],resolve),
                         meta:{
                             icon:'md-people',
-                            needApp:true
+                            permissionCode:'property$page'
                         }
                     },
                     
@@ -141,7 +133,7 @@ export default[
                         component:resolve =>require(['@/views/config/code/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'code$page'
                         }
                     },
                     {
@@ -149,15 +141,17 @@ export default[
                         name:'organizationMgt',
                         component:resolve =>require(['@/views/config/organization/index.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            permissionCode:'organization$page'
                         }
                     },
                     {
-                        path:'/config/job',
+                        path:'/config/employeeJob',
                         name:'jobMgt',
                         component:resolve =>require(['@/views/config/job/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            permissionCode:'employeeJob$page'
                         }
                     },
                     {
@@ -166,7 +160,7 @@ export default[
                         component:resolve =>require(['@/views/config/notice/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'notice$page'
                         }
                     },
                     {
@@ -175,7 +169,7 @@ export default[
                         component:resolve =>require(['@/views/config/template/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'template$page'
                         }
                     },
                     {
@@ -184,7 +178,7 @@ export default[
                         component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'i18n$page'
                         }
                     },
                     {
@@ -193,7 +187,7 @@ export default[
                         component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'personalized$page'
                         }
                     }
                 ]
@@ -212,7 +206,8 @@ export default[
                         name:'importMonitor',
                         component:resolve =>require(['@/views/excel/import/importMonitor.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            permissionCode:'importTask$page'
                         }
                     },
                     {
@@ -220,7 +215,8 @@ export default[
                         name:'exportMonitor',
                         component:resolve =>require(['@/views/excel/export/exportMonitor.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            permissionCode:'exportTask$page'
                         }
                     },
                     {
@@ -229,7 +225,7 @@ export default[
                         component:resolve =>require(['@/views/excel/import/importTemplate.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'importTemplate$page'
                         }
                     },
                     {
@@ -238,7 +234,7 @@ export default[
                         component:resolve =>require(['@/views/excel/export/exportTemplate.vue'],resolve),
                         meta:{
                             icon:'md-person',
-                            needApp:true
+                            permissionCode:'exportTemplate$page'
                         }
                     },
                 ]
@@ -257,7 +253,8 @@ export default[
                         name:'auditLog',
                         component:resolve =>require(['@/views/monitor/auditLog/index.vue'],resolve),
                         meta:{
-                            icon:'md-people'
+                            icon:'md-people',
+                            permissionCode:'auditLog$page'
                         }
                     },
                     {
@@ -265,7 +262,8 @@ export default[
                         name:'serverLog',
                         component:resolve =>require(['@/views/monitor/auditLog/index.vue'],resolve),
                         meta:{
-                            icon:'md-person'
+                            icon:'md-person',
+                            permissionCode:'serverLog$list'
                         }
                     }
                 ]

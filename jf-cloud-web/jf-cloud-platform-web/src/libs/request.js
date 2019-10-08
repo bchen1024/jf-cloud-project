@@ -14,6 +14,7 @@ http.interceptors.request.use(
     config.headers['Content-Type'] = 'application/json;charset=UTF-8';
     config.headers['Language'] = util.getLanguage();
     config.headers['Token'] = util.getToken();
+    config.headers['AppCode'] =util.getApp();
     config.headers['x-cloud-app'] ='jf-cloud-platform';
     //TODO TOken、应用
     return config

@@ -31,7 +31,8 @@ router.beforeEach((to, from, next) => {
           router.app.$http.get('jfcloud/jf-cloud-platform/security/user/environment').then(result=>{
             if(result && result.success){
               router.app.$store.dispatch('setUserInfo',result.data.user);
-              router.app.$store.dispatch('setAppList',result.data.appList);
+              router.app.$store.dispatch('setPermissionList',result.data.permissionList);
+              router.app.$store.dispatch('setAppList',{appList:result.data.appList,appInfo:result.data.appInfo});
               next();
             }
           }).catch(error=>{

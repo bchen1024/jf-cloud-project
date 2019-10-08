@@ -17,6 +17,7 @@ public class RequestContext implements IRequestContext {
     private String requestIp;
     private Long currentUserId;
     private String sessionId;
+    private String appCode;
 
     @Override
     public String getToken() {
@@ -79,6 +80,15 @@ public class RequestContext implements IRequestContext {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    @Override
+    public String getAppCode() {
+        return appCode;
+    }
+
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 
     @Override

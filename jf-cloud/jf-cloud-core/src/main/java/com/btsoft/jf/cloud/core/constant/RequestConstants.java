@@ -15,7 +15,10 @@ public interface RequestConstants {
         String TOKEN="Token";
 
         /** 语言*/
-        String LANGUAGE="language";
+        String LANGUAGE="Language";
+
+        /** 应用编码*/
+        String APP_CODE="AppCode";
 
         /** 当前语言*/
         String CURRENT_LANGUAGE="currentLanguage";
