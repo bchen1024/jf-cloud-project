@@ -10,6 +10,24 @@ export default[
         },
         children:[
             {
+                path:'/error/noPermission',
+                name:'noPermission',
+                component:resolve =>require(['@/views/error/401.vue'],resolve),
+                meta:{
+                    noNeedLogin:true,
+                    hideMenu:true
+                }
+            },
+            {
+                path:'/error/badGateway',
+                name:'badGateway',
+                component:resolve =>require(['@/views/error/502.vue'],resolve),
+                meta:{
+                    hideMenu:true,
+                    noNeedLogin:true
+                }
+            },
+            {
                 path:'/home',
                 name:'home',
                 component:resolve =>require(['@/views/home/index.vue'],resolve),

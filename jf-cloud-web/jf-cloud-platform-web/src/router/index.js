@@ -26,17 +26,25 @@ router.beforeEach((to, from, next) => {
         next({name:'login',query:{routerName:to.name}});
       }else{
         if (router.app.$store.state.user.userInfo) {//如果已经获取到登录信息，则直接跳转
-          next();
+          if(util.checkPermission((to.meta && to.meta.permissionCode),router.app.$store.state.permission.permissionList)){
+            next();
+          }else{
+            next({name:'noPermission'});
+          }
         }else{
           router.app.$http.get('jfcloud/jf-cloud-platform/security/user/environment').then(result=>{
             if(result && result.success){
               router.app.$store.dispatch('setUserInfo',result.data.user);
               router.app.$store.dispatch('setPermissionList',result.data.permissionList);
               router.app.$store.dispatch('setAppList',{appList:result.data.appList,appInfo:result.data.appInfo});
-              next();
+              if(util.checkPermission((to.meta && to.meta.permissionCode),router.app.$store.state.permission.permissionList)){
+                next();
+              }else{
+                next({name:'noPermission'});
+              }
             }
           }).catch(error=>{
-            next();
+            next({name:'badGateway'});
           });
         }
       }
