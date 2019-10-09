@@ -10,6 +10,7 @@ import store from '@/store'
 import router from '@/router'
 import libs from '@/libs'
 import JFView from '@/components';
+import importDirective from '@/directive';
 
 //注册iview
 Vue.use(iView,{
@@ -19,6 +20,8 @@ Vue.use(iView,{
 Vue.use(JFView);
 //注册工具
 Vue.use(libs);
+//注册指令
+importDirective(Vue);
 
 //if (process.env.NODE_ENV !== 'production') require('@/mock')
 

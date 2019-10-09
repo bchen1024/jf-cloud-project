@@ -48,7 +48,7 @@
                 </div>
                 <div class="jf-search-toolbar-right">
                     <slot name="grid-search-toolbar"></slot>
-                    <Button v-if="tableOp.logSetting && tableOp.logSetting.module" @click="viewLog">
+                    <Button v-permission="'auditLog$page'" v-if="tableOp.logSetting && tableOp.logSetting.module" @click="viewLog">
                         {{$t('operationLog')}}
                     </Button>
                     <Tooltip v-if="tableOp.allowSetting" :content="$t('tableSetting')" placement="bottom">
