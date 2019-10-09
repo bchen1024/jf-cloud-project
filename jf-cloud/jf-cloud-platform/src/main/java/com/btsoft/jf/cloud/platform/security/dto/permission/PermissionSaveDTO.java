@@ -4,8 +4,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseAppDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * TODO 类描述
- *
+ * 权限点保存DTO
  * @author jeo_cb
  * @date 2019/10/7
  **/

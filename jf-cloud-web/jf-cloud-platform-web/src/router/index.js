@@ -44,6 +44,7 @@ router.beforeEach((to, from, next) => {
               }
             }
           }).catch(error=>{
+            console.error(error);
             next({name:'badGateway'});
           });
         }

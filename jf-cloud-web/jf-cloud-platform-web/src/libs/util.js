@@ -149,13 +149,13 @@ export default {
         }else{
             if(permissionList || permissionList.length>0){
                 let flag=false;
-                if(permissionCode.indexOf('&')){
+                if(permissionCode.indexOf('&')>-1){
                     let permissionCodes=permissionCode.split('&');
                     let filterList=permissionList.filter(v=>permissionCodes.includes(v));
                     flag=(filterList.length==permissionCodes.length);
-                }else if(permissionCode.indexOf('|')){
+                }else if(permissionCode.indexOf('|')>-1){
                     let permissionCodes=permissionCode.split('|');
-                    flag=permissionList.same(v=>permissionCodes.includes(v));
+                    flag=permissionList.some(v=>permissionCodes.includes(v));
                 }else{
                     flag=permissionList.includes(permissionCode);
                 }

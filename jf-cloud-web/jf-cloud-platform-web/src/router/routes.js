@@ -14,7 +14,6 @@ export default[
                 name:'noPermission',
                 component:resolve =>require(['@/views/error/401.vue'],resolve),
                 meta:{
-                    noNeedLogin:true,
                     hideMenu:true
                 }
             },
@@ -23,8 +22,7 @@ export default[
                 name:'badGateway',
                 component:resolve =>require(['@/views/error/502.vue'],resolve),
                 meta:{
-                    hideMenu:true,
-                    noNeedLogin:true
+                    hideMenu:true
                 }
             },
             {
@@ -322,7 +320,8 @@ export default[
                 meta:{
                     parent:['accountMgt','appMgt'],
                     hideMenu:true,
-                    icon:'md-person'
+                    icon:'md-person',
+                    permissionCode:'app$single|app$appUsers|app$appToken'
                 }
             }
             

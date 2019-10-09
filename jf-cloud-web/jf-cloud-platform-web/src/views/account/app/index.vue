@@ -34,24 +34,24 @@ export default {
                     logSetting:{module:'App'},
                     detail:{name:'appDetail'},
                     buttons:[
-                        {title:vm.$t('edit'),click:(params)=>{
+                        {title:vm.$t('edit'),permissionCode:'app$save',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),gridDelete:true},
-                        {title:vm.$t('detail'),gridDetail:true},
-                        {title:vm.$t('appUsers'),gridDetail:{tabId:'appUsers'},show:(row)=>{
+                        {title:vm.$t('delete'),permissionCode:'app$delete',gridDelete:true},
+                        {title:vm.$t('detail'),permissionCode:'app$single',gridDetail:true},
+                        {title:vm.$t('appUsers'),permissionCode:'app$appUsers',gridDetail:{tabId:'appUsers'},show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
                             }
                             return false;
                         }},
-                        {title:vm.$t('appToken'),gridDetail:{tabId:'appToken'},show:(row)=>{
+                        {title:vm.$t('appToken'),permissionCode:'app$appToken',gridDetail:{tabId:'appToken'},show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
                             }
                             return false;
                         }},
-                        {title:vm.$t('syncPermission'),show:(row)=>{
+                        {title:vm.$t('syncPermission'),permissionCode:'permission$sync',show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
                             }

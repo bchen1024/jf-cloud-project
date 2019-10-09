@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * TODO 类描述
- *
+ * 权限管理Controller
  * @author jeo_cb
  * @date 2019/9/3
  **/

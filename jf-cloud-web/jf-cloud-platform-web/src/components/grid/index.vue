@@ -228,8 +228,10 @@ export default {
             if(tableOp.buttons && tableOp.buttons.length>0){
                 let btns=[];
                 (tableOp.buttons || []).forEach(btn=>{
-                    //TODO 校验权限
-                    btns.push(btn);
+                    //校验权限
+                    if(vm.$util.checkPermission(btn.permissionCode,vm.$store.state.permission.permissionList)){
+                        btns.push(btn);
+                    }            
                 });
                 if(btns.length>0){
                      columns.push(

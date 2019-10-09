@@ -3,8 +3,7 @@ package com.btsoft.jf.cloud.platform.security.vo.role;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * TODO 类描述
- *
+ * 角色基本信息VO
  * @author jeo_cb
  * @date 2019/10/6
  **/
