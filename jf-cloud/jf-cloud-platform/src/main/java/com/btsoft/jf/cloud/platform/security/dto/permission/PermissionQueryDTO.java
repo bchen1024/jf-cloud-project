@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class PermissionQueryDTO extends BaseAppDTO {
 
     private String queryType;
+    private Long roleId;
 
     public String getQueryType() {
         return queryType;
@@ -18,6 +19,14 @@ public class PermissionQueryDTO extends BaseAppDTO {
 
     public void setQueryType(String queryType) {
         this.queryType = queryType;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     @Override

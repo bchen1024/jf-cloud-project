@@ -1,7 +1,7 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
         <template slot="grid-search-toolbar">
-            <Button icon="md-add" type="primary" @click="openEdit()">
+            <Button icon="md-add" type="primary" @click="openEdit()" v-permission="'app$save'">
                 {{$t('createApp')}}
             </Button>
         </template>

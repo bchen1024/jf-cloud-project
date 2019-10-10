@@ -1,7 +1,7 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
         <template slot="grid-search-toolbar">
-            <Button icon="md-add" type="primary" @click="openEdit()">
+            <Button icon="md-add" type="primary" @click="openEdit()" v-permission="'user$save'">
                 {{$t('createUser')}}
             </Button>
         </template>
@@ -42,10 +42,10 @@ export default {
                     logSetting:{module:'User'},
                     detail:{name:'userDetail'},
                     buttons:[
-                        {title:vm.$t('edit'),click:(params)=>{
+                        {title:vm.$t('edit'),permissionCode:'user$save',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),show:(row)=>{
+                        {title:vm.$t('delete'),permissionCode:'user$updateStatus',show:(row)=>{
                             if(row.userStatus!='D'){
                                 return true;
                             }
@@ -74,8 +74,8 @@ export default {
                                 userId:params.row.userId,
                                 userStatus:userStatus
                             });
-                        }},
-                        {title:vm.$t('detail'),gridDetail:true},
+                        },permissionCode:'user$updateStatus'},
+                        {title:vm.$t('detail'),permissionCode:'user$single',gridDetail:true},
                     ],
                     columns:[
                         {key:'userNo',width:120,condition:true},

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity">
+		<result column="ENABLE_FLAG" property="enableFlag"/>
+		<result column="CREATE_BY" property="createBy"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
+
+		<result column="ID" property="id"/>
+		<result column="ROLE_ID" property="roleId"/>
+		<result column="PERMISSION_ID" property="permissionId"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.ID,
+			T.ROLE_ID,
+			T.PERMISSION_ID,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_ROLE_PERMISSION_RT T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+			T.ENABLE_FLAG='Y'
+			<if test='vo.roleId!=null'>
+				AND T.ROLE_ID = #{vo.roleId,jdbcType=NUMERIC}
+			</if>
+			<if test='vo.permissionId!=null'>
+				AND T.PERMISSION_ID = #{vo.permissionId,jdbcType=NUMERIC}
+			</if>
+		</trim>
+	</sql>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+
+	<insert id="createMultiple">
+		INSERT INTO SYS_ROLE_PERMISSION_RT (
+		ROLE_ID,
+		PERMISSION_ID,
+		CREATE_BY,
+		LAST_UPDATE_BY
+		)
+		VALUES
+		<foreach collection="vo.list" item="item" separator=",">
+			(#{item.roleId,jdbcType=NUMERIC},
+			#{item.permissionId,jdbcType=NUMERIC},
+			#{item.currentUserId,jdbcType=NUMERIC},
+			#{item.currentUserId,jdbcType=NUMERIC})
+		</foreach>
+		ON DUPLICATE KEY UPDATE
+		LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
+		LAST_UPDATE_DATE=NOW()
+	</insert>
+
+	<delete id="deleteRolePermission">
+		DELETE FROM SYS_ROLE_PERMISSION_RT WHERE ROLE_ID=#{vo.roleId,jdbcType=NUMERIC}
+		<if test="vo.permissionIds!=null and vo.permissionIds.size()>0">
+			<foreach collection="vo.permissionIds" item="item" open="AND PERMISSION_ID NOT IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+	</delete>
+</mapper>

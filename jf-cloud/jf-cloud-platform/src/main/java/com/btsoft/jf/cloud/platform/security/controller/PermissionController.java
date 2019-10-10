@@ -54,13 +54,20 @@ public class PermissionController {
      * @param  dto 查询参数
      * @return 权限树集合
      **/
-    @PostMapping(ControllerContants.Path.LIST)
+    @PostMapping(ControllerContants.Path.TREE)
     @ApiOperation("获取权限树")
-    @JOperator(code = ControllerContants.Operator.LIST, descCN = "权限列表", descEN = "Permission List")
+    @JOperator(code = ControllerContants.Operator.TREE, descCN = "权限树", descEN = "Permission Tree")
     public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
         return service.findPermissionTree(dto);
     }
 
+    /**
+     * 保存权限点
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  dto 查询参数
+     * @return 保存结果
+     **/
     @PutMapping(ControllerContants.Path.SAVE)
     @ApiOperation("保存权限")
     @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存", descEN = "Save Permission")

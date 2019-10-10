@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
+import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.entity.PermissionEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

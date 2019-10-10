@@ -260,10 +260,13 @@ export default {
                                     }
                                 }},title));
                             })
-                            return h('Dropdown',{props:{transfer:true}}, [
-                                h('Icon',{props:{type:'ios-more',size:20}}),
-                                h('DropdownMenu',{slot:'list'},menuItems)
-                            ]);
+                            if(menuItems.length>0){
+                                return h('Dropdown',{props:{transfer:true}}, [
+                                    h('Icon',{props:{type:'ios-more',size:20}}),
+                                    h('DropdownMenu',{slot:'list'},menuItems)
+                                ]);
+                            }
+                            return '';
                         }}
                     );
                 }

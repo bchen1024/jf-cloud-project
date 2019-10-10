@@ -1,7 +1,7 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
         <template slot="grid-search-toolbar">
-            <Button icon="md-add" type="primary" @click="openEdit()">
+            <Button icon="md-add" type="primary" @click="openEdit()" v-permission="'role$save'">
                 {{$t('createRole')}}
             </Button>
         </template>
@@ -36,19 +36,19 @@ export default {
                     logSetting:{module:'Role'},
                     detail:{name:'roleDetail'},
                     buttons:[
-                        {title:vm.$t('edit'),click:(params)=>{
+                        {title:vm.$t('edit'),permissionCode:'role$save',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),gridDelete:true,show:(row)=>{
+                        {title:vm.$t('delete'),permissionCode:'role$delete',gridDelete:true,show:(row)=>{
                             if(row.roleCode!='superAdmin'){
                                 return true;
                             }
                             return false;
                         }},
-                        {title:vm.$t('detail'),gridDetail:true},
-                        {title:vm.$t('roleUsers'),gridDetail:{tabId:'roleUsers'}},
-                        {title:vm.$t('rolePermission'),gridDetail:{tabId:'rolePermission'}},
-                        {title:vm.$t('roleGroups'),gridDetail:{tabId:'roleGroups'}}
+                        {title:vm.$t('detail'),permissionCode:'role$single',gridDetail:true},
+                        {title:vm.$t('roleUsers'),permissionCode:'role$roleUsers',gridDetail:{tabId:'roleUsers'}},
+                        {title:vm.$t('rolePermission'),permissionCode:'role$rolePermission',gridDetail:{tabId:'rolePermission'}},
+                        {title:vm.$t('roleGroups'),permissionCode:'role$roleGroups',gridDetail:{tabId:'roleGroups'}}
                     ],
                     columns:[
                         {key:'roleCode',width:150,condition:true},

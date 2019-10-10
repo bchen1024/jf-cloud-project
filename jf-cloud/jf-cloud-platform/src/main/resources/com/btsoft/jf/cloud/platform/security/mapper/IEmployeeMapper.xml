@@ -41,16 +41,6 @@
 			<if test='vo.employeeStatus!=null and vo.employeeStatus!=""'>
 				AND T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.keywordField!=null and vo.keywordField!="" and
-				vo.keywordValue!=null and vo.keywordValue!="" '>
-				<if test='vo.keywordField=="userName"'>
-					AND EXISTS(
-					SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
-						AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
-						OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
-					)
-				</if>
-			</if>
 		</trim>
 	</sql>
 
@@ -87,6 +77,16 @@
 	<select id="findEmployeeList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
+		<if test='vo.keywordField!=null and vo.keywordField!="" and
+				vo.keywordValue!=null and vo.keywordValue!="" '>
+			<if test='vo.keywordField=="userName"'>
+				AND EXISTS(
+				SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
+				AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+				OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
+				)
+			</if>
+		</if>
 	</select>
 
 </mapper>

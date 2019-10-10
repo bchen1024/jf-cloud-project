@@ -1,7 +1,7 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
         <template slot="grid-search-toolbar">
-            <Button icon="md-add" type="primary" @click="openEdit()">
+            <Button icon="md-add" type="primary" @click="openEdit()" v-permission="'group$save'">
                 {{$t('createGroup')}}
             </Button>
         </template>
@@ -36,10 +36,10 @@ export default {
                     pkId:'groupId',
                     logSetting:{module:'Group'},
                     buttons:[
-                        {title:vm.$t('edit'),click:(params)=>{
+                        {title:vm.$t('edit'),permissionCode:'group$save',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),gridDelete:true}
+                        {title:vm.$t('delete'),permissionCode:'group$delete',gridDelete:true}
                     ],
                     columns:[
                         {key:'groupCode',width:150,condition:true},

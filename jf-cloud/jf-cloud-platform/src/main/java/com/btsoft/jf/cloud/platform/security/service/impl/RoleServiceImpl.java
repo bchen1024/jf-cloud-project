@@ -1,16 +1,20 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.EntityUtils;
+import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
+import com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
@@ -20,7 +24,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,6 +39,8 @@ public class RoleServiceImpl implements IRoleService {
 
     @Autowired
     private IRoleMapper mapper;
+    @Autowired
+    private IRolePermissionMapper rolePermissionMapper;
 
     /**
      * 角色保存，存在角色id则修改，不存在则新增
@@ -109,5 +117,24 @@ public class RoleServiceImpl implements IRoleService {
         RoleEntity entity= EntityUtils.queryDtoToEntity(RoleEntity.class,dto);
         List<RoleEntity> roleList=mapper.findList(entity);
         return CommonResultUtils.success(EntityUtils.entityToList(RoleBaseVO.class,roleList));
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result saveRolePermission(RolePermissionSaveDTO dto) {
+        rolePermissionMapper.deleteRolePermission(dto);
+        if(!CollectionUtils.isEmpty(dto.getPermissionIds())){
+            List<RolePermissionEntity> list=new ArrayList<>();
+            dto.getPermissionIds().forEach(v->{
+                RolePermissionEntity rolePermissionEntity=new RolePermissionEntity();
+                rolePermissionEntity.setRoleId(dto.getRoleId());
+                rolePermissionEntity.setPermissionId(v);
+                list.add(rolePermissionEntity);
+            });
+            BatchEntity batchEntity=new BatchEntity();
+            batchEntity.setList(list);
+            rolePermissionMapper.createMultiple(batchEntity);
+        }
+        return CommonResultUtils.success(OperationTypeEnum.Save);
     }
 }

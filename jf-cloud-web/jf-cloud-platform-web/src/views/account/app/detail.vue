@@ -1,13 +1,13 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')" name="detail">
+        <TabPane :label="$t('detail')" name="detail" v-if="$util.checkPermission('app$single',$store.state.permission.permissionList)">
             <JFDetail ref="appDetail" :id="id" :op="detailOp" @detailEdit="openEdit" @loadCallback="detailCallback"/>
-            <EditApp :formId="formId" formKey="appId"
+            <EditApp v-permission="'app$save'" :formId="formId" formKey="appId"
                 :visible.sync="showEdit" 
                 :formData="formData"
                 @saveCallback="loadDetail()"/>
         </TabPane>
-        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1'">
+        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1' && $util.checkPermission('app$appUsers',$store.state.permission.permissionList)" >
             <JFGrid ref="appUserGrid" :gridOp="appUserGrid">
                 <template slot="grid-search-toolbar">
                     <Button icon="md-add" type="primary" @click="openAddUser()">
@@ -20,7 +20,7 @@
                     @saveCallback="loadAppUsers"/>
             </JFGrid>
         </TabPane>
-        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'">
+        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'  && $util.checkPermission('app$appToken',$store.state.permission.permissionList)">
             <Form  :model="appData" :rules="appFormRules">
                 <Spin size="large" fix v-if="appTokenLoading"></Spin>
                 <FormItem :label="$t('appToken')" prop="appToken">
@@ -55,6 +55,7 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/app/single'
                 },
+                editPermission:'app$save',
                 autoLoad:tabId=='detail',
                 userFields:['appOwner'],
                 items:[

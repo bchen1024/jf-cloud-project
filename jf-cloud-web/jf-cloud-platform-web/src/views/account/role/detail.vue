@@ -8,7 +8,10 @@
                 @saveCallback="loadDetail()"/>
         </TabPane>
         <TabPane :label="$t('roleUsers')" name="roleUsers">标签二的内容</TabPane>
-        <TabPane :label="$t('rolePermission')" name="rolePermission">标签三的内容</TabPane>
+        <TabPane :label="$t('rolePermission')" name="rolePermission">
+            <Spin size="large" fix v-if="loading"></Spin>
+            <Tree :empty-text="$t('noPermissionData')" :data="treeData" multiple show-checkbox></Tree>
+        </TabPane>
         <TabPane :label="$t('roleGroups')" name="roleGroups">标签三的内容</TabPane>
     </Tabs>
 </template>
@@ -43,7 +46,11 @@ export default {
                     
                     {key:'roleDesc',desc:true}
                 ]
-            }
+            },
+
+            loading:false,
+            saveLoading:false,
+            treeData:[]
         }
     },
     created(){
@@ -63,6 +70,8 @@ export default {
             if(!vm.loadMap[vm.tabId]){
                 if(vm.tabId=='detail'){
                     vm.loadDetail();
+                }else if(vm.tabId=='rolePermission'){
+                    vm.loadPermission();
                 }
                 vm.loadMap[vm.tabId]=true;
             }
@@ -73,6 +82,24 @@ export default {
             if(roleDetail){
                 roleDetail.load();
             }
+        },
+        loadPermission(){
+            let vm=this;
+            vm.loading=true;
+        
+            vm.$http({
+                method:'post',
+                url:'jfcloud/jf-cloud-platform/security/role/permission/tree',
+                data:{appCode:vm.$store.state.app.appInfo.appCode,roleId:vm.id,queryType:'rolePermission'}
+            }).then(result=>{
+                vm.loading=false;
+                if(result && result.success){
+                    vm.treeData=result.data;
+                }
+                
+            }).catch(error=>{
+                vm.loading=false;
+            });
         }
     }
 }

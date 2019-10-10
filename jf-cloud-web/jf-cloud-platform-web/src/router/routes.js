@@ -22,7 +22,8 @@ export default[
                 name:'badGateway',
                 component:resolve =>require(['@/views/error/502.vue'],resolve),
                 meta:{
-                    hideMenu:true
+                    hideMenu:true,
+                    noNeedLogin:true
                 }
             },
             {
@@ -119,7 +120,7 @@ export default[
                         component:resolve =>require(['@/views/account/permission/index.vue'],resolve),
                         meta:{
                             icon:'md-lock',
-                            permissionCode:'permission$list'
+                            permissionCode:'permission$tree'
                         }
                     }
                 ]

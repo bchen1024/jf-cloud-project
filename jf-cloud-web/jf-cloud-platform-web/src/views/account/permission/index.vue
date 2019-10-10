@@ -6,28 +6,23 @@
         </Sider>
         <Content :style="{background: '#fff',padding:'12px'}">
             <div style="margin-bottom: 12px;">
-                <Button icon="md-add" type="primary" @click="addPermission()">
+                <Button icon="md-add" type="primary" @click="addPermission()" v-permission="'permission$save'">
                     {{$t('addPermission')}}
                 </Button>
-                <Tooltip :content="$t('syncPermissionTip')" transfer>
+                <Tooltip :content="$t('syncPermissionTip')" transfer v-permission="'permission$sync'">
                     <Button icon="md-sync" @click="loadPermission()">
                         {{$t('syncPermission')}}
                     </Button>
                 </Tooltip>
-                <Tooltip :content="$t('forceSyncPermissionTip')" transfer :max-width="300">
+                <Tooltip :content="$t('forceSyncPermissionTip')" transfer :max-width="300" v-permission="'permission$sync'">
                     <Button icon="md-sync" @click="loadPermission()">
                         {{$t('forceSyncPermission')}}
-                    </Button>
-                </Tooltip>
-                <Tooltip :content="$t('checkInvalidPermissionTip')" transfer :max-width="300">
-                    <Button icon="md-alert" @click="loadPermission()">
-                        {{$t('checkInvalidPermission')}}
                     </Button>
                 </Tooltip>
                 <Button  icon="md-refresh" @click="loadPermission()">
                     {{$t('refresh')}}
                 </Button>
-                <Button type="error" icon="md-trash" :disabled="data.permissionSource=='annotation' || !data.permissionId">
+                <Button type="error" icon="md-trash" v-permission="'permission$delete'" :disabled="data.permissionSource=='annotation' || !data.permissionId">
                     {{$t('delete')}}
                 </Button>
             </div>
@@ -102,7 +97,7 @@
                         </Col>
                     </Row>
                 </template>
-                <div style="text-align:right;" v-if="data.permissionSource!='annotation'">
+                <div style="text-align:right;" v-if="data.permissionSource!='annotation'" v-permission="'permission$save'">
                     <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="savePermission()">
                         {{$t('save')}}
                     </Button>
@@ -156,7 +151,7 @@ export default {
             vm.initForm();
             vm.$http({
                 method:'post',
-                url:'jfcloud/jf-cloud-platform/security/permission/list',
+                url:'jfcloud/jf-cloud-platform/security/permission/tree',
                 data:{appCode:vm.$store.state.app.appInfo.appCode}
             }).then(result=>{
                 vm.loading=false;

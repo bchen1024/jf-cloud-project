@@ -2,7 +2,7 @@
     <Form v-if="items && items.length>0" :model="formData" label-position="right" :label-width="120" class="jf-detail-form">
         <Spin size="large" fix v-if="loading"></Spin>
         <div style="text-align:right;margin-bottom:12px;">
-            <Button icon="md-create" v-if="detailOp.allowEdit" @click="edit()">
+            <Button icon="md-create" v-if="detailOp.allowEdit" @click="edit()" v-permission="op.editPermission">
                 {{$t('edit')}}
             </Button>
             <Button icon="md-refresh" v-if="detailOp.allowReresh" @click="load()">

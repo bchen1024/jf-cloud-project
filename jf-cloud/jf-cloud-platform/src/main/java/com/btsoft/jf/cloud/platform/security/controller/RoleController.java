@@ -8,9 +8,13 @@ import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
+import com.btsoft.jf.cloud.platform.security.service.IPermissionService;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
+import com.btsoft.jf.cloud.platform.security.vo.permission.PermissionVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import io.swagger.annotations.Api;
@@ -33,6 +37,9 @@ public class RoleController {
 
     @Autowired
     private IRoleService roleService;
+
+    @Autowired
+    private IPermissionService permissionService;
 
     /**
      * 角色保存，存在角色id则修改，不存在则新增
@@ -103,5 +110,33 @@ public class RoleController {
     @JOperator(code ="selectRoles", descCN = "选择应用角色", descEN = "Select Role")
     public CommonResult<List<RoleBaseVO>> findRoleList(@RequestBody RoleQueryDTO dto){
         return roleService.findRoleList(dto);
+    }
+
+    /**
+     * @author jeo_cb
+     * @description 获取角色权限树
+     * @date 2019/10/10
+     * @param dto 权限树查询参数
+     * @return 权限树
+     */
+    @PostMapping("/permission/tree")
+    @ApiOperation("角色权限树")
+    @JOperator(code = "rolePermission", descCN = "角色权限树", descEN = "Role Permission Tree")
+    public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
+        return permissionService.findPermissionTree(dto);
+    }
+
+    /**
+     * @author jeo_cb
+     * @description 保存角色权限
+     * @date 2019/10/10
+     * @param dto 角色权限关系数据
+     * @return 保存结果
+     */
+    @PutMapping("/permission/save")
+    @ApiOperation("保存角色权限")
+    @JOperator(code = "saveRolePermission", descCN = "保存角色权限", descEN = "Save Role Permission")
+    public Result saveRolePermission(@RequestBody RolePermissionSaveDTO dto){
+        return roleService.saveRolePermission(dto);
     }
 }

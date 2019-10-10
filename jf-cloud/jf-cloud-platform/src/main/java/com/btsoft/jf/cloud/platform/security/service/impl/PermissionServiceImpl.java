@@ -14,7 +14,10 @@ import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSyncDTO;
 import com.btsoft.jf.cloud.platform.security.entity.PermissionEntity;
+import com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity;
+import com.btsoft.jf.cloud.platform.security.enums.PermissionQueryTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.IPermissionMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper;
 import com.btsoft.jf.cloud.platform.security.service.IPermissionService;
 import com.btsoft.jf.cloud.platform.security.vo.permission.PermissionVO;
 import org.apache.commons.lang3.StringUtils;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +43,8 @@ public class PermissionServiceImpl implements IPermissionService {
     private IPermissionMapper mapper;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private IRolePermissionMapper rolePermissionMapper;
 
     @Override
     public Result syncPermission(PermissionSyncDTO dto) {
@@ -68,6 +74,19 @@ public class PermissionServiceImpl implements IPermissionService {
         PermissionEntity entity=new PermissionEntity();
         BeanUtils.copyProperties(dto,entity);
         List<PermissionEntity> list=mapper.findList(entity);
+
+        //配置角色权限
+        List<Long> permissionIds=new ArrayList<>();
+        if(PermissionQueryTypeEnum.Role.getKey().equals(dto.getQueryType())){
+            RolePermissionEntity rolePermissionEntity=new RolePermissionEntity();
+            if(dto.getRoleId()==null){
+                rolePermissionEntity.setRoleId(-1L);
+            }else{
+                rolePermissionEntity.setRoleId(dto.getRoleId());
+            }
+            List<RolePermissionEntity> rolePermissionEntities=rolePermissionMapper.findList(rolePermissionEntity);
+            permissionIds.addAll(rolePermissionEntities.stream().map(RolePermissionEntity::getPermissionId).collect(Collectors.toList()));
+        }
         String lang= JfCloud.getCurrent().getLanguage();
         List<PermissionVO> permissionList=list.stream().map(v->{
             PermissionVO vo=new PermissionVO();
@@ -76,6 +95,11 @@ public class PermissionServiceImpl implements IPermissionService {
                 vo.setTitle(vo.getPermissionDescEn()+"-"+v.getPermissionCode());
             }else{
                 vo.setTitle(vo.getPermissionDescCn()+"-"+v.getPermissionCode());
+            }
+            if(permissionIds!=null){
+                if(permissionIds.contains(vo.getPermissionId())){
+                    vo.setChecked(true);
+                }
             }
             return vo;
         }).collect(Collectors.toList());

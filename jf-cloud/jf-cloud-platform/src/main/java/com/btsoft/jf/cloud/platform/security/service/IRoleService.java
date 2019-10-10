@@ -4,6 +4,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
+import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
@@ -62,4 +63,13 @@ public interface IRoleService{
      * @return 角色列表
      **/
     CommonResult<List<RoleBaseVO>> findRoleList(RoleQueryDTO dto);
+
+    /**
+     * @author jeo_cb
+     * @description 配置角色权限
+     * @date 2019/10/10
+     * @param dto 配置参数
+     * @return 配置结果
+     */
+    Result saveRolePermission(RolePermissionSaveDTO dto);
 }

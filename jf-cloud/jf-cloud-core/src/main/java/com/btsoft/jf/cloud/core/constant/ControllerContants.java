@@ -21,6 +21,7 @@ public interface ControllerContants {
 		public final static String 	PAGE="/page";
 		public final static String 	SYNC="/sync";
 		public final static String 	SAVE="/save";
+		public final static String 	TREE="/tree";
 	}
 	
 	public interface Api{
@@ -48,5 +49,6 @@ public interface ControllerContants {
 		public final static String 	PAGE="page";
 		public final static String 	SYNC="sync";
 		public final static String 	SAVE="save";
+		public final static String 	TREE="tree";
 	}
 }
