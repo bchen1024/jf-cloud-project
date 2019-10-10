@@ -30,7 +30,7 @@
             let vm=this;
             return {
                 saveOp:{
-                    url:'jfcloud/jf-cloud-platform/security/app/user/add',
+                    url:'jfcloud/jf-cloud-platform/security/app/user/create',
                     method:'post'
                 },
                 formRules:{

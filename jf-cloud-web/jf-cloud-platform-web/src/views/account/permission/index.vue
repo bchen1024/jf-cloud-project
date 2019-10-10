@@ -10,12 +10,12 @@
                     {{$t('addPermission')}}
                 </Button>
                 <Tooltip :content="$t('syncPermissionTip')" transfer v-permission="'permission$sync'">
-                    <Button icon="md-sync" @click="loadPermission()">
+                    <Button icon="md-sync" @click="syncPermission()">
                         {{$t('syncPermission')}}
                     </Button>
                 </Tooltip>
                 <Tooltip :content="$t('forceSyncPermissionTip')" transfer :max-width="300" v-permission="'permission$sync'">
-                    <Button icon="md-sync" @click="loadPermission()">
+                    <Button icon="md-sync" @click="syncPermission()">
                         {{$t('forceSyncPermission')}}
                     </Button>
                 </Tooltip>
@@ -158,14 +158,23 @@ export default {
                 if(result && result.success){
                     vm.treeData=result.data;
                     let parentCodes=[];
-                    vm.treeData.forEach(item=>{
-                        parentCodes.push({value:item.permissionCode,label:item.title});
-                    });
+                    vm.loadParentCode(vm.treeData,parentCodes);
                     vm.parentCodes=parentCodes;
                 }
                 
             }).catch(error=>{
                 vm.loading=false;
+            });
+        },
+        loadParentCode(list,parentCodes){
+            let vm=this;
+            list.forEach(item=>{
+                if(item.permissionType=='resources'){
+                    parentCodes.push({value:item.permissionCode,label:item.title});
+                }
+                if(item.children && item.children.length>0){
+                    vm.loadParentCode(item.children,parentCodes);
+                }
             });
         },
         onSelectChange(nodes){
@@ -228,6 +237,28 @@ export default {
                 }
             });
             
+        },
+        syncPermission(){
+            let vm=this;
+            vm.$Message.loading({
+                content: this.$t('synching'),
+                duration: 0
+            });
+            let appInfo=vm.$store.state.app.appInfo;
+            vm.$http({
+                method:'post',
+                url:'jfcloud/jf-cloud-platform/security/permission/sync',
+                data:{appCode:appInfo.appCode,contextPath:appInfo.contextPath}
+            }).then(result=>{
+                this.$Message.destroy();
+                //成功
+                if(result && result.success){
+                    vm.$Message.success(vm.$t('syncSuccessful'));
+                }
+            }).catch(error=>{
+                vm.$Message.destroy();
+                vm.$Message.error(vm.$util.handerError(error,vm));
+            });
         }
     }
 }

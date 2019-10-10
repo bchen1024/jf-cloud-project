@@ -44,6 +44,7 @@ public class CommonServiceImpl implements ICommonService {
                 resourceMap.put("permissionDescEN", jr.descEN());
                 resourceMap.put("permissionType", PermissionTypeEnum.Resources.getKey());
                 resourceMap.put("permissionSource", PermissionSourceEnum.Annotation.getKey());
+                resourceMap.put("parentCode", jr.parentCode());
                 String appCode=jr.appCode();
                 if(StringUtils.isEmpty(appCode)) {
                     appCode=JfCloud.getCurrentAppCode();

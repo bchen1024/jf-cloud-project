@@ -1,18 +1,26 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')" name="detail">
+        <TabPane :label="$t('detail')" name="detail" v-if="$util.checkPermission('role$single',$store.state.permission.permissionList)">
             <JFDetail ref="roleDetail" :op="detailOp" :id="id" @detailEdit="openEdit"/>
             <EditRole :formId="formId" formKey="roleId"
                 :visible.sync="showEdit" 
                 :formData="formData"
                 @saveCallback="loadDetail()"/>
         </TabPane>
-        <TabPane :label="$t('roleUsers')" name="roleUsers">标签二的内容</TabPane>
-        <TabPane :label="$t('rolePermission')" name="rolePermission">
+        <TabPane :label="$t('roleUsers')" name="roleUsers" v-if="$util.checkPermission('role$roleUsers',$store.state.permission.permissionList)">标签二的内容</TabPane>
+        <TabPane :label="$t('rolePermission')" name="rolePermission" v-if="$util.checkPermission('role$rolePermission',$store.state.permission.permissionList)">
             <Spin size="large" fix v-if="loading"></Spin>
-            <Tree :empty-text="$t('noPermissionData')" :data="treeData" multiple show-checkbox></Tree>
+            <div>
+                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveRolePermission()" v-permission="'role$saveRolePermission'">
+                    {{$t('save')}}
+                </Button>
+                <Button  icon="md-refresh" @click="loadPermission()">
+                    {{$t('refresh')}}
+                </Button>
+            </div>
+            <Tree ref="permissionTree" :empty-text="$t('noPermissionData')" :data="treeData" multiple show-checkbox></Tree>
         </TabPane>
-        <TabPane :label="$t('roleGroups')" name="roleGroups">标签三的内容</TabPane>
+        <TabPane :label="$t('roleGroups')" name="roleGroups" v-if="$util.checkPermission('role$roleGroups',$store.state.permission.permissionList)">标签三的内容</TabPane>
     </Tabs>
 </template>
 <script>
@@ -86,7 +94,6 @@ export default {
         loadPermission(){
             let vm=this;
             vm.loading=true;
-        
             vm.$http({
                 method:'post',
                 url:'jfcloud/jf-cloud-platform/security/role/permission/tree',
@@ -100,6 +107,32 @@ export default {
             }).catch(error=>{
                 vm.loading=false;
             });
+        },
+        saveRolePermission(){
+            let vm=this;
+            let permissionTree=vm.$refs.permissionTree;
+            if(permissionTree){
+                let checkedNodes=permissionTree.getCheckedNodes();
+                let permissionIds=[];
+                checkedNodes.forEach(element => {
+                    if(element.permissionType=='method'){
+                        permissionIds.push(element.permissionId);
+                    }
+                });
+                vm.saveLoading=true;
+                vm.$http({
+                    method:'put',
+                    url:'jfcloud/jf-cloud-platform/security/role/permission/save',
+                    data:{roleId:vm.id,permissionIds:permissionIds}
+                }).then(result=>{
+                    vm.saveLoading=false;
+                    if(result && result.success){
+                         vm.$Message.success(vm.$t('saveSuccessful'));
+                    }
+                }).catch(error=>{
+                    vm.saveLoading=false;
+                });
+            }
         }
     }
 }

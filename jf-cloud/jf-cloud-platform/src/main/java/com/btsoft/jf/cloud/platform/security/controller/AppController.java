@@ -4,15 +4,15 @@ import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
-import com.btsoft.jf.cloud.platform.security.dto.app.*;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -91,49 +91,7 @@ public class AppController {
         return service.findAppPage(dto);
     }
 
-    /**
-     * 应用用户列表
-     * @author jeo_cb
-     * @date 2019/10/3
-     * @param  dto 查询参数
-     * @return 应用用户
-     **/
-    @PostMapping("/user/page")
-    @ApiOperation("分页查询应用用户")
-    @JOperator(code ="appUsers", descCN = "应用用户列表", descEN = "App User List")
-    public CommonResult<PageResult<AppUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
-        return service.findAppUserPage(dto);
-    }
 
-    /**
-     * 删除单个应用用户
-     * @author jeo_cb
-     * @date 2019/9/29
-     * @param  dto 删除参数
-     * @return 删除结果
-     **/
-    @DeleteMapping("/user/delete")
-    @ApiOperation("删除应用用户")
-    @JOperator(code ="deleteAppUser", descCN = "删除应用用户", descEN = "Delete App User")
-    @JAuditLog
-    public Result deleteAppUser(@RequestBody BaseIdDTO dto){
-        return service.deleteAppUser(dto);
-    }
-
-    /**
-     * 添加应用用户
-     * @author jeo_cb
-     * @date 2019/10/4
-     * @param  dto 保存参数
-     * @return 保存结果
-     **/
-    @PostMapping("/user/add")
-    @ApiOperation("添加应用用户")
-    @JOperator(code ="addAppUser", descCN = "添加应用用户", descEN = "Add App User")
-    @JAuditLog
-    public Result addAppUser(@RequestBody AppUserSaveDTO dto){
-        return service.addAppUser(dto);
-    }
 
     /**
      * 获取应用Token

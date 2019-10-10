@@ -21,4 +21,6 @@ public @interface JResource {
 	public String descEN();// 资源英文描述
 	
 	public String appCode() default "";
+
+	public String parentCode() default "";
 }
