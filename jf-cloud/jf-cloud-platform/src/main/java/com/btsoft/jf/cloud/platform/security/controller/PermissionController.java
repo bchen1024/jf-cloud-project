@@ -3,6 +3,7 @@ package com.btsoft.jf.cloud.platform.security.controller;
 import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
@@ -74,5 +75,20 @@ public class PermissionController {
     @JAuditLog
     public Result savePermission(@RequestBody PermissionSaveDTO dto){
         return service.savePermission(dto);
+    }
+
+    /**
+     * 删除单个权限点
+     * @author jeo_cb
+     * @date 2019/10/11
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @ApiOperation("删除权限")
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除权限", descEN = "Delete Permission")
+    @JAuditLog
+    public Result deletePermission(@RequestBody BaseIdAppDTO dto){
+        return service.deletePermission(dto);
     }
 }

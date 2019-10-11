@@ -89,4 +89,15 @@
 		</if>
 	</select>
 
+	<update id="updateSingle">
+		UPDATE SYS_EMPLOYEE_T T SET
+			T.EMPLOYEE_TYPE=#{vo.employeeType,jdbcType=VARCHAR},
+			T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=VARCHAR},
+			T.EMPLOYEE_JOB=#{vo.employeeJob,jdbcType=NUMERIC},
+			T.PARENT_ID=#{vo.parentId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+	</update>
+
 </mapper>

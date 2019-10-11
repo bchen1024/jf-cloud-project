@@ -22,6 +22,7 @@ public class PermissionVO extends TreeVO<PermissionVO> {
     private Date createDate;
     private Long lastUpdateBy;
     private Date lastUpdateDate;
+    private String enableFlag;
 
     public Long getPermissionId() {
         return permissionId;
@@ -109,6 +110,14 @@ public class PermissionVO extends TreeVO<PermissionVO> {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public String getEnableFlag() {
+        return enableFlag;
+    }
+
+    public void setEnableFlag(String enableFlag) {
+        this.enableFlag = enableFlag;
     }
 
     @Override

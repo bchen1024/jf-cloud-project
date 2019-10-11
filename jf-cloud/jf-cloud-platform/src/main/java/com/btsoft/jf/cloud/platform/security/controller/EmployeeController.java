@@ -1,11 +1,14 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
+import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
+import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
 import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.service.IEmployeeService;
 import com.btsoft.jf.cloud.platform.security.vo.employee.EmployeeVO;
 import io.swagger.annotations.Api;
@@ -42,5 +45,20 @@ public class EmployeeController {
     @JOperator(code = ControllerContants.Operator.PAGE, descCN = "员工列表", descEN = "Employee List")
     public CommonResult<PageResult<EmployeeVO>> findAppPage(@RequestBody EmployeeQueryDTO dto){
         return service.findEmployeePage(dto);
+    }
+
+    /**
+     * 员工信息编辑
+     * @author jeo_cb
+     * @date 2019/10/11
+     * @param  dto 编辑参数
+     * @return 编辑结果
+     **/
+    @PostMapping(ControllerContants.Path.UPDATE)
+    @ApiOperation("编辑员工信息")
+    @JOperator(code = ControllerContants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee")
+    @JAuditLog
+    public Result updateEmployee(@RequestBody EmployeeUpdateDTO dto){
+        return service.updateEmployee(dto);
     }
 }

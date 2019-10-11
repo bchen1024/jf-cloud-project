@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.mapper;
 
+import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.entity.PermissionEntity;
@@ -24,4 +25,13 @@ public interface IPermissionMapper  extends IBaseMapper<PermissionEntity> {
      * @return 权限编码集合
      **/
     List<String> findPermissionCodeList(@Param("roleIds") List<Long> roleIds);
+
+    /**
+     * @author jeo_cb
+     * @description 失效已经删除的注解权限点
+     * @date 2019/10/11
+     * @param batch 批量参数
+     * @return 受影响行数
+     */
+    int inValidPermission(@Param("vo") BatchEntity<PermissionEntity> batch);
 }

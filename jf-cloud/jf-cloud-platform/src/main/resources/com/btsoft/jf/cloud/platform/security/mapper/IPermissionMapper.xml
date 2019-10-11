@@ -39,6 +39,9 @@
 	<sql id="base_condition">
 		<trim prefix="where" prefixOverrides="and || or">
 			T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+			<if test='vo.enableFlag!=null and vo.enableFlag!=""'>
+				AND T.ENABLE_FLAG = #{vo.enableFlag,jdbcType=VARCHAR}
+			</if>
             <if test='vo.permissionCode!=null and vo.permissionCode!=""'>
                 AND T.PERMISSION_CODE LIKE CONCAT('%',TRIM(#{vo.permissionCode,jdbcType=VARCHAR}),'%')
             </if>
@@ -131,9 +134,25 @@
 		ON DUPLICATE KEY UPDATE
 			PERMISSION_DESC_CN=VALUES(PERMISSION_DESC_CN),
 			PERMISSION_DESC_EN=VALUES(PERMISSION_DESC_EN),
+			PERMISSION_SOURCE =VALUES(PERMISSION_SOURCE),
+		    ENABLE_FLAG='Y',
 			LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
 			LAST_UPDATE_DATE=NOW()
 	</insert>
+
+	<update id="inValidPermission">
+		UPDATE SYS_PERMISSION_T T SET
+			T.ENABLE_FLAG='N',
+			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		  AND T.PERMISSION_SOURCE='annotation'
+		<if test="vo.list!=null and vo.list.size()>0">
+			<foreach collection="vo.list" item="item" open="AND (T.PERMISSION_CODE,T.PERMISSION_TYPE,T.PARENT_CODE) NOT IN(" close=")" separator=",">
+				(#{item.permissionCode,jdbcType=NUMERIC},#{item.permissionType,jdbcType=NUMERIC},IFNULL(#{item.parentCode,jdbcType=VARCHAR},''))
+			</foreach>
+		</if>
+	</update>
 
 	<select id="findPermissionCodeList" resultType="string">
 		SELECT CONCAT(T.PARENT_CODE,'$',T.PERMISSION_CODE) FROM SYS_PERMISSION_T T
@@ -154,4 +173,8 @@
 			AND 1=2
 		</if>
 	</select>
+
+	<delete id="deleteSingle">
+		DELETE FROM SYS_PERMISSION_T WHERE PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC} AND APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+	</delete>
 </mapper>

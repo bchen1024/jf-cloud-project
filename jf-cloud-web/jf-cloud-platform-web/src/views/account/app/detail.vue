@@ -7,10 +7,10 @@
                 :formData="formData"
                 @saveCallback="loadDetail()"/>
         </TabPane>
-        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1' && $util.checkPermission('app$appUsers',$store.state.permission.permissionList)" >
+        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1' && $util.checkPermission('appUsers$page',$store.state.permission.permissionList)" >
             <JFGrid ref="appUserGrid" :gridOp="appUserGrid">
                 <template slot="grid-search-toolbar">
-                    <Button icon="md-add" type="primary" @click="openAddUser()">
+                    <Button icon="md-add" type="primary" @click="openAddUser()" v-permission="'appUsers$create'">
                         {{$t('addUser')}}
                     </Button>
                 </template>
@@ -88,6 +88,7 @@ export default {
                     buttons:[
                         {title:vm.$t('delete'),gridDelete:true}
                     ],
+                    permissionCode:'appUsers$delete',
                     logSetting:{module:'AppUser'},
                     showAuditCreate:true,
                     showAuditUpdate:true,

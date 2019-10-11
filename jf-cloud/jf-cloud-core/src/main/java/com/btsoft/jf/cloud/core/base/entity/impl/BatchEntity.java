@@ -1,5 +1,8 @@
 package com.btsoft.jf.cloud.core.base.entity.impl;
 
+import com.btsoft.jf.cloud.core.context.impl.JfCloud;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +17,8 @@ public class BatchEntity<T> implements Serializable {
 	
 	private List<T> list;
 
+	private String appCode;
+
 	public List<T> getList() {
 		return list;
 	}
@@ -22,4 +27,20 @@ public class BatchEntity<T> implements Serializable {
 		this.list = list;
 	}
 
+	public String getAppCode() {
+		return appCode;
+	}
+
+	public void setAppCode(String appCode) {
+		this.appCode = appCode;
+	}
+
+	public Long getCurrentUserId() {
+		return JfCloud.getCurrent().getCurrentUserId();
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

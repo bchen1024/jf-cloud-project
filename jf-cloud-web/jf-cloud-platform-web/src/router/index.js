@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
         next({name:'login',query:{routerName:to.name}});
       }else{
         if (router.app.$store.state.user.userInfo) {//如果已经获取到登录信息，则直接跳转
-          if(util.checkPermission((to.meta && to.meta.permissionCode),router.app.$store.state.permission.permissionList)){
+          if(util.checkPermission((to.meta && to.meta.permissionCode),router.app)){
             next();
           }else{
             next({name:'noPermission'});
@@ -37,7 +37,7 @@ router.beforeEach((to, from, next) => {
               router.app.$store.dispatch('setUserInfo',result.data.user);
               router.app.$store.dispatch('setPermissionList',result.data.permissionList);
               router.app.$store.dispatch('setAppList',{appList:result.data.appList,appInfo:result.data.appInfo});
-              if(util.checkPermission((to.meta && to.meta.permissionCode),router.app.$store.state.permission.permissionList)){
+              if(util.checkPermission((to.meta && to.meta.permissionCode),router.app)){
                 next();
               }else{
                 next({name:'noPermission'});

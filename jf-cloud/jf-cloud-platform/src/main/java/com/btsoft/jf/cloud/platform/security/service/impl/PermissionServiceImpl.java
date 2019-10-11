@@ -2,6 +2,7 @@ package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -24,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -47,6 +49,7 @@ public class PermissionServiceImpl implements IPermissionService {
     private IRolePermissionMapper rolePermissionMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result syncPermission(PermissionSyncDTO dto) {
         StringBuilder url=new StringBuilder("http://");
         url.append(dto.getAppCode());
@@ -61,10 +64,15 @@ public class PermissionServiceImpl implements IPermissionService {
         CommonResult<List<PermissionEntity>> cr=JSON.parseObject(result,
                 new TypeReference<CommonResult<List<PermissionEntity>>>() {
                 });
-        if(!CollectionUtils.isEmpty(cr.getData())) {
-            BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
-            batchEntity.setList(cr.getData());
-            return CommonResultUtils.success(mapper.createMultiple(batchEntity));
+        if(cr.getSuccess()){
+            if(!CollectionUtils.isEmpty(cr.getData())) {
+                BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
+                batchEntity.setList(cr.getData());
+                batchEntity.setAppCode(cr.getData().get(0).getAppCode());
+                int rows=mapper.createMultiple(batchEntity);
+                mapper.inValidPermission(batchEntity);
+                return CommonResultUtils.success(rows);
+            }
         }
         return CommonResultUtils.success(OperationTypeEnum.Sync);
     }
@@ -73,11 +81,12 @@ public class PermissionServiceImpl implements IPermissionService {
     public CommonResult<List<PermissionVO>> findPermissionTree(PermissionQueryDTO dto) {
         PermissionEntity entity=new PermissionEntity();
         BeanUtils.copyProperties(dto,entity);
-        List<PermissionEntity> list=mapper.findList(entity);
+
 
         //配置角色权限
         List<Long> permissionIds=new ArrayList<>();
         if(PermissionQueryTypeEnum.Role.getKey().equals(dto.getQueryType())){
+            entity.setEnableFlag(StringConstants.Y);
             RolePermissionEntity rolePermissionEntity=new RolePermissionEntity();
             if(dto.getRoleId()==null){
                 rolePermissionEntity.setRoleId(-1L);
@@ -87,6 +96,7 @@ public class PermissionServiceImpl implements IPermissionService {
             List<RolePermissionEntity> rolePermissionEntities=rolePermissionMapper.findList(rolePermissionEntity);
             permissionIds.addAll(rolePermissionEntities.stream().map(RolePermissionEntity::getPermissionId).collect(Collectors.toList()));
         }
+        List<PermissionEntity> list=mapper.findList(entity);
         String lang= JfCloud.getCurrent().getLanguage();
         List<PermissionVO> permissionList=list.stream().map(v->{
             PermissionVO vo=new PermissionVO();
@@ -123,6 +133,15 @@ public class PermissionServiceImpl implements IPermissionService {
             rows=mapper.createSingle(entity);
         }
         return CommonResultUtils.result(rows,OperationTypeEnum.Save);
+    }
+
+    @Override
+    public Result deletePermission(BaseIdAppDTO dto) {
+        PermissionEntity entity=new PermissionEntity();
+        entity.setAppCode(dto.getAppCode());
+        entity.setPermissionId(dto.getId());
+        int rows=mapper.deleteSingle(entity);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
     private void recursePermission(List<PermissionVO> all,String parentCode,PermissionVO item){

@@ -82,7 +82,7 @@ export default {
       if(!children || children.length==0){
         return false;
       }else{
-        let filterMenu=children.filter(v=>util.checkPermission((v.meta && v.meta.permissionCode),this.$store.state.permission.permissionList));
+        let filterMenu=children.filter(v=>util.checkPermission((v.meta && v.meta.permissionCode),this));
         if(filterMenu.length>0){
           return true;
         }

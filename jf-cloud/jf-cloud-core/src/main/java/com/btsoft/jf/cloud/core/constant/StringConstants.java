@@ -16,5 +16,9 @@ public interface StringConstants {
     /** 斜杠*/
     String SLASH="/";
 
+    /** 下划线*/
     String UNDERLINE="_";
+
+    /** Y*/
+    String Y="Y";
 }

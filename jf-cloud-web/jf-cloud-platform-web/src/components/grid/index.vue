@@ -65,7 +65,9 @@
         <Table stripe
             :columns="columns" :data="data||[]"  
             :loading="loading"
-            :no-data-text="tableNoDataText">
+            :no-data-text="tableNoDataText"
+            border
+        >
         </Table>
         <!--分页-->
         <Page v-if='tableOp.showPager' @on-change="onPageChange"
@@ -214,7 +216,7 @@ export default {
                     {key:'createBy',title:vm.$t('createBy'),width:150,format:'user',render:(h,params)=>{
                          return h('JFUser',{props:{userId:params.row['createBy']}});
                     }},
-                    {key:'createDate',title:vm.$t('createDate'),width:155,align: 'center'}
+                    {key:'createDate',title:vm.$t('createDate'),width:180,align: 'center'}
                 );
             }
             if(tableOp.showAuditUpdate){
@@ -222,14 +224,14 @@ export default {
                     {key:'lastUpdateBy',title:vm.$t('lastUpdateBy'),width:150,format:'user',render:(h,params)=>{
                          return h('JFUser',{props:{userId:params.row['lastUpdateBy']}});
                     }},
-                    {key:'lastUpdateDate',title:vm.$t('lastUpdateDate'),width:155,align: 'center'}
+                    {key:'lastUpdateDate',title:vm.$t('lastUpdateDate'),width:180,align: 'center'}
                 );
             }
             if(tableOp.buttons && tableOp.buttons.length>0){
                 let btns=[];
                 (tableOp.buttons || []).forEach(btn=>{
                     //校验权限
-                    if(vm.$util.checkPermission(btn.permissionCode,vm.$store.state.permission.permissionList)){
+                    if(vm.$util.checkPermission(btn.permissionCode,vm)){
                         btns.push(btn);
                     }            
                 });

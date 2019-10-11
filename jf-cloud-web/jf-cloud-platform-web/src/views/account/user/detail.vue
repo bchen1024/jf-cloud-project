@@ -26,6 +26,7 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/user/single'
                 },
+                editPermission:'user$save',
                 autoLoad:!this.$route.query.tabId,
                 userFields:['roleOwner'],
                 items:[

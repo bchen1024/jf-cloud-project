@@ -1,8 +1,8 @@
 <template>
     <Layout :style="{height:'100%'}">
-        <Sider width="240" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
+        <Sider width="300" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
             <Spin size="large" fix v-if="loading"></Spin>
-            <Tree :empty-text="$t('noPermissionData')" :data="treeData" @on-select-change="onSelectChange"></Tree>
+            <Tree ref="permissionTree" :empty-text="$t('noPermissionData')" :render="renderContent" :data="treeData" @on-select-change="onSelectChange"></Tree>
         </Sider>
         <Content :style="{background: '#fff',padding:'12px'}">
             <div style="margin-bottom: 12px;">
@@ -22,7 +22,7 @@
                 <Button  icon="md-refresh" @click="loadPermission()">
                     {{$t('refresh')}}
                 </Button>
-                <Button type="error" icon="md-trash" v-permission="'permission$delete'" :disabled="data.permissionSource=='annotation' || !data.permissionId">
+                <Button type="error" icon="md-trash" :disabled="(data.permissionSource=='annotation' && data.enableFlag=='Y') || !data.permissionId">
                     {{$t('delete')}}
                 </Button>
             </div>
@@ -254,11 +254,56 @@ export default {
                 //成功
                 if(result && result.success){
                     vm.$Message.success(vm.$t('syncSuccessful'));
+                    vm.loadPermission();
                 }
             }).catch(error=>{
                 vm.$Message.destroy();
                 vm.$Message.error(vm.$util.handerError(error,vm));
             });
+        },
+        renderContent (h, { root, node, data }) {
+            let icon='ios-paper-outline';
+            if(data.children && data.children.length>0){
+                icon='ios-folder-outline';
+            }
+            let invalid=false;
+            if(data.enableFlag!='Y'){
+                invalid=true;
+            }
+            let dot=false;
+            if(data.createDate){
+                if(new Date()-new Date(data.createDate)<1000*3600)
+                dot=true;
+            }
+            return h('span', [
+                h('Icon', {
+                    props: {
+                        type: icon,
+                        size:16
+                    },
+                    style: {
+                        marginRight: '8px'
+                    }
+                }),
+                h('Badge',{
+                    props:{
+                        dot:dot
+                    }
+                },[
+                    h('span',{style:{
+                        textDecoration:invalid?'line-through':'none',
+                        cursor: 'pointer'
+                    },class:'ivu-tree-title ' + (node.node.selected ?'ivu-tree-title-selected':''),
+                        on: {
+                            click: () => {
+                                if (!node.node.selected){
+                                    this.$refs.permissionTree.handleSelect(node.nodeKey); //手动选择树节点
+                                } 
+                            }
+                        }
+                    }, data.title)
+                ])
+            ]);
         }
     }
 }

@@ -1,8 +1,8 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import iView from 'iview';
-import './index.less'
+import iView from 'view-design';
+import 'view-design/dist/styles/iview.css';
 import '@/assets/style/common.less'
 import App from './App'
 import i18n from '@/local'

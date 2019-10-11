@@ -143,10 +143,17 @@ export default {
         }
         return '';
     },
-    checkPermission(permissionCode,permissionList){
+    checkPermission(permissionCode,vm){
         if(!permissionCode){
             return true;
         }else{
+            let permissionList;
+            if(vm instanceof Array){
+                permissionList=vm;
+            }else{
+                permissionList=vm.$store.state.permission.permissionList;
+            }
+            
             if(permissionList || permissionList.length>0){
                 let flag=false;
                 if(permissionCode.indexOf('&')>-1){
@@ -159,7 +166,7 @@ export default {
                 }else{
                     flag=permissionList.includes(permissionCode);
                 }
-                return true;
+                return flag;
             }
             return false;
         }

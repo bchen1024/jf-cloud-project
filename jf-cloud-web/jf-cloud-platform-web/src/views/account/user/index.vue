@@ -79,8 +79,8 @@ export default {
                     ],
                     columns:[
                         {key:'userNo',width:120,condition:true},
-                        {key:'userCn',width:100,condition:true},
-                        {key:'userEn',width:100,condition:true},
+                        {key:'userCn',condition:true},
+                        {key:'userEn',condition:true},
                         {key:'mobile',width:120,condition:true,render: (h, params) => {
                             if(params.row.mobile){
                                 let props={};
@@ -111,13 +111,13 @@ export default {
                             }
                             return '';
                         }},
-                        {key:'userType',width:90,format:'type',condition:{
+                        {key:'userType',width:100,format:'type',condition:{
                             type:'radio',items:[
                                {value:'1',label:vm.$t('type.userType.1')},
                                {value:'2',label:vm.$t('type.userType.2')}
                             ]
                         }},
-                        {key:'userStatus',width:90,format:'status',condition:{
+                        {key:'userStatus',width:100,format:'status',condition:{
                            type:'radio',items:[
                                {value:'Y',label:vm.$t('status.userStatus.Y')},
                                {value:'L',label:vm.$t('status.userStatus.L')},

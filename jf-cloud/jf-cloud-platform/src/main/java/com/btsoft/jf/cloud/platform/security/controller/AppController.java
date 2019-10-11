@@ -90,36 +90,4 @@ public class AppController {
     public CommonResult<PageResult<AppVO>> findAppPage(@RequestBody AppQueryDTO dto){
         return service.findAppPage(dto);
     }
-
-
-
-    /**
-     * 获取应用Token
-     * @author jeo_cb
-     * @date 2019/10/5
-     * @param  id 应用id
-     * @return 应用token
-     **/
-    @GetMapping("/token")
-    @ApiOperation("获取应用Token")
-    @JOperator(code ="appToken", descCN = "应用Token", descEN = "App Token")
-    public CommonResult<AppTokenVO> findAppToken(Long id){
-        return service.findAppToken(id);
-    }
-
-    /**
-     * 保存应用Token
-     * @author jeo_cb
-     * @date 2019/10/5
-     * @param  dto 保存参数
-     * @return 保存结果
-     **/
-    @PostMapping("/token/save")
-    @ApiOperation("保存应用Token")
-    @JOperator(code ="saveAppToken", descCN = "保存应用Token", descEN = "Save App Token")
-    @JAuditLog
-    public Result saveAppToken(@RequestBody AppTokenSaveDTO dto){
-        return service.saveAppToken(dto);
-    }
-
 }

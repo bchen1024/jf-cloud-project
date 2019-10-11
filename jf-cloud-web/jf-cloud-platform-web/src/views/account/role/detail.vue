@@ -40,6 +40,7 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/role/single'
                 },
+                editPermission:'role$save',
                 autoLoad:!this.$route.query.tabId,
                 userFields:['roleOwner'],
                 items:[
