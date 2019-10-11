@@ -23,4 +23,6 @@ public @interface JResource {
 	public String appCode() default "";
 
 	public String parentCode() default "";
+	//排序
+	public int sort() default 0;
 }

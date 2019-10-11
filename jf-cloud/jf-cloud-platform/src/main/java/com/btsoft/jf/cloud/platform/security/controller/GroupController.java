@@ -23,13 +23,41 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019/8/28
  **/
 @RestController
-@RequestMapping("/security/group")
 @Api(tags = "群组管理")
-@JResource(code = "group", descCN = "群组管理", descEN = "Group")
+@RequestMapping("/security/group")
+@JResource(code = "group", descCN = "群组管理", descEN = "Group",sort = 50)
 public class GroupController {
 
     @Autowired
     private IGroupService service;
+
+    /**
+     * 分页查询群组列表
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  dto 查询参数
+     * @return 群组分页列表
+     **/
+    @ApiOperation("分页查询群组")
+    @PostMapping(ControllerContants.Path.PAGE)
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "群组列表", descEN = "Group List",sort = 10)
+    public CommonResult<PageResult<GroupVO>> findGroupPage(@RequestBody GroupQueryDTO dto){
+        return service.findGroupPage(dto);
+    }
+
+    /**
+     * 根据群组id获取单个群组
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  id 群组
+     * @return 群组信息
+     **/
+    @ApiOperation("群组详情")
+    @GetMapping(ControllerContants.Path.SINGLE)
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "群组详情", descEN = "Group Detail",sort = 20)
+    public CommonResult<GroupVO> findRole(Long id){
+        return service.findGroup(id);
+    }
 
     /**
      * 群组保存，存在群组id则修改，不存在则新增
@@ -38,10 +66,10 @@ public class GroupController {
      * @param  dto 群组包存参数
      * @return 保存结果
      **/
-    @PutMapping(ControllerContants.Path.SAVE)
-    @ApiOperation("保存群组，创建或者更新")
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存群组", descEN = "Save Group")
     @JAuditLog
+    @ApiOperation("保存群组，创建或者更新")
+    @PutMapping(ControllerContants.Path.SAVE)
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存群组", descEN = "Save Group",sort = 30)
     public Result saveGroup(@RequestBody GroupSaveDTO dto){
         return service.saveGroup(dto);
     }
@@ -53,39 +81,11 @@ public class GroupController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @ApiOperation("删除群组")
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除群组", descEN = "Delete Group")
     @JAuditLog
+    @ApiOperation("删除群组")
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除群组", descEN = "Delete Group",sort = 40)
     public Result deleteGroup(@RequestBody BaseIdAppDTO dto){
         return service.deleteGroup(dto);
-    }
-
-    /**
-     * 根据群组id获取单个群组
-     * @author jeo_cb
-     * @date 2019/9/5
-     * @param  id 群组
-     * @return 群组信息
-     **/
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @ApiOperation("根据群组id获取单个群组")
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "群组详情", descEN = "Group Detail")
-    public CommonResult<GroupVO> findRole(Long id){
-        return service.findGroup(id);
-    }
-
-    /**
-     * 分页查询群组列表
-     * @author jeo_cb
-     * @date 2019/9/5
-     * @param  dto 查询参数
-     * @return 群组分页列表
-     **/
-    @PostMapping("/page")
-    @ApiOperation("分页查询群组")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "群组列表", descEN = "Group List")
-    public CommonResult<PageResult<GroupVO>> findGroupPage(@RequestBody GroupQueryDTO dto){
-        return service.findGroupPage(dto);
     }
 }

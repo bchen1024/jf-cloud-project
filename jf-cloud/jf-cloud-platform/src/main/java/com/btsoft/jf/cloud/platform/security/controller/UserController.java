@@ -29,9 +29,9 @@ import java.util.Map;
  * @date 2019/9/3
  **/
 @RestController
-@RequestMapping("/security/user")
 @Api(tags = "用户管理")
-@JResource(code = "user", descCN = "用户管理", descEN = "User")
+@RequestMapping("/security/user")
+@JResource(code = "user", descCN = "用户管理", descEN = "User",sort = 20)
 public class UserController {
 
     @Autowired
@@ -44,26 +44,11 @@ public class UserController {
      * @param  dto 查询参数
      * @return 分页列表
      **/
-    @PostMapping("/page")
+    @PostMapping(ControllerContants.Path.PAGE)
     @ApiOperation("分页查询账号")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "用户列表", descEN = "User List")
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
     public CommonResult<PageResult<UserVO>> findRolePage(@RequestBody UserQueryDTO dto){
         return service.findUserPage(dto);
-    }
-
-    /**
-     * 创建用户
-     * @author jeo_cb
-     * @date 2019/9/28
-     * @param  dto 创建参数
-     * @return 创建结果
-     **/
-    @PostMapping("/save")
-    @ApiOperation("保存用户")
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存用户", descEN = "Save User")
-    @JAuditLog
-    public Result saveUser(@RequestBody UserSaveDTO dto){
-        return service.saveUser(dto);
     }
 
     /**
@@ -73,11 +58,41 @@ public class UserController {
      * @param  id 主键id
      * @return 用户信息
      **/
-    @GetMapping("/single")
-    @ApiOperation("根据id获取单个用户")
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "用户详情", descEN = "User Detail")
+    @ApiOperation("用户详情")
+    @GetMapping(ControllerContants.Path.SINGLE)
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "用户详情", descEN = "User Detail",sort = 20)
     public CommonResult<UserVO> findUser(Long id){
         return service.findUser(id);
+    }
+
+    /**
+     * 创建用户
+     * @author jeo_cb
+     * @date 2019/9/28
+     * @param  dto 创建参数
+     * @return 创建结果
+     **/
+    @JAuditLog
+    @ApiOperation("保存用户")
+    @PostMapping(ControllerContants.Path.SAVE)
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存用户", descEN = "Save User",sort = 30)
+    public Result saveUser(@RequestBody UserSaveDTO dto){
+        return service.saveUser(dto);
+    }
+
+    /**
+     * 更新用户状态
+     * @author jeo_cb
+     * @date 2019/10/7
+     * @param  dto 状态更新参数
+     * @return 更新结果
+     **/
+    @JAuditLog
+    @PutMapping("/updateStatus")
+    @ApiOperation("删除、启用、锁定用户")
+    @JOperator(code ="updateStatus", descCN = "删除、启用、锁定用户", descEN = "Update User Status",sort = 40)
+    public Result updateUserStatus(@RequestBody UserStatusUpdateDTO dto){
+        return service.updateUserStatus(dto);
     }
 
 
@@ -117,20 +132,5 @@ public class UserController {
     @ApiOperation("获取当前登录用户信息")
     public CommonResult<UserEnvironmentVO> findUserEnvironment(){
         return service.findUserEnvironment();
-    }
-
-    /**
-     * 更新用户状态
-     * @author jeo_cb
-     * @date 2019/10/7
-     * @param  dto 状态更新参数
-     * @return 更新结果
-     **/
-    @PutMapping("/updateStatus")
-    @ApiOperation("更新用户状态")
-    @JOperator(code ="updateStatus", descCN = "更新用户状态", descEN = "Update User Status")
-    @JAuditLog
-    public Result updateUserStatus(@RequestBody UserStatusUpdateDTO dto){
-        return service.updateUserStatus(dto);
     }
 }

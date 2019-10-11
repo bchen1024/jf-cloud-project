@@ -18,6 +18,7 @@ public class PermissionVO extends TreeVO<PermissionVO> {
     private String parentCode;
     private String permissionType;
     private String permissionSource;
+    private Integer permissionSort;
     private Long createBy;
     private Date createDate;
     private Long lastUpdateBy;
@@ -78,6 +79,14 @@ public class PermissionVO extends TreeVO<PermissionVO> {
 
     public void setPermissionSource(String permissionSource) {
         this.permissionSource = permissionSource;
+    }
+
+    public Integer getPermissionSort() {
+        return permissionSort;
+    }
+
+    public void setPermissionSort(Integer permissionSort) {
+        this.permissionSort = permissionSort;
     }
 
     public Long getCreateBy() {

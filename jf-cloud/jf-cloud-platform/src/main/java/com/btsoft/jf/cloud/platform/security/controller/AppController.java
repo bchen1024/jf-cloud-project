@@ -10,9 +10,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,13 +23,41 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019/9/3
  **/
 @RestController
-@RequestMapping("/security/app")
 @Api(tags = "应用管理")
-@JResource(code = "app", descCN = "应用管理", descEN = "App")
+@RequestMapping("/security/app")
+@JResource(code = "app", descCN = "应用管理", descEN = "App",sort = 10)
 public class AppController {
 
     @Autowired
     private IAppService service;
+
+    /**
+     * 分页查询列表
+     * @author jeo_cb
+     * @date 2019/9/29
+     * @param  dto 查询参数
+     * @return 分页列表
+     **/
+    @ApiOperation("分页查询应用")
+    @PostMapping(ControllerContants.Path.PAGE)
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "应用列表", descEN = "App List",sort = 10)
+    public CommonResult<PageResult<AppVO>> findAppPage(@RequestBody AppQueryDTO dto){
+        return service.findAppPage(dto);
+    }
+
+    /**
+     * 根据id获取单个对象
+     * @author jeo_cb
+     * @date 2019/9/29
+     * @param  id 应用id
+     * @return 应用信息
+     **/
+    @ApiOperation("应用详情")
+    @GetMapping(ControllerContants.Path.SINGLE)
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "应用详情", descEN = "App Detail",sort = 20)
+    public CommonResult<AppVO> findApp(Long id){
+        return service.findApp(id);
+    }
 
     /**
      * 应用保存，存在应用id则修改，不存在则新增
@@ -40,10 +66,10 @@ public class AppController {
      * @param  dto 应用保存参数
      * @return 保存结果
      **/
-    @PutMapping(ControllerContants.Path.SAVE)
-    @ApiOperation("保存应用，创建或者更新")
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存应用", descEN = "Save App")
     @JAuditLog
+    @ApiOperation("保存应用，创建或者更新")
+    @PutMapping(ControllerContants.Path.SAVE)
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存应用", descEN = "Save App",sort = 30)
     public Result saveApp(@RequestBody AppSaveDTO dto){
         return service.saveApp(dto);
     }
@@ -55,39 +81,15 @@ public class AppController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @ApiOperation("删除应用")
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除应用", descEN = "Delete App")
     @JAuditLog
+    @ApiOperation("删除应用")
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除应用", descEN = "Delete App",sort = 40)
     public Result deleteApp(@RequestBody BaseIdAppDTO dto){
         return service.deleteApp(dto);
     }
 
-    /**
-     * 根据id获取单个对象
-     * @author jeo_cb
-     * @date 2019/9/29
-     * @param  id 应用id
-     * @return 应用信息
-     **/
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @ApiOperation("根据应用id获取单个应用")
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "应用详情", descEN = "App Detail")
-    public CommonResult<AppVO> findApp(Long id){
-        return service.findApp(id);
-    }
 
-    /**
-     * 分页查询列表
-     * @author jeo_cb
-     * @date 2019/9/29
-     * @param  dto 查询参数
-     * @return 分页列表
-     **/
-    @PostMapping(ControllerContants.Path.PAGE)
-    @ApiOperation("分页查询应用")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "应用列表", descEN = "App List")
-    public CommonResult<PageResult<AppVO>> findAppPage(@RequestBody AppQueryDTO dto){
-        return service.findAppPage(dto);
-    }
+
+
 }

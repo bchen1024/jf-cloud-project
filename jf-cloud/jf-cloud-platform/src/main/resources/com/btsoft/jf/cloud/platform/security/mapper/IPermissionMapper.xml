@@ -16,6 +16,7 @@
 		<result column="permission_type" property="permissionType"/>
 		<result column="permission_source" property="permissionSource"/>
 		<result column="parent_code" property="parentCode"/>
+		<result column="permission_sort" property="permissionSort"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -26,6 +27,7 @@
 			T.PERMISSION_DESC_EN,
 			T.PERMISSION_TYPE,
 			T.PERMISSION_SOURCE,
+		    T.PERMISSION_SORT,
 			T.PARENT_CODE,
 			T.APP_CODE,
 			T.ENABLE_FLAG,
@@ -64,6 +66,7 @@
 			PERMISSION_DESC_EN,
 			PERMISSION_TYPE,
 			PERMISSION_SOURCE,
+			PERMISSION_SORT,
 		    PARENT_CODE,
 			APP_CODE,
 			CREATE_BY,
@@ -74,6 +77,7 @@
 			#{vo.permissionDescEn,jdbcType=VARCHAR},
 			#{vo.permissionType,jdbcType=VARCHAR},
 			#{vo.permissionSource,jdbcType=VARCHAR},
+			IFNULL(#{vo.permissionSort,jdbcType=NUMERIC},0),
 			IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
 			#{vo.appCode,jdbcType=VARCHAR},
 			#{vo.currentUserId,jdbcType=NUMERIC},
@@ -86,16 +90,13 @@
         WHERE T.PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC}
     </select>
 
-	<delete id="deleteSingle">
-		DELETE FROM SYS_PERMISSION_T WHERE PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC}
-	</delete>
-
 	<update id="updateSingle">
 		UPDATE SYS_PERMISSION_T T SET
 			T.PERMISSION_CODE=#{vo.permissionCode,jdbcType=VARCHAR},
 			T.PERMISSION_DESC_CN=#{vo.permissionDescCn,jdbcType=VARCHAR},
 			T.PERMISSION_DESC_EN=#{vo.permissionDescEn,jdbcType=VARCHAR},
 			T.PERMISSION_TYPE=#{vo.permissionType,jdbcType=VARCHAR},
+			T.PERMISSION_SORT=IFNULL(#{vo.permissionSort,jdbcType=NUMERIC},0),
 			T.PARENT_CODE=IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
@@ -105,6 +106,7 @@
 	<select id="findList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
+		ORDER BY T.PERMISSION_SORT ASC
 	</select>
 
 	<insert id="createMultiple">
@@ -115,6 +117,7 @@
 			PERMISSION_TYPE,
 			PARENT_CODE,
 			PERMISSION_SOURCE,
+			PERMISSION_SORT,
 			APP_CODE,
 			CREATE_BY,
 			LAST_UPDATE_BY
@@ -127,6 +130,7 @@
 			#{item.permissionType,jdbcType=VARCHAR},
 			IFNULL(#{item.parentCode,jdbcType=VARCHAR},''),
 			#{item.permissionSource,jdbcType=VARCHAR},
+			IFNULL(#{item.permissionSort,jdbcType=NUMERIC},0),
 			#{item.appCode,jdbcType=VARCHAR},
 			#{item.currentUserId,jdbcType=NUMERIC},
 			#{item.currentUserId,jdbcType=NUMERIC})
@@ -135,6 +139,7 @@
 			PERMISSION_DESC_CN=VALUES(PERMISSION_DESC_CN),
 			PERMISSION_DESC_EN=VALUES(PERMISSION_DESC_EN),
 			PERMISSION_SOURCE =VALUES(PERMISSION_SOURCE),
+			PERMISSION_SORT =VALUES(PERMISSION_SORT),
 		    ENABLE_FLAG='Y',
 			LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
 			LAST_UPDATE_DATE=NOW()

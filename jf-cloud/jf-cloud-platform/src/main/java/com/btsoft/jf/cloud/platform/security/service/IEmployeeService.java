@@ -24,6 +24,15 @@ public interface IEmployeeService {
     CommonResult<PageResult<EmployeeVO>> findEmployeePage(EmployeeQueryDTO dto);
 
     /**
+     * 员工详情
+     * @author jeo_cb
+     * @date 2019/10/11
+     * @param  id 员工id
+     * @return 员工信息
+     **/
+    CommonResult<EmployeeVO> findEmployee(Long id);
+
+    /**
      * 员工信息更新
      * @author jeo_cb
      * @date 2019/10/11

@@ -25,9 +25,9 @@ import java.util.List;
  * @date 2019/9/3
  **/
 @RestController
-@RequestMapping("/security/permission")
 @Api(tags = "权限管理")
-@JResource(code = "permission", descCN = "权限管理", descEN = "Permission")
+@RequestMapping("/security/permission")
+@JResource(code = "permission", descCN = "权限管理", descEN = "Permission",sort = 60)
 public class PermissionController {
 
     @Autowired
@@ -40,10 +40,10 @@ public class PermissionController {
      * @param  dto 同步参数
      * @return 同步结果
      **/
-    @PostMapping(ControllerContants.Path.SYNC)
-    @ApiOperation("同步权限")
-    @JOperator(code = ControllerContants.Operator.SYNC, descCN = "同步权限", descEN = "Sync Permission")
     @JAuditLog
+    @ApiOperation("同步权限")
+    @PostMapping(ControllerContants.Path.SYNC)
+    @JOperator(code = ControllerContants.Operator.SYNC, descCN = "同步权限", descEN = "Sync Permission",sort = 10)
     public Result syncPermission(@RequestBody PermissionSyncDTO dto){
         return service.syncPermission(dto);
     }
@@ -55,9 +55,9 @@ public class PermissionController {
      * @param  dto 查询参数
      * @return 权限树集合
      **/
-    @PostMapping(ControllerContants.Path.TREE)
     @ApiOperation("获取权限树")
-    @JOperator(code = ControllerContants.Operator.TREE, descCN = "权限树", descEN = "Permission Tree")
+    @PostMapping(ControllerContants.Path.TREE)
+    @JOperator(code = ControllerContants.Operator.TREE, descCN = "权限点树", descEN = "Permission Tree",sort = 20)
     public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
         return service.findPermissionTree(dto);
     }
@@ -69,10 +69,10 @@ public class PermissionController {
      * @param  dto 查询参数
      * @return 保存结果
      **/
-    @PutMapping(ControllerContants.Path.SAVE)
-    @ApiOperation("保存权限")
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存", descEN = "Save Permission")
     @JAuditLog
+    @ApiOperation("保存权限")
+    @PutMapping(ControllerContants.Path.SAVE)
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存权限点", descEN = "Save Permission",sort = 30)
     public Result savePermission(@RequestBody PermissionSaveDTO dto){
         return service.savePermission(dto);
     }
@@ -84,10 +84,10 @@ public class PermissionController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @ApiOperation("删除权限")
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除权限", descEN = "Delete Permission")
     @JAuditLog
+    @ApiOperation("删除权限点")
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除权限点", descEN = "Delete Permission",sort = 40)
     public Result deletePermission(@RequestBody BaseIdAppDTO dto){
         return service.deletePermission(dto);
     }

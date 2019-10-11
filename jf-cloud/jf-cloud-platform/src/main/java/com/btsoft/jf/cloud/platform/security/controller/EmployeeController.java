@@ -14,10 +14,7 @@ import com.btsoft.jf.cloud.platform.security.vo.employee.EmployeeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 员工Controller
@@ -25,9 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2019/10/5
  **/
 @RestController
-@RequestMapping("/security/employee")
 @Api(tags = "员工管理")
-@JResource(code = "employee", descCN = "员工管理", descEN = "Employee")
+@RequestMapping("/security/employee")
+@JResource(code = "employee", descCN = "员工管理", descEN = "Employee",sort = 30)
 public class EmployeeController {
 
     @Autowired
@@ -40,11 +37,25 @@ public class EmployeeController {
      * @param  dto 查询参数
      * @return 员工列表
      **/
-    @PostMapping(ControllerContants.Path.PAGE)
     @ApiOperation("分页查询员工")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "员工列表", descEN = "Employee List")
-    public CommonResult<PageResult<EmployeeVO>> findAppPage(@RequestBody EmployeeQueryDTO dto){
+    @PostMapping(ControllerContants.Path.PAGE)
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "员工列表", descEN = "Employee List",sort = 10)
+    public CommonResult<PageResult<EmployeeVO>> findEmployeePage(@RequestBody EmployeeQueryDTO dto){
         return service.findEmployeePage(dto);
+    }
+
+    /**
+     * 员工详情
+     * @author jeo_cb
+     * @date 2019/10/11
+     * @param  id 员工id
+     * @return 员工信息
+     **/
+    @ApiOperation("员工详情")
+    @GetMapping(ControllerContants.Path.SINGLE)
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "员工详情", descEN = "Employee Detail",sort = 20)
+    public CommonResult<EmployeeVO> findEmployee(Long id){
+        return service.findEmployee(id);
     }
 
     /**
@@ -54,10 +65,10 @@ public class EmployeeController {
      * @param  dto 编辑参数
      * @return 编辑结果
      **/
-    @PostMapping(ControllerContants.Path.UPDATE)
-    @ApiOperation("编辑员工信息")
-    @JOperator(code = ControllerContants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee")
     @JAuditLog
+    @ApiOperation("编辑员工信息")
+    @PostMapping(ControllerContants.Path.UPDATE)
+    @JOperator(code = ControllerContants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee",sort = 30)
     public Result updateEmployee(@RequestBody EmployeeUpdateDTO dto){
         return service.updateEmployee(dto);
     }

@@ -45,6 +45,7 @@ public class CommonServiceImpl implements ICommonService {
                 resourceMap.put("permissionType", PermissionTypeEnum.Resources.getKey());
                 resourceMap.put("permissionSource", PermissionSourceEnum.Annotation.getKey());
                 resourceMap.put("parentCode", jr.parentCode());
+                resourceMap.put("permissionSort",String.valueOf(jr.sort()));
                 String appCode=jr.appCode();
                 if(StringUtils.isEmpty(appCode)) {
                     appCode=JfCloud.getCurrentAppCode();
@@ -65,6 +66,7 @@ public class CommonServiceImpl implements ICommonService {
                         methodMap.put("permissionType", PermissionTypeEnum.Method.getKey());
                         methodMap.put("permissionSource", PermissionSourceEnum.Annotation.getKey());
                         methodMap.put("appCode", appCode);
+                        methodMap.put("permissionSort",String.valueOf(jo.sort()));
                         methodList.add(methodMap);
                     }
                 }

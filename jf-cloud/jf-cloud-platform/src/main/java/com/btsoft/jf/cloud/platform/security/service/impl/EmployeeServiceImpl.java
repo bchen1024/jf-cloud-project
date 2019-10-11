@@ -14,6 +14,7 @@ import com.btsoft.jf.cloud.platform.security.service.IEmployeeService;
 import com.btsoft.jf.cloud.platform.security.vo.employee.EmployeeVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,16 @@ public class EmployeeServiceImpl implements IEmployeeService {
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findEmployeeList(dto);
         return CommonResultUtils.pageResult(EmployeeVO.class,page);
+    }
+
+    @Override
+    public CommonResult<EmployeeVO> findEmployee(Long id) {
+        EmployeeEntity entity=new EmployeeEntity();
+        entity.setUserId(id);
+        entity=mapper.findSingle(entity);
+        EmployeeVO employeeVO=new EmployeeVO();
+        BeanUtils.copyProperties(entity,employeeVO);
+        return CommonResultUtils.success(employeeVO);
     }
 
     @Override

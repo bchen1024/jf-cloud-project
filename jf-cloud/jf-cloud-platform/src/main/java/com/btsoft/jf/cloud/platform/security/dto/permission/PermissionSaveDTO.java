@@ -17,6 +17,7 @@ public class PermissionSaveDTO extends BaseAppDTO {
     private String parentCode;
     private String permissionType;
     private String permissionSource;
+    private Integer permissionSort;
 
     public Long getPermissionId() {
         return permissionId;
@@ -72,6 +73,14 @@ public class PermissionSaveDTO extends BaseAppDTO {
 
     public void setPermissionSource(String permissionSource) {
         this.permissionSource = permissionSource;
+    }
+
+    public Integer getPermissionSort() {
+        return permissionSort;
+    }
+
+    public void setPermissionSort(Integer permissionSort) {
+        this.permissionSort = permissionSort;
     }
 
     @Override

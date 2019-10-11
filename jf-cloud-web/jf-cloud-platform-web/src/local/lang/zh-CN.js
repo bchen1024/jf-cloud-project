@@ -151,6 +151,7 @@ export default{
     permissionDescCn:'中文名',
     permissionDescEn:'英文名',
     permissionSource:'权限来源',
+    permissionParentCode:'权限点码',
     parentCode:'父编码',
     resources:'资源',
     method:'方法',

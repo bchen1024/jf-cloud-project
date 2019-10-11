@@ -20,5 +20,7 @@ public @interface JOperator {
 	public String descCN();
 	// 权限英文描述
 	public String descEN();
+	//排序
+	public int sort() default 0;
 	
 }

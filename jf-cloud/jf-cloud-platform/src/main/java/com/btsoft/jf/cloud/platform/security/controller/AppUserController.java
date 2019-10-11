@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019/10/10
  **/
 @RestController
-@RequestMapping("/security/app/user")
 @Api(tags = "应用用户管理")
-@JResource(code = "appUsers", descCN = "应用用户管理", descEN = "App User",parentCode = "app")
+@RequestMapping("/security/app/user")
+@JResource(code = "appUsers", descCN = "应用用户", descEN = "App User",parentCode = "app",sort = 1)
 public class AppUserController {
 
     @Autowired
@@ -38,26 +38,11 @@ public class AppUserController {
      * @param  dto 查询参数
      * @return 应用用户
      **/
-    @PostMapping(ControllerContants.Path.PAGE)
     @ApiOperation("分页查询应用用户")
-    @JOperator(code =ControllerContants.Operator.PAGE, descCN = "应用用户列表", descEN = "App User List")
+    @PostMapping(ControllerContants.Path.PAGE)
+    @JOperator(code =ControllerContants.Operator.PAGE, descCN = "应用用户列表", descEN = "App User List",sort = 10)
     public CommonResult<PageResult<AppUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
         return service.findAppUserPage(dto);
-    }
-
-    /**
-     * 删除单个应用用户
-     * @author jeo_cb
-     * @date 2019/9/29
-     * @param  dto 删除参数
-     * @return 删除结果
-     **/
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @ApiOperation("删除应用用户")
-    @JOperator(code =ControllerContants.Operator.DELETE, descCN = "删除应用用户", descEN = "Delete App User")
-    @JAuditLog
-    public Result deleteAppUser(@RequestBody BaseIdDTO dto){
-        return service.deleteAppUser(dto);
     }
 
     /**
@@ -67,11 +52,27 @@ public class AppUserController {
      * @param  dto 保存参数
      * @return 保存结果
      **/
-    @PostMapping(ControllerContants.Path.CREATE)
-    @ApiOperation("添加应用用户")
-    @JOperator(code =ControllerContants.Operator.CREATE, descCN = "添加应用用户", descEN = "Add App User")
     @JAuditLog
+    @ApiOperation("添加用户")
+    @PostMapping(ControllerContants.Path.CREATE)
+    @JOperator(code =ControllerContants.Operator.CREATE, descCN = "添加用户", descEN = "Add User",sort = 20)
     public Result addAppUser(@RequestBody AppUserSaveDTO dto){
         return service.addAppUser(dto);
     }
+
+    /**
+     * 删除单个应用用户
+     * @author jeo_cb
+     * @date 2019/9/29
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    @JAuditLog
+    @ApiOperation("删除用户")
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @JOperator(code =ControllerContants.Operator.DELETE, descCN = "删除用户", descEN = "Delete User",sort = 30)
+    public Result deleteAppUser(@RequestBody BaseIdDTO dto){
+        return service.deleteAppUser(dto);
+    }
+
 }

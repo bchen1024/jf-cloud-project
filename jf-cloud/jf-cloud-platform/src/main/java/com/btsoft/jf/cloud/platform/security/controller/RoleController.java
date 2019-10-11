@@ -8,13 +8,9 @@ import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
-import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
-import com.btsoft.jf.cloud.platform.security.service.IPermissionService;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
-import com.btsoft.jf.cloud.platform.security.vo.permission.PermissionVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import io.swagger.annotations.Api;
@@ -32,14 +28,39 @@ import java.util.List;
 @RestController
 @RequestMapping("/security/role")
 @Api(tags = "角色管理")
-@JResource(code = "role", descCN = "角色管理", descEN = "Role")
+@JResource(code = "role", descCN = "角色管理", descEN = "Role",sort = 40)
 public class RoleController {
 
     @Autowired
     private IRoleService roleService;
 
-    @Autowired
-    private IPermissionService permissionService;
+    /**
+     * 分页查询角色列表
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  dto 查询参数
+     * @return 角色分页列表
+     **/
+    @PostMapping(ControllerContants.Path.PAGE)
+    @ApiOperation("分页查询角色")
+    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "角色列表", descEN = "Role List",sort = 10)
+    public CommonResult<PageResult<RoleVO>> findRolePage(@RequestBody RoleQueryDTO dto){
+        return roleService.findRolePage(dto);
+    }
+
+    /**
+     * 根据角色id获取单个角色
+     * @author jeo_cb
+     * @date 2019/9/5
+     * @param  id 角色
+     * @return 角色信息
+     **/
+    @ApiOperation("角色详情")
+    @GetMapping(ControllerContants.Path.SINGLE)
+    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "角色详情", descEN = "Role Detail",sort = 20)
+    public CommonResult<RoleVO> findRole(Long id){
+        return roleService.findRole(id);
+    }
 
     /**
      * 角色保存，存在角色id则修改，不存在则新增
@@ -48,10 +69,10 @@ public class RoleController {
      * @param  dto 角色保存参数
      * @return 保存结果
      **/
-    @PutMapping(ControllerContants.Path.SAVE)
-    @ApiOperation("保存角色，创建或者更新")
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存角色", descEN = "Save Role")
     @JAuditLog
+    @ApiOperation("保存角色，创建或者更新")
+    @PutMapping(ControllerContants.Path.SAVE)
+    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存角色", descEN = "Save Role",sort = 30)
     public Result saveRole(@RequestBody RoleSaveDTO dto){
         return roleService.saveRole(dto);
     }
@@ -63,40 +84,12 @@ public class RoleController {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @ApiOperation("删除角色")
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role")
     @JAuditLog
+    @ApiOperation("删除角色")
+    @DeleteMapping(ControllerContants.Path.DELETE)
+    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role",sort = 40)
     public Result deleteRole(@RequestBody BaseIdAppDTO dto){
         return roleService.deleteRole(dto);
-    }
-
-    /**
-     * 根据角色id获取单个角色
-     * @author jeo_cb
-     * @date 2019/9/5
-     * @param  id 角色
-     * @return 角色信息
-     **/
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @ApiOperation("根据角色id获取单个角色")
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "角色详情", descEN = "Role Detail")
-    public CommonResult<RoleVO> findRole(Long id){
-        return roleService.findRole(id);
-    }
-
-    /**
-     * 分页查询角色列表
-     * @author jeo_cb
-     * @date 2019/9/5
-     * @param  dto 查询参数
-     * @return 角色分页列表
-     **/
-    @PostMapping("/page")
-    @ApiOperation("分页查询角色")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "角色列表", descEN = "Role List")
-    public CommonResult<PageResult<RoleVO>> findRolePage(@RequestBody RoleQueryDTO dto){
-        return roleService.findRolePage(dto);
     }
 
     /**
@@ -105,38 +98,9 @@ public class RoleController {
      * @date 2019/10/6
      * @return 角色列表
      **/
-    @PostMapping("/select/roles")
     @ApiOperation("选择角色")
-    @JOperator(code ="selectRoles", descCN = "选择应用角色", descEN = "Select Role")
+    @PostMapping("/select")
     public CommonResult<List<RoleBaseVO>> findRoleList(@RequestBody RoleQueryDTO dto){
         return roleService.findRoleList(dto);
-    }
-
-    /**
-     * @author jeo_cb
-     * @description 获取角色权限树
-     * @date 2019/10/10
-     * @param dto 权限树查询参数
-     * @return 权限树
-     */
-    @PostMapping("/permission/tree")
-    @ApiOperation("角色权限树")
-    @JOperator(code = "rolePermission", descCN = "角色权限树", descEN = "Role Permission Tree")
-    public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
-        return permissionService.findPermissionTree(dto);
-    }
-
-    /**
-     * @author jeo_cb
-     * @description 保存角色权限
-     * @date 2019/10/10
-     * @param dto 角色权限关系数据
-     * @return 保存结果
-     */
-    @PutMapping("/permission/save")
-    @ApiOperation("保存角色权限")
-    @JOperator(code = "saveRolePermission", descCN = "保存角色权限", descEN = "Save Role Permission")
-    public Result saveRolePermission(@RequestBody RolePermissionSaveDTO dto){
-        return roleService.saveRolePermission(dto);
     }
 }

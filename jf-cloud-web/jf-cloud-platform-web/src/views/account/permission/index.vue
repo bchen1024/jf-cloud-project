@@ -1,6 +1,6 @@
 <template>
     <Layout :style="{height:'100%'}">
-        <Sider width="300" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
+        <Sider width="360" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
             <Spin size="large" fix v-if="loading"></Spin>
             <Tree ref="permissionTree" :empty-text="$t('noPermissionData')" :render="renderContent" :data="treeData" @on-select-change="onSelectChange"></Tree>
         </Sider>
@@ -14,15 +14,10 @@
                         {{$t('syncPermission')}}
                     </Button>
                 </Tooltip>
-                <Tooltip :content="$t('forceSyncPermissionTip')" transfer :max-width="300" v-permission="'permission$sync'">
-                    <Button icon="md-sync" @click="syncPermission()">
-                        {{$t('forceSyncPermission')}}
-                    </Button>
-                </Tooltip>
                 <Button  icon="md-refresh" @click="loadPermission()">
                     {{$t('refresh')}}
                 </Button>
-                <Button type="error" icon="md-trash" :disabled="(data.permissionSource=='annotation' && data.enableFlag=='Y') || !data.permissionId">
+                <Button type="error" icon="md-trash" @click="deletePermission()" :disabled="(data.permissionSource=='annotation' && data.enableFlag=='Y') || !data.permissionId">
                     {{$t('delete')}}
                 </Button>
             </div>
@@ -68,6 +63,18 @@
                                 <Option value="annotation">{{$t('annotation')}}</Option>
                                 <Option value="custom">{{$t('custom')}}</Option>
                             </Select>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row :gutter="32">
+                    <Col :span="12">
+                        <FormItem :label="$t('permissionSort')" prop="permissionSort">
+                            <Input :disabled="data.permissionSource=='annotation'" v-model="data.permissionSort" />
+                        </FormItem>
+                    </Col>
+                    <Col :span="12">
+                        <FormItem :label="$t('permissionParentCode')" class="jf-detail-item">
+                            {{(data.permissionId && data.permissionType=='method')?data.parentCode+'$'+data.permissionCode:''}}
                         </FormItem>
                     </Col>
                 </Row>
@@ -304,6 +311,33 @@ export default {
                     }, data.title)
                 ])
             ]);
+        },
+        deletePermission(){
+            let vm=this;
+            let selected=this.$refs.permissionTree.getSelectedNodes();
+            if(selected.length>0){
+                vm.$Message.loading({
+                    content: this.$t('deleteing'),
+                    duration: 0
+                });
+                let appInfo=vm.$store.state.app.appInfo;
+                vm.$http({
+                    method:'delete',
+                    url:'jfcloud/jf-cloud-platform/security/permission/delete',
+                    data:{appCode:appInfo.appCode,id:selected[0].permissionId}
+                }).then(result=>{
+                    this.$Message.destroy();
+                    //成功
+                    if(result && result.success){
+                        vm.$Message.success(vm.$t('deleteSuccessful'));
+                        vm.loadPermission();
+                    }
+                }).catch(error=>{
+                    vm.$Message.destroy();
+                    vm.$Message.error(vm.$util.handerError(error,vm));
+                });
+            }
+            console.info(JSON.stringify(selected));
         }
     }
 }

@@ -102,9 +102,9 @@ public class PermissionServiceImpl implements IPermissionService {
             PermissionVO vo=new PermissionVO();
             BeanUtils.copyProperties(v,vo);
             if(LanguageEnum.EN.getKey().equals(lang)){
-                vo.setTitle(vo.getPermissionDescEn()+"-"+v.getPermissionCode());
+                vo.setTitle(vo.getPermissionDescEn());
             }else{
-                vo.setTitle(vo.getPermissionDescCn()+"-"+v.getPermissionCode());
+                vo.setTitle(vo.getPermissionDescCn());
             }
             if(permissionIds!=null){
                 if(permissionIds.contains(vo.getPermissionId())){
