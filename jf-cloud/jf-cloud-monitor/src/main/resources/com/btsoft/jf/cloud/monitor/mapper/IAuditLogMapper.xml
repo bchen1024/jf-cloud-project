@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.monitor.mapper.IAuditLogMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.monitor.entity.AuditLogEntity">
+		<result column="app_code" property="appCode" />
+		<result column="log_id" property="logId" />
+		<result column="log_time" property="logTime" />
+		<result column="user_id" property="userId" />
+		<result column="log_ip" property="logIp" />
+		<result column="log_module" property="logModule" />
+		<result column="log_method" property="logMethod" />
+		<result column="log_message" property="logMessage" />
+		<result column="log_start_time" property="logStartTime" />
+		<result column="log_end_time" property="logEndTime" />
+		<result column="log_cost" property="logCost" />
+		<result column="log_type" property="logType" />
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			LOG_ID,
+			LOG_TIME,
+			USER_ID,
+			LOG_IP,
+			LOG_MODULE,
+			LOG_METHOD,
+			LOG_MESSAGE,
+			LOG_START_TIME,
+			LOG_END_TIME,
+			LOG_COST,
+			LOG_TYPE,
+			APP_CODE
+		FROM SYS_AUDIT_LOG_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="where" prefixOverrides="and || or">
+			AND T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+			<if test='vo.logModule!=null and vo.logModule!=""'>
+				AND T.LOG_MODULE LIKE CONCAT('%',TRIM(#{vo.logModule,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.logMessage!=null and vo.logMessage!=""'>
+				AND T.LOG_MESSAGE LIKE CONCAT('%',TRIM(#{vo.logMessage,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.logMethod!=null and vo.logMethod!=""'>
+				AND T.LOG_METHOD LIKE CONCAT('%',TRIM(#{vo.logMethod,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.logIp!=null and vo.logIp!=""'>
+				AND T.LOG_IP LIKE CONCAT('%',TRIM(#{vo.logIp,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='vo.logType!=null and vo.logType!=""'>
+				AND T.LOG_TYPE = #{vo.logType,jdbcType=VARCHAR}
+			</if>
+			<if test='vo.userName!=null and vo.userName!="" '>
+				AND EXISTS(
+					SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
+					AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+					OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
+				)
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle">
+		insert into sys_audit_log_t (
+			log_time,
+			user_id,
+			log_ip,
+			log_module,
+			log_method,
+			log_message,
+			log_start_time,
+			log_end_time,
+			log_cost,
+			log_type,
+			app_code
+		)values(
+			#{vo.logTime},
+			#{vo.userId,jdbcType=NUMERIC},
+			#{vo.logIp,jdbcType=VARCHAR},
+			#{vo.logModule,jdbcType=VARCHAR},
+			#{vo.logMethod,jdbcType=VARCHAR},
+			#{vo.logMessage,jdbcType=VARCHAR},
+			#{vo.logStartTime},
+			#{vo.logEndTime},
+			#{vo.logCost,jdbcType=NUMERIC},
+			#{vo.logType,jdbcType=VARCHAR},
+			#{vo.appCode,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<select id="findAuditLogPage" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+</mapper>

@@ -35,20 +35,22 @@ public class RestTemplateRequestInterceptor implements ClientHttpRequestIntercep
 	private void traceRequest(HttpRequest request, byte[] body) throws IOException {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
 				.getRequestAttributes();
-		HttpServletRequest req = requestAttributes.getRequest();
-		Enumeration<String> headers= req.getHeaderNames();
-		while (headers.hasMoreElements()){
-			String headerName=headers.nextElement();
-			request.getHeaders().add(headerName,req.getHeader(headerName));
-		}
-		if(logger.isDebugEnabled()) {
-			logger.debug("===========================restTemplate request begin================================================");
-			logger.debug("URL:        : [{}][{}]", request.getMethod(),request.getURI());
-			logger.debug("Headers     : [{}]", request.getHeaders());
-			if(body!=null && body.length>0){
-				logger.debug("Request Body: {}", new String(body, "UTF-8"));
+		if(requestAttributes!=null){
+			HttpServletRequest req = requestAttributes.getRequest();
+			Enumeration<String> headers= req.getHeaderNames();
+			while (headers.hasMoreElements()){
+				String headerName=headers.nextElement();
+				request.getHeaders().add(headerName,req.getHeader(headerName));
 			}
-			logger.debug("==========================restTemplate request end================================================");
+			if(logger.isDebugEnabled()) {
+				logger.debug("===========================restTemplate request begin================================================");
+				logger.debug("URL:        : [{}][{}]", request.getMethod(),request.getURI());
+				logger.debug("Headers     : [{}]", request.getHeaders());
+				if(body!=null && body.length>0){
+					logger.debug("Request Body: {}", new String(body, "UTF-8"));
+				}
+				logger.debug("==========================restTemplate request end================================================");
+			}
 		}
     }
 }

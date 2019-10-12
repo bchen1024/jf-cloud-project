@@ -1,7 +1,11 @@
 package com.btsoft.jf.cloud.monitor;
 
+import com.btsoft.jf.cloud.core.web.interceptor.RestTemplateRequestInterceptor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * JF Cloud 监控启动类
@@ -15,4 +19,11 @@ public class JfCloudMonitorApplication {
 		SpringApplication.run(JfCloudMonitorApplication.class, args);
 	}
 
+	@Bean
+	@LoadBalanced
+	public RestTemplate restTemplate() {
+		RestTemplate restTemplate=new RestTemplate();
+		restTemplate.getInterceptors().add(new RestTemplateRequestInterceptor());
+		return restTemplate;
+	}
 }

@@ -26,5 +26,4 @@ public class JfCloudPlatformApplication {
 		restTemplate.getInterceptors().add(new RestTemplateRequestInterceptor());
 		return restTemplate;
 	}
-
 }

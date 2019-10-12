@@ -1,17 +1,13 @@
 package com.btsoft.jf.cloud.core.aspect;
 
-import java.lang.reflect.Method;
-import java.net.InetAddress;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.alibaba.fastjson.JSON;
 import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JAuditModule;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.base.service.ICommonService;
+import com.btsoft.jf.cloud.core.context.impl.JfCloud;
+import com.btsoft.jf.cloud.core.context.impl.RequestContext;
+import com.btsoft.jf.cloud.core.util.RequestUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.After;
@@ -19,11 +15,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.btsoft.jf.cloud.core.annotation.JAuditLog;
-import org.btsoft.jf.cloud.core.annotation.JAuditModul;
-import org.btsoft.jf.cloud.core.base.service.ICommonService;
-import org.btsoft.jf.cloud.core.context.JFCloud;
-import org.btsoft.jf.cloud.core.util.RequestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +24,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.alibaba.fastjson.JSON;
+import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 审计日志拦截器
@@ -50,7 +45,7 @@ public class AuditLogAspect {
 
 	private final static String CONTROLLER="Controller";
 	
-	private static final ThreadLocal<Long> LOCAL_AUDIT = new ThreadLocal<Long>();
+	private static final ThreadLocal<Long> LOCAL_AUDIT = new ThreadLocal<>();
 
 	@Autowired
 	private ICommonService service;
@@ -77,46 +72,28 @@ public class AuditLogAspect {
 			Method targetMethod = methodSignature.getMethod();
 			Class<?> clazz = joinPoint.getTarget().getClass();
 
-			Map<String,Object> log=new HashMap(10);
+			Map<String,Object> log=new HashMap<>(10);
 			//审计模块
 			buildAuditLogModule(log,clazz);
-
-
+			//审计方法
+			buildAuditLogMethod(log,targetMethod);
+			//审计时间
+			buildAuditLogTime(log, startTime, endTime);
+			//审计消息
+			buildAuditLogMessage(log,targetMethod,joinPoint);
+			//审计人信息
+			buildAuditLogContext(log);
 
 			
 			ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
 					.getRequestAttributes();
-			HttpServletRequest request = requestAttributes.getRequest();
-			log.put("logClient", RequestUtils.getClient(request));
-			log.put("logUrl", request.getRequestURI());
-			
-			
-			//AuditLog log = new AuditLog();
-			log.put("appCode", JFCloud.getAppCode());
-			log.put("logType", "audit");
-			log.put("logAccount", "chenbin");
-			this.buildAuditLogTime(log, startTime, endTime);
-			//主机名和ip
-			InetAddress inet=RequestUtils.getInetAddress(request);
-			if(inet!=null){
-				log.put("logIp", inet.getHostAddress());
-				log.put("logHost", inet.getHostName());
-			}else{
-				log.put("logIp", "Unknown");
-				log.put("logHost", "Unknown");
+			if(requestAttributes!=null){
+				HttpServletRequest request = requestAttributes.getRequest();
+				log.put("logIp", RequestUtils.getIpAddr(request));
 			}
-			
-			String message=ja.message();
-			if(StringUtils.isEmpty(message)){
-				log.put("logMessage", JSON.toJSONString(joinPoint.getArgs()));
-			}else{
-				log.put("logMessage", message);
-			}
-			logger.debug("auditLog...");
 			service.auditLog(log);
-			logger.debug("Audit log end...");
 		} catch (Exception e) {
-			logger.error("audit log is error:"+e.getMessage());
+			logger.error("audit log is error:"+e.getMessage(),e);
 		}
 	}
 
@@ -156,19 +133,36 @@ public class AuditLogAspect {
 			method = ja.type();
 		}else{
 			JOperator jo=targetMethod.getAnnotation(JOperator.class);
-			if(jo!=null){
-
+			if(jo!=null && !StringUtils.isEmpty(jo.code())){
+				method=jo.code();
 			}
 		}
 		log.put("logMethod", method);
 	}
+
+	/**
+	 * 构建审计模块
+	 * @author jeo_cb
+	 * @date 2019/10/12
+	 * @param  log 审计map
+	 * @param targetMethod 目标方法
+	 **/
+	private void buildAuditLogMessage(Map<String, Object> log,Method targetMethod,JoinPoint joinPoint){
+		JAuditLog ja = targetMethod.getAnnotation(JAuditLog.class);
+		String message=ja.message();
+		if(StringUtils.isEmpty(message)){
+			log.put("logMessage", JSON.toJSONString(joinPoint.getArgs()));
+		}else{
+			log.put("logMessage", message);
+		}
+	}
 	
 	/**
 	 * 构建审计日期
-	 * @param log
-	 * @param startTime
-	 * @param endTime
-	 * @autor chenbin
+	 * @param log  审计map
+	 * @param startTime 请求开始时间
+	 * @param endTime 请求结束时间
+	 * @author jeo_cb
 	 * @date 2018-12-09 19:18
 	 */
 	private void buildAuditLogTime(Map<String, Object> log,Long startTime,Long endTime) {
@@ -179,4 +173,18 @@ public class AuditLogAspect {
 		log.put("logCost", endTime-startTime);
 	}
 
+	/**
+	 * 构建审计模块
+	 * @author jeo_cb
+	 * @date 2019/10/12
+	 * @param  log 审计map
+	 **/
+	private void buildAuditLogContext(Map<String, Object> log){
+		RequestContext rc=JfCloud.getCurrent();
+		if(rc!=null){
+			log.put("appCode", rc.getRequestApp());
+			log.put("userId", rc.getCurrentUserId());
+		}
+		log.put("logType", "audit");
+	}
 }

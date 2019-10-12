@@ -3,14 +3,21 @@ package com.btsoft.jf.cloud.core.base.service.impl;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
+import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.base.service.ICommonService;
 import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.PermissionSourceEnum;
 import com.btsoft.jf.cloud.core.enums.impl.PermissionTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -22,6 +29,14 @@ import java.util.*;
  **/
 @Service
 public class CommonServiceImpl implements ICommonService {
+
+    private final static Logger logger= LoggerFactory.getLogger(CommonServiceImpl.class);
+
+    @Value("${jf.cloud.cloudMonitorUrl:http://jf-cloud-monitor}")
+    private String cloudMonitorUrl;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public CommonResult<List<Map<String, String>>> listPermission() {
@@ -78,8 +93,13 @@ public class CommonServiceImpl implements ICommonService {
         return CommonResultUtils.success(resourcesList);
     }
 
+    @Async
     @Override
     public void auditLog(Map<String, Object> log) {
-
+        try {
+            Result result=restTemplate.postForObject(cloudMonitorUrl+"/monitor/auditLog/create", log, Result.class);
+        } catch (Exception e) {
+            logger.error("Audit log is error:"+e.getMessage(),e);
+        }
     }
 }
