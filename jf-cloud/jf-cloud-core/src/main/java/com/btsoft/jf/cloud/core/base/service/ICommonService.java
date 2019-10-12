@@ -19,4 +19,13 @@ public interface ICommonService {
      * @return 权限列表
      **/
     CommonResult<List<Map<String,String>>> listPermission();
+
+    /**
+     * 记录审计日志
+     * @author jeo_cb
+     * @date 2019/10/12
+     * @param  log 审计信息
+     * @return void
+     **/
+    void auditLog(Map<String, Object> log);
 }

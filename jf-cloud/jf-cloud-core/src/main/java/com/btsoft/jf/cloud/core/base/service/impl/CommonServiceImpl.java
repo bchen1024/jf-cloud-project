@@ -77,4 +77,9 @@ public class CommonServiceImpl implements ICommonService {
         }
         return CommonResultUtils.success(resourcesList);
     }
+
+    @Override
+    public void auditLog(Map<String, Object> log) {
+
+    }
 }
