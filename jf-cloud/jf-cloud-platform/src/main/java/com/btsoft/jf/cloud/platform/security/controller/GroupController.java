@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 群组管理Controller
  * @author jeo_cb
@@ -55,7 +57,7 @@ public class GroupController {
     @ApiOperation("群组详情")
     @GetMapping(ControllerContants.Path.SINGLE)
     @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "群组详情", descEN = "Group Detail",sort = 20)
-    public CommonResult<GroupVO> findRole(Long id){
+    public CommonResult<GroupVO> findGroup(@Valid Long id){
         return service.findGroup(id);
     }
 
@@ -70,7 +72,7 @@ public class GroupController {
     @ApiOperation("保存群组，创建或者更新")
     @PutMapping(ControllerContants.Path.SAVE)
     @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存群组", descEN = "Save Group",sort = 30)
-    public Result saveGroup(@RequestBody GroupSaveDTO dto){
+    public Result saveGroup(@Valid @RequestBody GroupSaveDTO dto){
         return service.saveGroup(dto);
     }
 
@@ -85,7 +87,7 @@ public class GroupController {
     @ApiOperation("删除群组")
     @DeleteMapping(ControllerContants.Path.DELETE)
     @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除群组", descEN = "Delete Group",sort = 40)
-    public Result deleteGroup(@RequestBody BaseIdAppDTO dto){
+    public Result deleteGroup(@Valid @RequestBody BaseIdAppDTO dto){
         return service.deleteGroup(dto);
     }
 }

@@ -5,6 +5,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
+import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.monitor.dto.AuditLogCreateDTO;
 import com.btsoft.jf.cloud.monitor.dto.AuditLogQueryDTO;
 import com.btsoft.jf.cloud.monitor.entity.AuditLogEntity;
@@ -52,8 +53,9 @@ public class AuditLogServiceImpl implements IAuditLogService {
 	 **/
 	@Override
 	public CommonResult<PageResult<AuditLogVO>> findAuditLogPage(AuditLogQueryDTO dto) {
+		AuditLogQueryDTO queryDTO= EntityUtils.queryDtoToEntity(AuditLogQueryDTO.class,dto);
 		Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
-		mapper.findAuditLogPage(dto);
+		mapper.findAuditLogPage(queryDTO);
 		return CommonResultUtils.pageResult(AuditLogVO.class,page);
 	}
 }

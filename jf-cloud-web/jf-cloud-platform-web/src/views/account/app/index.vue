@@ -51,12 +51,7 @@ export default {
                             }
                             return false;
                         }},
-                        {title:vm.$t('syncPermission'),permissionCode:'permission$sync',show:(row)=>{
-                            if(row.appType=='2'){
-                                return true;
-                            }
-                            return false;
-                        },click:(params)=>{
+                        {title:vm.$t('syncPermission'),permissionCode:'permission$sync',click:(params)=>{
                             vm.syncPermission(params.row);
                         }}
                     ],

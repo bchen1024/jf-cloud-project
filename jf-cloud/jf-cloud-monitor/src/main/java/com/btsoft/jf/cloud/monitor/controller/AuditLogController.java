@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "审计日志")
 @RequestMapping("/monitor/auditLog")
-@JResource(code = "auditLog", descCN = "审计日志", descEN = "Audit Log",appCode="jf-cloud-platform")
+@JResource(code = "auditLog", descCN = "审计日志", descEN = "Audit Log",appCode="jf-cloud-platform",sort = 1000)
 public class AuditLogController {
 	
 	@Autowired
@@ -42,7 +42,7 @@ public class AuditLogController {
 	@ApiOperation("分页查询审计日志")
 	@PostMapping(ControllerContants.Path.PAGE)
 	@JOperator(code = ControllerContants.Operator.PAGE, descCN = "日志列表", descEN = "AuditLog List",sort = 10)
-	public CommonResult<PageResult<AuditLogVO>> findAuditLogPage(AuditLogQueryDTO dto){
+	public CommonResult<PageResult<AuditLogVO>> findAuditLogPage(@RequestBody AuditLogQueryDTO dto){
 		return service.findAuditLogPage(dto);
 	}
 

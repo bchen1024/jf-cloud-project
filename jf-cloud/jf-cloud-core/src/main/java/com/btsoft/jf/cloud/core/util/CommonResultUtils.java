@@ -65,4 +65,8 @@ public class CommonResultUtils {
         commonResult.setCode(ErrorCodeConstants.Global.SUCCESS);
         return commonResult;
     }
+
+    public static <T> CommonResult<T> result(Class<T> clazz,Object obj){
+        return CommonResultUtils.success(JSON.parseObject(JSON.toJSONString(obj),clazz));
+    }
 }

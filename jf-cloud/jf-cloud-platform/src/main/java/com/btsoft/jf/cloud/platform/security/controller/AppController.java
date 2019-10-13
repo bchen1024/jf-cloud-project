@@ -17,6 +17,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 /**
  * 应用管理Controller
  * @author jeo_cb
@@ -55,7 +57,7 @@ public class AppController {
     @ApiOperation("应用详情")
     @GetMapping(ControllerContants.Path.SINGLE)
     @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "应用详情", descEN = "App Detail",sort = 20)
-    public CommonResult<AppVO> findApp(Long id){
+    public CommonResult<AppVO> findApp(@Valid  Long id){
         return service.findApp(id);
     }
 
@@ -70,7 +72,7 @@ public class AppController {
     @ApiOperation("保存应用，创建或者更新")
     @PutMapping(ControllerContants.Path.SAVE)
     @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存应用", descEN = "Save App",sort = 30)
-    public Result saveApp(@RequestBody AppSaveDTO dto){
+    public Result saveApp(@Valid @RequestBody AppSaveDTO dto){
         return service.saveApp(dto);
     }
 
@@ -85,11 +87,7 @@ public class AppController {
     @ApiOperation("删除应用")
     @DeleteMapping(ControllerContants.Path.DELETE)
     @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除应用", descEN = "Delete App",sort = 40)
-    public Result deleteApp(@RequestBody BaseIdAppDTO dto){
+    public Result deleteApp(@Valid @RequestBody BaseIdAppDTO dto){
         return service.deleteApp(dto);
     }
-
-
-
-
 }

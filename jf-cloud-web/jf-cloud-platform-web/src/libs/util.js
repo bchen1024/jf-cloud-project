@@ -166,7 +166,7 @@ export default {
                 }else{
                     flag=permissionList.includes(permissionCode);
                 }
-                return true;
+                return flag;
             }
             return false;
         }

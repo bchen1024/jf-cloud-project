@@ -47,13 +47,13 @@ export default {
                         }},
                         {title:vm.$t('detail'),permissionCode:'role$single',gridDetail:true},
                         {title:vm.$t('roleUsers'),permissionCode:'role$roleUsers',gridDetail:{tabId:'roleUsers'}},
-                        {title:vm.$t('rolePermission'),permissionCode:'role$rolePermission',gridDetail:{tabId:'rolePermission'}},
+                        {title:vm.$t('rolePermission'),permissionCode:'rolePermission$tree',gridDetail:{tabId:'rolePermission'}},
                         {title:vm.$t('roleGroups'),permissionCode:'role$roleGroups',gridDetail:{tabId:'roleGroups'}}
                     ],
                     columns:[
                         {key:'roleCode',width:150,condition:true},
-                        {key:'roleName',width:150,condition:true},
-                        {key:'roleOwner',width:150,format:'user'},
+                        {key:'roleName',width:200,condition:true},
+                        {key:'roleOwner',width:200,format:'user'},
                         {key:'applyStatus',width:120,format:'status',condition:{
                            type:'radio',items:[{value:'Y',label:vm.$t('status.applyStatus.Y')},{value:'N',label:vm.$t('status.applyStatus.N')}]
                         }},

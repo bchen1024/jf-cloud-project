@@ -18,6 +18,7 @@ public class PermissionEntity extends BaseAppEntity {
     private String permissionType;
     private String permissionSource;
     private Integer permissionSort;
+    private String appSource;
 
     public Long getPermissionId() {
         return permissionId;
@@ -81,6 +82,14 @@ public class PermissionEntity extends BaseAppEntity {
 
     public void setPermissionSort(Integer permissionSort) {
         this.permissionSort = permissionSort;
+    }
+
+    public String getAppSource() {
+        return appSource;
+    }
+
+    public void setAppSource(String appSource) {
+        this.appSource = appSource;
     }
 
     @Override

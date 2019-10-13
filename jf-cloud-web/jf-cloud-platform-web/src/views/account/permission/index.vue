@@ -1,6 +1,6 @@
 <template>
     <Layout :style="{height:'100%'}">
-        <Sider width="360" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
+        <Sider width="300" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
             <Spin size="large" fix v-if="loading"></Spin>
             <Tree ref="permissionTree" :empty-text="$t('noPermissionData')" :render="renderContent" :data="treeData" @on-select-change="onSelectChange"></Tree>
         </Sider>

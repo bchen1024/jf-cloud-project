@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.monitor.dto;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.PageAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordAppDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -11,7 +11,7 @@ import java.util.List;
  * @desc 审计日志查询DTo
  * @date 2019/10/12 11:54
  **/
-public class AuditLogQueryDTO extends PageAppDTO {
+public class AuditLogQueryDTO extends SearchKeywordAppDTO {
 
     private List<Date> logTimes;
 

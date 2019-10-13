@@ -79,7 +79,7 @@ public class UserServiceImpl implements IUserService {
     @Transactional(rollbackFor = Exception.class)
     public Result saveUser(UserSaveDTO dto) {
         int rows=0;
-        UserEntity entity= EntityUtils.baseDtoToEntity(UserEntity.class,dto);
+        UserEntity entity= EntityUtils.dtoToEntity(UserEntity.class,dto);
         if(dto.getUserId()!=null){
             rows=mapper.updateUserBaseInfo(entity);
         }else{

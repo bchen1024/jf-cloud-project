@@ -48,7 +48,7 @@ public class EmployeeServiceImpl implements IEmployeeService {
 
     @Override
     public Result updateEmployee(EmployeeUpdateDTO dto) {
-        EmployeeEntity entity=EntityUtils.baseDtoToEntity(EmployeeEntity.class,dto);
+        EmployeeEntity entity=EntityUtils.dtoToEntity(EmployeeEntity.class,dto);
         int rows=mapper.updateSingle(entity);
         return CommonResultUtils.result(rows, OperationTypeEnum.Update);
     }

@@ -92,5 +92,6 @@
 	<select id="findAuditLogPage" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
+		ORDER BY T.LOG_TIME DESC
 	</select>
 </mapper>

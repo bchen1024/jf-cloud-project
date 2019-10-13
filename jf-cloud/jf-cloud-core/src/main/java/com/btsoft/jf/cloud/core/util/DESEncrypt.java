@@ -99,4 +99,8 @@ public class DESEncrypt {
 		}
 		return ch;
 	}
+
+	public static void main(String[] args) {
+		System.out.println(encrypt("[admin@8350abc>"));
+	}
 }

@@ -119,6 +119,7 @@
 			PERMISSION_SOURCE,
 			PERMISSION_SORT,
 			APP_CODE,
+		    APP_SOURCE,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)
@@ -132,6 +133,7 @@
 			#{item.permissionSource,jdbcType=VARCHAR},
 			IFNULL(#{item.permissionSort,jdbcType=NUMERIC},0),
 			#{item.appCode,jdbcType=VARCHAR},
+			#{vo.appCode,jdbcType=VARCHAR},
 			#{item.currentUserId,jdbcType=NUMERIC},
 			#{item.currentUserId,jdbcType=NUMERIC})
 		</foreach>
@@ -150,7 +152,7 @@
 			T.ENABLE_FLAG='N',
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		WHERE T.APP_SOURCE=#{vo.appCode,jdbcType=VARCHAR}
 		  AND T.PERMISSION_SOURCE='annotation'
 		<if test="vo.list!=null and vo.list.size()>0">
 			<foreach collection="vo.list" item="item" open="AND (T.PERMISSION_CODE,T.PERMISSION_TYPE,T.PARENT_CODE) NOT IN(" close=")" separator=",">

@@ -78,10 +78,10 @@ export default {
                         {title:vm.$t('detail'),permissionCode:'user$single',gridDetail:true},
                     ],
                     columns:[
-                        {key:'userNo',width:120,condition:true},
-                        {key:'userCn',condition:true},
-                        {key:'userEn',condition:true},
-                        {key:'mobile',width:120,condition:true,render: (h, params) => {
+                        {key:'userNo',width:150,condition:true},
+                        {key:'userCn',width:150,condition:true},
+                        {key:'userEn',width:150,condition:true},
+                        {key:'mobile',width:150,condition:true,render: (h, params) => {
                             if(params.row.mobile){
                                 let props={};
                                 if(params.row.mobileValidated=='Y'){
@@ -123,9 +123,7 @@ export default {
                                {value:'L',label:vm.$t('status.userStatus.L')},
                                {value:'D',label:vm.$t('status.userStatus.D')}
                             ]
-                        }},
-                        {key:'passwordUpdateTime',width:160},
-                        {key:'lockTime',width:160}
+                        }}
                     ]
                 }
             }

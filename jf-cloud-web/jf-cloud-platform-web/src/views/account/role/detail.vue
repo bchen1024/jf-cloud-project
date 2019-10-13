@@ -8,10 +8,10 @@
                 @saveCallback="loadDetail()"/>
         </TabPane>
         <TabPane :label="$t('roleUsers')" name="roleUsers" v-if="$util.checkPermission('role$roleUsers',$store.state.permission.permissionList)">标签二的内容</TabPane>
-        <TabPane :label="$t('rolePermission')" name="rolePermission" v-if="$util.checkPermission('role$rolePermission',$store.state.permission.permissionList)">
+        <TabPane :label="$t('rolePermission')" name="rolePermission" v-if="$util.checkPermission('rolePermission$tree',$store.state.permission.permissionList)">
             <Spin size="large" fix v-if="loading"></Spin>
             <div>
-                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveRolePermission()" v-permission="'role$saveRolePermission'">
+                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveRolePermission()" v-permission="'rolePermission$save'">
                     {{$t('save')}}
                 </Button>
                 <Button  icon="md-refresh" @click="loadPermission()">

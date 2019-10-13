@@ -68,7 +68,7 @@ public class PermissionServiceImpl implements IPermissionService {
             if(!CollectionUtils.isEmpty(cr.getData())) {
                 BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
                 batchEntity.setList(cr.getData());
-                batchEntity.setAppCode(cr.getData().get(0).getAppCode());
+                batchEntity.setAppCode(dto.getAppCode());
                 int rows=mapper.createMultiple(batchEntity);
                 mapper.inValidPermission(batchEntity);
                 return CommonResultUtils.success(rows);

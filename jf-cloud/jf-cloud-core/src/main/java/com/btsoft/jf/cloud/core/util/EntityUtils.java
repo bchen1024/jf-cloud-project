@@ -2,7 +2,6 @@ package com.btsoft.jf.cloud.core.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.btsoft.jf.cloud.core.base.dto.IBaseDTO;
 import com.btsoft.jf.cloud.core.base.dto.ISearchKeyword;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public class EntityUtils {
         return entity;
     }
 
-    public static <T> T baseDtoToEntity(Class<T> clazz, IBaseDTO dto)  {
+    public static <T> T dtoToEntity(Class<T> clazz, Object dto)  {
         T entity=JSON.parseObject(JSON.toJSONString(dto),clazz);
         return entity;
     }

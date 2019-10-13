@@ -327,7 +327,7 @@ export default {
             if(searchOp.queryKeywordFields && searchOp.queryKeywordFields.length>0){
                 fields=fields.concat(searchOp.queryKeywordFields);
             }
-            if(fields.length>0){
+            if(fields.length>0 && !searchOp.queryParams.keywordField){
                 searchOp.queryParams.keywordField=fields[0].key;
             }
             return fields;
@@ -553,8 +553,7 @@ export default {
                 let routeData = vm.$router.resolve({
                     name: "auditLog",
                     query: {
-                        module:tableOp.logSetting.module,
-                        operation:tableOp.logSetting.operation
+                        logModule:tableOp.logSetting.module
                     }
                 });
                 window.open(routeData.href, '_blank');

@@ -2,19 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IGroupMapper">
 	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.GroupEntity">
-		<result column="app_code" property="appCode"/>
-		<result column="enable_flag" property="enableFlag"/>
-		<result column="create_by" property="createBy"/>
-		<result column="create_date" property="createDate"/>
-		<result column="last_update_by" property="lastUpdateBy"/>
-		<result column="last_update_date" property="lastUpdateDate"/>
+		<result column="APP_CODE" property="appCode"/>
+		<result column="ENABLE_FLAG" property="enableFlag"/>
+		<result column="CREATE_BY" property="createBy"/>
+		<result column="CREATE_DATE" property="createDate"/>
+		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
+		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
 
-		<result column="group_id" property="groupId"/>
-		<result column="group_code" property="groupCode"/>
-		<result column="group_name" property="groupName"/>
-		<result column="group_owner" property="groupOwner"/>
-		<result column="group_desc" property="groupDesc"/>
-		<result column="apply_status" property="applyStatus"/>
+		<result column="GROUP_ID" property="groupId"/>
+		<result column="GROUP_CODE" property="groupCode"/>
+		<result column="GROUP_NAME" property="groupName"/>
+		<result column="GROUP_OWNER" property="groupOwner"/>
+		<result column="GROUP_DESC" property="groupDesc"/>
+		<result column="APPLY_STATUS" property="applyStatus"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -90,7 +90,7 @@
 			T.APPLY_STATUS=#{vo.applyStatus,jdbcType=VARCHAR},
 			T.GROUP_OWNER=#{vo.groupOwner,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
-			T.LAST_UPDATE_DATE=now()
+			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.GROUP_ID=#{vo.groupId,jdbcType=NUMERIC}
 	</update>
 

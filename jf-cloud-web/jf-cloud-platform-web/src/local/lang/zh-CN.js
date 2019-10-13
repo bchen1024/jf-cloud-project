@@ -164,6 +164,15 @@ export default{
     checkInvalidPermission:'检查无效权限',
     checkInvalidPermissionTip:'检查已同步权限，但是后来程序已删除的注解权限',
 
+    logTime:'日志时间',
+    logModule:'日志模块',
+    logMethod:'日志操作',
+    logStartTime:'开始时间',
+    logEndTime:'结束时间',
+    logCost:'耗时',
+    logIp:'访问IP',
+    logType:'日志类型',
+
     'server.error':'请求异常，请联系管理员',
 
     validator:{
@@ -184,6 +193,11 @@ export default{
             1:'全职',
             2:'兼职',
             3:'试用'
+        },
+        logType:{
+            audit:'审计',
+            login:'登录',
+            performance:'性能'
         }
     },
     status:{
