@@ -78,6 +78,7 @@ export default {
                         {title:vm.$t('detail'),permissionCode:'user$single',gridDetail:true},
                     ],
                     columns:[
+                        {key:'userId',width:120},
                         {key:'userNo',width:150,condition:true},
                         {key:'userCn',width:150,condition:true},
                         {key:'userEn',width:150,condition:true},

@@ -33,7 +33,7 @@ export default {
         },
         showPhoto:{
             type:Boolean,
-            default:true
+            default:false
         },
         viewDetail:{
             type:Boolean,

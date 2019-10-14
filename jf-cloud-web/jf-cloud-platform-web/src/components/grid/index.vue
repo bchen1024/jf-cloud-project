@@ -171,9 +171,6 @@ export default {
                 tableOp.columns.forEach(column=>{
                     //检查该列是否有权限显示
                     if(!column.permission){
-                        if(tableOp.resizable){
-                            column.resizable=true;
-                        }
                         //配置所有列支持ellipsis
                         if(tableOp.ellipsis){
                             column.ellipsis=true;

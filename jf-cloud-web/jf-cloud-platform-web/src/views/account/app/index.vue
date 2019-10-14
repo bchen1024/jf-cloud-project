@@ -39,13 +39,13 @@ export default {
                         }},
                         {title:vm.$t('delete'),permissionCode:'app$delete',gridDelete:true},
                         {title:vm.$t('detail'),permissionCode:'app$single',gridDetail:true},
-                        {title:vm.$t('appUsers'),permissionCode:'app$appUsers',gridDetail:{tabId:'appUsers'},show:(row)=>{
+                        {title:vm.$t('appUsers'),permissionCode:'appUsers$page',gridDetail:{tabId:'appUsers'},show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
                             }
                             return false;
                         }},
-                        {title:vm.$t('appToken'),permissionCode:'app$appToken',gridDetail:{tabId:'appToken'},show:(row)=>{
+                        {title:vm.$t('appToken'),permissionCode:'appToken$single',gridDetail:{tabId:'appToken'},show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
                             }

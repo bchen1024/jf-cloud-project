@@ -51,7 +51,7 @@
                 if(!vm.roleLoad){
                     vm.$http({
                         method:'post',
-                        url:'jfcloud/jf-cloud-platform/security/role/select/roles',
+                        url:'jfcloud/jf-cloud-platform/security/role/select',
                         data:{appCode:'jf-cloud-platform'}
                     }).then(result=>{
                         vm.roleLoad=true;

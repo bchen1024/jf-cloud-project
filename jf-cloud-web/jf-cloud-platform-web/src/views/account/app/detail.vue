@@ -20,15 +20,15 @@
                     @saveCallback="loadAppUsers"/>
             </JFGrid>
         </TabPane>
-        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'  && $util.checkPermission('app$appToken',$store.state.permission.permissionList)">
+        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'  && $util.checkPermission('appToken$single',$store.state.permission.permissionList)">
             <Form  :model="appData" :rules="appFormRules">
                 <Spin size="large" fix v-if="appTokenLoading"></Spin>
                 <FormItem :label="$t('appToken')" prop="appToken">
                     <Input type="textarea" v-model="appData.appToken" :rows="5" :maxlength="500" />
                 </FormItem>
                 <div style="text-align:right;">
-                    <Button icon="md-refresh" @click="loadAppToken()">{{$t('refresh')}}</Button>
-                    <Button type="primary"  @click="saveAppToken()" icon="md-checkmark">{{$t('save')}}</Button>
+                    <Button icon="md-refresh" @click="$util.viewLog('AppToken','save')">{{$t('refresh')}}</Button>
+                    <Button type="primary" v-permission="'appToken$save'" @click="saveAppToken()" icon="md-checkmark">{{$t('save')}}</Button>
                 </div>
             </Form>
         </TabPane>
@@ -164,7 +164,7 @@ export default {
             vm.appTokenLoading=true;
             vm.$http({
                 method:'get',
-                url:'jfcloud/jf-cloud-platform/security/app/token',
+                url:'jfcloud/jf-cloud-platform/security/app/token/single',
                 params:{id:vm.id}
             }).then(result=>{
                 vm.appTokenLoading=false;
