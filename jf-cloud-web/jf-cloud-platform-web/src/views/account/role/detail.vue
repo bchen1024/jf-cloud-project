@@ -25,9 +25,9 @@
 </template>
 <script>
 import EditRole from './edit.vue';
-import curdGrid from '@/mixins/curdGrid';
+import editGrid from '@/mixins/editGrid';
 export default {
-    mixins:[curdGrid],
+    mixins:[editGrid],
     components:{
         EditRole
     },

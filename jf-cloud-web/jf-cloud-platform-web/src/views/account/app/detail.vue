@@ -37,9 +37,9 @@
 <script>
 import EditApp from './edit.vue';
 import AddUser from './addUser.vue';
-import curdGrid from '@/mixins/curdGrid';
+import editGrid from '@/mixins/editGrid';
 export default {
-    mixins:[curdGrid],
+    mixins:[editGrid],
     components:{
         EditApp,
         AddUser

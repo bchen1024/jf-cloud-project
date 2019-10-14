@@ -8,9 +8,9 @@
 </template>
 <script>
 import Edit from './edit.vue';
-import curdGrid from '@/mixins/curdGrid';
+import editGrid from '@/mixins/editGrid';
 export default {
-    mixins:[curdGrid],
+    mixins:[editGrid],
     components:{
         Edit
     },

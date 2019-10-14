@@ -5,7 +5,7 @@
                 {{$t('createGroup')}}
             </Button>
         </template>
-        <Edit slot="grid-drawer" :formId="formId" :formKey="formKey"
+        <Edit slot="grid-drawer" :formId="formId" formKey="groupId"
             :visible.sync="showEdit" 
             :formData="formData"
             @saveCallback="gridSearch"/>
@@ -13,16 +13,15 @@
 </template>
 <script>
 import Edit from './edit.vue';
-import curdGrid from '@/mixins/curdGrid';
+import editGrid from '@/mixins/editGrid';
 export default {
-    mixins:[curdGrid],
+    mixins:[editGrid],
     components:{
         Edit
     },
     data(){
         let vm=this;
         return {
-            formKey:'groupId',
             gridOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/group/page',
