@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.monitor.vo;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseAppVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -26,8 +27,9 @@ public class AuditLogVO extends BaseAppVO {
 
     private String logMessage;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone="GMT+8")
     private Date logStartTime;
-
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone="GMT+8")
     private Date logEndTime;
 
     private Long logCost;
