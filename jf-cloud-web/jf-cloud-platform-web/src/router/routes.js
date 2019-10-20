@@ -159,7 +159,7 @@ export default[
                         component:resolve =>require(['@/views/config/organization/index.vue'],resolve),
                         meta:{
                             icon:'md-people',
-                            permissionCode:'organization$page'
+                            permissionCode:'organization$tree'
                         }
                     },
                     {

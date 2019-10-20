@@ -11,6 +11,7 @@ import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.LanguageEnum;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
+import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSyncDTO;
@@ -124,9 +125,8 @@ public class PermissionServiceImpl implements IPermissionService {
 
     @Override
     public Result savePermission(PermissionSaveDTO dto) {
+        PermissionEntity entity= EntityUtils.dtoToEntity(PermissionEntity.class,dto);
         int rows;
-        PermissionEntity entity=new PermissionEntity();
-        BeanUtils.copyProperties(dto,entity);
         if(dto.getPermissionId()!=null){
             rows=mapper.updateSingle(entity);
         }else{

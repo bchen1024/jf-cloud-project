@@ -44,8 +44,8 @@ public class UserController {
      * @param  dto 查询参数
      * @return 分页列表
      **/
-    @PostMapping(ControllerContants.Path.PAGE)
     @ApiOperation("分页查询账号")
+    @PostMapping(ControllerContants.Path.PAGE)
     @JOperator(code = ControllerContants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
     public CommonResult<PageResult<UserVO>> findRolePage(@RequestBody UserQueryDTO dto){
         return service.findUserPage(dto);
