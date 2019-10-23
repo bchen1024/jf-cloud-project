@@ -130,7 +130,6 @@ export default{
     appUsers:'应用用户',
     appType:'应用类型',
     appToken:'应用Token',
-    appPort:'应用端口',
     addUser:'添加用户',
 
     createGroup:'创建群组',
@@ -178,7 +177,9 @@ export default{
     validator:{
         notEmpty:'该值不能为空',
         email:'请输入正确的邮箱地址',
-        tel:'请输入正确的手机号码'
+        tel:'请输入正确的手机号码',
+        telSame:'该手机号码已注册',
+        emailSame:'该邮箱地址已注册'
     },
     type:{
         appType:{

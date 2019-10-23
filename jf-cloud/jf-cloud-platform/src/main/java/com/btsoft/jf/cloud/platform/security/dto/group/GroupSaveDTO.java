@@ -4,6 +4,9 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseAppDTO;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 /**
  * 群组保存DTO
  * @author jeo_cb
@@ -13,14 +16,23 @@ public class GroupSaveDTO extends BaseAppDTO {
 
     @ApiModelProperty("群组id,更新时非空")
     private Long groupId;
+
+    @NotBlank
     @ApiModelProperty("群组编码，同应用下不能重复")
     private String groupCode;
+
+    @NotBlank
     @ApiModelProperty("群组名称")
     private String groupName;
+
+    @NotNull
     @ApiModelProperty("群组责任人id")
     private Long groupOwner;
+
     @ApiModelProperty("群组描述")
     private String groupDesc;
+
+    @NotBlank
     @ApiModelProperty("是否可申请，Y|N")
     private String applyStatus;
 

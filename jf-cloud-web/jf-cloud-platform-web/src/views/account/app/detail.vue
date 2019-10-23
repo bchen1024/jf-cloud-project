@@ -67,10 +67,7 @@ export default {
                         {key:'appOwner',type:'user'},
                         {key:'appType',type:'type'},
                     ]},
-                    {cols:[
-                        {key:'appPort'},
-                        {key:'contextPath'},
-                    ]},
+                    {key:'contextPath'},
                     {key:'appDesc',desc:true}
                 ]
             },

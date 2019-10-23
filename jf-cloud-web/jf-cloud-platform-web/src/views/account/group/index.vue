@@ -34,11 +34,13 @@ export default {
                 table:{
                     pkId:'groupId',
                     logSetting:{module:'Group'},
+                    detail:{name:'groupDetail'},
                     buttons:[
                         {title:vm.$t('edit'),permissionCode:'group$save',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('delete'),permissionCode:'group$delete',gridDelete:true}
+                        {title:vm.$t('delete'),permissionCode:'group$delete',gridDelete:true},
+                        {title:vm.$t('detail'),permissionCode:'group$single',gridDetail:true},
                     ],
                     columns:[
                         {key:'groupCode',width:150,condition:true},

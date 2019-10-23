@@ -53,7 +53,7 @@ public class CommonServiceImpl implements ICommonService {
                 JResource jr = clazz.getAnnotation(JResource.class);
 
                 //构造Resources对象
-                Map<String, String> resourceMap=new HashMap<>(6);
+                Map<String, String> resourceMap=new HashMap<>(8);
                 resourceMap.put("permissionCode", jr.code());
                 resourceMap.put("permissionDescCN", jr.descCN());
                 resourceMap.put("permissionDescEN", jr.descEN());
@@ -73,7 +73,7 @@ public class CommonServiceImpl implements ICommonService {
                 for (Method method : methods) {
                     if (method.isAnnotationPresent(JOperator.class)) {
                         JOperator jo = method.getAnnotation(JOperator.class);
-                        Map<String, String> methodMap=new HashMap<>(6);
+                        Map<String, String> methodMap=new HashMap<>(8);
                         methodMap.put("permissionCode", jo.code());
                         methodMap.put("permissionDescCN", jo.descCN());
                         methodMap.put("permissionDescEN", jo.descEN());

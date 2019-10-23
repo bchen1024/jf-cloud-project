@@ -78,9 +78,21 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result saveUser(UserSaveDTO dto) {
-        int rows=0;
+        int rows;
         UserEntity entity= EntityUtils.dtoToEntity(UserEntity.class,dto);
-        if(dto.getUserId()!=null){
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getMobile())){
+            int count=mapper.validUserMobile(entity);
+            if(count>0){
+                return CommonResultUtils.fail("validator.telSame","该手机号码已注册");
+            }
+        }
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(dto.getEmail())){
+            int count=mapper.validUserEmail(entity);
+            if(count>0){
+                return CommonResultUtils.fail("validator.emailSame","该邮箱地址已注册");
+            }
+        }
+        if(entity.getUserId()!=null){
             rows=mapper.updateUserBaseInfo(entity);
         }else{
             //校验userNo是否重复

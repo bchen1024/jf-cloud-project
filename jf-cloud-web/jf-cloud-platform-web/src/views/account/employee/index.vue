@@ -32,6 +32,7 @@ export default {
                         {title:vm.$t('detail'),gridDetail:true},
                     ],
                     columns:[
+                        {key:'userId',width:120},
                         {key:'userId',title:'userName',width:200,format:'user',condition:{type:'string',key:'userName'}},
                         {key:'employeeNo',width:120},
                         {key:'employeeType',width:120,format:'type',condition:{

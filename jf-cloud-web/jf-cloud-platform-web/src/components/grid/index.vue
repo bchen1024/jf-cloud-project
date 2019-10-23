@@ -66,7 +66,6 @@
             :columns="columns" :data="data||[]"  
             :loading="loading"
             :no-data-text="tableNoDataText"
-            border
         >
         </Table>
         <!--分页-->

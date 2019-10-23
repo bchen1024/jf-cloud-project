@@ -5,9 +5,15 @@ import com.btsoft.jf.cloud.core.constant.ErrorCodeConstants;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * 
@@ -38,18 +44,18 @@ public class CommonExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public <T> CommonResult<T> handleException(ApplicationI18nException e) {
 		return CommonResultUtils.fail(e.getHttpCode(),e.getErrorCode(), e.getMessage(), e.getArgs(),true);
-	}
+	}*/
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseBody
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public <T> CommonResult<T> handleValidException(MethodArgumentNotValidException e) {
+	public Result handleValidException(MethodArgumentNotValidException e) {
 		BindingResult bindingResult=e.getBindingResult();
 		List<FieldError> errors=bindingResult.getFieldErrors();
 		if(!CollectionUtils.isEmpty(errors)){
 			FieldError fieldError=errors.get(0);
+			//List<String> errorList=new ArrayList<>();
 			return CommonResultUtils.fail(fieldError.getField()+"."+fieldError.getCode(), fieldError.getDefaultMessage());
 		}
 		return CommonResultUtils.fail(e.getMessage(), e.getMessage());
-	}*/
+	}
 }

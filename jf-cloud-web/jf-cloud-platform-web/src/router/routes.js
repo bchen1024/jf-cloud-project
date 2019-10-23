@@ -324,8 +324,18 @@ export default[
                     icon:'md-person',
                     permissionCode:'app$single|app$appUsers|app$appToken'
                 }
+            },
+            {
+                path:'/account/group/detail',
+                name:'groupDetail',
+                component:resolve =>require(['@/views/account/group/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','groupMgt'],
+                    hideMenu:true,
+                    icon:'md-person',
+                    permissionCode:'group$single'
+                }
             }
-            
         ]
     },
     {

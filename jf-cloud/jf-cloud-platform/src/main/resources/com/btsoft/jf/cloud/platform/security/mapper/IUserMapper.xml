@@ -174,4 +174,18 @@
 			AND T.USER_STATUS IN('L','Y')
 		</if>
 	</update>
+
+	<select id="validUserMobile" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.MOBILE=#{vo.mobile,jdbcType=VARCHAR}
+		<if test="vo.userId!=null">
+			AND T.USER_ID!=#{vo.userId,jdbcType=NUMERIC}
+		</if>
+	</select>
+
+	<select id="validUserEmail" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.EMAIL=#{vo.email,jdbcType=VARCHAR}
+		<if test="vo.userId!=null">
+			AND T.USER_ID!=#{vo.userId,jdbcType=NUMERIC}
+		</if>
+	</select>
 </mapper>

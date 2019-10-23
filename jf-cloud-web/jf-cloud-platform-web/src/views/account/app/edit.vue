@@ -17,9 +17,6 @@
                 <FormItem :label="$t('appOwner')" label-position="top" prop="appOwner">
                     <Input v-model="data.appOwner"/>
                 </FormItem>
-                <FormItem :label="$t('appPort')" label-position="top" prop="appPort">
-                    <InputNumber v-model="data.appPort"/>
-                </FormItem>
                 <FormItem :label="$t('appType')" label-position="top" prop="appType">
                     <RadioGroup v-model="data.appType">
                         <Radio  label="1">{{$t('type.appType.1')}}</Radio>
