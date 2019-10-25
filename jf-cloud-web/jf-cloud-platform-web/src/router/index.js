@@ -25,7 +25,8 @@ router.beforeEach((to, from, next) => {
       if(!token){//需要登录，如果没有token,跳转到登录页
         next({name:'login',query:{routerName:to.name}});
       }else{
-        if (router.app.$store.state.user.userInfo) {//如果已经获取到登录信息，则直接跳转
+        let userInfo=router.app.$store.state.user.userInfo;
+        if (userInfo && userInfo.userId) {//如果已经获取到登录信息，则直接跳转
           if(util.checkPermission((to.meta && to.meta.permissionCode),router.app)){
             next();
           }else{

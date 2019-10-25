@@ -1,16 +1,19 @@
 package com.btsoft.jf.cloud.platform.security.controller;
 
+import com.btsoft.jf.cloud.core.base.dto.impl.ValidateCodeDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.auth.AccountLoginDTO;
 import com.btsoft.jf.cloud.platform.security.dto.auth.MobileLoginDTO;
+import com.btsoft.jf.cloud.platform.security.service.IAuthService;
 import com.btsoft.jf.cloud.platform.security.vo.auth.LoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * 鉴权Controller,包含登录，登出等服务
@@ -22,6 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "鉴权服务")
 public class AuthController {
 
+    @Autowired
+    private IAuthService service;
+
     /**
      * 账号密码登录
      * @author jeo_cb
@@ -31,8 +37,8 @@ public class AuthController {
      **/
     @ApiOperation("账号密码登录")
     @PostMapping("/account/login")
-    public CommonResult<LoginVO> accountLogin(@RequestBody AccountLoginDTO dto){
-        return null;
+    public CommonResult<LoginVO> accountLogin(@RequestBody @Valid AccountLoginDTO dto){
+        return service.accountLogin(dto);
     }
 
     /**
@@ -57,6 +63,25 @@ public class AuthController {
     @ApiOperation("登出")
     @PostMapping("/logout")
     public Result logout(){
-        return null;
+        return service.logout();
+    }
+
+    /**
+     * 获取验证码
+     * @author jeo_cb
+     * @date 2019/10/24
+     * @param resp 响应
+     **/
+    @ApiOperation("获取验证码图片")
+    @GetMapping("/validateCode")
+    public void generateValidateCode(ValidateCodeDTO dto, HttpServletResponse resp){
+        /*ValidateCodeDTO dto=new ValidateCodeDTO();
+        dto.setType(type);
+        dto.setKey(key);
+        dto.setWidth(width);
+        dto.setHeight(height);
+        dto.setLineNum(lineNum);
+        dto.setDotRate(dotRate);*/
+        service.generateValidateCode(dto,resp);
     }
 }

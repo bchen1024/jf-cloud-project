@@ -11,7 +11,9 @@
 </template>
 <script>
 import Edit from './edit.vue';
+import editMixins from '@/mixins/editMixins';
 export default {
+    mixins:[editMixins],
     components:{
         Edit
     },

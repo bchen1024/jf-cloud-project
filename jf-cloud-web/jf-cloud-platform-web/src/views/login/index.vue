@@ -3,24 +3,33 @@
         <div class="jf-login-con">
             <Card class='login-card' icon="log-in" title="欢迎登录" :bordered="false">
                 <Form ref="formInline" :model="formInline" :rules="ruleInline">
-                    <div class='login-error-panel'>
-                        {{loginMsg}}
-                    </div>
                     <FormItem prop="userAccount">
-                        <Input type="text" v-model="formInline.userAccount" :placeholder="$t('common.loginAccount')">
+                        <Input type="text" v-model="formInline.userAccount" :placeholder="$t('accontOrMobileOrEmail')">
                             <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                     <FormItem prop="password">
-                        <Input type="password" v-model="formInline.password" :placeholder="$t('common.loginPassword')">
+                        <Input type="password" v-model="formInline.password" :placeholder="$t('password')">
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
+                    </FormItem>
+                    <FormItem v-if="formInline.userAccount && formInline.password" prop="validateCode">
+                        <Row>
+                            <Col span="14">
+                                <Input type="text" v-model="formInline.validateCode" :placeholder="$t('validateCode')" @on-focus="refreshCode()">
+                                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                                </Input>
+                            </Col>
+                            <Col span="10">
+                                <img v-if="imgSrc && formInline.userAccount" :src="imgSrc" @click="refreshCode(true)" style="margin-left:8px;" :title="$t('validCodeTip')"/>
+                            </Col>
+                        </Row>
                     </FormItem>
                     <div class='login-forget-panel'>
                         <a class='login-forget-pwd' href='javascript:void(0)'>{{$t('forgetPassword')}}</a>
                     </div>
                     <FormItem class='login-item'>
-                        <Button long :loading='loginLoading' type="primary" @click="handleSubmit('formInline')">{{$t('login')}}</Button>
+                        <Button long :loading='loginLoading' type="primary" @click="handleSubmit()">{{$t('login')}}</Button>
                     </FormItem>
                 </Form>
             </Card>
@@ -33,61 +42,85 @@
         data(){
             let vue=this;
             return {
-                loginMsg:null,
                 loginLoading:false,
+                imgSrc:null,
+                validateKey:null,
                 formInline: {
-                    userAccount: 'chenbin',
-                    password: 'chenbin1'
+                   
                 },
                 ruleInline: {
                     userAccount: [
-                        { required: true, message: vue.$t('common.accountNotNull')}
+                        { required: true, message: vue.$t('validator.accountNotNull')}
                     ],
                     password: [
-                        { required: true, message: vue.$t('common.passwordNotNull')}
+                        { required: true, message: vue.$t('validator.passwordNotNull')}
+                    ],
+                    validateCode: [
+                        { required: true, message: vue.$t('validator.validateCodeNotNull')}
                     ]
                 }
             }
         },
+        mounted() {
+            let vm=this;
+            //三分钟刷新一次验证码
+            vm.timer = setInterval(function(){
+                vm.refreshCode(true);
+            }, 3*60*1000);
+        },
+        beforeDestroy() {
+            clearInterval(this.timer);
+        },
         methods:{
-            handleSubmit(name) {
-                util.setToken("abddd");
-                let routerName=this.$route.query.routerName
-                if(routerName){
-                    this.$router.replace({name:routerName});
+            handleSubmit() {
+                let vm=this;
+                vm.$refs['formInline'].validate((valid) => {
+                    if (valid) {
+                        var data={
+                            userAccount:vm.formInline.userAccount,
+                            password:vm.formInline.password,
+                            validateCode:vm.formInline.validateCode
+                        };
+                        vm.loginLoading=true;
+                        vm.$http({
+                            method:'post',
+                            url:'jfcloud/jf-cloud-platform/auth/account/login',
+                            data:data
+                        }).then(result=>{
+                            vm.loginLoading=false;
+                            util.setToken(result.data.token);
+
+                            //跳转到指定页面或者首页
+                            let routerName=vm.$route.query.routerName
+                            if(routerName){
+                                vm.$router.replace({name:routerName});
+                            }else{
+                                vm.$router.replace({name:'home'});
+                            }
+                        }).catch(error => {
+                            vm.loginLoading=false;
+                            vm.$Message.error(vm.$util.handerError(error,vm));
+                            if(error.code=='validator.validateCodeError'){
+                                vm.refreshCode(true);
+                            }
+                        });
+                    }
+                })
+            },
+            refreshCode(refresh){
+                let vm=this;
+                let userAccount=vm.formInline.userAccount;
+                if(userAccount){
+                    if(userAccount!=vm.validateKey || refresh){
+                        vm.validateKey=userAccount;
+                        vm.imgSrc='http://localhost:10003/jfcloud/jf-cloud-platform/auth/validateCode?type=LoginValid&width=100&height=32&lineNum=50&dotRate=0.05&key='+userAccount+'&random='+Math.ceil(Math.random()*10);
+                    }
                 }else{
-                    this.$router.replace({name:'home'});
+                    vm.imgSrc=null;
                 }
-                
-                // var vue=this;
-                // vue.loginMsg=null;
-                // this.$refs[name].validate((valid) => {
-                //     if (valid) {
-                //         var params={
-                //             userAccount:this.formInline.userAccount,
-                //             password:this.formInline.password
-                //         };
-                //         this.loginLoading=true;
-                //         common.login(params).then(result => {
-                //             vue.loginLoading=false;
-                //             if(result){
-                //                 sessionStorage.setItem("token",result.token);
-                //                 if(vue.$route.query.redirectName){
-                //                     vue.$router.replace({name:vue.$route.query.redirectName});
-                //                 }else{
-                //                     vue.$router.replace({name:'home'});
-                //                 }
-                //             }else{
-                //                 vue.loginMsg=vue.$t(result.errorMsg);
-                //             }
-                //         }).catch(error => {
-                //             vue.loginLoading=false;
-                //             vue.loginMsg=error.errorMsg || error.message;
-                //         });
-                //     }
-                // })
             }
         }
+        
     };
 </script>
 <style lang="less">

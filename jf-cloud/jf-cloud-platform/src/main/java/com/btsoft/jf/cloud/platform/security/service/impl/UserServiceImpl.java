@@ -23,11 +23,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Arrays;
+import java.time.Duration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,6 +54,8 @@ public class UserServiceImpl implements IUserService {
     private IEmployeeMapper employeeMapper;
     @Autowired
     private IPermissionMapper permissionMapper;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 账号分页查询
@@ -105,7 +109,7 @@ public class UserServiceImpl implements IUserService {
                 entity.setUserNo(userNo + StringUtils.zeroFill(userCount));
             }
             //生成密码
-            entity.setPassword(DESEncrypt.encrypt(entity.getUserNo()));
+            entity.setPassword(DESEncryptUtils.encrypt(entity.getUserNo()));
 
             //创建用户
             rows=mapper.createSingle(entity);
@@ -152,11 +156,16 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public CommonResult<UserEnvironmentVO> findUserEnvironment() {
-        UserEnvironmentVO result=new UserEnvironmentVO();
         Long userId= JfCloud.getCurrent().getCurrentUserId();
-
+        String cacheKey="UserEnv_"+userId;
+        UserEnvironmentVO result=new UserEnvironmentVO();
+        Object cacheValue=redisTemplate.opsForValue().get(cacheKey);
+        if(cacheValue!=null){
+            BeanUtils.copyProperties(cacheValue,result);
+            return CommonResultUtils.success(result);
+        }
         //获取用户基本信息
-        List<UserBaseVO> userBaseList=mapper.findUserListByIds(Arrays.asList(userId));
+        List<UserBaseVO> userBaseList=mapper.findUserListByIds(Collections.singletonList(userId));
         if(!CollectionUtils.isEmpty(userBaseList)){
             result.setUser(userBaseList.get(0));
         }
@@ -168,7 +177,7 @@ public class UserServiceImpl implements IUserService {
         if(!CollectionUtils.isEmpty(appUserEntityList)){
 
             //根据应用id获取应用信息
-            List<Long> appIds=appUserEntityList.stream().map(v->v.getAppId()).collect(Collectors.toList());
+            List<Long> appIds=appUserEntityList.stream().map(AppUserEntity::getAppId).collect(Collectors.toList());
             List<AppEntity> appList=appMapper.findListByIds(appIds);
             if(!CollectionUtils.isEmpty(appList)){
 
@@ -187,13 +196,14 @@ public class UserServiceImpl implements IUserService {
                 }
 
                 //筛选出当前应用拥有的角色id
+                UserEnvironmentVO finalResult = result;
                 List<Long> roleIds=appUserEntityList.stream()
-                        .filter(v->v.getAppId().equals(result.getAppInfo().getAppId()))
+                        .filter(v->v.getAppId().equals(finalResult.getAppInfo().getAppId()))
                         .map(AppUserEntity::getRoleId).collect(Collectors.toList());
                 result.setPermissionList(permissionMapper.findPermissionCodeList(roleIds));
             }
         }
-
+        redisTemplate.opsForValue().set(cacheKey,result, Duration.ofMinutes(30));
         return CommonResultUtils.success(result);
     }
 

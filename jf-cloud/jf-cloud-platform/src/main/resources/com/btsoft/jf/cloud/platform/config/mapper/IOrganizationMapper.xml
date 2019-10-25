@@ -47,7 +47,7 @@
 		)VALUES(
 			#{vo.orgCn,jdbcType=VARCHAR},
 			#{vo.orgEn,jdbcType=VARCHAR},
-			#{vo.parentId,jdbcType=NUMERIC},
+			IFNULL(#{vo.parentId,jdbcType=NUMERIC},0),
 			#{vo.orgDesc,jdbcType=VARCHAR},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
@@ -68,7 +68,7 @@
 		UPDATE SYS_ORGANIZATION_T T SET
 			T.ORG_CN=#{vo.orgCn,jdbcType=VARCHAR},
 			T.ORG_EN=#{vo.orgEn,jdbcType=VARCHAR},
-		    T.PARENT_ID=#{vo.parentId,jdbcType=VARCHAR},
+		    T.PARENT_ID=IFNULL(#{vo.parentId,jdbcType=NUMERIC},0),
 			T.ORG_DESC=#{vo.jobDesc,jdbcType=VARCHAR},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()

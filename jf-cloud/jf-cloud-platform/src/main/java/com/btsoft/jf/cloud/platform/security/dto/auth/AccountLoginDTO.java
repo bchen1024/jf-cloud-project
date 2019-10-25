@@ -1,7 +1,9 @@
 package com.btsoft.jf.cloud.platform.security.dto.auth;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 /**
@@ -11,9 +13,17 @@ import java.io.Serializable;
  **/
 public class AccountLoginDTO implements Serializable {
 
+    @NotBlank
+    @ApiModelProperty("账号")
     private String userAccount;
+
+    @NotBlank
+    @ApiModelProperty("密码")
     private String password;
-    private String verificationCode;
+
+    @NotBlank
+    @ApiModelProperty("验证码")
+    private String validateCode;
 
     public String getUserAccount() {
         return userAccount;
@@ -31,12 +41,12 @@ public class AccountLoginDTO implements Serializable {
         this.password = password;
     }
 
-    public String getVerificationCode() {
-        return verificationCode;
+    public String getValidateCode() {
+        return validateCode;
     }
 
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
+    public void setValidateCode(String validateCode) {
+        this.validateCode = validateCode;
     }
 
     @Override

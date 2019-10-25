@@ -38,6 +38,10 @@ public class CommonResultUtils {
         Result result=new Result(operationType.getKey()+".successful",operationType.getCnName()+"成功",true);
         return result;
     }
+    public static Result success(){
+        Result result=new Result(OperationTypeEnum.Operate+".successful",OperationTypeEnum.Operate.getCnName()+"成功",true);
+        return result;
+    }
 
     public static Result fail(OperationTypeEnum operationType){
         Result result=new Result(operationType.getKey()+".fail",operationType.getCnName()+"失败",false);

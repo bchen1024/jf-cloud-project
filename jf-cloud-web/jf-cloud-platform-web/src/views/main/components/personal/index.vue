@@ -40,6 +40,9 @@ export default {
             onOk: () => {
                this.$util.clearToken();
                this.$router.replace({name:'login'});
+               this.$store.dispatch('setUserInfo',{});
+               this.$store.dispatch('setPermissionList',[]);
+               this.$store.dispatch('setAppList',{appList:[],appInfo:{}});
             }
         });
     }

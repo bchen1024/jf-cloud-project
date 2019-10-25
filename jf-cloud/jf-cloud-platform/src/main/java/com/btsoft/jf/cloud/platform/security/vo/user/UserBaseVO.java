@@ -2,13 +2,16 @@ package com.btsoft.jf.cloud.platform.security.vo.user;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * @author jeo_cb
  * @desc 用户基本信息
  * @date 2019/9/30 14:03
  **/
-public class UserBaseVO {
+public class UserBaseVO implements Serializable {
 
+    private static final long serialVersionUID = -6772020830853733444L;
     private Long userId;
     private String userNo;
     private String userCn;

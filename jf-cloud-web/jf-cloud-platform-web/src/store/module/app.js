@@ -10,9 +10,9 @@ export default {
     },
     mutations:{
       setAppList(state,app){
-        if(app && app.appList && app.appList.length>0){
-          state.appList=app.appList;
-          state.appInfo=app.appInfo || {};
+        state.appList=app.appList || [];
+        state.appInfo=app.appInfo || {};
+        if(state.appInfo.appCode){
           util.setApp(state.appInfo.appCode);
         }else{
           util.clearApp();

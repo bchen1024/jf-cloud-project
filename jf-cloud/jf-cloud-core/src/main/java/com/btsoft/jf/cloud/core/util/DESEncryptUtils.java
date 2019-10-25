@@ -12,7 +12,7 @@ import java.util.Random;
  * @author bchen
  * @created 2014-6-10 下午11:17:07
  */
-public class DESEncrypt {
+public class DESEncryptUtils {
 
 	private final static long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
@@ -43,11 +43,11 @@ public class DESEncrypt {
 	}
 
 	/**
-	 * @Description 解密字符串
+	 * 解密字符串
 	 * @param s
-	 * @return
 	 * @author bchen
-	 * @created 2014-6-10 下午11:18:32
+	 * @date  2014-6-10 下午11:18:32
+	 * @return 解密后的字符串
 	 */
 	public static String dncrypt(String s) {
 		if (s == null || s.length() < 1) {

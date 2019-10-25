@@ -1,8 +1,8 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')" name="detail">
-            <JFDetail ref="userDetail" :op="detailOp" :id="id" @detailEdit="openEdit"/>
-            <EditUser :formId="formId" formKey="userId"
+        <TabPane :label="$t('detail')" :name="detailId" v-if="$util.checkPermission('user$single',$store.state.permission.permissionList)">
+            <JFDetail :ref="detailRef" :op="detailOp" :id="id" @detailEdit="openEdit"/>
+            <Edit :formId="formId" formKey="userId"
                 :visible.sync="showEdit" 
                 :formData="formData"
                 @saveCallback="loadDetail()"/>
@@ -10,24 +10,23 @@
     </Tabs>
 </template>
 <script>
-import EditUser from './edit.vue';
-import editGrid from '@/mixins/editGrid';
+import Edit from './edit.vue';
+import editMixins from '@/mixins/editMixins';
+import detail from '@/mixins/detail';
 export default {
-    mixins:[editGrid],
+    mixins:[editMixins,detail],
     components:{
-        EditUser
+        Edit
     },
     data(){
+        let vm=this;
         return {
-            tabId:'detail',
-            id:null,
-            loadMap:{},
             detailOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/user/single'
                 },
                 editPermission:'user$save',
-                autoLoad:!this.$route.query.tabId,
+                autoLoad:vm.autoLoad(),
                 userFields:['roleOwner'],
                 items:[
                     {cols:[
@@ -54,34 +53,8 @@ export default {
             }
         }
     },
-    created(){
-        let vm=this,query=vm.$route.query;
-        vm.id=query.id;
-        if(query.tabId){
-            vm.tabId=query.tabId;
-        }
-        vm.load();
-    },
     methods:{
-        load(name){
-            let vm=this;
-            if(name){
-                vm.tabId=name;
-            }
-            if(!vm.loadMap[vm.tabId]){
-                if(vm.tabId=='detail'){
-                    vm.loadDetail();
-                }
-                vm.loadMap[vm.tabId]=true;
-            }
-        },
-        loadDetail(){
-            let vm=this;
-            let userDetail=vm.$refs.userDetail;
-            if(userDetail){
-                userDetail.load();
-            }
-        }
+        
     }
 }
 </script>

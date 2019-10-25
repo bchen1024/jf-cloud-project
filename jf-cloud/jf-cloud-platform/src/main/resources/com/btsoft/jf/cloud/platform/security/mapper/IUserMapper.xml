@@ -188,4 +188,37 @@
 			AND T.USER_ID!=#{vo.userId,jdbcType=NUMERIC}
 		</if>
 	</select>
+
+	<select id="findValidUser" resultMap="sqlResultMap">
+		SELECT
+			T.USER_ID,
+			T.USER_NO,
+			T.PASSWORD,
+			T.USER_CN,
+			T.USER_EN,
+			T.MOBILE,
+			T.MOBILE_VALIDATED,
+			T.EMAIL,
+			T.EMAIL_VALIDATED,
+			T.USER_TYPE,
+			T.USER_STATUS,
+			T.PASSWORD_UPDATE_TIME,
+			T.PASSWORD_ERROR_NUM,
+			T.LOCK_TIME
+		FROM SYS_USER_T T
+		WHERE T.ENABLE_FLAG='Y'
+		AND (T.USER_NO=#{userAccount,jdbcType=VARCHAR} OR
+		     T.MOBILE=#{userAccount,jdbcType=VARCHAR} OR
+		     T.EMAIL=#{userAccount,jdbcType=VARCHAR}
+		)
+		LIMIT 1
+	</select>
+
+	<update id="updateErrorNumAndStatus">
+		UPDATE SYS_USER_T T SET
+			T.PASSWORD_ERROR_NUM=#{vo.passwordErrorNum,jdbcType=NUMERIC},
+		    T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR},
+		    T.LOCK_TIME=#{vo.lockTime}
+		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+	</update>
 </mapper>

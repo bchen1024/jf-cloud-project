@@ -69,4 +69,22 @@ public interface IUserMapper extends IBaseMapper<UserEntity> {
      * @return 数量
      */
     int validUserEmail(@Param("vo") UserEntity entity);
+
+    /**
+     * 获取有效的登录用户
+     * @author jeo_cb
+     * @date 2019/10/25
+     * @param userAccount 账号
+     * @return 用户信息
+     */
+    UserEntity findValidUser(@Param("userAccount") String userAccount);
+
+    /**
+     * 更新用户密码错误次数和锁定状态
+     *  @author jeo_cb
+     * @date 2019/10/25
+     * @param entity 用户信息
+     * @return 受影响行数
+     */
+    int updateErrorNumAndStatus(@Param("vo") UserEntity entity);
 }

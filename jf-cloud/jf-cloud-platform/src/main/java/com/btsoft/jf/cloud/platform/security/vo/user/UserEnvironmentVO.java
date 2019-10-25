@@ -3,6 +3,7 @@ package com.btsoft.jf.cloud.platform.security.vo.user;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,8 +11,9 @@ import java.util.List;
  * @author jeo_cb
  * @date 2019/10/4
  **/
-public class UserEnvironmentVO {
+public class UserEnvironmentVO implements Serializable {
 
+    private static final long serialVersionUID = 6212782306928397048L;
     private UserBaseVO user;
 
     private List<AppBaseVO> appList;

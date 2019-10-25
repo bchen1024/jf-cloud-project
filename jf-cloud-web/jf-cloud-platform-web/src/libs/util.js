@@ -170,5 +170,14 @@ export default {
             }
             return false;
         }
+    },
+    /**
+     * 获取url
+     * @param {*} module 
+     * @param {*} operate 
+     */
+    getUrl(module,operate){
+        let baseUrl='jfcloud/jf-cloud-platform/security/user/';
+        return baseUrl+module+'/'+operate;
     }
 }

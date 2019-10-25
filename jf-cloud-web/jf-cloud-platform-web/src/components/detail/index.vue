@@ -92,7 +92,7 @@ export default {
                 vm.$http({
                     method:searchOp.method || 'get',
                     url:searchOp.url,
-                    params:{appCode:vm.$store.state.app.appInfo.appCode,id:vm.id}
+                    params:{id:vm.id}
                 }).then(result=>{
                     vm.loading=false;
                     if(result && result.success){

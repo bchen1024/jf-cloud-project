@@ -2,6 +2,7 @@ package com.btsoft.jf.cloud.core.context.impl;
 
 import com.btsoft.jf.cloud.core.context.IRequestContext;
 import com.btsoft.jf.cloud.core.enums.impl.LanguageEnum;
+import com.btsoft.jf.cloud.core.util.DESEncryptUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -62,6 +63,7 @@ public class RequestContext implements IRequestContext {
     public Long getCurrentUserId() {
         if(token!=null){
             //TODO 解密token得到userId
+            currentUserId= Long.parseLong(DESEncryptUtils.dncrypt(token));
         }
         if(currentUserId==null && JfCloud.isDev()){
             currentUserId=1000L;

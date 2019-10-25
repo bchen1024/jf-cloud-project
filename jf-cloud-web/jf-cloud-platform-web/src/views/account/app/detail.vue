@@ -1,7 +1,7 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')" name="detail" v-if="$util.checkPermission('app$single',$store.state.permission.permissionList)">
-            <JFDetail ref="appDetail" :id="id" :op="detailOp" @detailEdit="openEdit" @loadCallback="detailCallback"/>
+        <TabPane :label="$t('detail')":name="detailId" v-if="$util.checkPermission('app$single',$store.state.permission.permissionList)">
+            <JFDetail :ref="detailRef" :id="id" :op="detailOp" @detailEdit="openEdit" @loadCallback="detailCallback"/>
             <EditApp v-permission="'app$save'" :formId="formId" formKey="appId"
                 :visible.sync="showEdit" 
                 :formData="formData"
@@ -37,26 +37,28 @@
 <script>
 import EditApp from './edit.vue';
 import AddUser from './addUser.vue';
-import editGrid from '@/mixins/editGrid';
+import editMixins from '@/mixins/editMixins';
+import detail from '@/mixins/detail';
 export default {
-    mixins:[editGrid],
+    mixins:[editMixins,detail],
     components:{
         EditApp,
         AddUser
     },
     data(){
-        let vm=this,query=vm.getQuery(),tabId=query.tabId || 'detail',id=query.id;
+        let vm=this,query=vm.$route.query,tabId=query.tabId || 'detail',id=query.id;
         return {
-            tabId:'detail',
-            id:null,
-            loadMap:{},
+            eventMap:{
+                appUsers:vm.loadAppUsers,
+                appToken:vm.loadAppToken
+            },
             detailData:{},
             detailOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/app/single'
                 },
                 editPermission:'app$save',
-                autoLoad:tabId=='detail',
+                autoLoad:vm.autoLoad(),
                 userFields:['appOwner'],
                 items:[
                     {cols:[
@@ -108,42 +110,7 @@ export default {
             }
         }
     },
-    created(){
-        let vm=this,query=vm.getQuery();
-        vm.id=query.id;
-        if(query.tabId){
-            vm.tabId=query.tabId;
-        }
-        vm.load();
-    },
     methods:{
-        getQuery(){
-            let vm=this,query=vm.$route.query;
-            return query;
-        },
-        load(name){
-            let vm=this;
-            if(name){
-                vm.tabId=name;
-            }
-            if(!vm.loadMap[vm.tabId]){
-                if(vm.tabId=='detail'){
-                    vm.loadDetail();
-                }else if(vm.tabId=='appUsers'){
-                    vm.loadAppUsers();
-                }else if(vm.tabId=='appToken'){
-                    vm.loadAppToken();
-                }
-                vm.loadMap[vm.tabId]=true;
-            }
-            
-        },
-        loadDetail(){
-            let appDetail=this.$refs.appDetail;
-            if(appDetail){
-                appDetail.load();
-            }
-        },
         loadAppUsers(){
             let appUserGrid=this.$refs.appUserGrid;
             if(appUserGrid){

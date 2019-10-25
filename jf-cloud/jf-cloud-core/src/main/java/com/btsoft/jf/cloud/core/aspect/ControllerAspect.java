@@ -62,7 +62,7 @@ public class ControllerAspect {
     }
 
     @After("jAuditLog()")
-    public void doAfter(JoinPoint joinPoint) {
+    public void doAfterReturning(JoinPoint joinPoint) {
         auditLog(joinPoint);
     }
 

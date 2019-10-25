@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.core.configuration;
 
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @EnableAsync
+@EnableCaching
 @ComponentScan({"com.btsoft.jf.cloud.core"})
 public class JfCloudAutoConfiguration {
 }

@@ -2,13 +2,16 @@ package com.btsoft.jf.cloud.platform.security.vo.app;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * 应用基本信息
  * @author jeo_cb
  * @date 2019/10/4
  **/
-public class AppBaseVO {
+public class AppBaseVO implements Serializable {
 
+    private static final long serialVersionUID = 3218678285580536313L;
     private Long appId;
     private String appCode;
     private String appName;

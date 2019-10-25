@@ -13,9 +13,9 @@
 </template>
 <script>
 import EditUser from './edit.vue';
-import editGrid from '@/mixins/editGrid';
+import editMixins from '@/mixins/editMixins';
 export default {
-    mixins:[editGrid],
+    mixins:[editMixins],
     components:{
        EditUser
     },
