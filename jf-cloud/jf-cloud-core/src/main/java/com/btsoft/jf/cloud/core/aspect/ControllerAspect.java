@@ -143,7 +143,7 @@ public class ControllerAspect {
     private void buildAuditLogMethod(Map<String, Object> log,Method targetMethod){
         String method = targetMethod.getName();
         JAuditLog ja = targetMethod.getAnnotation(JAuditLog.class);
-        if (!StringUtils.isEmpty(ja.type())) {
+        if (ja!=null && !StringUtils.isEmpty(ja.type())) {
             method = ja.type();
         }else{
             JOperator jo=targetMethod.getAnnotation(JOperator.class);

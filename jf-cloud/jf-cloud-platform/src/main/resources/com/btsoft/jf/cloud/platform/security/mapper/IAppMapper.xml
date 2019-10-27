@@ -16,7 +16,6 @@
 		<result column="APP_DESC" property="appDesc"/>
 		<result column="APP_TYPE" property="appType"/>
 		<result column="APP_TOKEN" property="appToken"/>
-		<result column="APP_PORT" property="appPort"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -29,7 +28,6 @@
 			T.CONTEXT_PATH,
 		    T.APP_TYPE,
 		    T.APP_TOKEN,
-		    T.APP_PORT,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -67,7 +65,6 @@
 			APP_DESC,
 			CONTEXT_PATH,
 		    APP_TYPE,
-		    APP_PORT,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
@@ -77,7 +74,6 @@
 			#{vo.appDesc,jdbcType=VARCHAR},
 			#{vo.contextPath,jdbcType=VARCHAR},
 			#{vo.appType,jdbcType=VARCHAR},
-			#{vo.appPort,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
@@ -100,7 +96,6 @@
 			T.CONTEXT_PATH=#{vo.contextPath,jdbcType=VARCHAR},
 			T.APP_TYPE=#{vo.appType,jdbcType=VARCHAR},
 			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
-			T.APP_PORT=#{vo.appPort,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}

@@ -178,6 +178,9 @@ export default{
     password:'密码',
     validateCode:'验证码',
     forgetPassword:'忘记密码',
+    passwordLogin:'密码登录',
+    mobileLogin:'手机登录',
+    validCodeTip:'看不清，点击刷新',
     validator:{
         notEmpty:'该值不能为空',
         email:'请输入正确的邮箱地址',

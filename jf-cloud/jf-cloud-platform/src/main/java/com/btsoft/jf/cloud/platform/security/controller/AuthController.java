@@ -75,13 +75,6 @@ public class AuthController {
     @ApiOperation("获取验证码图片")
     @GetMapping("/validateCode")
     public void generateValidateCode(ValidateCodeDTO dto, HttpServletResponse resp){
-        /*ValidateCodeDTO dto=new ValidateCodeDTO();
-        dto.setType(type);
-        dto.setKey(key);
-        dto.setWidth(width);
-        dto.setHeight(height);
-        dto.setLineNum(lineNum);
-        dto.setDotRate(dotRate);*/
         service.generateValidateCode(dto,resp);
     }
 }

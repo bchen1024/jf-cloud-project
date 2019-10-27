@@ -1,38 +1,42 @@
 <template>
     <div class="jf-login">
         <div class="jf-login-con">
-            <Card class='login-card' icon="log-in" title="欢迎登录" :bordered="false">
-                <Form ref="formInline" :model="formInline" :rules="ruleInline">
-                    <FormItem prop="userAccount">
-                        <Input type="text" v-model="formInline.userAccount" :placeholder="$t('accontOrMobileOrEmail')">
-                            <Icon type="ios-person-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem prop="password">
-                        <Input type="password" v-model="formInline.password" :placeholder="$t('password')">
-                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                        </Input>
-                    </FormItem>
-                    <FormItem v-if="formInline.userAccount && formInline.password" prop="validateCode">
-                        <Row>
-                            <Col span="14">
-                                <Input type="text" v-model="formInline.validateCode" :placeholder="$t('validateCode')" @on-focus="refreshCode()">
-                                    <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                                </Input>
-                            </Col>
-                            <Col span="10">
-                                <img v-if="imgSrc && formInline.userAccount" :src="imgSrc" @click="refreshCode(true)" style="margin-left:8px;" :title="$t('validCodeTip')"/>
-                            </Col>
-                        </Row>
-                    </FormItem>
-                    <div class='login-forget-panel'>
-                        <a class='login-forget-pwd' href='javascript:void(0)'>{{$t('forgetPassword')}}</a>
-                    </div>
-                    <FormItem class='login-item'>
-                        <Button long :loading='loginLoading' type="primary" @click="handleSubmit()">{{$t('login')}}</Button>
-                    </FormItem>
-                </Form>
-            </Card>
+            <Tabs>
+                <TabPane :label="$t('passwordLogin')" name="passwordLogin">
+                    <Form ref="formInline" :model="formInline" :rules="ruleInline">
+                        <FormItem prop="userAccount">
+                            <Input type="text" v-model="formInline.userAccount" :placeholder="$t('accontOrMobileOrEmail')">
+                                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem prop="password">
+                            <Input type="password" v-model="formInline.password" :placeholder="$t('password')">
+                                <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                            </Input>
+                        </FormItem>
+                        <FormItem v-if="formInline.userAccount && formInline.password" prop="validateCode">
+                            <Row>
+                                <Col span="14">
+                                    <Input type="text" v-model="formInline.validateCode" :placeholder="$t('validateCode')" @on-focus="refreshCode()">
+                                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                                    </Input>
+                                </Col>
+                                <Col span="10">
+                                    <img  v-if="imgSrc && formInline.userAccount" :src="imgSrc" @click="refreshCode(true)" style="margin-left:8px;cursor: pointer;" :title="$t('validCodeTip')"/>
+                                </Col>
+                            </Row>
+                        </FormItem>
+                        <div class='login-forget-panel'>
+                            <a class='login-forget-pwd' href='javascript:void(0)'>{{$t('forgetPassword')}}</a>
+                        </div>
+                        <FormItem class='login-item'>
+                            <Button long :loading='loginLoading' type="primary" @click="handleSubmit()">{{$t('login')}}</Button>
+                        </FormItem>
+                    </Form>
+                </TabPane>
+                <TabPane :label="$t('mobileLogin')" name="mobileLogin">
+                </TabPane>
+            </Tabs>
         </div>
     </div>
 </template>
@@ -113,7 +117,7 @@
                 if(userAccount){
                     if(userAccount!=vm.validateKey || refresh){
                         vm.validateKey=userAccount;
-                        vm.imgSrc='http://localhost:10003/jfcloud/jf-cloud-platform/auth/validateCode?type=LoginValid&width=100&height=32&lineNum=50&dotRate=0.05&key='+userAccount+'&random='+Math.ceil(Math.random()*10);
+                        vm.imgSrc='jfcloud/jf-cloud-platform/auth/validateCode?type=LoginValid&height=32&key='+userAccount+'&random='+new Date().getTime();
                     }
                 }else{
                     vm.imgSrc=null;
@@ -137,7 +141,9 @@
             top: 50%;
             transform: translate(-50%,-50%);
             width: 400px;
-            height:320px;
+            
+            background-color: #ffffff;
+            padding: 8px;
             &-header{
                 font-size: 16px;
                 font-weight: 300;

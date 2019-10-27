@@ -115,6 +115,9 @@ public class AuthServiceImpl implements IAuthService {
         String token=DESEncryptUtils.encrypt(userEntity.getUserId().toString());
         LoginVO loginVO=new LoginVO();
         loginVO.setToken(token);
+
+        String userKey="UserEnv_"+userEntity.getUserId();
+        redisTemplate.delete(cacheKey);
         return CommonResultUtils.success(loginVO);
     }
 

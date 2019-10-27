@@ -15,6 +15,7 @@ public class AuditLogVO extends BaseAppVO {
 
     private Long logId;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SSS",timezone="GMT+8")
     private Date logTime;
 
     private Long userId;
