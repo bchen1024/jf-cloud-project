@@ -229,5 +229,14 @@ export default{
             'Y':'可申请',
             'N':'不可申请'
         }
-    }
+    },
+    baseInfo:'基本信息',
+    userPhoto:'用户头像',
+    updatePassword:'修改密码',
+    bindEmailMobile:'绑定邮箱手机',
+    myApp:'我的应用',
+    myRole:'我的角色',
+    mySetting:'我的选项',
+    myLogs:'我的日志',
+    myPermission:'我的权限'
 };

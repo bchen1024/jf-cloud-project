@@ -1,16 +1,13 @@
 <template>
-    <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')" :name="detailId" v-if="$util.checkPermission('user$single',$store.state.permission.permissionList)">
-            <JFDetail :ref="detailRef" :op="detailOp" :id="id" @detailEdit="openEdit"/>
-            <Edit :formId="formId" formKey="userId"
+    <div>
+        <JFDetail :op="detailOp" :id="$store.state.user.userInfo.userId" @detailEdit="openEdit"/>
+        <Edit :formId="formId" formKey="userId"
                 :visible.sync="showEdit" 
-                :formData="formData"
-                @saveCallback="loadDetail()"/>
-        </TabPane>
-    </Tabs>
+                :formData="formData"/>
+    </div>
 </template>
 <script>
-import Edit from './edit.vue';
+import Edit from '@/views/account/user/edit.vue';
 import editMixins from '@/mixins/editMixins';
 import detail from '@/mixins/detail';
 export default {
@@ -22,11 +19,10 @@ export default {
         let vm=this;
         return {
             detailOp:{
+                autoLoad:true,
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/user/single'
                 },
-                editPermission:'user$save',
-                autoLoad:vm.autoLoad(),
                 items:[
                     {cols:[
                         {key:'userId'},
@@ -51,9 +47,6 @@ export default {
                 ]
             }
         }
-    },
-    methods:{
-        
     }
 }
 </script>

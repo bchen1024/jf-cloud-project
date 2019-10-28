@@ -1,3 +1,49 @@
 <template>
-    <h1>个人中心</h1>
+    <Tabs  @on-click="load" v-if="$store.state.user.userInfo && $store.state.user.userInfo.userId">
+        <TabPane :label="$t('baseInfo')" name="baseInfo" >
+            <BaseInfo/>
+        </TabPane>
+        <TabPane :label="$t('userPhoto')" name="userPhoto" >
+            
+        </TabPane>
+        <TabPane :label="$t('updatePassword')" name="updatePassword" >
+            
+        </TabPane>
+        <TabPane :label="$t('bindEmailMobile')" name="bindEmailMobile" >
+            
+        </TabPane>
+        <TabPane :label="$t('myApp')" name="myApp" >
+            
+        </TabPane>
+        <TabPane :label="$t('myRole')" name="myRole" >
+            
+        </TabPane>
+        <TabPane :label="$t('myPermission')" name="myPermission" >
+            
+        </TabPane>
+        <TabPane :label="$t('mySetting')" name="mySetting" >
+            
+        </TabPane>
+        <TabPane :label="$t('myLogs')" name="myLogs" >
+            
+        </TabPane>
+    </Tabs>
 </template>
+<script>
+import BaseInfo from './baseInfo.vue';
+export default {
+    components:{
+        BaseInfo
+    },
+    data(){
+        return {
+
+        }
+    },
+    methods:{
+        load(){
+
+        }
+    }
+}
+</script>
