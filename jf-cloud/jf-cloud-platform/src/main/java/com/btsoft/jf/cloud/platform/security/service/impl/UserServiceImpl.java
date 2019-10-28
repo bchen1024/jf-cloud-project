@@ -8,6 +8,7 @@ import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.*;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.auth.UpdatePasswordDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
@@ -23,7 +24,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -55,7 +56,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IPermissionMapper permissionMapper;
     @Autowired
-    private RedisTemplate redisTemplate;
+    private ValueOperations<String,Object> redisTemplate;
 
     /**
      * 账号分页查询
@@ -143,13 +144,33 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public CommonResult<List<UserBaseVO>> findUserBaseInfoList(BaseIdListDTO dto) {
-        List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
+        if(CollectionUtils.isEmpty(dto.getIdList())){
+            return CommonResultUtils.success(Collections.emptyList());
+        }
+        List<UserEntity> userList=mapper.findListByIds(dto.getIdList());
+        List<UserBaseVO> userBaseList=userList.stream().map(v->{
+            UserBaseVO userBaseVO=new UserBaseVO();
+            BeanUtils.copyProperties(v,userBaseVO);
+            return userBaseVO;
+        }).collect(Collectors.toList());
+
+        List<UserDetailEntity> userDetailList=detailMapper.findListByIds(dto.getIdList());
+        if(!CollectionUtils.isEmpty(userDetailList)){
+            Map<Long, UserDetailEntity> userDetailMap=userDetailList.stream().collect(Collectors.toMap(UserDetailEntity::getUserId,u->u));
+            userBaseList.forEach(v->{
+                UserDetailEntity userDetail=userDetailMap.get(v.getUserId());
+                if(userDetail!=null){
+                    BeanUtils.copyProperties(userDetail,v);
+                }
+            });
+        }
+
         return CommonResultUtils.success(userBaseList);
     }
 
     @Override
     public CommonResult<Map<Long, UserBaseVO>> findUserBaseInfoMap(BaseIdListDTO dto) {
-        List<UserBaseVO> userBaseList=mapper.findUserListByIds(dto.getIdList());
+        List<UserBaseVO> userBaseList= findUserBaseInfoList(dto).getData();
         Map<Long, UserBaseVO> userMap=userBaseList.stream().collect(Collectors.toMap(UserBaseVO::getUserId,u->u));
         return CommonResultUtils.success(userMap);
     }
@@ -157,15 +178,17 @@ public class UserServiceImpl implements IUserService {
     @Override
     public CommonResult<UserEnvironmentVO> findUserEnvironment() {
         Long userId= JfCloud.getCurrent().getCurrentUserId();
-        String cacheKey="UserEnv_"+userId;
+        String cacheKey=RedisUtils.getkey("UserEnv",userId);
         UserEnvironmentVO result=new UserEnvironmentVO();
-        Object cacheValue=redisTemplate.opsForValue().get(cacheKey);
+        Object cacheValue=redisTemplate.get(cacheKey);
         if(cacheValue!=null){
             BeanUtils.copyProperties(cacheValue,result);
             return CommonResultUtils.success(result);
         }
         //获取用户基本信息
-        List<UserBaseVO> userBaseList=mapper.findUserListByIds(Collections.singletonList(userId));
+        BaseIdListDTO dto=new BaseIdListDTO();
+        dto.setIdList(Collections.singletonList(userId));
+        List<UserBaseVO> userBaseList=findUserBaseInfoList(dto).getData();
         if(!CollectionUtils.isEmpty(userBaseList)){
             result.setUser(userBaseList.get(0));
         }
@@ -196,14 +219,13 @@ public class UserServiceImpl implements IUserService {
                 }
 
                 //筛选出当前应用拥有的角色id
-                UserEnvironmentVO finalResult = result;
                 List<Long> roleIds=appUserEntityList.stream()
-                        .filter(v->v.getAppId().equals(finalResult.getAppInfo().getAppId()))
+                        .filter(v->v.getAppId().equals(result.getAppInfo().getAppId()))
                         .map(AppUserEntity::getRoleId).collect(Collectors.toList());
                 result.setPermissionList(permissionMapper.findPermissionCodeList(roleIds));
             }
         }
-        redisTemplate.opsForValue().set(cacheKey,result, Duration.ofMinutes(30));
+        redisTemplate.set(cacheKey,result, Duration.ofMinutes(30));
         return CommonResultUtils.success(result);
     }
 
@@ -213,5 +235,15 @@ public class UserServiceImpl implements IUserService {
         BeanUtils.copyProperties(dto,userEntity);
         int rows=mapper.updateUserStatus(userEntity);
         return CommonResultUtils.result(rows,OperationTypeEnum.Update);
+    }
+
+    @Override
+    public Result updatePassword(UpdatePasswordDTO dto) {
+        if(!dto.getConfirmPassword().equals(dto.getNewPassword())){
+            return CommonResultUtils.failResult("validator.passwordAtypism","确认密码与新密码不一致");
+        }
+        Long userId=JfCloud.getCurrent().getCurrentUserId();
+
+        return CommonResultUtils.success();
     }
 }

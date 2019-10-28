@@ -4,8 +4,9 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.auth.UpdatePasswordDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserEnvironmentVO;
@@ -83,5 +84,12 @@ public interface IUserService {
      **/
     Result updateUserStatus(UserStatusUpdateDTO dto);
 
-
+    /**
+     * 更新用户密码
+     * @author jeo_cb
+     * @date 2019/10/28
+     * @param  dto 密码更新参数
+     * @return 更新结果
+     **/
+    Result updatePassword(UpdatePasswordDTO dto);
 }

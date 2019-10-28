@@ -132,3 +132,21 @@ CREATE TABLE `sys_group_t` (
   PRIMARY KEY (`group_id`),
   UNIQUE KEY `UK_GROUP_CODE` (`group_code`,`app_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '系统群组表';
+
+CREATE TABLE `sys_app_t` (
+  `app_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '应用id',
+  `app_code` varchar(50) NOT NULL COMMENT '应用编码',
+  `app_name` varchar(100) NOT NULL COMMENT '应用名称',
+  `app_desc` varchar(500) DEFAULT NULL COMMENT '应用描述',
+  `context_path` varchar(50) DEFAULT NULL COMMENT '应用上下文',
+  `app_owner` bigint(20) NOT NULL COMMENT '应用责任人',
+  `app_type` char(1) NOT NULL COMMENT '应用类型',
+  `app_token` varchar(500) DEFAULT NULL COMMENT '应用静态token',
+  `enable_flag` char(1)  NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
+  `create_by` bigint(20) NOT NULL COMMENT '创建人',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_update_by` bigint(20) NOT NULL COMMENT '最后更新人',
+  `last_update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  PRIMARY KEY (`app_id`),
+  UNIQUE KEY `app_code_UNIQUE` (`app_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统应用表';

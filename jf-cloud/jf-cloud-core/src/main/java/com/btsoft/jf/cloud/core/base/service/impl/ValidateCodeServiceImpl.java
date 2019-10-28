@@ -26,7 +26,7 @@ public class ValidateCodeServiceImpl implements IValidateCodeService {
     /** 图片宽度*/
     private final static int IMAGE_WIDTH=100;
     /** 图片高度*/
-    private final static int IMAGE_HEIGHT=40;
+    private final static int IMAGE_HEIGHT=32;
     /** 干扰线数量*/
     private final static int LINE_NUMBER=40;
     /** 验证码长度*/

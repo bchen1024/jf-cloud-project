@@ -117,7 +117,7 @@
                 if(userAccount){
                     if(userAccount!=vm.validateKey || refresh){
                         vm.validateKey=userAccount;
-                        vm.imgSrc='jfcloud/jf-cloud-platform/auth/validateCode?type=LoginValid&height=32&key='+userAccount+'&random='+new Date().getTime();
+                        vm.imgSrc='jfcloud/jf-cloud-platform/auth/validateCode?type=LoginValid&key='+userAccount+'&random='+new Date().getTime();
                     }
                 }else{
                     vm.imgSrc=null;
@@ -143,7 +143,7 @@
             width: 400px;
             
             background-color: #ffffff;
-            padding: 8px;
+            padding: 8px 16px;
             &-header{
                 font-size: 16px;
                 font-weight: 300;

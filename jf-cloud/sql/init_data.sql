@@ -7,8 +7,8 @@ INSERT INTO `jf-cloud-platform`.`sys_user_t`
 VALUES
 ('admin','管理员','Administrators','S3AOX40LQ1P2CG4EK37GAN2NBLW39O1DM67N1FIZ29KX5FMZ7C','1','Y',1000,1000);
 
--- 获取最大的用户id
-select @userId:=ifnull((user_id),1000) from sys_user_t;
+-- 获取最新的用户id
+select @userId:=ifnull(max(user_id),1000) from sys_user_t;
 
 -- 插入用户明细
 INSERT INTO `jf-cloud-platform`.`sys_user_detail_t`
@@ -34,15 +34,19 @@ VALUES
 INSERT INTO `jf-cloud-platform`.`sys_app_t`
 (`app_code`,`app_name`,`app_owner`,`app_type`,`create_by`,`last_update_by`)
 VALUES
+('jf-cloud-monitor','JF Cloud监控平台',@userId,'1',@userId,@userId);
+INSERT INTO `jf-cloud-platform`.`sys_app_t`
+(`app_code`,`app_name`,`app_owner`,`app_type`,`create_by`,`last_update_by`)
+VALUES
 ('jf-cloud-platform','JF Cloud管理平台',@userId,'2',@userId,@userId);
 
 
 
--- 获取最大的角色id
-select @roleId:=ifnull((role_id),1) from sys_role_t;
+-- 获取最新的角色id
+select @roleId:=ifnull(max(role_id),1) from sys_role_t;
 
 -- 获取最大的应用id
-select @appId:=ifnull((app_id),1) from sys_app_t;
+select @appId:=ifnull(max(app_id),1) from sys_app_t;
 
 -- 插入应用用户
 INSERT INTO `jf-cloud-platform`.`sys_app_user_rt`

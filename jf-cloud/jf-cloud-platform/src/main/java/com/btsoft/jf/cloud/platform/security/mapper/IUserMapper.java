@@ -2,11 +2,8 @@ package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
-import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * 账号mapper
@@ -24,15 +21,6 @@ public interface IUserMapper extends IBaseMapper<UserEntity> {
      * @return 用户数量
      **/
     int findUserCountByUserCn(@Param("userCn") String userCn);
-
-    /**
-     * 根据用户id获取用户基本信息
-     * @author jeo_cb
-     * @date 2019/10/7
-     * @param  userIds 用户id集合
-     * @return 用户基本信息集合
-     **/
-    List<UserBaseVO> findUserListByIds(@Param("userIds") List<Long> userIds);
 
     /**
      * 更新用户基本信息

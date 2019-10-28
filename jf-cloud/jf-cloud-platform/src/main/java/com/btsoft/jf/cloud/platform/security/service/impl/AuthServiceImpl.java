@@ -6,9 +6,9 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.base.service.IValidateCodeService;
 import com.btsoft.jf.cloud.core.context.impl.JfCloud;
 import com.btsoft.jf.cloud.core.enums.impl.ValidateCodeTypeEnum;
-import com.btsoft.jf.cloud.core.exception.CommonException;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.DESEncryptUtils;
+import com.btsoft.jf.cloud.core.util.RedisUtils;
 import com.btsoft.jf.cloud.platform.security.dto.auth.AccountLoginDTO;
 import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
 import com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum;
@@ -57,23 +57,23 @@ public class AuthServiceImpl implements IAuthService {
         if(StringUtils.isEmpty(dto.getKey())){
             dto.setKey(JfCloud.getCurrent().getCurrentUserId().toString());
         }
-        String key= dto.getType()+"_"+dto.getKey();
+        String key=RedisUtils.getkey(dto.getType(),dto.getKey());
         stringRedisTemplate.opsForValue().set(key,code, Duration.ofMinutes(3));
     }
 
     @Override
     public CommonResult<LoginVO> accountLogin(AccountLoginDTO dto) {
-        String cacheKey= ValidateCodeTypeEnum.LoginValid.getKey()+"_"+dto.getUserAccount();
+        String cacheKey=RedisUtils.getkey(ValidateCodeTypeEnum.LoginValid.getKey(),dto.getUserAccount());
         String validateCode=stringRedisTemplate.opsForValue().get(cacheKey);
         if(!dto.getValidateCode().equals(validateCode)){
-            throw new CommonException("validator.validateCodeError","验证码不正确");
+            return CommonResultUtils.failResult("validator.validateCodeError","验证码不正确");
         }
         //根据账号获取用户信息
         UserEntity userEntity=userMapper.findValidUser(dto.getUserAccount());
 
         //用户不存在或者被删除
         if(userEntity==null || UserStatusEnum.D.getKey().equals(userEntity.getUserStatus())){
-            throw new CommonException("validator.userNotExists","该账号不存在");
+            return CommonResultUtils.failResult("validator.userNotExists","该账号不存在");
         }
         UserEntity entity=new UserEntity();
         BeanUtils.copyProperties(userEntity,entity);
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements IAuthService {
             long curTime=System.currentTimeMillis();
             long lockTime=userEntity.getLockTime().getTime();
             if(curTime-lockTime<=lockDuration && lockDuration>0){
-                throw new CommonException("validator.userInvalid","该账号已被锁定，请稍后再试");
+                return CommonResultUtils.failResult("validator.userInvalid","该账号已被锁定，请稍后再试");
             }else{//超过锁定时长，解锁
                 entity.setPasswordErrorNum(0);
                 entity.setUserStatus(UserStatusEnum.Y.getKey());
@@ -104,7 +104,7 @@ public class AuthServiceImpl implements IAuthService {
                 entity.setLockTime(Calendar.getInstance().getTime());
             }
             userMapper.updateErrorNumAndStatus(entity);
-            throw new CommonException("validator.passwordError","登录密码不正确");
+            return CommonResultUtils.failResult("validator.passwordError","登录密码不正确");
         }else{
             //解锁
             entity.setPasswordErrorNum(0);
@@ -115,16 +115,15 @@ public class AuthServiceImpl implements IAuthService {
         String token=DESEncryptUtils.encrypt(userEntity.getUserId().toString());
         LoginVO loginVO=new LoginVO();
         loginVO.setToken(token);
-
-        String userKey="UserEnv_"+userEntity.getUserId();
-        redisTemplate.delete(cacheKey);
+        String userKey= RedisUtils.getkey("UserEnv",userEntity.getUserId());
+        redisTemplate.delete(userKey);
         return CommonResultUtils.success(loginVO);
     }
 
     @Override
     public Result logout() {
         Long userId=JfCloud.getCurrent().getCurrentUserId();
-        String cacheKey="UserEnv_"+userId;
+        String cacheKey= RedisUtils.getkey("UserEnv",userId);
         redisTemplate.delete(cacheKey);
         return CommonResultUtils.success();
     }

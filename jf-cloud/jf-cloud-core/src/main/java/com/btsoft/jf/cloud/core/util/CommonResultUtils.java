@@ -16,47 +16,22 @@ import com.github.pagehelper.Page;
 public class CommonResultUtils {
 
     public static <T> CommonResult<T> success(T result){
-        CommonResult commonResult=new CommonResult();
+        CommonResult<T> commonResult=new CommonResult<T>();
         commonResult.setData(result);
         commonResult.setSuccess(true);
         commonResult.setMsg("success");
         commonResult.setCode(ErrorCodeConstants.Global.SUCCESS);
         return commonResult;
     }
-
-    public static Result fail(String code,Throwable e){
-        Result result=new Result(code,e.getMessage(),false);
-        return result;
-    }
-
-    public static Result fail(String code,String msg){
-        Result result=new Result(code,msg,false);
-        return result;
-    }
-
     public static Result success(OperationTypeEnum operationType){
-        Result result=new Result(operationType.getKey()+".successful",operationType.getCnName()+"成功",true);
-        return result;
+        return new Result(operationType.getKey()+".successful",operationType.getCnName()+"成功",true);
     }
     public static Result success(){
-        Result result=new Result(OperationTypeEnum.Operate+".successful",OperationTypeEnum.Operate.getCnName()+"成功",true);
-        return result;
+        return new Result(OperationTypeEnum.Operate+".successful",OperationTypeEnum.Operate.getCnName()+"成功",true);
     }
 
-    public static Result fail(OperationTypeEnum operationType){
-        Result result=new Result(operationType.getKey()+".fail",operationType.getCnName()+"失败",false);
-        return result;
-    }
-
-    public static Result result(int rows,OperationTypeEnum operationType){
-        if(rows>0){
-            return success(operationType);
-        }
-        return fail(operationType);
-    }
-
-    public static <T> CommonResult<PageResult<T>> pageResult(Class<T> clazz,Page page){
-        CommonResult commonResult=new CommonResult();
+    public static <T> CommonResult<PageResult<T>> pageResult(Class<T> clazz, Page page){
+        CommonResult<PageResult<T>> commonResult=new CommonResult<>();
         PageResult<T> pageResult=new PageResult<>();
         pageResult.setCurPage(page.getPageNum());
         pageResult.setPageSize(page.getPageSize());
@@ -71,6 +46,33 @@ public class CommonResultUtils {
     }
 
     public static <T> CommonResult<T> result(Class<T> clazz,Object obj){
-        return CommonResultUtils.success(JSON.parseObject(JSON.toJSONString(obj),clazz));
+        return success(JSON.parseObject(JSON.toJSONString(obj),clazz));
     }
+
+    public static Result fail(String code,Throwable e){
+        return new Result(code,e.getMessage(),false);
+    }
+
+    public static Result fail(String code,String msg){
+        return new Result(code,msg,false);
+    }
+
+    public static Result fail(OperationTypeEnum operationType){
+        return new Result(operationType.getKey()+".fail",operationType.getCnName()+"失败",false);
+    }
+
+    public static Result result(int rows,OperationTypeEnum operationType){
+        if(rows>0){
+            return success(operationType);
+        }
+        return fail(operationType);
+    }
+    public static <T> CommonResult<T> failResult(String code,String msg){
+        CommonResult<T> commonResult=new CommonResult<T>();
+        commonResult.setSuccess(false);
+        commonResult.setMsg(msg);
+        commonResult.setCode(code);
+        return commonResult;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.mapper;
 
+import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
 import com.btsoft.jf.cloud.platform.security.entity.UserDetailEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2019/9/29
  **/
 @Mapper
-public interface IUserDetailMapper{
+public interface IUserDetailMapper extends IBaseMapper<UserDetailEntity> {
 
     /**
      * 创建用户详情

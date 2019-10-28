@@ -8,6 +8,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.platform.security.dto.auth.UpdatePasswordDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
@@ -20,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -132,5 +134,18 @@ public class UserController {
     @ApiOperation("获取当前登录用户信息")
     public CommonResult<UserEnvironmentVO> findUserEnvironment(){
         return service.findUserEnvironment();
+    }
+
+    /**
+     * 更新用户密码
+     * @author jeo_cb
+     * @date 2019/10/28
+     * @param  dto 密码更新参数
+     * @return 更新结果
+     **/
+    @PostMapping("/updatePassword")
+    @ApiOperation("更新密码")
+    public Result updatePassword(@RequestBody  @Valid UpdatePasswordDTO dto){
+        return service.updatePassword(dto);
     }
 }

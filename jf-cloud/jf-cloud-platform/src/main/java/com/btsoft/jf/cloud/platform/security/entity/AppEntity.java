@@ -19,7 +19,6 @@ public class AppEntity extends BaseEntity {
     private Long appOwner;
     private String appType;
     private String appToken;
-    private Integer appPort;
 
     public Long getAppId() {
         return appId;
@@ -83,14 +82,6 @@ public class AppEntity extends BaseEntity {
 
     public void setAppToken(String appToken) {
         this.appToken = appToken;
-    }
-
-    public Integer getAppPort() {
-        return appPort;
-    }
-
-    public void setAppPort(Integer appPort) {
-        this.appPort = appPort;
     }
 
     @Override
