@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 public @interface JAuditLog {
 
 	// 操作类型
-	public String type() default "";
+	String type() default "";
 
 	// 操作描述
-	public String message() default "";
+	String message() default "";
 
 }

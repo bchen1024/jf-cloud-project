@@ -1,6 +1,6 @@
 <template>
     <div>
-        <JFDetail :op="detailOp" :id="$store.state.user.userInfo.userId" @detailEdit="openEdit"/>
+        <JFDetail :op="detailOp"  @detailEdit="openEdit"/>
         <Edit :formId="formId" formKey="userId"
                 :visible.sync="showEdit" 
                 :formData="formData"/>
@@ -21,7 +21,7 @@ export default {
             detailOp:{
                 autoLoad:true,
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/user/single'
+                    url:'jfcloud/jf-cloud-platform/personal/baseInfo'
                 },
                 items:[
                     {cols:[

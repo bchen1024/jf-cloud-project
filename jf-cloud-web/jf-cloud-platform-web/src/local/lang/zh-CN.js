@@ -37,6 +37,7 @@ export default{
     logout:'退出登录',
     login:'登录',
     userDetail:'用户详情',
+    sortNo:'排序号',
 
     //提示信息
     message:{
@@ -82,8 +83,8 @@ export default{
     female:'女',
     userSex:'性别',
     enable:'启用',
-    synching:'同步中',
-    updating:'更新中',
+    syncing:'同步中',
+    updateing:'更新中',
     syncSuccessful:'同步成功',
     syncPermission:'同步权限',
     updateSuccessful:'更新成功',
@@ -162,7 +163,9 @@ export default{
     forceSyncPermissionTip:'强制同步权限，删除原来同步的全部权限重新同步',
     checkInvalidPermission:'检查无效权限',
     checkInvalidPermissionTip:'检查已同步权限，但是后来程序已删除的注解权限',
-
+    permissionTreeTip:'1、左侧树权限树一个小时内新增的权限点会标记红点，失效的注解权限会显示删除线',
+    permissionSyncTip:'2、同步权限是同步代码中标记了权限注解@JResource和@JOperator的权限点',
+    permissionDeleteTip:'3、只有自定义权限和失效的注解权限可以被删除',
     logTime:'日志时间',
     logModule:'日志模块',
     logMethod:'日志操作',
@@ -184,6 +187,7 @@ export default{
     validator:{
         notEmpty:'该值不能为空',
         email:'请输入正确的邮箱地址',
+        integer:'请输入有效的整数',
         tel:'请输入正确的手机号码',
         telSame:'该手机号码已注册',
         emailSame:'该邮箱地址已注册',
@@ -238,5 +242,12 @@ export default{
     myRole:'我的角色',
     mySetting:'我的选项',
     myLogs:'我的日志',
-    myPermission:'我的权限'
+    myPermission:'我的权限',
+
+    noOrganizationData:'还没有组织架构',
+    orgCn:'组织中文名',
+    orgEn:'组织英文名',
+    parentId:'父级组织',
+    orgDesc:'组织描述',
+    deleteNodeWarning:'请先删除子级再执行删除操作'
 };

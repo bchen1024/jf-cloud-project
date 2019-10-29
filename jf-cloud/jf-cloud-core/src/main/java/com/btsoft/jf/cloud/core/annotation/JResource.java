@@ -14,15 +14,15 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JResource {
 
-	public String code();// 资源编码
+	String code();// 资源编码
 
-	public String descCN();// 资源中文描述
+	String descCN();// 资源中文描述
 
-	public String descEN();// 资源英文描述
+	String descEN();// 资源英文描述
 	
-	public String appCode() default "";
+	String appCode() default "";
 
-	public String parentCode() default "";
+	 String parentCode() default "";
 	//排序
 	public int sort() default 0;
 }

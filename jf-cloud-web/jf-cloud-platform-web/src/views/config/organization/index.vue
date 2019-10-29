@@ -1,19 +1,18 @@
 <template>
     <Layout :style="{height:'100%'}">
-        <Sider width="300" style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;">
+        <Sider style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;width:auto;min-width:200px">
             <Spin size="large" fix v-if="loading"></Spin>
             <Tree ref="organizationTree" :empty-text="$t('noOrganizationData')" :render="renderContent" :data="treeData" @on-select-change="onSelectChange"></Tree>
         </Sider>
         <Content :style="{background: '#fff',padding:'12px'}">
             <div style="margin-bottom: 12px;">
                 <Button icon="md-add" type="primary" @click="addOrganization()" v-permission="'organization$save'">
-                    {{$t('add')}}
+                    {{$t('addOrganization')}}
                 </Button>
-
                 <Button  icon="md-refresh" @click="loadOrganization()">
                     {{$t('refresh')}}
                 </Button>
-                <Button type="error" icon="md-trash" @click="deleteOrganization()" :disabled="!data.orgId">
+                <Button type="error" icon="md-trash" @click="deleteOrganization()" v-permission="'organization$delete'" :disabled="!data.orgId">
                     {{$t('delete')}}
                 </Button>
             </div>
@@ -104,8 +103,7 @@ export default {
                 }else{
                     vm.$set(vm.formRules,'parentCode',[{required:true,message:vm.$t('validator.notEmpty')}]);
                 }
-                let userIds=[vm.data['createBy'],vm.data['lastUpdateBy']];
-                vm.$store.dispatch('loadUser',userIds);
+                vm.$util.dispatchUser(vm,vm.data);
             }
         },
         onChange(value){
@@ -138,7 +136,6 @@ export default {
                         
                     }).catch(error=>{
                         vm.saveLoading=false;
-                        vm.$Message.error(vm.$util.handerError(error,vm));
                     });
                 }
             });
@@ -171,32 +168,27 @@ export default {
                 h('span',{class:'ivu-tree-title ' + (node.node.selected ?'ivu-tree-title-selected':'')}, data.title)
             ]);
         },
-        deletePermission(){
+        /**
+         * 删除组织架构
+         */
+        deleteOrganization(){
             let vm=this;
             let selected=this.$refs.permissionTree.getSelectedNodes();
             if(selected.length>0){
-                vm.$Message.loading({
-                    content: this.$t('deleteing'),
-                    duration: 0
-                });
-                let appInfo=vm.$store.state.app.appInfo;
+                //存在子级不能删除
+                if(selected[0].children && selected[0].children.length>0){
+                    vm.$Message.warning(vm.$t('deleteOrgWarning'));
+                    return;
+                }
                 vm.$http({
                     method:'delete',
-                    url:'jfcloud/jf-cloud-platform/security/permission/delete',
-                    data:{appCode:appInfo.appCode,id:selected[0].permissionId}
+                    url:'jfcloud/jf-cloud-platform/security/organization/delete',
+                    data:{id:selected[0].orgId},
+                    headers:{op:'delete'}
                 }).then(result=>{
-                    this.$Message.destroy();
-                    //成功
-                    if(result && result.success){
-                        vm.$Message.success(vm.$t('deleteSuccessful'));
-                        vm.loadPermission();
-                    }
-                }).catch(error=>{
-                    vm.$Message.destroy();
-                    vm.$Message.error(vm.$util.handerError(error,vm));
+                    vm.loadOrganization();
                 });
             }
-            console.info(JSON.stringify(selected));
         }
     }
 }

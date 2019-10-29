@@ -86,14 +86,8 @@
                             validateCode:vm.formInline.validateCode
                         };
                         vm.loginLoading=true;
-                        vm.$http({
-                            method:'post',
-                            url:'jfcloud/jf-cloud-platform/auth/account/login',
-                            data:data
-                        }).then(result=>{
-                            vm.loginLoading=false;
+                        vm.$http.post('jfcloud/jf-cloud-platform/auth/account/login',data).then(result=>{
                             util.setToken(result.data.token);
-
                             //跳转到指定页面或者首页
                             let routerName=vm.$route.query.routerName
                             if(routerName){
@@ -102,11 +96,11 @@
                                 vm.$router.replace({name:'home'});
                             }
                         }).catch(error => {
-                            vm.loginLoading=false;
-                            vm.$Message.error(vm.$util.handerError(error,vm));
                             if(error.code=='validator.validateCodeError'){
                                 vm.refreshCode(true);
                             }
+                        }).then(()=>{
+                            vm.loginLoading=false;
                         });
                     }
                 })

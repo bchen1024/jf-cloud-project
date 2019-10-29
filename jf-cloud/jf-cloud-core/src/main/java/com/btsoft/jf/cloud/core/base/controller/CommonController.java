@@ -24,9 +24,9 @@ public class CommonController {
 	
 	@Autowired
 	private ICommonService service;
-	
-	@GetMapping("/permission/list")
+
 	@ApiIgnore
+	@GetMapping("/permission/list")
 	public CommonResult<List<Map<String,String>>> listPermission(){
 		return service.listPermission();
 	}

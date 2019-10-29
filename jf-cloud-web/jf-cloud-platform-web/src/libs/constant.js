@@ -1,6 +1,6 @@
 export default {
     //默认标题
-    DEFAULT_TITLE:'defaultTitle',
+    DEFAULT_TITLE:'JF Cloud管理平台',
     //token存储key值
     TOKEN:'Token',
     //appCode存储key值

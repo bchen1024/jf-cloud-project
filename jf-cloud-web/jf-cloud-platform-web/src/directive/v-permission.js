@@ -1,3 +1,6 @@
+/**
+ * 组件权限控制
+ */
 export default{
     name:'permission',
     directive:{

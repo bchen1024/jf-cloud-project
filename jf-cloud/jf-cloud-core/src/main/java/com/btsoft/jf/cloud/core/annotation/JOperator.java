@@ -1,5 +1,7 @@
 package com.btsoft.jf.cloud.core.annotation;
 
+import com.btsoft.jf.cloud.core.enums.impl.AuthType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,12 +17,14 @@ import java.lang.annotation.Target;
 public @interface JOperator {
 
 	// 权限code
-	public String code() default "";
+	String code() default "";
 	// 权限中文描述
-	public String descCN();
+	String descCN();
 	// 权限英文描述
-	public String descEN();
+	String descEN();
 	//排序
-	public int sort() default 0;
+	int sort() default 0;
+	//授权类型
+	AuthType authType() default AuthType.AuthUser;
 	
 }

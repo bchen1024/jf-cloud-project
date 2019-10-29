@@ -1,12 +1,14 @@
 <template>
     <Submenu :name="parentItem.name">
         <template slot="title">
-            <Icon v-if="parentItem.meta && parentItem.meta.icon" :type="parentItem.meta.icon"/><span>{{ $t($util.showTitle(parentItem)) }}</span>
+            <Icon v-if="parentItem.meta && parentItem.meta.icon" :type="parentItem.meta.icon"/>
+            <span>{{ $t($util.showTitle(parentItem)) }}</span>
         </template>
         <template v-for="item in children">
             <SiderMenuItem v-if="checkMenu(item.children)" :key="`menu-${item.name}`" :parent-item="item"></SiderMenuItem>
             <menu-item v-else-if="$util.checkPermission((item.meta && item.meta.permissionCode),$store.state.permission.permissionList)" :name="item.name" :key="`menu-${item.name}`">
-                <Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/><span>{{ $t($util.showTitle(item)) }}</span>
+                <Icon v-if="item.meta && item.meta.icon" :type="item.meta.icon"/>
+                <span>{{ $t($util.showTitle(item)) }}</span>
             </menu-item>
         </template>
     </Submenu>

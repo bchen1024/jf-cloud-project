@@ -45,6 +45,10 @@ export default {
         }
         document.title=title;
     },
+    /**
+     * 解析菜单名称
+     * @param {*} item 
+     */
     showTitle:function(item){
         let title="";
         if(item.meta && item.meta.title){
@@ -90,11 +94,15 @@ export default {
         if(typeof error=='string'){
             errorMsg=error;
         }else if(error.code){
-            errorMsg=vm.$t(error.code);
+            if(vm){
+                errorMsg=vm.$t(error.code);
+            }else{
+                errorMsg=error.code
+            }
         }else{
             errorMsg=error.msg || error.message;
         }
-        return errorMsg;
+        return errorMsg.toString();
     },
     /**
      * 用户状态
@@ -170,6 +178,17 @@ export default {
             }
             return false;
         }
+    },
+    dispatchUser(vm,data={},userFields){
+        let userIds=[data['createBy'],data['lastUpdateBy']];
+        if(userFields && userFields.length>0){
+            userFields.forEach(item => {
+                if(data[item]){
+                    userIds.push(data[item]);
+                }
+            });
+        }
+        vm.$store.dispatch('loadUser',userIds);
     },
     /**
      * 获取url

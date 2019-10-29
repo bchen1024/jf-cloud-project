@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface JAuditModule {
 
-	public String value() default "";// 审计模块
+	String value() default "";// 审计模块
 }
