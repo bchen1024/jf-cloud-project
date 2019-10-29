@@ -8,22 +8,22 @@
             :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('groupCode')" label-position="top" prop="groupCode">
+                <FormItem :label="$t('groupCode')"  prop="groupCode">
                     <Input v-model="data.groupCode" />
                 </FormItem>
-                <FormItem :label="$t('groupName')" label-position="top" prop="groupName">
+                <FormItem :label="$t('groupName')" prop="groupName">
                     <Input v-model="data.groupName"/>
                 </FormItem>
-                <FormItem :label="$t('groupOwner')" label-position="top" prop="groupOwner">
+                <FormItem :label="$t('groupOwner')"  prop="groupOwner">
                     <Input v-model="data.groupOwner"/>
                 </FormItem>
-                <FormItem :label="$t('applyStatus')" label-position="top" prop="applyStatus">
+                <FormItem :label="$t('applyStatus')" prop="applyStatus">
                     <RadioGroup v-model="data.applyStatus">
                         <Radio  label="Y">{{$t('status.applyStatus.Y')}}</Radio>
                         <Radio  label="N">{{$t('status.applyStatus.N')}}</Radio>
                     </RadioGroup>
                 </FormItem>
-                <FormItem :label="$t('groupDesc')" label-position="top">
+                <FormItem :label="$t('groupDesc')">
                     <Input type="textarea" v-model="data.groupDesc" :rows="4" :maxlength="200" />
                 </FormItem>
             </Form>
@@ -52,6 +52,9 @@
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ],
                     groupOwner:[
+                        {required:true,message:vm.$t('validator.notEmpty')}
+                    ],
+                    applyStatus:[
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ]
                 }

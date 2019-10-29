@@ -1,5 +1,5 @@
 export default{
-    logoTitle:'JF Cloud平台',
+    logoTitle:'JF Cloud 管理平台',
     logoMinTitle:'JF',
     //菜单路由
     home:'首页',
@@ -85,6 +85,7 @@ export default{
     enable:'启用',
     syncing:'同步中',
     updateing:'更新中',
+    saveing:'保存中',
     syncSuccessful:'同步成功',
     syncPermission:'同步权限',
     updateSuccessful:'更新成功',
@@ -138,6 +139,7 @@ export default{
     groupName:'群组名称',
     groupOwner:'群组责任',
     groupDesc:'群组描述',
+    groupDetail:'群组详情',
 
     employeeNo:'员工工号',
     employeeType:'员工类型',
@@ -171,7 +173,7 @@ export default{
     logMethod:'日志操作',
     logStartTime:'开始时间',
     logEndTime:'结束时间',
-    logCost:'耗时',
+    logCost:'耗时(ms)',
     logIp:'访问IP',
     logType:'日志类型',
 

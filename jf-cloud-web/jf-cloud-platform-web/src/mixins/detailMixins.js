@@ -6,7 +6,8 @@ export default{
             tabId:'detail',
             detailRef:'detailRef',
             id:null,
-            loadMap:{}
+            loadMap:{},
+            detailData:{}
         }
     },
     created(){

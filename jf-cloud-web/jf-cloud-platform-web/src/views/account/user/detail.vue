@@ -12,9 +12,9 @@
 <script>
 import Edit from './edit.vue';
 import editMixins from '@/mixins/editMixins';
-import detail from '@/mixins/detail';
+import detailMixins from '@/mixins/detailMixins';
 export default {
-    mixins:[editMixins,detail],
+    mixins:[editMixins,detailMixins],
     components:{
         Edit
     },

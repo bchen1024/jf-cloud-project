@@ -1,6 +1,6 @@
 <template>
     <Tabs :value="tabId" v-if="id" @on-click="load">
-        <TabPane :label="$t('detail')":name="detailId" v-if="$util.checkPermission('app$single',$store.state.permission.permissionList)">
+        <TabPane :label="$t('detail')" :name="detailId" v-if="$util.checkPermission('app$single',$store.state.permission.permissionList)">
             <JFDetail :ref="detailRef" :id="id" :op="detailOp" @detailEdit="openEdit" @loadCallback="detailCallback"/>
             <EditApp v-permission="'app$save'" :formId="formId" formKey="appId"
                 :visible.sync="showEdit" 
@@ -38,9 +38,9 @@
 import EditApp from './edit.vue';
 import AddUser from './addUser.vue';
 import editMixins from '@/mixins/editMixins';
-import detail from '@/mixins/detail';
+import detailMixins from '@/mixins/detailMixins';
 export default {
-    mixins:[editMixins,detail],
+    mixins:[editMixins,detailMixins],
     components:{
         EditApp,
         AddUser
@@ -52,7 +52,6 @@ export default {
                 appUsers:vm.loadAppUsers,
                 appToken:vm.loadAppToken
             },
-            detailData:{},
             detailOp:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/app/single'

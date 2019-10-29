@@ -1,10 +1,12 @@
 <template>
     <JFGrid :ref="gridId" :gridOp="gridOp">
+        <!--表格工具栏-->
         <template slot="grid-search-toolbar">
             <Button icon="md-add" type="primary" @click="openEdit()" v-permission="'group$save'">
                 {{$t('createGroup')}}
             </Button>
         </template>
+        <!--群组编辑-->
         <Edit slot="grid-drawer" :formId="formId" formKey="groupId"
             :visible.sync="showEdit" 
             :formData="formData"
@@ -47,7 +49,10 @@ export default {
                         {key:'groupName',width:250,condition:true},
                         {key:'groupOwner',width:150,format:'user'},
                         {key:'applyStatus',width:120,format:'status',condition:{
-                           type:'radio',items:[{value:'Y',label:vm.$t('status.applyStatus.Y')},{value:'N',label:vm.$t('status.applyStatus.N')}]
+                           type:'radio',items:[
+                               {value:'Y',label:vm.$t('status.applyStatus.Y')},
+                               {value:'N',label:vm.$t('status.applyStatus.N')}
+                            ]
                         }},
                         {key:'groupDesc',condition:true}
                     ]

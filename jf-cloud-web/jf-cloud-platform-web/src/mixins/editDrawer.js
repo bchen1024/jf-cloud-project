@@ -64,6 +64,9 @@ export default{
                 this.showCallback();
             }
         },
+        /**
+         * 保存表单
+         */
         saveForm(){
             let vm=this;
             this.$refs[vm.formId].validate((valid) => {
@@ -71,20 +74,15 @@ export default{
                     vm.loading=true;
                     let saveOp=Object.assign({},{
                         method:'put',
-                        data:vm.data
+                        data:vm.data,
+                        headers:{op:'save'}
                     },vm.saveOp);
                     vm.$http(saveOp).then(result=>{
-                        vm.loading=false;
-                        if(result && result.success){
-                            vm.drawerShow=false;
-                            vm.$Message.success(vm.$t('saveSuccessful'));
-                            vm.$emit('saveCallback',vm.data);
-                        }else{
-                            vm.$Message.error(vm.$t(result.code) || result.msg);
-                        }
+                        vm.drawerShow=false;
+                        vm.$emit('saveCallback',vm.data);
                     }).catch(error=>{
+                    }).then(()=>{
                         vm.loading=false;
-                        vm.$Message.error(vm.$util.handerError(error,vm));
                     });
                     
                 }

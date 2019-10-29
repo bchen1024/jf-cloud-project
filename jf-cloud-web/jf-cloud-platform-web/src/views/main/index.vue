@@ -61,7 +61,7 @@ export default {
             text-align: center;
             line-height: 64px;
             color: #efefef;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
         }
         .left-sider-light .logo-con{

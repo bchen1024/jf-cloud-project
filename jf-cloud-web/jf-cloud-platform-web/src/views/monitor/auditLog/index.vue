@@ -19,16 +19,14 @@ export default {
                 },
                 table:{
                     columns:[
-                        {key:'logTime',width:170},
+                        {key:'logTime',width:200},
                         {key:'userId',title:'userName',width:150,format:'user',condition:{type:'string',key:'userName'}},
                         {key:'logModule',width:120,condition:true},
                         {key:'logMethod',width:120,condition:true},
                         {key:'logStartTime',width:200},
                         {key:'logEndTime',width:200},
                         {key:'logCost',width:100},
-                        {key:'logIp',width:120,condition:true},
-                        {key:'logType',width:120,format:'type'},
-                        {key:'logMessage'}
+                        {key:'logIp',width:150,condition:true}
                     ]
                 }
             }
