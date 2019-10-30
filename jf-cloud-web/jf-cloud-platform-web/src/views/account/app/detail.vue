@@ -10,7 +10,7 @@
         <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1' && $util.checkPermission('appUsers$page',$store.state.permission.permissionList)" >
             <JFGrid ref="appUserGrid" :gridOp="appUserGrid">
                 <template slot="grid-search-toolbar">
-                    <Button icon="md-add" type="primary" @click="openAddUser()" v-permission="'appUsers$create'">
+                    <Button icon="md-add" type="primary" @click="showAddUser=true" v-permission="'appUsers$create'">
                         {{$t('addUser')}}
                     </Button>
                 </template>
@@ -57,7 +57,7 @@ export default {
                     url:'jfcloud/jf-cloud-platform/security/app/single'
                 },
                 editPermission:'app$save',
-                autoLoad:vm.autoLoad(),
+                autoLoad:vm.autoLoad(vm.detailId),
                 userFields:['appOwner'],
                 items:[
                     {cols:[
@@ -76,7 +76,7 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/app/user/page',
                     defaultParams:{appId:id},
-                    autoLoad:(tabId=='appUsers')
+                    autoLoad:vm.autoLoad('appUsers')
                 },
                 delete:{
                     url:'jfcloud/jf-cloud-platform/security/app/user/delete'
@@ -118,9 +118,6 @@ export default {
         },
         detailCallback(formData){
             this.detailData=formData;
-        },
-        openAddUser(){
-            this.showAddUser=true;
         },
         loadAppToken(){
             let vm=this;

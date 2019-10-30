@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.dto.app;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * 应用用户保存DTO
@@ -35,5 +36,10 @@ public class AppUserSaveDTO extends BaseDTO {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

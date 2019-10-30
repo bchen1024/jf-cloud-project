@@ -15,8 +15,8 @@ import org.apache.ibatis.annotations.Param;
 public interface IRolePermissionMapper extends IBaseMapper<RolePermissionEntity> {
 
     /**
+     * 删除已经去掉的配置
      * @author jeo_cb
-     * @description 删除已经去掉的配置
      * @date 2019/10/10
      * @param dto 删除参数
      * @return 受影响行数
