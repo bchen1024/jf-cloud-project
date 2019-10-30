@@ -65,7 +65,7 @@ export default {
                                {value:'2',label:vm.$t('type.appType.2')}
                             ]
                         }},
-                        {key:'contextPath',width:120},
+                        {key:'contextPath',width:150},
                         {key:'appDesc',condition:true}
                     ]
                 }

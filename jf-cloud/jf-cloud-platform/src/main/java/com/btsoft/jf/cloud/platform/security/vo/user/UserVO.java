@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.vo.user;
 
+import com.btsoft.jf.cloud.core.base.entity.IUserEntity;
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -10,8 +11,9 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/9/28
  **/
-public class UserVO extends BaseVO {
+public class UserVO extends BaseVO  implements IUserEntity {
 
+    private static final long serialVersionUID = -5627360607880338128L;
     private Long userId;
     private String userNo;
     private String userCn;
@@ -26,6 +28,10 @@ public class UserVO extends BaseVO {
     private Integer passwordErrorNum;
     private Date lockTime;
 
+    private String userSex;
+    private Long userPhoto;
+
+    @Override
     public Long getUserId() {
         return userId;
     }
@@ -128,6 +134,22 @@ public class UserVO extends BaseVO {
 
     public void setLockTime(Date lockTime) {
         this.lockTime = lockTime;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public Long getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(Long userPhoto) {
+        this.userPhoto = userPhoto;
     }
 
     @Override

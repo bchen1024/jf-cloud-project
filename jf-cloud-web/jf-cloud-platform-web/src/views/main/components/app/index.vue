@@ -5,7 +5,10 @@
         <Icon :size="18" type="md-arrow-dropdown" />
       </a>
       <DropdownMenu slot="list">
-        <DropdownItem v-for="app in appList" :selected="app.appCode==appInfo.appCode" :name="app.appCode" :key="`app-${app.appCode}`">{{ app.appCode }}</DropdownItem>
+        <DropdownItem v-for="app in appList" :selected="app.appCode==appInfo.appCode" :name="app.appCode" :key="`app-${app.appCode}`">
+          {{ app.appCode }}
+          <span class="float-right" style="margin-left:24px;color:#515a6e">{{app.appName}}</span>
+        </DropdownItem>
       </DropdownMenu>
     </Dropdown>
 </template>
@@ -34,7 +37,7 @@ export default {
       }
       this.$Modal.confirm({
           title: this.$t('confirm'),
-          content: this.$t('message.switchAppConfirm'),
+          content: this.$t('switchAppConfirm'),
           onOk: () => {
               util.setApp(name);
               location.reload();

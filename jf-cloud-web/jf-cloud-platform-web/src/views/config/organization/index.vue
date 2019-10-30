@@ -31,7 +31,7 @@
                 </Row>
                 <Row :gutter="32">
                     <Col :span="12">
-                        <FormItem :label="$t('parentId')" prop="parentId">
+                        <FormItem :label="$t('orgParent')" prop="parentId">
                             <Input v-model="data.parentId" />
                         </FormItem>
                     </Col>

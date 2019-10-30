@@ -8,7 +8,7 @@
         >
             <Form :ref='formId' :model="data" :rules="formRules">
                 <FormItem :label="$t('userName')" label-position="top" prop="userId">
-                    <Input v-model="data.userId" />
+                    <JFUserSelect v-model="data.userId"/>
                 </FormItem>
                 <FormItem :label="$t('roleName')" label-position="top" prop="roleId">
                     <Select v-model="data.roleId" clearable filterable>

@@ -15,7 +15,7 @@
                     <Input v-model="data.roleName"/>
                 </FormItem>
                 <FormItem :label="$t('roleOwner')" label-position="top" prop="roleOwner">
-                    <Input v-model="data.roleOwner"/>
+                    <JFUserSelect v-model="data.roleOwner"/>
                 </FormItem>
                 <FormItem :label="$t('applyStatus')" label-position="top" prop="applyStatus">
                     <RadioGroup v-model="data.applyStatus">
@@ -24,7 +24,7 @@
                     </RadioGroup>
                 </FormItem>
                 <FormItem :label="$t('roleDesc')" label-position="top">
-                    <Input type="textarea" v-model="data.roleDesc" :rows="4" :maxlength="200" />
+                    <Input type="textarea" v-model="data.roleDesc" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">

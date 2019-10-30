@@ -15,7 +15,7 @@
                     <Input v-model="data.groupName"/>
                 </FormItem>
                 <FormItem :label="$t('groupOwner')"  prop="groupOwner">
-                    <Input v-model="data.groupOwner"/>
+                    <JFUserSelect v-model="data.groupOwner"/>
                 </FormItem>
                 <FormItem :label="$t('applyStatus')" prop="applyStatus">
                     <RadioGroup v-model="data.applyStatus">
@@ -24,12 +24,12 @@
                     </RadioGroup>
                 </FormItem>
                 <FormItem :label="$t('groupDesc')">
-                    <Input type="textarea" v-model="data.groupDesc" :rows="4" :maxlength="200" />
+                    <Input type="textarea" v-model="data.groupDesc" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">
                 <Button @click="cancelForm()" icon="md-close">{{$t('cancel')}}</Button>
-                <Button type="primary" @click="saveForm()" :loading="loading" icon="md-checkmark">{{$t('save')}}</Button>
+                <Button type="primary" @click="saveForm()" :loading="loading" icon="md-checkmark" v-permission="'group$save'">{{$t('save')}}</Button>
             </div>
         </Drawer>  
 </template>
@@ -59,9 +59,6 @@
                     ]
                 }
             }
-        },
-        methods:{
-            
         }
     }
 </script>

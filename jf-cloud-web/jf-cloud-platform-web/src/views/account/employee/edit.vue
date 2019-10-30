@@ -24,8 +24,11 @@
                         <Radio  label="2">{{$t('status.employeeStatus.2')}}</Radio>
                     </RadioGroup>
                 </FormItem>
-                <FormItem :label="$t('employeeParent')" label-position="top" prop="parentId">
-                    <Input v-model="data.parentId" />
+                <FormItem :label="$t('employeeJob')" label-position="top" prop="employeeJob">
+                    <Input v-model="data.employeeJob"/>
+                </FormItem>
+                <FormItem :label="$t('employeeSuperior')" label-position="top" prop="parentId">
+                    <JFUserSelect v-model="data.parentId"/>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">

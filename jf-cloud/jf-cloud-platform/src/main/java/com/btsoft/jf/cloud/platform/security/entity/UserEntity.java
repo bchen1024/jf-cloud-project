@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.entity;
 
+import com.btsoft.jf.cloud.core.base.entity.IUserEntity;
 import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -10,8 +11,9 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/9/28
  **/
-public class UserEntity extends BaseEntity {
+public class UserEntity extends BaseEntity implements IUserEntity {
 
+    private static final long serialVersionUID = 3495219861507787195L;
     private Long userId;
     private String userNo;
     private String userCn;
@@ -27,6 +29,7 @@ public class UserEntity extends BaseEntity {
     private Integer passwordErrorNum;
     private Date lockTime;
 
+    @Override
     public Long getUserId() {
         return userId;
     }

@@ -19,7 +19,7 @@ public interface ErrorCodeConstants {
         String PROFILE_IS_WRONG="profile.isWrong";
 
         /** 服务异常*/
-        String SERVER_ERROR="server.error";
+        String SERVER_ERROR="error.common";
 
         String SUCCESS="server.success";
     }

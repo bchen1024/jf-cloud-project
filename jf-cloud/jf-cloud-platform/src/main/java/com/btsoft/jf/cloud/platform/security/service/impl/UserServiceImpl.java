@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
+import com.btsoft.jf.cloud.core.base.entity.IUserEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -70,7 +71,15 @@ public class UserServiceImpl implements IUserService {
         UserEntity entity= EntityUtils.queryDtoToEntity(UserEntity.class,dto);
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
-        return CommonResultUtils.pageResult(UserVO.class,page);
+
+        CommonResult<PageResult<UserVO>> result=CommonResultUtils.pageResult(UserVO.class,page);
+        if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
+            List<Long> userIds=result.getData().getList().stream().map(UserVO::getUserId).collect(Collectors.toList());
+            List<UserDetailEntity> userDetailList=detailMapper.findListByIds(userIds);
+            fillUserDetail(result.getData().getList(),userDetailList);
+
+        }
+        return result;
     }
 
     /**
@@ -155,7 +164,8 @@ public class UserServiceImpl implements IUserService {
         }).collect(Collectors.toList());
 
         List<UserDetailEntity> userDetailList=detailMapper.findListByIds(dto.getIdList());
-        if(!CollectionUtils.isEmpty(userDetailList)){
+        fillUserDetail(userBaseList,userDetailList);
+        /*if(!CollectionUtils.isEmpty(userDetailList)){
             Map<Long, UserDetailEntity> userDetailMap=userDetailList.stream().collect(Collectors.toMap(UserDetailEntity::getUserId,u->u));
             userBaseList.forEach(v->{
                 UserDetailEntity userDetail=userDetailMap.get(v.getUserId());
@@ -163,10 +173,12 @@ public class UserServiceImpl implements IUserService {
                     BeanUtils.copyProperties(userDetail,v);
                 }
             });
-        }
+        }*/
 
         return CommonResultUtils.success(userBaseList);
     }
+
+
 
     @Override
     public CommonResult<Map<Long, UserBaseVO>> findUserBaseInfoMap(BaseIdListDTO dto) {
@@ -245,5 +257,17 @@ public class UserServiceImpl implements IUserService {
         Long userId=JfCloud.getCurrent().getCurrentUserId();
 
         return CommonResultUtils.success();
+    }
+
+    private void fillUserDetail(List<? extends IUserEntity> userList, List<UserDetailEntity> userDetailList){
+        if(!CollectionUtils.isEmpty(userList) && !CollectionUtils.isEmpty(userDetailList)){
+            Map<Long, UserDetailEntity> userDetailMap=userDetailList.stream().collect(Collectors.toMap(UserDetailEntity::getUserId,u->u));
+            userList.forEach(v->{
+                UserDetailEntity userDetail=userDetailMap.get(v.getUserId());
+                if(userDetail!=null){
+                    BeanUtils.copyProperties(userDetail,v);
+                }
+            });
+        }
     }
 }

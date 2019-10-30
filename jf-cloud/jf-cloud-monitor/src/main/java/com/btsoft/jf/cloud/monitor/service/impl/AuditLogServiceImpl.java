@@ -17,6 +17,9 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.Objects;
 
 /**
  * 
@@ -53,6 +56,16 @@ public class AuditLogServiceImpl implements IAuditLogService {
 	 **/
 	@Override
 	public CommonResult<PageResult<AuditLogVO>> findAuditLogPage(AuditLogQueryDTO dto) {
+		//删除为空的日期
+		if(!CollectionUtils.isEmpty(dto.getLogTime())){
+			dto.getLogTime().removeIf(Objects::isNull);
+		}
+		if(!CollectionUtils.isEmpty(dto.getLogStartTime())){
+			dto.getLogStartTime().removeIf(Objects::isNull);
+		}
+		if(!CollectionUtils.isEmpty(dto.getLogEndTime())){
+			dto.getLogEndTime().removeIf(Objects::isNull);
+		}
 		AuditLogQueryDTO queryDTO= EntityUtils.queryDtoToEntity(AuditLogQueryDTO.class,dto);
 		Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
 		mapper.findAuditLogPage(queryDTO);

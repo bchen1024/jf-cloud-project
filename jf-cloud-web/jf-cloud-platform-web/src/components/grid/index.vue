@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="jf-margin-bottom12">
-            <Form v-if="advancedQueryFields && advancedQueryFields.length>0" inline :model="searchOp.queryParams" 
-                :label-width="100" v-show="(queryKeywordFields.length==0) || advancedFilterShow" class="jf-grid-advanced-filter-form">
-                <FormItem v-for="item in advancedQueryFields" :label="$t(item.key)" :key="item.key" :prop="item.key">
+            <Form v-if="advancedQueryFields && advancedQueryFields.length>0"  inline :model="searchOp.queryParams" 
+                :label-width="120" v-show="(queryKeywordFields.length==0) || advancedFilterShow" class="jf-grid-advanced-filter-form">
+                <FormItem v-for="item in advancedQueryFields" :label-width="item.labelWidth || 120" :label="$t(item.title) || $t(item.key)" :key="item.key" :prop="item.key">
                     <template v-if="item.type=='radio'">
                         <RadioGroup v-model="searchOp.queryParams[item.key]">
                             <Radio   label="">{{$t('all')}}</Radio>
@@ -11,9 +11,13 @@
                         </RadioGroup>
                     </template>
                     <template v-else-if="item.type=='datePicker'">
-                        <DatePicker :type="item.dateType || 'datetimerange'" format="yyyy-MM-dd HH:mm:ss" 
-                            v-model="searchOp.queryParams[item.key]" style="width: 280px"
-                            :placeholder="$t('selectDateTimeRange')"></DatePicker>
+                        <DatePicker :type="item.dateType || 'datetimerange'" :format="item.format || 'yyyy-MM-dd HH:mm:ss'" 
+                            v-model="searchOp.queryParams[item.key]" style="width: 320px"
+                            :placeholder="$t('selectDateTimeRange')" @on-change="searchOp.queryParams[item.key]=$event" >
+                        </DatePicker>
+                    </template>
+                    <template v-else-if="item.type=='userSelect'">
+                        <JFUserSelect v-model="searchOp.queryParams[item.key]"/>
                     </template>
                     <template v-else>
                         <Input v-model="searchOp.queryParams[item.key]" style="width: 150px;"/>
@@ -66,6 +70,7 @@
             :columns="columns" :data="data||[]"  
             :loading="loading"
             :no-data-text="tableNoDataText"
+            :max-height="540"
         >
         </Table>
         <!--分页-->
@@ -187,7 +192,7 @@ export default {
                             column.title=vm.$t(column.title);
                         }
                         //未指定宽度的列配置默认宽度
-                        if(!column.width){
+                        if(!column.width && !column.minWidth){
                             column.tooltip=true;
                             column.minWidth=200;
                         }
@@ -238,7 +243,7 @@ export default {
                 });
                 if(btns.length>0){
                      columns.push(
-                        {key:'operation',title:vm.$t('operation'),width:100,align:'center',fixed:'right',render: (h, params) => {
+                        {key:'operation',title:vm.$t('operation'),width:110,align:'center',fixed:'right',render: (h, params) => {
                             let menuItems=[];
                             btns.forEach(btn=>{
                                 if(btn.show && !btn.show(params.row)){

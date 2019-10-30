@@ -3,13 +3,15 @@ import JFUser from './user/index.vue';
 import JFStatus from './status/index.vue';
 import JFType from './type/index.vue';
 import JFDetail from './detail/index.vue';
+import JFUserSelect from './user-select/index.vue';
 
 const jfviews={
     JFGrid,
     JFUser,
     JFStatus,
     JFType,
-    JFDetail
+    JFDetail,
+    JFUserSelect
 };
 
 const install=function(Vue){

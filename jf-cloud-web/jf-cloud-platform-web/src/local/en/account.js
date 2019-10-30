@@ -1,0 +1,72 @@
+export default{
+    //角色相关
+    roleCode:'Role Code',
+    roleName:'Role Name',
+    roleOwner:'Role Owner',
+    roleDesc:'Role Desc',
+    createRole:'Create Role',
+    rolePermission:'Role Permission',
+    roleUsers:'Role Users',
+    roleGroups:'Role Groups',
+
+    //用户相关
+    userId:'User ID',
+    userNo:'User No',
+    userCn:'User CN',
+    userEn:'User EN',
+    userName:'User Name',
+    userType:'User Type',
+    userStatus:'User Status',
+    userPhoto:'User Photo',
+    passwordUpdateTime:'Password Update Time',
+    passwordErrorNum:'Password Error Num',
+    lockTime:'Lock Time',
+    mobileValidated:'Mobile Validated',
+    emailValidated:'Email Validated',
+    createUser:'Create User',
+
+    //应用相关
+    appCode:'App Code',
+    appName:'App Name',
+    appOwner:'App Owner',
+    contextPath:'Context Path',
+    appDesc:'App Desc',
+    createApp:'Create App',
+    appUsers:'App Users',
+    appType:'App Type',
+    appToken:'App Token',
+    addUser:'Add User',
+
+    //群组相关
+    groupCode:'Group Code',
+    groupName:'Group Name',
+    groupOwner:'Group Owner',
+    groupDesc:'Group Desc',
+    createGroup:'Create Group',
+
+    //员工相关
+    employeeNo:'Employee No',
+    employeeType:'Employee Type',
+    employeeStatus:'Employee Status',
+    employeeJob:'Employee Job',
+    employeeSuperior:'Employee Superior',
+
+    //权限相关
+    method:'Method',
+    resources:'Resources',
+    custom:'Custom',
+    annotation:'Annotation',
+    syncPermission:'Sync Permission',
+    addPermission:'Add Permission',
+    permissionType:'Permission Type',
+    permissionCode:'Permission Code',
+    permissionDescCn:'Permission Desc Cn',
+    permissionDescEn:'Permission Desc En',
+    permissionSource:'Permission Source',
+    permissionFullCode:'Permission Full Code',
+    permissionParent:'Parent Resources',
+    noPermissionData:'No Permission Data',
+    permissionTreeTip:'1. The new permission points in the permission tree of the left tree within one hour will be marked with red dots, and the invalid annotation permission will display a delete line.',
+    permissionSyncTip:'2. Synchronization permission is the permission point marked with permission annotation @JResource and @JOperator in the synchronization code.',
+    permissionDeleteTip:'3. Only user defined permission and invalid annotation permission can be deleted.',
+}

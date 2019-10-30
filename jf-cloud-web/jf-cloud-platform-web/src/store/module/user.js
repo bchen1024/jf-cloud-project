@@ -3,9 +3,7 @@ export default {
     state: {
       userInfo: null,
       userCache:{
-      },
-
-      select:true
+      }
     },
     mutations:{
       setUserInfo(state,userInfo){

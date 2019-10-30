@@ -68,7 +68,7 @@
                 </Row>
                 <Row :gutter="32">
                     <Col :span="12">
-                        <FormItem :label="$t('parentCode')" prop="parentCode" :class="{requireStar:parentRequire}">
+                        <FormItem :label="$t('permissionParent')" prop="parentCode" :class="{requireStar:parentRequire}">
                             <Select placeholder="" :disabled="data.permissionType=='resources'" v-model="data.parentCode" >
                                 <Option v-for="item in parentCodes" :value="item.value" :key="item.value">{{item.label}}</Option>
                             </Select>
@@ -90,7 +90,7 @@
                         </FormItem>
                     </Col>
                     <Col :span="12">
-                        <FormItem :label="$t('permissionParentCode')" class="jf-detail-item">
+                        <FormItem :label="$t('permissionFullCode')" class="jf-detail-item">
                             {{(data.permissionId && data.permissionType=='method')?data.parentCode+'$'+data.permissionCode:''}}
                         </FormItem>
                     </Col>

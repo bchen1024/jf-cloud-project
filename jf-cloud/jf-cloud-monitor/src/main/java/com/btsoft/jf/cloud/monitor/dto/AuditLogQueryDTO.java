@@ -13,9 +13,10 @@ import java.util.List;
  **/
 public class AuditLogQueryDTO extends SearchKeywordAppDTO {
 
-    private List<Date> logTimes;
+    private static final long serialVersionUID = 7765900864175671508L;
+    private List<Date> logTime;
 
-    private String userName;
+    private Long userId;
 
     private String logIp;
 
@@ -25,26 +26,26 @@ public class AuditLogQueryDTO extends SearchKeywordAppDTO {
 
     private String logMessage;
 
-    private List<Date> logStartTimes;
+    private List<Date> logStartTime;
 
-    private List<Date> logEndTimes;
+    private List<Date> logEndTime;
 
     private String logType;
 
-    public List<Date> getLogTimes() {
-        return logTimes;
+    public List<Date> getLogTime() {
+        return logTime;
     }
 
-    public void setLogTimes(List<Date> logTimes) {
-        this.logTimes = logTimes;
+    public void setLogTime(List<Date> logTime) {
+        this.logTime = logTime;
     }
 
-    public String getUserName() {
-        return userName;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getLogIp() {
@@ -79,20 +80,20 @@ public class AuditLogQueryDTO extends SearchKeywordAppDTO {
         this.logMessage = logMessage;
     }
 
-    public List<Date> getLogStartTimes() {
-        return logStartTimes;
+    public List<Date> getLogStartTime() {
+        return logStartTime;
     }
 
-    public void setLogStartTimes(List<Date> logStartTimes) {
-        this.logStartTimes = logStartTimes;
+    public void setLogStartTime(List<Date> logStartTime) {
+        this.logStartTime = logStartTime;
     }
 
-    public List<Date> getLogEndTimes() {
-        return logEndTimes;
+    public List<Date> getLogEndTime() {
+        return logEndTime;
     }
 
-    public void setLogEndTimes(List<Date> logEndTimes) {
-        this.logEndTimes = logEndTimes;
+    public void setLogEndTime(List<Date> logEndTime) {
+        this.logEndTime = logEndTime;
     }
 
     public String getLogType() {

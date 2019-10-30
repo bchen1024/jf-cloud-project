@@ -15,7 +15,7 @@
                     <Input v-model="data.appName"/>
                 </FormItem>
                 <FormItem :label="$t('appOwner')" label-position="top" prop="appOwner">
-                    <Input v-model="data.appOwner"/>
+                    <JFUserSelect v-model="data.appOwner"/>
                 </FormItem>
                 <FormItem :label="$t('appType')" label-position="top" prop="appType">
                     <RadioGroup v-model="data.appType">
@@ -27,7 +27,7 @@
                     <Input v-model="data.contextPath"/>
                 </FormItem>
                 <FormItem :label="$t('appDesc')" label-position="top">
-                    <Input type="textarea" v-model="data.appDesc" :rows="4" :maxlength="200" />
+                    <Input type="textarea" v-model="data.appDesc" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">

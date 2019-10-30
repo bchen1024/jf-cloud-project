@@ -1,11 +1,10 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import util from '@/libs/util'
-import customZhCn from './lang/zh-CN';
-import customEnUs from './lang/en-US';
+import customZhCn from './cn';
+import customEnUs from './en';
 import zhCnLocale from 'iview/src/locale/lang/zh-CN';
 import enUsLocale from 'iview/src/locale/lang/en-US';
-
 Vue.use(VueI18n);
 let lang = util.getLanguage();
 //设置vue语言

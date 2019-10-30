@@ -20,13 +20,13 @@
                 <FormItem :label="$t('email')" label-position="top" prop="email">
                     <Input v-model="data.email" :disabled="!isCreate && data.emailValidated=='Y'"/>
                 </FormItem>
+                <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
+                    <RadioGroup v-model="data.userSex">
+                        <Radio  label="1">{{$t('type.userSex.1')}}</Radio>
+                        <Radio  label="2">{{$t('type.userSex.2')}}</Radio>
+                    </RadioGroup>
+                </FormItem>
                  <template v-if="isCreate">
-                    <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
-                        <RadioGroup v-model="data.userSex">
-                            <Radio  label="1">{{$t('male')}}</Radio>
-                            <Radio  label="2">{{$t('female')}}</Radio>
-                        </RadioGroup>
-                    </FormItem>
                     <FormItem  :label="$t('userType')" label-position="top" prop="userType">
                         <RadioGroup  v-model="data.userType">
                             <Radio :disabled="!isCreate"  label="1">{{$t('type.userType.1')}}</Radio>
@@ -50,8 +50,8 @@
                         <FormItem :label="$t('employeeJob')" label-position="top" prop="employeeJob">
                             <Input v-model="data.employeeJob" />
                         </FormItem>
-                        <FormItem :label="$t('employeeParent')" label-position="top" prop="parentId">
-                            <Input v-model="data.parentId" />
+                        <FormItem :label="$t('employeeSuperior')" label-position="top" prop="parentId">
+                            <JFUserSelect v-model="data.parentId"/>
                         </FormItem>
                     </template>
                 </template>

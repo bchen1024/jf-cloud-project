@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.vo.user;
 
+import com.btsoft.jf.cloud.core.base.entity.IUserEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.io.Serializable;
  * @desc 用户基本信息
  * @date 2019/9/30 14:03
  **/
-public class UserBaseVO implements Serializable {
+public class UserBaseVO implements Serializable, IUserEntity {
 
     private static final long serialVersionUID = -6772020830853733444L;
     private Long userId;
@@ -21,6 +22,7 @@ public class UserBaseVO implements Serializable {
     private String userSex;
     private Long userPhoto;
 
+    @Override
     public Long getUserId() {
         return userId;
     }

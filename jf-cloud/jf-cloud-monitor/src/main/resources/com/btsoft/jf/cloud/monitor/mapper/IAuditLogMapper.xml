@@ -51,30 +51,35 @@
 			<if test='vo.logType!=null and vo.logType!=""'>
 				AND T.LOG_TYPE = #{vo.logType,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.userName!=null and vo.userName!="" '>
-				AND EXISTS(
-					SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
-					AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
-					OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
-				)
+			<if test='vo.userId!=null'>
+				AND T.USER_ID = #{vo.userId,jdbcType=NUMERIC}
+			</if>
+			<if test='vo.logTime!=null and !vo.logTime.isEmpty()'>
+				AND T.LOG_TIME BETWEEN #{vo.logTime[0]} AND #{vo.logTime[1]}
+			</if>
+			<if test='vo.logStartTime!=null and !vo.logStartTime.isEmpty()'>
+				AND T.LOG_START_TIME BETWEEN #{vo.logStartTime[0]} AND #{vo.logStartTime[1]}
+			</if>
+			<if test='vo.logEndTime!=null and !vo.logEndTime.isEmpty()'>
+				AND T.LOG_END_TIME BETWEEN #{vo.logEndTime[0]} AND #{vo.logEndTime[1]}
 			</if>
 		</trim>
 	</sql>
 
 	<insert id="createSingle">
-		insert into sys_audit_log_t (
-			log_time,
-			user_id,
-			log_ip,
-			log_module,
-			log_method,
-			log_message,
-			log_start_time,
-			log_end_time,
-			log_cost,
-			log_type,
-			app_code
-		)values(
+		INSERT INTO SYS_AUDIT_LOG_T (
+			LOG_TIME,
+			USER_ID,
+			LOG_IP,
+			LOG_MODULE,
+			LOG_METHOD,
+			LOG_MESSAGE,
+			LOG_START_TIME,
+			LOG_END_TIME,
+			LOG_COST,
+			LOG_TYPE,
+			APP_CODE
+		)VALUES(
 			#{vo.logTime},
 			#{vo.userId,jdbcType=NUMERIC},
 			#{vo.logIp,jdbcType=VARCHAR},

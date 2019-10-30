@@ -1,5 +1,5 @@
 <template>
-    <Form v-if="items && items.length>0" :model="formData" label-position="right" :label-width="120" class="jf-detail-form">
+    <Form v-if="items && items.length>0" :model="formData" label-position="right" :label-width="150" class="jf-detail-form">
         <!--loading-->
         <Spin size="large" fix v-if="loading"></Spin>
         <div style="text-align:right;margin-bottom:12px;">

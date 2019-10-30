@@ -5,7 +5,9 @@
         <Icon :size="18" type="md-arrow-dropdown" />
       </a>
       <DropdownMenu slot="list">
-        <DropdownItem v-for="(value, key) in themeList" :selected="key==theme" :name="key" :key="`theme-${key}`">{{ value }}</DropdownItem>
+        <DropdownItem v-for="(value, key) in themeList" :selected="key==theme" :name="key" :key="`theme-${key}`">
+          {{ value }}
+        </DropdownItem>
       </DropdownMenu>
     </Dropdown>
 </template>
@@ -16,8 +18,8 @@ export default {
   data () {
     return {
       themeList: {
-        'light': 'Light-高亮主题',
-        'dark': 'Dark-黑暗主题'
+        'light': 'Light',
+        'dark': 'Dark'
       }
     }
   },

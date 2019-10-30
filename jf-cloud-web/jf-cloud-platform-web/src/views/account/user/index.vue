@@ -27,11 +27,11 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/user/page',
                     advancedQueryFields:[
-                        {key:'mobileValidated',type:'radio',items:[
+                        {key:'mobileValidated',labelWidth:150,type:'radio',items:[
                             {value:'Y',label:vm.$t('validated')},
                             {value:'N',label:vm.$t('noValidated')}
                         ]},
-                        {key:'emailValidated',type:'radio',items:[
+                        {key:'emailValidated',labelWidth:150,type:'radio',items:[
                             {value:'Y',label:vm.$t('validated')},
                             {value:'N',label:vm.$t('noValidated')}
                         ]}
@@ -112,13 +112,19 @@ export default {
                             }
                             return '';
                         }},
-                        {key:'userType',width:100,format:'type',condition:{
+                        {key:'userSex',width:120,format:'type',condition:{
+                            type:'radio',items:[
+                               {value:'1',label:vm.$t('type.userSex.1')},
+                               {value:'2',label:vm.$t('type.userSex.2')}
+                            ]
+                        }},
+                        {key:'userType',width:120,format:'type',condition:{
                             type:'radio',items:[
                                {value:'1',label:vm.$t('type.userType.1')},
                                {value:'2',label:vm.$t('type.userType.2')}
                             ]
                         }},
-                        {key:'userStatus',width:100,format:'status',condition:{
+                        {key:'userStatus',width:120,format:'status',condition:{
                            type:'radio',items:[
                                {value:'Y',label:vm.$t('status.userStatus.Y')},
                                {value:'L',label:vm.$t('status.userStatus.L')},

@@ -47,8 +47,8 @@ export default {
                     columns:[
                         {key:'groupCode',width:150,condition:true},
                         {key:'groupName',width:250,condition:true},
-                        {key:'groupOwner',width:150,format:'user'},
-                        {key:'applyStatus',width:120,format:'status',condition:{
+                        {key:'groupOwner',width:150,format:'user',condition:{type:'userSelect'}},
+                        {key:'applyStatus',width:130,format:'status',condition:{
                            type:'radio',items:[
                                {value:'Y',label:vm.$t('status.applyStatus.Y')},
                                {value:'N',label:vm.$t('status.applyStatus.N')}

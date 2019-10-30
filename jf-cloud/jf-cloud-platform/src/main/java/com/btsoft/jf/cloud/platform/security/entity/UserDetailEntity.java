@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class UserDetailEntity extends BaseEntity {
 
+    private static final long serialVersionUID = 8486772128603038418L;
     private Long userId;
     private String userSex;
     private Long userPhoto;

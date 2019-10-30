@@ -53,8 +53,8 @@ export default {
                     columns:[
                         {key:'roleCode',width:150,condition:true},
                         {key:'roleName',width:200,condition:true},
-                        {key:'roleOwner',width:200,format:'user'},
-                        {key:'applyStatus',width:120,format:'status',condition:{
+                        {key:'roleOwner',width:200,format:'user',condition:{type:'userSelect'}},
+                        {key:'applyStatus',width:130,format:'status',condition:{
                            type:'radio',items:[{value:'Y',label:vm.$t('status.applyStatus.Y')},{value:'N',label:vm.$t('status.applyStatus.N')}]
                         }},
                         {key:'roleDesc',condition:true}

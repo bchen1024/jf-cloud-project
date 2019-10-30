@@ -133,4 +133,16 @@ public class UserController {
     public CommonResult<UserEnvironmentVO> findUserEnvironment(){
         return service.findUserEnvironment();
     }
+
+    /**
+     * 获取用当前登录信息
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @return 获取用户当前信息
+     **/
+    @GetMapping("/list/search")
+    @ApiOperation("根据用户名称搜索用户")
+    public CommonResult<List<UserBaseVO>> findUserListByName(String keyword){
+        return null;
+    }
 }

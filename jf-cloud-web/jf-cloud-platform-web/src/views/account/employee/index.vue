@@ -34,22 +34,22 @@ export default {
                     columns:[
                         {key:'userId',width:120},
                         {key:'userId',title:'userName',width:200,format:'user',condition:{type:'string',key:'userName'}},
-                        {key:'employeeNo',width:120},
-                        {key:'employeeType',width:120,format:'type',condition:{
-                            type:'radio',items:[
+                        {key:'employeeNo',width:130},
+                        {key:'employeeType',width:150,format:'type',condition:{
+                            type:'radio',labelWidth:150,items:[
                                {value:'1',label:vm.$t('type.employeeType.1')},
                                {value:'2',label:vm.$t('type.employeeType.2')},
                                {value:'3',label:vm.$t('type.employeeType.3')}
                             ]
                         }},
-                        {key:'employeeStatus',width:120,format:'status',condition:{
-                            type:'radio',items:[
+                        {key:'employeeStatus',width:150,format:'status',condition:{
+                            type:'radio',labelWidth:150,items:[
                                {value:'1',label:vm.$t('status.employeeStatus.1')},
                                {value:'2',label:vm.$t('status.employeeStatus.2')}
                             ]
                         }},
                         {key:'employeeJob'},
-                        {key:'parentId',title:'employeeParent',width:150,format:'user'}
+                        {key:'parentId',title:'employeeSuperior',width:180,format:'user'}
                     ]
                 }
             }

@@ -10,7 +10,7 @@
                             </Input>
                         </FormItem>
                         <FormItem prop="password">
-                            <Input type="password" v-model="formInline.password" :placeholder="$t('password')">
+                            <Input type="password" password v-model="formInline.password" :placeholder="$t('password')">
                                 <Icon type="ios-lock-outline" slot="prepend"></Icon>
                             </Input>
                         </FormItem>

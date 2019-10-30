@@ -1,7 +1,5 @@
 export default{
-    logoTitle:'JF Cloud Platform',
-    logoMinTitle:'JF',
-    //菜单
+    //菜单路由
     home:'Home',
     workspace:'Workspace',
     myImport:'My Import',
@@ -30,33 +28,13 @@ export default{
     monitorMgt:'Monitor',
     auditLog:'Audit Log',
     serverLog:'Server Log',
+    jobMgt:'Job',
+
+    //非菜单路由
     personal:'Personal',
-    logout:'Logout',
     login:'Login',
     userDetail:'User Detail',
-    message:{
-        logoutConfirm:'你确认要退出登录吗？'
-    },
-
-    //公共
-    pleaseEnter:'Please Enter',
-    applyStatus:'Apply Status',
-    tableSetting:'Table Setting',
-    advancedFilter:'Advanced Filter',
-    canApply:'Can Apply',
-    noApply:'No Apply',
-    all:'All',
-    queryPlaceholder:'Please enter the search condition',
-    operation:'Operation',
-    search:'Search',
-    edit:'Edit',
-    delete:'Delete',
-
-    //角色相关
-    roleCode:'Role Code',
-    roleName:'Role Name',
-    roleOwner:'Role Owner',
-    roleDesc:'Role Desc',
-    createRole:'Create Role',
-    editRole:'Edit Role'
-};
+    groupDetail:'Group Detail',
+    appDetail:'App Detail',
+    roleDetail:'Role Detail',
+}

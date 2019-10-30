@@ -67,7 +67,7 @@ public class EmployeeController {
      **/
     @JAuditLog
     @ApiOperation("编辑员工信息")
-    @PostMapping(ControllerContants.Path.UPDATE)
+    @PutMapping(ControllerContants.Path.UPDATE)
     @JOperator(code = ControllerContants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee",sort = 30)
     public Result updateEmployee(@RequestBody EmployeeUpdateDTO dto){
         return service.updateEmployee(dto);

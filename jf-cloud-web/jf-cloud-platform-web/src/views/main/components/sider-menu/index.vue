@@ -82,7 +82,12 @@ export default {
       if(!children || children.length==0){
         return false;
       }else{
-        let filterMenu=children.filter(v=>util.checkPermission((v.meta && v.meta.permissionCode),this));
+        let filterMenu=children.filter(v=>{
+          if(v.meta && v.meta.permissionCode){
+            return util.checkPermission((v.meta && v.meta.permissionCode),this);
+          }
+          return this.$store.state.userInfo && this.$store.state.userInfo.userId;
+        });
         if(filterMenu.length>0){
           return true;
         }

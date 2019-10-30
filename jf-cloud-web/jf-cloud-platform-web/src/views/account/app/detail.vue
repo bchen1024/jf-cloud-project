@@ -24,7 +24,7 @@
             <Form  :model="appData" :rules="appFormRules">
                 <Spin size="large" fix v-if="appTokenLoading"></Spin>
                 <FormItem :label="$t('appToken')" prop="appToken">
-                    <Input type="textarea" v-model="appData.appToken" :rows="5" :maxlength="500" />
+                    <Input type="textarea" v-model="appData.appToken" :rows="5" :maxlength="500" show-word-limit/>
                 </FormItem>
                 <div style="text-align:right;">
                     <Button icon="md-refresh" @click="$util.viewLog('AppToken','save')">{{$t('refresh')}}</Button>
