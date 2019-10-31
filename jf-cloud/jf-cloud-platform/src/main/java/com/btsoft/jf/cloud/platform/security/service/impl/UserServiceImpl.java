@@ -1,7 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
-import com.btsoft.jf.cloud.core.base.entity.IUserEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -13,7 +12,11 @@ import com.btsoft.jf.cloud.platform.security.dto.auth.UpdatePasswordDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
-import com.btsoft.jf.cloud.platform.security.entity.*;
+import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
+import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
+import com.btsoft.jf.cloud.platform.security.entity.EmployeeEntity;
+import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
+import com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum;
 import com.btsoft.jf.cloud.platform.security.enums.UserTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.*;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
@@ -47,8 +50,6 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IUserMapper mapper;
     @Autowired
-    private IUserDetailMapper detailMapper;
-    @Autowired
     private IAppUserMapper appUserMapper;
     @Autowired
     private IAppMapper appMapper;
@@ -71,15 +72,7 @@ public class UserServiceImpl implements IUserService {
         UserEntity entity= EntityUtils.queryDtoToEntity(UserEntity.class,dto);
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
-
-        CommonResult<PageResult<UserVO>> result=CommonResultUtils.pageResult(UserVO.class,page);
-        if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
-            List<Long> userIds=result.getData().getList().stream().map(UserVO::getUserId).collect(Collectors.toList());
-            List<UserDetailEntity> userDetailList=detailMapper.findListByIds(userIds);
-            fillUserDetail(result.getData().getList(),userDetailList);
-
-        }
-        return result;
+        return CommonResultUtils.pageResult(UserVO.class,page);
     }
 
     /**
@@ -124,12 +117,6 @@ public class UserServiceImpl implements IUserService {
             //创建用户
             rows=mapper.createSingle(entity);
 
-            //创建用户详情
-            UserDetailEntity detailEntity=new UserDetailEntity();
-            BeanUtils.copyProperties(dto,detailEntity);
-            detailEntity.setUserId(entity.getUserId());
-            detailMapper.createSingle(detailEntity);
-
             //创建员工信息
             if(UserTypeEnum.Employee.getValue().toString().equals(entity.getUserType())){
                 EmployeeEntity employeeEntity=new EmployeeEntity();
@@ -162,19 +149,6 @@ public class UserServiceImpl implements IUserService {
             BeanUtils.copyProperties(v,userBaseVO);
             return userBaseVO;
         }).collect(Collectors.toList());
-
-        List<UserDetailEntity> userDetailList=detailMapper.findListByIds(dto.getIdList());
-        fillUserDetail(userBaseList,userDetailList);
-        /*if(!CollectionUtils.isEmpty(userDetailList)){
-            Map<Long, UserDetailEntity> userDetailMap=userDetailList.stream().collect(Collectors.toMap(UserDetailEntity::getUserId,u->u));
-            userBaseList.forEach(v->{
-                UserDetailEntity userDetail=userDetailMap.get(v.getUserId());
-                if(userDetail!=null){
-                    BeanUtils.copyProperties(userDetail,v);
-                }
-            });
-        }*/
-
         return CommonResultUtils.success(userBaseList);
     }
 
@@ -206,9 +180,10 @@ public class UserServiceImpl implements IUserService {
         }
 
         //查询用户拥有的应用
-        AppUserQueryDTO appUserEntity=new AppUserQueryDTO();
-        appUserEntity.setUserId(userId);
-        List<AppUserEntity> appUserEntityList=appUserMapper.findAppUserList(appUserEntity);
+        AppUserQueryDTO appUserQueryDTO=new AppUserQueryDTO();
+        appUserQueryDTO.setUserId(userId);
+        appUserQueryDTO.setGrantStatus(GrantStatusEnum.Normal.getValue());
+        List<AppUserEntity> appUserEntityList=appUserMapper.findAppUserList(appUserQueryDTO);
         if(!CollectionUtils.isEmpty(appUserEntityList)){
 
             //根据应用id获取应用信息
@@ -257,17 +232,5 @@ public class UserServiceImpl implements IUserService {
         Long userId=JfCloud.getCurrent().getCurrentUserId();
 
         return CommonResultUtils.success();
-    }
-
-    private void fillUserDetail(List<? extends IUserEntity> userList, List<UserDetailEntity> userDetailList){
-        if(!CollectionUtils.isEmpty(userList) && !CollectionUtils.isEmpty(userDetailList)){
-            Map<Long, UserDetailEntity> userDetailMap=userDetailList.stream().collect(Collectors.toMap(UserDetailEntity::getUserId,u->u));
-            userList.forEach(v->{
-                UserDetailEntity userDetail=userDetailMap.get(v.getUserId());
-                if(userDetail!=null){
-                    BeanUtils.copyProperties(userDetail,v);
-                }
-            });
-        }
     }
 }

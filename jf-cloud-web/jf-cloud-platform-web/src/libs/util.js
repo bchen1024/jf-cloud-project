@@ -190,13 +190,28 @@ export default {
         }
         vm.$store.dispatch('loadUser',userIds);
     },
-    /**
-     * 获取url
-     * @param {*} module 
-     * @param {*} operate 
-     */
-    getUrl(module,operate){
-        let baseUrl='jfcloud/jf-cloud-platform/security/user/';
-        return baseUrl+module+'/'+operate;
+    grantStatus(vm,h,beginDateStr,endDateStr){
+        let beginDate=new Date(beginDateStr);
+        let endDate=new Date(endDateStr);
+        let now=new Date();
+        let date=new Date(now.getFullYear(),now.getMonth(),now.getDate(),8,0,0);
+        let status=1;
+        let color='#c5c8ce';
+        //开始时间大于当前时间，未生效
+        if(beginDate>date){
+            status=1;
+        }else if(date>=beginDate && date<=endDate){
+            status=2;
+            color='#19be6b'
+            if(endDate.getTime()-date.getTime()<1000*3600*24*7){
+                status=3;
+                color='#ff9900'
+            }
+        }else if(date>endDate){
+            status=4;
+            color='#ed4014'
+        }
+        let title=vm.$t('status.grantStatus.'+status);
+        return h('Tag',{props:{color:color}},title);
     }
 }

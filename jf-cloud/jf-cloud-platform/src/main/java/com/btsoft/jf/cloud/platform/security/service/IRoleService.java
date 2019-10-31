@@ -7,6 +7,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
+import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 
@@ -72,4 +73,13 @@ public interface IRoleService{
      * @return 配置结果
      */
     Result saveRolePermission(RolePermissionSaveDTO dto);
+
+    /**
+     * 填充角色名称
+     * @author jeo_cb
+     * @date 2019/10/31
+     * @param list 集合数据
+     * @return void
+     */
+    void fillRoleName(List<? extends IRoleVO> list);
 }

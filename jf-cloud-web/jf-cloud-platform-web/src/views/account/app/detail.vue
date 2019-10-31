@@ -88,11 +88,23 @@ export default {
                     ],
                     permissionCode:'appUsers$delete',
                     logSetting:{module:'AppUser'},
-                    showAuditCreate:true,
                     showAuditUpdate:true,
                     columns:[
-                        {key:'userId',format:'user',title:'userName',condition:{type:'string',key:'userName'}},
-                        {key:'roleName',condition:true}
+                        {key:'grantStatus',width:150,render:(h,params)=>{
+                            return vm.$util.grantStatus(vm,h,params.row.beginDate,params.row.endDate);
+                        },condition:{
+                            type:'radio',items:[
+                               {value:'1',label:vm.$t('status.grantStatus.1')},
+                               {value:'2',label:vm.$t('status.grantStatus.2')},
+                               {value:'3',label:vm.$t('status.grantStatus.3')},
+                               {value:'4',label:vm.$t('status.grantStatus.4')}
+                            ]
+                        }},
+                        {key:'userId',width:150,format:'user',title:'userName',condition:{type:'string',key:'userName'}},
+                        {key:'roleCode',width:150,condition:true},
+                        {key:'roleName',condition:true},
+                        {key:'beginDate',width:120,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}},
+                        {key:'endDate',width:120,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}}
                     ]
                 }
             },

@@ -1,27 +1,18 @@
-package com.btsoft.jf.cloud.platform.security.entity;
+package com.btsoft.jf.cloud.platform.security.dto.group;
 
-import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
+import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * 群组角色关系Entity
+ * 群组角色查询DTO
  * @author jeo_cb
- * @date 2019/10/8
+ * @date 2019/10/30
  **/
-public class GroupRoleEntity extends BaseEntity {
+public class GroupRoleQueryDTO extends SearchKeywordDTO {
 
-    private static final long serialVersionUID = 7099492876638022154L;
-    private Long id;
+    private static final long serialVersionUID = 6912428638928541405L;
     private Long groupId;
     private Long roleId;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getGroupId() {
         return groupId;

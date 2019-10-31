@@ -2,21 +2,23 @@ package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
+import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.core.util.EntityUtils;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.group.*;
 import com.btsoft.jf.cloud.platform.security.entity.GroupEntity;
+import com.btsoft.jf.cloud.platform.security.entity.GroupRoleEntity;
 import com.btsoft.jf.cloud.platform.security.entity.GroupUserEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IGroupMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IGroupRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IGroupUserMapper;
 import com.btsoft.jf.cloud.platform.security.service.IGroupService;
+import com.btsoft.jf.cloud.platform.security.service.IRoleService;
+import com.btsoft.jf.cloud.platform.security.vo.group.GroupRoleVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupVO;
 import com.github.pagehelper.Page;
@@ -25,6 +27,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 群组管理Service实现类
@@ -38,6 +44,10 @@ public class GroupServiceImpl implements IGroupService {
     private IGroupMapper mapper;
     @Autowired
     private IGroupUserMapper groupUserMapper;
+    @Autowired
+    private IGroupRoleMapper groupRoleMapper;
+    @Autowired
+    private IRoleService roleService;
 
     /**
      * 分页查询群组列表
@@ -115,10 +125,22 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Result addGroupUser(GroupUserSaveDTO dto) {
-        GroupUserEntity entity=new GroupUserEntity();
-        BeanUtils.copyProperties(dto,entity);
-        int rows=groupUserMapper.createSingle(entity);
-        return CommonResultUtils.result(rows, OperationTypeEnum.Save);
+        BatchEntity<GroupUserEntity> batchEntity=new BatchEntity<>();
+        int rows = 0;
+        if(!CollectionUtils.isEmpty(dto.getUserIds())){
+            List<GroupUserEntity> list=new ArrayList<>();
+            dto.getUserIds().forEach(userId->{
+                GroupUserEntity entity=new GroupUserEntity();
+                BeanUtils.copyProperties(dto,entity);
+                entity.setBeginDate(dto.getDateRange().get(0));
+                entity.setEndDate(dto.getDateRange().get(1));
+                entity.setUserId(userId);
+                list.add(entity);
+            });
+            batchEntity.setList(list);
+            rows=groupUserMapper.createMultiple(batchEntity);
+        }
+        return CommonResultUtils.result(rows, OperationTypeEnum.Create);
     }
 
     @Override
@@ -129,5 +151,40 @@ public class GroupServiceImpl implements IGroupService {
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
+    @Override
+    public CommonResult<PageResult<GroupRoleVO>> findGroupRoleList(GroupRoleQueryDTO dto) {
+        Page page=PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
+        groupRoleMapper.findGroupRoleList(dto);
+        CommonResult<PageResult<GroupRoleVO>> result=CommonResultUtils.pageResult(GroupRoleVO.class,page);
+        if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
+            roleService.fillRoleName(result.getData().getList());
+        }
+        return result;
+    }
 
+    @Override
+    public Result addGroupRole(GroupRoleSaveDTO dto) {
+        BatchEntity<GroupRoleEntity> batchEntity=new BatchEntity<>();
+        int rows = 0;
+        if(!CollectionUtils.isEmpty(dto.getRoleIds())){
+            List<GroupRoleEntity> list=new ArrayList<>();
+            dto.getRoleIds().forEach(roleId->{
+                GroupRoleEntity entity=new GroupRoleEntity();
+                BeanUtils.copyProperties(dto,entity);
+                entity.setRoleId(roleId);
+                list.add(entity);
+            });
+            batchEntity.setList(list);
+            rows=groupRoleMapper.createMultiple(batchEntity);
+        }
+        return CommonResultUtils.result(rows, OperationTypeEnum.Create);
+    }
+
+    @Override
+    public Result deleteGroupRole(BaseIdDTO dto) {
+        GroupRoleEntity entity=new GroupRoleEntity();
+        entity.setId(dto.getId());
+        int rows=groupRoleMapper.deleteSingle(entity);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
+    }
 }

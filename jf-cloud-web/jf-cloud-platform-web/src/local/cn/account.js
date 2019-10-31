@@ -44,6 +44,9 @@ export default{
     groupDesc:'群组描述',
     groupDetail:'群组详情',
     createGroup:'创建群组',
+    groupUsers:'群组用户',
+    groupRoles:'群组角色',
+    addRole:'添加角色',
 
     //员工相关
     employeeNo:'员工工号',

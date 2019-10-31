@@ -61,19 +61,25 @@ public class PermissionServiceImpl implements IPermissionService {
             url.append(StringConstants.SLASH);
         }
         url.append("common/permission/list");
+        //获取应用权限点
         String result=restTemplate.getForObject(url.toString(), String.class);
         CommonResult<List<PermissionEntity>> cr=JSON.parseObject(result,
                 new TypeReference<CommonResult<List<PermissionEntity>>>() {
                 });
-        if(cr.getSuccess()){
+        if(cr!=null && cr.getSuccess()){
+            int rows=0;
+            BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
+            batchEntity.setAppCode(dto.getAppCode());
             if(!CollectionUtils.isEmpty(cr.getData())) {
-                BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
                 batchEntity.setList(cr.getData());
-                batchEntity.setAppCode(dto.getAppCode());
-                int rows=mapper.createMultiple(batchEntity);
+                //批量插入权限点
+                rows=mapper.createMultiple(batchEntity);
+                //失效已去掉注解的权限
                 mapper.inValidPermission(batchEntity);
-                return CommonResultUtils.success(rows);
             }
+            //授权该应用新增权限给超级管理员
+            rolePermissionMapper.grantAdminPermission(dto.getAppCode(),batchEntity.getCurrentUserId());
+            return CommonResultUtils.result(rows,OperationTypeEnum.Sync);
         }
         return CommonResultUtils.success(OperationTypeEnum.Sync);
     }

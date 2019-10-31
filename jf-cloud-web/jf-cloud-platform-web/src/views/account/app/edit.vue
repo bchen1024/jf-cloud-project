@@ -18,7 +18,7 @@
                     <JFUserSelect v-model="data.appOwner"/>
                 </FormItem>
                 <FormItem :label="$t('appType')" label-position="top" prop="appType">
-                    <RadioGroup v-model="data.appType">
+                    <RadioGroup v-model="data.appType" class="full-width">
                         <Radio  label="1">{{$t('type.appType.1')}}</Radio>
                         <Radio  label="2">{{$t('type.appType.2')}}</Radio>
                     </RadioGroup>

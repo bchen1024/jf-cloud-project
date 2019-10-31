@@ -10,8 +10,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class GroupUserQueryDTO extends SearchKeywordDTO {
 
+    private static final long serialVersionUID = 6912428638928541405L;
     private Long groupId;
     private Long userId;
+    private Long grantStatus;
 
     public Long getGroupId() {
         return groupId;
@@ -27,6 +29,14 @@ public class GroupUserQueryDTO extends SearchKeywordDTO {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Long getGrantStatus() {
+        return grantStatus;
+    }
+
+    public void setGrantStatus(Long grantStatus) {
+        this.grantStatus = grantStatus;
     }
 
     @Override

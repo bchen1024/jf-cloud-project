@@ -1,31 +1,23 @@
-package com.btsoft.jf.cloud.platform.security.vo.app;
+package com.btsoft.jf.cloud.platform.security.vo.group;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.Date;
-
 /**
- * 应用用户VO
+ * 群组角色VO
  * @author jeo_cb
- * @date 2019/10/3
+ * @date 2019/10/31 16:56
  **/
-public class AppUserVO extends BaseVO implements IRoleVO {
+public class GroupRoleVO extends BaseVO  implements IRoleVO {
+    private static final long serialVersionUID = -6872538825801556078L;
 
-    private static final long serialVersionUID = 7418160838626002613L;
     private Long id;
-    private Long appId;
-    private Long userId;
+    private Long groupId;
     private Long roleId;
     private String roleCode;
     private String roleName;
     private String roleDesc;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date endDate;
 
     public Long getId() {
         return id;
@@ -35,20 +27,12 @@ public class AppUserVO extends BaseVO implements IRoleVO {
         this.id = id;
     }
 
-    public Long getAppId() {
-        return appId;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setAppId(Long appId) {
-        this.appId = appId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     @Override
@@ -84,22 +68,6 @@ public class AppUserVO extends BaseVO implements IRoleVO {
     @Override
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc;
-    }
-
-    public Date getBeginDate() {
-        return beginDate;
-    }
-
-    public void setBeginDate(Date beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
 
     @Override

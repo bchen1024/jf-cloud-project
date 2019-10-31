@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class GroupVO extends BaseAppVO {
 
+    private static final long serialVersionUID = -8129726259789007195L;
     private Long groupId;
     private String groupCode;
     private String groupName;

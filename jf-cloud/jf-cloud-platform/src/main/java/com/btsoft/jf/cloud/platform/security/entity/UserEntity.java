@@ -28,6 +28,8 @@ public class UserEntity extends BaseEntity implements IUserEntity {
     private Date passwordUpdateTime;
     private Integer passwordErrorNum;
     private Date lockTime;
+    private String userSex;
+    private Long userPhoto;
 
     @Override
     public Long getUserId() {
@@ -140,6 +142,22 @@ public class UserEntity extends BaseEntity implements IUserEntity {
 
     public void setLockTime(Date lockTime) {
         this.lockTime = lockTime;
+    }
+
+    public String getUserSex() {
+        return userSex;
+    }
+
+    public void setUserSex(String userSex) {
+        this.userSex = userSex;
+    }
+
+    public Long getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(Long userPhoto) {
+        this.userPhoto = userPhoto;
     }
 
     @Override

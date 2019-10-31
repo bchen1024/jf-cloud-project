@@ -12,7 +12,7 @@
                     </template>
                     <template v-else-if="item.type=='datePicker'">
                         <DatePicker :type="item.dateType || 'datetimerange'" :format="item.format || 'yyyy-MM-dd HH:mm:ss'" 
-                            v-model="searchOp.queryParams[item.key]" style="width: 320px"
+                            v-model="searchOp.queryParams[item.key]" :style="{'width':(item.width || 320)+'px'}"
                             :placeholder="$t('selectDateTimeRange')" @on-change="searchOp.queryParams[item.key]=$event" >
                         </DatePicker>
                     </template>

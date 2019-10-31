@@ -7,7 +7,6 @@
 		<result column="CREATE_DATE" property="createDate"/>
 		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
 		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
-		<result column="APP_CODE" property="appCode"/>
 
 		<result column="ID" property="id"/>
 		<result column="GROUP_ID" property="groupId"/>
@@ -49,7 +48,6 @@
 			USER_ID,
 		    BEGIN_DATE,
 		    END_DATE,
-		    APP_CODE,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
@@ -57,10 +55,30 @@
 			#{vo.userId,jdbcType=NUMERIC},
 			#{vo.beginDate},
 			#{vo.endDate},
-			#{vo.appCode,jdbcType=VARCHAR},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
+	</insert>
+
+	<insert id="createMultiple">
+		REPLACE INTO SYS_GROUP_USER_RT (
+			GROUP_ID,
+			USER_ID,
+			BEGIN_DATE,
+			END_DATE,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES
+		<foreach collection="vo.list" item="item"  separator=",">
+			(
+				#{item.groupId,jdbcType=NUMERIC},
+				#{item.userId,jdbcType=NUMERIC},
+				#{item.beginDate},
+				#{item.endDate},
+				#{item.currentUserId,jdbcType=NUMERIC},
+				#{item.currentUserId,jdbcType=NUMERIC}
+			)
+		</foreach>
 	</insert>
 
 	<delete id="deleteSingle">
@@ -84,6 +102,22 @@
 					OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
 				)
 			</if>
+		</if>
+		<!--未生效-->
+		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@NotEffective.getValue'>
+			AND T.BEGIN_DATE > CURDATE()
+		</if>
+		<!--正常-->
+		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Normal.getValue'>
+			AND CURDATE() BETWEEN T.BEGIN_DATE AND T.END_DATE AND T.END_DATE > ADDDATE(CURDATE(),7)
+		</if>
+		<!--即将过期-->
+		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@AboutToExpire.getValue'>
+			AND T.END_DATE &lt; ADDDATE(CURDATE(),7)
+		</if>
+		<!--已过期-->
+		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Expired.getValue'>
+			AND T.END_DATE &lt; CURDATE()
 		</if>
 	</select>
 </mapper>

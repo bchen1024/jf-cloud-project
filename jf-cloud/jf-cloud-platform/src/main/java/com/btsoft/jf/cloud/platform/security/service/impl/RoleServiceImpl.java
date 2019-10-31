@@ -16,6 +16,7 @@ import com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
+import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import com.github.pagehelper.Page;
@@ -28,6 +29,8 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 角色管理Service实现类
@@ -136,5 +139,27 @@ public class RoleServiceImpl implements IRoleService {
             rolePermissionMapper.createMultiple(batchEntity);
         }
         return CommonResultUtils.success(OperationTypeEnum.Save);
+    }
+
+    @Override
+    public void fillRoleName(List<? extends IRoleVO> list) {
+        List<Long> roleIds=new ArrayList<>();
+        if(!CollectionUtils.isEmpty(list)){
+            list.forEach(v->{
+                roleIds.add(v.getRoleId());
+            });
+        }
+        if(!CollectionUtils.isEmpty(roleIds)){
+            List<RoleEntity> roleList=mapper.findListByIds(roleIds);
+            Map<Long,RoleEntity> roleMap=roleList.stream().collect(Collectors.toMap(RoleEntity::getRoleId, p->p));
+            list.forEach(v->{
+                RoleEntity role=roleMap.get(v.getRoleId());
+                if(role!=null){
+                    v.setRoleName(role.getRoleName());
+                    v.setRoleDesc(role.getRoleDesc());
+                    v.setRoleCode(role.getRoleCode());
+                }
+            });
+        }
     }
 }

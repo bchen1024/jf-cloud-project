@@ -7,16 +7,10 @@
             :mask-closable="false"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('userName')" label-position="top" prop="userIds">
-                    <JFUserSelect v-model="data.userIds" multiple/>
-                </FormItem>
-                <FormItem :label="$t('roleName')" label-position="top" prop="roleId">
-                    <Select v-model="data.roleId" clearable filterable>
+                <FormItem :label="$t('roleName')" label-position="top" prop="roleIds">
+                    <Select v-model="data.roleIds" clearable filterable multiple>
                         <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                     </Select>
-                </FormItem>
-                <FormItem :label="$t('dateRange')" prop="dateRange">
-                    <DatePicker v-model="data.dateRange" format="yyyy-MM-dd" type="daterange" class="full-width" @on-change="data.dateRange=$event"></DatePicker>
                 </FormItem>
             </Form>
             <div class="jf-drawer-footer">
@@ -33,17 +27,11 @@
             let vm=this;
             return {
                 saveOp:{
-                    url:'jfcloud/jf-cloud-platform/security/app/user/create',
+                    url:'jfcloud/jf-cloud-platform/security/group/role/create',
                     method:'post'
                 },
                 formRules:{
-                    userIds:[
-                        {required:true,message:vm.$t('validator.notEmpty')}
-                    ],
-                    roleId:[
-                        {required:true,message:vm.$t('validator.notEmpty')}
-                    ],
-                    dateRange:[
+                    roleIds:[
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ]
                 },
@@ -58,7 +46,7 @@
                     vm.$http({
                         method:'post',
                         url:'jfcloud/jf-cloud-platform/security/role/select',
-                        data:{appCode:'jf-cloud-platform'}
+                        data:{appCode:vm.$store.state.app.appInfo.appCode}
                     }).then(result=>{
                         vm.roleLoad=true;
                         if(result && result.success){

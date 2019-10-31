@@ -107,10 +107,12 @@ public class AuthServiceImpl implements IAuthService {
             return CommonResultUtils.failResult("validator.passwordError","登录密码不正确");
         }else{
             //解锁
-            entity.setPasswordErrorNum(0);
-            entity.setUserStatus(UserStatusEnum.Y.getKey());
-            entity.setLockTime(null);
-            userMapper.updateErrorNumAndStatus(entity);
+            if(entity.getPasswordErrorNum()!=null && entity.getPasswordErrorNum()>0){
+                entity.setPasswordErrorNum(0);
+                entity.setUserStatus(UserStatusEnum.Y.getKey());
+                entity.setLockTime(null);
+                userMapper.updateErrorNumAndStatus(entity);
+            }
         }
         String token=DESEncryptUtils.encrypt(userEntity.getUserId().toString());
         LoginVO loginVO=new LoginVO();

@@ -36,6 +36,12 @@ export default{
         applyStatus:{
             'Y':'Can Apply',
             'N':'Not Apply'
+        },
+        grantStatus:{
+            1:'Not Effective',
+            2:'Normal',
+            3:'About To Expire',
+            4:'Expired'
         }
     }
 }

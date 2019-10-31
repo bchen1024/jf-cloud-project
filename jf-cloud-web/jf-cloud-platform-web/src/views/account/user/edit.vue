@@ -21,28 +21,28 @@
                     <Input v-model="data.email" :disabled="!isCreate && data.emailValidated=='Y'"/>
                 </FormItem>
                 <FormItem :label="$t('userSex')" label-position="top" prop="userSex">
-                    <RadioGroup v-model="data.userSex">
+                    <RadioGroup v-model="data.userSex" class="full-width">
                         <Radio  label="1">{{$t('type.userSex.1')}}</Radio>
                         <Radio  label="2">{{$t('type.userSex.2')}}</Radio>
                     </RadioGroup>
                 </FormItem>
                  <template v-if="isCreate">
                     <FormItem  :label="$t('userType')" label-position="top" prop="userType">
-                        <RadioGroup  v-model="data.userType">
+                        <RadioGroup  v-model="data.userType" class="full-width">
                             <Radio :disabled="!isCreate"  label="1">{{$t('type.userType.1')}}</Radio>
                             <Radio :disabled="!isCreate"  label="2">{{$t('type.userType.2')}}</Radio>
                         </RadioGroup>
                     </FormItem>
                     <template v-if="data.userType=='1'" >
                         <FormItem :label="$t('employeeType')" label-position="top" prop="employeeType">
-                            <RadioGroup v-model="data.employeeType">
+                            <RadioGroup v-model="data.employeeType" class="full-width">
                                 <Radio  label="1">{{$t('type.employeeType.1')}}</Radio>
                                 <Radio  label="2">{{$t('type.employeeType.2')}}</Radio>
                                 <Radio  label="3">{{$t('type.employeeType.3')}}</Radio>
                             </RadioGroup>
                         </FormItem>
                         <FormItem :label="$t('employeeStatus')" label-position="top" prop="employeeStatus">
-                            <RadioGroup v-model="data.employeeStatus">
+                            <RadioGroup v-model="data.employeeStatus" class="full-width">
                                 <Radio  label="1">{{$t('status.employeeStatus.1')}}</Radio>
                                 <Radio  label="2">{{$t('status.employeeStatus.2')}}</Radio>
                             </RadioGroup>
@@ -82,6 +82,9 @@
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ],
                     userType:[
+                        {required:true,message:vm.$t('validator.notEmpty')}
+                    ],
+                    userSex:[
                         {required:true,message:vm.$t('validator.notEmpty')}
                     ],
                     mobile:[

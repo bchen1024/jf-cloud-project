@@ -39,6 +39,9 @@ export default {
                         }},
                         {title:vm.$t('delete'),permissionCode:'app$delete',gridDelete:true},
                         {title:vm.$t('detail'),permissionCode:'app$single',gridDetail:true},
+                        {title:vm.$t('syncPermission'),permissionCode:'permission$sync',click:(params)=>{
+                            vm.syncPermission(params.row);
+                        }},
                         {title:vm.$t('appUsers'),permissionCode:'appUsers$page',gridDetail:{tabId:'appUsers'},show:(row)=>{
                             if(row.appType=='2'){
                                 return true;
@@ -50,15 +53,12 @@ export default {
                                 return true;
                             }
                             return false;
-                        }},
-                        {title:vm.$t('syncPermission'),permissionCode:'permission$sync',click:(params)=>{
-                            vm.syncPermission(params.row);
                         }}
                     ],
                     columns:[
                         {key:'appCode',width:180,condition:true},
                         {key:'appName',width:200,condition:true},
-                        {key:'appOwner',width:150,format:'user'},
+                        {key:'appOwner',width:150,format:'user',condition:{type:'userSelect'}},
                         {key:'appType',width:100,format:'type',condition:{
                             type:'radio',items:[
                                {value:'1',label:vm.$t('type.appType.1')},

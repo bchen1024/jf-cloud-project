@@ -36,6 +36,12 @@ export default{
         applyStatus:{
             'Y':'可申请',
             'N':'不可申请'
+        },
+        grantStatus:{
+            1:'未生效',
+            2:'正常',
+            3:'即将过期',
+            4:'已过期'
         }
     }
 }

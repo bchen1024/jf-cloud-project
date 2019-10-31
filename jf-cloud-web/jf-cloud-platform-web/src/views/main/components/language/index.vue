@@ -1,6 +1,6 @@
 <template>
     <Dropdown @on-click="selectLang" style="margin-left:12px;">
-        <img  :src="local.imgSrc" width="48" height="24" style="vertical-align: middle;"/>
+        <img  :src="local.imgSrc" width="48" height="24" style="vertical-align: middle;cursor: pointer;"/>
         <Icon :size="18" type="md-arrow-dropdown" />
       <DropdownMenu slot="list">
         <DropdownItem v-for="(value, key) in localList" :selected="key==lang" :name="key" :key="`lang-${key}`">

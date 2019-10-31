@@ -43,6 +43,9 @@ export default{
     groupOwner:'Group Owner',
     groupDesc:'Group Desc',
     createGroup:'Create Group',
+    groupUsers:'Group Users',
+    groupRoles:'Group Roles',
+    addRole:'Add Role',
 
     //员工相关
     employeeNo:'Employee No',

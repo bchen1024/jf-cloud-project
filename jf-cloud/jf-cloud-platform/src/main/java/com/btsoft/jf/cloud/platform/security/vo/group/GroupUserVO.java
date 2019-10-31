@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.vo.group;
 
-import com.btsoft.jf.cloud.core.base.vo.impl.BaseAppVO;
+import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -11,14 +11,15 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/30
  **/
-public class GroupUserVO extends BaseAppVO {
+public class GroupUserVO extends BaseVO {
 
+    private static final long serialVersionUID = 8736124919414377276L;
     private Long id;
     private Long groupId;
     private Long userId;
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "UTC+8")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "UTC+8")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     public Long getId() {

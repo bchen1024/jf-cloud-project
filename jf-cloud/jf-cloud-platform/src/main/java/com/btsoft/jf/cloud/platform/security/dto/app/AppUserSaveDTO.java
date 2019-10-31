@@ -1,7 +1,13 @@
 package com.btsoft.jf.cloud.platform.security.dto.app;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 应用用户保存DTO
@@ -10,9 +16,15 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class AppUserSaveDTO extends BaseDTO {
 
+    @NotNull
     private Long appId;
-    private Long userId;
+    @NotEmpty
+    private List<Long> userIds;
+    @NotNull
     private Long roleId;
+    @NotEmpty
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private List<Date> dateRange;
 
     public Long getAppId() {
         return appId;
@@ -22,12 +34,12 @@ public class AppUserSaveDTO extends BaseDTO {
         this.appId = appId;
     }
 
-    public Long getUserId() {
-        return userId;
+    public List<Long> getUserIds() {
+        return userIds;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserIds(List<Long> userIds) {
+        this.userIds = userIds;
     }
 
     public Long getRoleId() {
@@ -36,6 +48,14 @@ public class AppUserSaveDTO extends BaseDTO {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public List<Date> getDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(List<Date> dateRange) {
+        this.dateRange = dateRange;
     }
 
     @Override

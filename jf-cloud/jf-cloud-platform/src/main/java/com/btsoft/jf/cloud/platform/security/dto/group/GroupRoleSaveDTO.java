@@ -1,28 +1,23 @@
 package com.btsoft.jf.cloud.platform.security.dto.group;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
 /**
- * 群组用户保存DTO
+ * 群组角色保存DTO
  * @author jeo_cb
  * @date 2019/10/30
  **/
-public class GroupUserSaveDTO extends BaseDTO {
+public class GroupRoleSaveDTO extends BaseDTO {
 
     @NotNull
     private Long groupId;
     @NotEmpty
-    private List<Long> userIds;
-    @NotEmpty
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private List<Date> dateRange;
+    private List<Long> roleIds;
 
     public Long getGroupId() {
         return groupId;
@@ -32,20 +27,12 @@ public class GroupUserSaveDTO extends BaseDTO {
         this.groupId = groupId;
     }
 
-    public List<Long> getUserIds() {
-        return userIds;
+    public List<Long> getRoleIds() {
+        return roleIds;
     }
 
-    public void setUserIds(List<Long> userIds) {
-        this.userIds = userIds;
-    }
-
-    public List<Date> getDateRange() {
-        return dateRange;
-    }
-
-    public void setDateRange(List<Date> dateRange) {
-        this.dateRange = dateRange;
+    public void setRoleIds(List<Long> roleIds) {
+        this.roleIds = roleIds;
     }
 
     @Override

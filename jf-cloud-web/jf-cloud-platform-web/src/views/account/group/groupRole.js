@@ -1,0 +1,42 @@
+export default{
+    data(){
+        let vm=this,query=vm.$route.query,id=query.id;
+        return{
+            groupRolesId:'groupRoles',
+            groupRoleGrid:{
+                search:{
+                    url:'jfcloud/jf-cloud-platform/security/group/role/page',
+                    defaultParams:{groupId:id},
+                    autoLoad:vm.autoLoad('groupRoles'),
+                },
+                delete:{
+                    url:'jfcloud/jf-cloud-platform/security/group/role/delete'
+                },
+                table:{
+                    pkId:'id',
+                    buttons:[
+                        {title:vm.$t('delete'),gridDelete:true}
+                    ],
+                    permissionCode:'groupRoles$delete',
+                    logSetting:{module:'GroupRole'},
+                    showAuditUpdate:true,
+                    columns:[
+                        {key:'roleCode',width:150,condition:true},
+                        {key:'roleName',width:200,condition:true},
+                        {key:'roleDesc',condition:true}
+                    ]
+                }
+            },
+            showAddRole:false,
+            addRoleFormData:{groupId:id},
+        }
+    },
+    methods:{
+        loadGroupRoles(){
+            let groupRoleGrid=this.$refs.groupRoleGrid;
+            if(groupRoleGrid){
+                groupRoleGrid.search();
+            }
+        },
+    }
+}

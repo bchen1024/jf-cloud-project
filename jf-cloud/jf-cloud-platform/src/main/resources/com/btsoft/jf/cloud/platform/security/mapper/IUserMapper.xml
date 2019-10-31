@@ -22,6 +22,8 @@
 		<result column="password_update_time" property="passwordUpdateTime"/>
 		<result column="password_error_num" property="passwordErrorNum"/>
 		<result column="lock_time" property="lockTime"/>
+		<result column="user_sex" property="userSex"/>
+		<result column="user_photo" property="userPhoto"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -39,6 +41,8 @@
 		    T.PASSWORD_UPDATE_TIME,
 		    T.PASSWORD_ERROR_NUM,
 		    T.LOCK_TIME,
+			T.USER_SEX,
+			T.USER_PHOTO,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -89,6 +93,7 @@
 			EMAIL,
 		    PASSWORD,
 			USER_TYPE,
+			USER_SEX,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
@@ -99,6 +104,7 @@
 			#{vo.email,jdbcType=VARCHAR},
 			#{vo.password,jdbcType=VARCHAR},
 			#{vo.userType,jdbcType=VARCHAR},
+			#{vo.userSex,jdbcType=VARCHAR},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
@@ -135,6 +141,7 @@
 		UPDATE SYS_USER_T T SET
 			T.USER_CN=#{vo.userCn,jdbcType=VARCHAR},
 			T.USER_EN=#{vo.userEn,jdbcType=VARCHAR},
+			T.USER_SEX=#{vo.userSex,jdbcType=VARCHAR},
 			T.MOBILE=IF(T.MOBILE_VALIDATED='Y',T.MOBILE,#{vo.mobile,jdbcType=VARCHAR}),
 			T.EMAIL=IF(T.EMAIL_VALIDATED='Y',T.EMAIL,#{vo.email,jdbcType=VARCHAR}),
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
@@ -194,7 +201,8 @@
 			T.USER_STATUS,
 			T.PASSWORD_UPDATE_TIME,
 			T.PASSWORD_ERROR_NUM,
-			T.LOCK_TIME
+			T.LOCK_TIME,
+			T.USER_TYPE
 		FROM SYS_USER_T T
 		WHERE T.ENABLE_FLAG='Y'
 		AND (T.USER_NO=#{userAccount,jdbcType=VARCHAR} OR

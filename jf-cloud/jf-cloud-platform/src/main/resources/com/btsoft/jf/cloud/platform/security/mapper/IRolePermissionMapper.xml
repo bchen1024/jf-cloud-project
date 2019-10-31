@@ -45,10 +45,10 @@
 
 	<insert id="createMultiple">
 		INSERT INTO SYS_ROLE_PERMISSION_RT (
-		ROLE_ID,
-		PERMISSION_ID,
-		CREATE_BY,
-		LAST_UPDATE_BY
+			ROLE_ID,
+			PERMISSION_ID,
+			CREATE_BY,
+			LAST_UPDATE_BY
 		)
 		VALUES
 		<foreach collection="vo.list" item="item" separator=",">
@@ -70,4 +70,31 @@
 			</foreach>
 		</if>
 	</delete>
+
+	<insert id="grantAdminPermission">
+		WITH ADMIN_ROLE AS(
+			SELECT ROLE_ID FROM SYS_ROLE_T WHERE APP_CODE='jf-cloud-platform' AND ROLE_CODE='superAdmin' limit 1
+		)
+		INSERT INTO SYS_ROLE_PERMISSION_RT (
+			ROLE_ID,
+			PERMISSION_ID,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)
+		SELECT AR.ROLE_ID,
+		       T.PERMISSION_ID,
+		       #{userId,jdbcType=NUMERIC},
+		       #{userId,jdbcType=NUMERIC}
+			FROM SYS_PERMISSION_T T
+			INNER JOIN  ADMIN_ROLE AR
+		WHERE T.APP_CODE=#{appCode,jdbcType=VARCHAR}
+		  AND T.ENABLE_FLAG='Y'
+		  AND T.PERMISSION_TYPE='method'
+		  AND NOT EXISTS(
+			SELECT 1 FROM SYS_ROLE_PERMISSION_RT RP
+			WHERE RP.PERMISSION_ID=T.PERMISSION_ID
+		      AND RP.ROLE_ID=AR.ROLE_ID
+		      AND RP.ENABLE_FLAG='Y'
+		)
+	</insert>
 </mapper>

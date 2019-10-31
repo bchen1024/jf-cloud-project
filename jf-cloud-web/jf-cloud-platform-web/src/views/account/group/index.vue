@@ -43,6 +43,8 @@ export default {
                         }},
                         {title:vm.$t('delete'),permissionCode:'group$delete',gridDelete:true},
                         {title:vm.$t('detail'),permissionCode:'group$single',gridDetail:true},
+                        {title:vm.$t('groupUsers'),permissionCode:'groupUsers$page',gridDetail:{tabId:'groupUsers'}},
+                        {title:vm.$t('groupRoles'),permissionCode:'groupRoles$page',gridDetail:{tabId:'groupRoles'}},
                     ],
                     columns:[
                         {key:'groupCode',width:150,condition:true},

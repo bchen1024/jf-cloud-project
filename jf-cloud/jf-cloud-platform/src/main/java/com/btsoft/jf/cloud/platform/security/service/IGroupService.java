@@ -5,10 +5,8 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.group.*;
+import com.btsoft.jf.cloud.platform.security.vo.group.GroupRoleVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupVO;
 
@@ -81,5 +79,32 @@ public interface IGroupService {
      * @return 删除结果
      **/
     Result deleteGroupUser(BaseIdDTO dto);
+
+    /**
+     * 群组角色列表
+     * @author jeo_cb
+     * @date 2019/10/31
+     * @param dto 查询参数
+     * @return 群组角色列表
+     */
+    CommonResult<PageResult<GroupRoleVO>> findGroupRoleList(GroupRoleQueryDTO dto);
+
+    /**
+     * 添加群组角色
+     * @author jeo_cb
+     * @date 2019/10/30
+     * @param  dto 保存参数
+     * @return 保存结果
+     **/
+    Result addGroupRole(GroupRoleSaveDTO dto);
+
+    /**
+     * 删除群组角色
+     * @author jeo_cb
+     * @date 2019/10/30
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    Result deleteGroupRole(BaseIdDTO dto);
 
 }

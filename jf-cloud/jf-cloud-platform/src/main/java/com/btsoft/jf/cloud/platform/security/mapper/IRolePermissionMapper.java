@@ -22,4 +22,14 @@ public interface IRolePermissionMapper extends IBaseMapper<RolePermissionEntity>
      * @return 受影响行数
      */
     int deleteRolePermission(@Param("vo") RolePermissionSaveDTO dto);
+
+    /**
+     * 授权该应用新增权限给超级管理员
+     * @author jeo_cb
+     * @date 2019/10/31
+     * @param appCode 应用编码
+     * @param userId 当前用户id
+     * @return 受影响行数
+     */
+    int grantAdminPermission(@Param("appCode") String appCode,@Param("userId")Long userId);
 }

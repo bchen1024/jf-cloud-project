@@ -2,6 +2,7 @@ package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
+import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -11,11 +12,10 @@ import com.btsoft.jf.cloud.core.util.EntityUtils;
 import com.btsoft.jf.cloud.platform.security.dto.app.*;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
-import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper;
-import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
+import com.btsoft.jf.cloud.platform.security.service.IRoleService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
@@ -28,8 +28,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 /**
  * 应用Service实现类
@@ -46,16 +45,16 @@ public class AppServiceImpl implements IAppService {
     private IAppUserMapper appUserMapper;
 
     @Autowired
-    private IRoleMapper roleMapper;
+    private IRoleService roleService;
 
     @Override
     public Result saveApp(AppSaveDTO dto) {
-        AppEntity entity=new AppEntity();
-        BeanUtils.copyProperties(dto,entity);
-        int rows=0;
+        AppEntity entity=EntityUtils.dtoToEntity(AppEntity.class,dto);
+        int rows;
         if(dto.getAppId()!=null){
             rows=mapper.updateSingle(entity);
         }else{
+            entity.setAppToken(UUID.randomUUID().toString());
             rows=mapper.createSingle(entity);
         }
         return CommonResultUtils.result(rows, OperationTypeEnum.Save);
@@ -75,9 +74,7 @@ public class AppServiceImpl implements IAppService {
         AppEntity entity=new AppEntity();
         entity.setAppId(id);
         AppEntity appEntity=mapper.findSingle(entity);
-        AppVO vo=new AppVO();
-        BeanUtils.copyProperties(appEntity,vo);
-        return CommonResultUtils.success(vo);
+        return CommonResultUtils.result(AppVO.class,appEntity);
     }
 
     @Override
@@ -92,22 +89,9 @@ public class AppServiceImpl implements IAppService {
     public CommonResult<PageResult<AppUserVO>> findAppUserPage(AppUserQueryDTO dto) {
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         appUserMapper.findAppUserList(dto);
-        List<Long> roleIds=new ArrayList<>();
         CommonResult<PageResult<AppUserVO>> result=CommonResultUtils.pageResult(AppUserVO.class,page);
         if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
-            result.getData().getList().forEach(v->{
-                roleIds.add(v.getRoleId());
-            });
-        }
-        if(!CollectionUtils.isEmpty(roleIds)){
-            List<RoleEntity> roleList=roleMapper.findListByIds(roleIds);
-            Map<Long,RoleEntity> roleMap=roleList.stream().collect(Collectors.toMap(RoleEntity::getRoleId,p->p));
-            result.getData().getList().forEach(v->{
-                RoleEntity role=roleMap.get(v.getRoleId());
-                if(role!=null){
-                    v.setRoleName(role.getRoleName());
-                }
-            });
+            roleService.fillRoleName(result.getData().getList());
         }
         return result;
     }
@@ -122,10 +106,22 @@ public class AppServiceImpl implements IAppService {
 
     @Override
     public Result addAppUser(AppUserSaveDTO dto) {
-        AppUserEntity entity=new AppUserEntity();
-        BeanUtils.copyProperties(dto,entity);
-        int rows=appUserMapper.createSingle(entity);
-        return CommonResultUtils.result(rows, OperationTypeEnum.Save);
+        BatchEntity<AppUserEntity> batchEntity=new BatchEntity<>();
+        int rows = 0;
+        if(!CollectionUtils.isEmpty(dto.getUserIds())){
+            List<AppUserEntity> list=new ArrayList<>();
+            dto.getUserIds().forEach(userId->{
+                AppUserEntity entity=new AppUserEntity();
+                BeanUtils.copyProperties(dto,entity);
+                entity.setBeginDate(dto.getDateRange().get(0));
+                entity.setEndDate(dto.getDateRange().get(1));
+                entity.setUserId(userId);
+                list.add(entity);
+            });
+            batchEntity.setList(list);
+            rows=appUserMapper.createMultiple(batchEntity);
+        }
+        return CommonResultUtils.result(rows, OperationTypeEnum.Create);
     }
 
     @Override
