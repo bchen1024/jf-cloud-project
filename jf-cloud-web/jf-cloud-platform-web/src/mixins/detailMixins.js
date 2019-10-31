@@ -45,9 +45,12 @@ export default{
         getQuery(){
             return this.$route.query;
         },
-        autoLoad(){
+        autoLoad(id){
             let tabId=this.getQuery().tabId;
-            return (tabId==this.detailId || !tabId)
+            if(!tabId){
+                tabId=this.detailId;
+            }
+            return id==tabId;
         }
     }
 }

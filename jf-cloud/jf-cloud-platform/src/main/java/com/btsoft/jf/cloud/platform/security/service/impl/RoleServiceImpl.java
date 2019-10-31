@@ -122,7 +122,7 @@ public class RoleServiceImpl implements IRoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result saveRolePermission(RolePermissionSaveDTO dto) {
-        rolePermissionMapper.deleteRolePermission(dto);
+        int rows=rolePermissionMapper.deleteRolePermission(dto);
         if(!CollectionUtils.isEmpty(dto.getPermissionIds())){
             List<RolePermissionEntity> list=new ArrayList<>();
             dto.getPermissionIds().forEach(v->{
@@ -131,7 +131,7 @@ public class RoleServiceImpl implements IRoleService {
                 rolePermissionEntity.setPermissionId(v);
                 list.add(rolePermissionEntity);
             });
-            BatchEntity batchEntity=new BatchEntity();
+            BatchEntity<RolePermissionEntity> batchEntity=new BatchEntity<>();
             batchEntity.setList(list);
             rolePermissionMapper.createMultiple(batchEntity);
         }

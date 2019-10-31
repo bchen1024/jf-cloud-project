@@ -12,15 +12,12 @@ export default{
         formKey:{
             type:[String,Array],
             required:true
-        },
-        width:{
-            type:Number,
-            default:420
         }
     },
     data(){
         return {
             data:{},
+            width:480,
             title:this.$t('create'),
             loading:false,
             drawerShow: false,

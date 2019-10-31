@@ -26,7 +26,7 @@ export default {
                     url:'jfcloud/jf-cloud-platform/security/user/single'
                 },
                 editPermission:'user$save',
-                autoLoad:vm.autoLoad(),
+                autoLoad:vm.autoLoad(vm.detailId),
                 items:[
                     {cols:[
                         {key:'userId'},

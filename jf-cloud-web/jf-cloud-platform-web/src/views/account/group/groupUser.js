@@ -1,0 +1,43 @@
+export default{
+    data(){
+        let vm=this,query=vm.$route.query,id=query.id;
+        return{
+            groupUsersId:'groupUsers',
+            groupUserGrid:{
+                search:{
+                    url:'jfcloud/jf-cloud-platform/security/group/user/page',
+                    defaultParams:{groupId:id},
+                    autoLoad:vm.autoLoad('groupUsers'),
+                },
+                delete:{
+                    url:'jfcloud/jf-cloud-platform/security/group/user/delete'
+                },
+                table:{
+                    pkId:'id',
+                    buttons:[
+                        {title:vm.$t('delete'),gridDelete:true}
+                    ],
+                    permissionCode:'groupUsers$delete',
+                    logSetting:{module:'GroupUser'},
+                    showAuditCreate:true,
+                    showAuditUpdate:true,
+                    columns:[
+                        {key:'userId',format:'user',title:'userName',condition:{type:'string',key:'userName'}},
+                        {key:'beginDate',width:120},
+                        {key:'endDate',width:120}
+                    ]
+                }
+            },
+            showAddUser:false,
+            addUserFormData:{appId:id},
+        }
+    },
+    methods:{
+        loadGroupUsers(){
+            let groupUserGrid=this.$refs.groupUserGrid;
+            if(groupUserGrid){
+                groupUserGrid.search();
+            }
+        },
+    }
+}
