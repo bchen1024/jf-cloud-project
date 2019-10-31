@@ -8,6 +8,8 @@ import com.btsoft.jf.cloud.core.constant.ErrorCodeConstants;
 import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.github.pagehelper.Page;
 
+import java.util.List;
+
 /**
  * 通用结果工具类
  * @author jeo_cb
@@ -47,6 +49,10 @@ public class CommonResultUtils {
 
     public static <T> CommonResult<T> result(Class<T> clazz,Object obj){
         return success(JSON.parseObject(JSON.toJSONString(obj),clazz));
+    }
+
+    public static <T> CommonResult<List<T>> resultList(Class<T> clazz, Object obj){
+        return success(JSON.parseArray(JSON.toJSONString(obj),clazz));
     }
 
     public static Result fail(String code,Throwable e){

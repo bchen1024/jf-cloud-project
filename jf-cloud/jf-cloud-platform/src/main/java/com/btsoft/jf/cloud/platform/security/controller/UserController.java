@@ -10,6 +10,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerContants;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSelectQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.service.IUserService;
 import com.btsoft.jf.cloud.platform.security.vo.user.UserBaseVO;
@@ -135,14 +136,14 @@ public class UserController {
     }
 
     /**
-     * 获取用当前登录信息
+     * 用户选择
      * @author jeo_cb
      * @date 2019/10/4
-     * @return 获取用户当前信息
+     * @return 用户列表
      **/
-    @GetMapping("/list/search")
+    @PostMapping("/select")
     @ApiOperation("根据用户名称搜索用户")
-    public CommonResult<List<UserBaseVO>> findUserListByName(String keyword){
-        return null;
+    public CommonResult<List<UserBaseVO>> findSelectUserList(@RequestBody UserSelectQueryDTO dto){
+        return service.findSelectUserList(dto);
     }
 }

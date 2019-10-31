@@ -1,9 +1,12 @@
 package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSelectQueryDTO;
 import com.btsoft.jf.cloud.platform.security.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 账号mapper
@@ -75,4 +78,12 @@ public interface IUserMapper extends IBaseMapper<UserEntity> {
      * @return 受影响行数
      */
     int updateErrorNumAndStatus(@Param("vo") UserEntity entity);
+
+    /**
+     * 用户选择
+     * @author jeo_cb
+     * @date 2019/10/4
+     * @return 用户列表
+     **/
+    List<UserEntity> findSelectUserList(@Param("vo")  UserSelectQueryDTO dto);
 }

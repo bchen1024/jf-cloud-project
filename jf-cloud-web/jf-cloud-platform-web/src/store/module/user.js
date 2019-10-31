@@ -2,8 +2,8 @@ import Vue from 'vue';
 export default {
     state: {
       userInfo: null,
-      userCache:{
-      }
+      userCache:{},
+      userSelectInit:false
     },
     mutations:{
       setUserInfo(state,userInfo){

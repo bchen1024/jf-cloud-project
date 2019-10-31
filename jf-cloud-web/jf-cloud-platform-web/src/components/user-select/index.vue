@@ -2,15 +2,15 @@
     <Select
         :value="innerValue"
         icon="ios-search"
-        clearable filterable transfer :multiple="multiple"
-        @on-change="onChange">
+        clearable filterable transfer :multiple="multiple" :loading="loading" remote
+        @on-change="onChange" 
+        :remote-method="loadUserSelect">
         <Avatar slot="prefix" icon="ios-person" size="small"/>
         <Option v-for="user in userCacheList" :value="user.userId" :key="user.userId" :label="$util.getUserName(user)">
             <Avatar icon="ios-person" size="small"/>
             <span>{{$util.getUserName(user)}}</span>
             <span class="float-right margin-right-12 margin-top-4">{{user.userId}}</span>
         </Option>
-        <a>Select</a>
     </Select>
 </template>
 <script>
@@ -26,17 +26,29 @@ export default {
     },
     data(){
         return {
-           innerValue:this.value
+           innerValue:this.value,
+           loading:false,
+           userCacheList:this.$store.state.user.userCache || {}
         }
     },
-    computed:{
-        userCacheList(){
-            return this.$store.state.user.userCache || {}
+    created(){
+        if(!this.$store.state.user.userSelectInit){
+
         }
     },
     methods:{
         onChange(value){
             this.innerValue=value;
+        },
+        loadUserSelect(keyword){
+            let vm=this;
+            let data={keyword:keyword};
+            vm.loading=true;
+            vm.$http.post('jfcloud/jf-cloud-platform/security/user/select',data).then(result=>{
+                
+            }).catch(error=>{}).then(()=>{
+                vm.loading=false;
+            });
         }
     },
     watch: {

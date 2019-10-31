@@ -11,6 +11,7 @@ import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.auth.UpdatePasswordDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.user.UserSelectQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserStatusUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
@@ -232,5 +233,11 @@ public class UserServiceImpl implements IUserService {
         Long userId=JfCloud.getCurrent().getCurrentUserId();
 
         return CommonResultUtils.success();
+    }
+
+    @Override
+    public CommonResult<List<UserBaseVO>> findSelectUserList(UserSelectQueryDTO dto) {
+        List<UserEntity> userList=mapper.findSelectUserList(dto);
+        return CommonResultUtils.resultList(UserBaseVO.class,userList);
     }
 }
