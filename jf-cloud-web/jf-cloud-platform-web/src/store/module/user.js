@@ -32,7 +32,16 @@ export default {
             });
           }
         }
-        
+      },
+      setUserCache(state,userList){
+        if(userList && userList.length){
+          let userCache={};
+          userList.forEach(user => {
+            userCache[user.userId]=user;
+          });
+          state.userCache=Object.assign({},state.userCache,userCache);
+        }
+        state.userSelectInit=true;
       }
     },
     actions:{
@@ -41,6 +50,9 @@ export default {
       },
       loadUser({commit},userIds){
         commit('loadUser',userIds);
+      },
+      setUserCache({commit},userList){
+        commit('setUserCache',userList);
       }
     },
     getters: {

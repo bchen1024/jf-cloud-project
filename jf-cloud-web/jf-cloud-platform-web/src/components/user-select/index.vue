@@ -28,12 +28,17 @@ export default {
         return {
            innerValue:this.value,
            loading:false,
-           userCacheList:this.$store.state.user.userCache || {}
+           userSelect: null
+        }
+    },
+    computed:{
+        userCacheList(){
+            return this.userSelect || this.$store.state.user.userCache || {}
         }
     },
     created(){
         if(!this.$store.state.user.userSelectInit){
-
+            this.loadUserSelect();
         }
     },
     methods:{
@@ -42,13 +47,26 @@ export default {
         },
         loadUserSelect(keyword){
             let vm=this;
-            let data={keyword:keyword};
+            let data={};
+            vm.userSelect=null;
+            if(keyword){
+                data.keyword=keyword;
+            }
             vm.loading=true;
             vm.$http.post('jfcloud/jf-cloud-platform/security/user/select',data).then(result=>{
-                
+                let userList=result.data;
+                if(userList && userList.length){
+                    let userCache={};
+                    userList.forEach(user => {
+                        userCache[user.userId]=user;
+                    });
+                    vm.userSelect=userCache;
+                }
+                vm.$store.dispatch('setUserCache',userList);
             }).catch(error=>{}).then(()=>{
                 vm.loading=false;
             });
+            
         }
     },
     watch: {
