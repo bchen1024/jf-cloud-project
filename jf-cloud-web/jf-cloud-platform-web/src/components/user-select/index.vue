@@ -1,17 +1,18 @@
 <template>
-    <Select
-        :value="innerValue"
-        icon="ios-search"
-        clearable filterable transfer :multiple="multiple" :loading="loading" remote
-        @on-change="onChange" 
-        :remote-method="loadUserSelect">
-        <Avatar slot="prefix" icon="ios-person" size="small"/>
-        <Option v-for="user in userCacheList" :value="user.userId" :key="user.userId" :label="$util.getUserName(user)">
-            <Avatar icon="ios-person" size="small"/>
-            <span>{{$util.getUserName(user)}}</span>
-            <span class="float-right margin-right-12 margin-top-4">{{user.userId}}</span>
-        </Option>
-    </Select>
+    <div>
+        <Select
+            :value="innerValue"
+            icon="ios-search"
+            clearable filterable transfer :multiple="multiple"
+            @on-change="onChange">
+            <Avatar slot="prefix" icon="ios-person" size="small"/>
+            <Option v-for="user in userCacheList" :value="user.userId" :key="user.userId" :label="$util.getUserName(user)">
+                <Avatar icon="ios-person" size="small"/>
+                <span>{{$util.getUserName(user)}}</span>
+                <span class="float-right margin-right-12 margin-top-4">{{user.userId}}</span>
+            </Option>
+        </Select>
+    </div>
 </template>
 <script>
 export default {
@@ -26,45 +27,29 @@ export default {
     },
     data(){
         return {
-           innerValue:this.value,
-           loading:false,
-           userSelect: null
+           innerValue:this.value
         }
     },
     computed:{
         userCacheList(){
-            return this.userSelect || this.$store.state.user.userCache || {}
+            return this.$store.state.user.userCache || {}
         }
     },
     created(){
         if(!this.$store.state.user.userSelectInit){
             this.loadUserSelect();
+            this.$store.dispatch('setUserSelectInit',true);
         }
     },
     methods:{
         onChange(value){
             this.innerValue=value;
         },
-        loadUserSelect(keyword){
+        loadUserSelect(){
             let vm=this;
             let data={};
-            vm.userSelect=null;
-            if(keyword){
-                data.keyword=keyword;
-            }
-            vm.loading=true;
             vm.$http.post('jfcloud/jf-cloud-platform/security/user/select',data).then(result=>{
-                let userList=result.data;
-                if(userList && userList.length){
-                    let userCache={};
-                    userList.forEach(user => {
-                        userCache[user.userId]=user;
-                    });
-                    vm.userSelect=userCache;
-                }
-                vm.$store.dispatch('setUserCache',userList);
-            }).catch(error=>{}).then(()=>{
-                vm.loading=false;
+                vm.$store.dispatch('setUserCache',result.data);
             });
             
         }

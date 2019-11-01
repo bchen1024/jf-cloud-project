@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2019/9/7
  **/
 @Mapper
-public interface IAppMapper extends IBaseMapper<AppEntity> {
+public interface IAppMapper extends IBaseMapper<AppEntity,Long> {
     
     /**
      * 更新应用Token

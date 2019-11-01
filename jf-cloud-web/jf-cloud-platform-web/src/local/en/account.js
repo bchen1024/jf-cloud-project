@@ -53,6 +53,8 @@ export default{
     employeeStatus:'Employee Status',
     employeeJob:'Employee Job',
     employeeSuperior:'Employee Superior',
+    entryDate:'Entry Date',
+    employeeOrg:'Employee Org',
 
     //权限相关
     method:'Method',

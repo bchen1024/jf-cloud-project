@@ -43,13 +43,13 @@ export default {
                             vm.syncPermission(params.row);
                         }},
                         {title:vm.$t('appUsers'),permissionCode:'appUsers$page',gridDetail:{tabId:'appUsers'},show:(row)=>{
-                            if(row.appType=='2'){
+                            if(row.appType==2){
                                 return true;
                             }
                             return false;
                         }},
                         {title:vm.$t('appToken'),permissionCode:'appToken$single',gridDetail:{tabId:'appToken'},show:(row)=>{
-                            if(row.appType=='2'){
+                            if(row.appType==2){
                                 return true;
                             }
                             return false;
@@ -61,8 +61,8 @@ export default {
                         {key:'appOwner',width:150,format:'user',condition:{type:'userSelect'}},
                         {key:'appType',width:100,format:'type',condition:{
                             type:'radio',items:[
-                               {value:'1',label:vm.$t('type.appType.1')},
-                               {value:'2',label:vm.$t('type.appType.2')}
+                               {value:1,label:vm.$t('type.appType.1')},
+                               {value:2,label:vm.$t('type.appType.2')}
                             ]
                         }},
                         {key:'contextPath',width:150},

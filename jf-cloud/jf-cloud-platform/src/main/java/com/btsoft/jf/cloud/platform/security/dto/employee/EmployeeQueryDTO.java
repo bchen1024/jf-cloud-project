@@ -9,22 +9,23 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @date 2019/10/5
  **/
 public class EmployeeQueryDTO extends SearchKeywordDTO {
-    private String employeeType;
-    private String employeeStatus;
+    private static final long serialVersionUID = -1940683593413861277L;
+    private Integer employeeType;
+    private Integer employeeStatus;
 
-    public String getEmployeeType() {
+    public Integer getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(Integer employeeType) {
         this.employeeType = employeeType;
     }
 
-    public String getEmployeeStatus() {
+    public Integer getEmployeeStatus() {
         return employeeStatus;
     }
 
-    public void setEmployeeStatus(String employeeStatus) {
+    public void setEmployeeStatus(Integer employeeStatus) {
         this.employeeStatus = employeeStatus;
     }
 

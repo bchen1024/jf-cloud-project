@@ -4,4 +4,5 @@ export default{
     orgEn:'Org En',
     orgParent:'Org Parent',
     orgDesc:'Org Desc',
+    addOrganization:'Add Organization'
 }

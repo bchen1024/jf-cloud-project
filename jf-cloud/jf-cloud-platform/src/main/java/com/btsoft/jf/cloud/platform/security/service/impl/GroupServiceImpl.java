@@ -1,6 +1,5 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
@@ -73,9 +72,7 @@ public class GroupServiceImpl implements IGroupService {
      **/
     @Override
     public CommonResult<GroupVO> findGroup(Long id) {
-        GroupEntity entity=new GroupEntity();
-        entity.setGroupId(id);
-        GroupEntity groupEntity=mapper.findSingle(entity);
+        GroupEntity groupEntity=mapper.findSingleById(id);
         return CommonResultUtils.result(GroupVO.class,groupEntity);
     }
 
@@ -107,11 +104,8 @@ public class GroupServiceImpl implements IGroupService {
      **/
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteGroup(BaseIdAppDTO dto) {
-        GroupEntity entity=new GroupEntity();
-        entity.setGroupId(dto.getId());
-        entity.setAppCode(dto.getAppCode());
-        int rows=mapper.deleteSingle(entity);
+    public Result deleteGroup(BaseIdDTO dto) {
+        int rows=mapper.deleteSingleById(dto.getId());
         //TODO 删除群组关联数据
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
@@ -145,9 +139,7 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Result deleteGroupUser(BaseIdDTO dto) {
-        GroupUserEntity entity=new GroupUserEntity();
-        entity.setId(dto.getId());
-        int rows=groupUserMapper.deleteSingle(entity);
+        int rows=groupUserMapper.deleteSingleById(dto.getId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
@@ -182,9 +174,7 @@ public class GroupServiceImpl implements IGroupService {
 
     @Override
     public Result deleteGroupRole(BaseIdDTO dto) {
-        GroupRoleEntity entity=new GroupRoleEntity();
-        entity.setId(dto.getId());
-        int rows=groupRoleMapper.deleteSingle(entity);
+        int rows=groupRoleMapper.deleteSingleById(dto.getId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 }

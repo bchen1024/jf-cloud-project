@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.service.impl;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
@@ -21,7 +21,6 @@ import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,9 +53,8 @@ public class RoleServiceImpl implements IRoleService {
      **/
     @Override
     public Result saveRole(RoleSaveDTO dto) {
-        RoleEntity entity=new RoleEntity();
-        BeanUtils.copyProperties(dto,entity);
-        int rows=0;
+        RoleEntity entity=EntityUtils.dtoToEntity(RoleEntity.class,dto);
+        int rows;
         if(dto.getRoleId()!=null){
             rows=mapper.updateSingle(entity);
         }else{
@@ -74,11 +72,8 @@ public class RoleServiceImpl implements IRoleService {
      **/
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Result deleteRole(BaseIdAppDTO dto) {
-        RoleEntity entity=new RoleEntity();
-        entity.setRoleId(dto.getId());
-        entity.setAppCode(dto.getAppCode());
-        int rows=mapper.deleteSingle(entity);
+    public Result deleteRole(BaseIdDTO dto) {
+        int rows=mapper.deleteSingleById(dto.getId());
         //TODO 删除角色关联数据
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
@@ -92,12 +87,8 @@ public class RoleServiceImpl implements IRoleService {
      **/
     @Override
     public CommonResult<RoleVO> findRole(Long id) {
-        RoleEntity entity=new RoleEntity();
-        entity.setRoleId(id);
-        RoleEntity roleEntity=mapper.findSingle(entity);
-        RoleVO roleVO=new RoleVO();
-        BeanUtils.copyProperties(roleEntity,roleVO);
-        return CommonResultUtils.success(roleVO);
+        RoleEntity roleEntity=mapper.findSingleById(id);
+        return CommonResultUtils.result(RoleVO.class,roleEntity);
     }
 
     /**
@@ -136,9 +127,10 @@ public class RoleServiceImpl implements IRoleService {
             });
             BatchEntity<RolePermissionEntity> batchEntity=new BatchEntity<>();
             batchEntity.setList(list);
-            rolePermissionMapper.createMultiple(batchEntity);
+            int count=rolePermissionMapper.createMultiple(batchEntity);
+            rows+=count;
         }
-        return CommonResultUtils.success(OperationTypeEnum.Save);
+        return CommonResultUtils.result(rows,OperationTypeEnum.Save);
     }
 
     @Override

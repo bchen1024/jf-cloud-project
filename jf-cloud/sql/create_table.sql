@@ -36,35 +36,23 @@ CREATE TABLE `sys_user_detail_t` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户详情表';
 
-CREATE TABLE `sys_app_user_rt` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
-  `app_id` bigint(20) NOT NULL COMMENT '应用id',
-  `role_id` bigint(20) NOT NULL COMMENT '角色id',
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `enable_flag` char(1) NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
-  `create_by` int(20) NOT NULL COMMENT '创建人',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `last_update_by` int(20) NOT NULL COMMENT '最后更新人',
-  `last_update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_app_user` (`app_id`,`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='应用用户关系表';
 
 CREATE TABLE `sys_employee_t` (
-  `user_id` bigint(20) NOT NULL COMMENT '用户id',
-  `employee_no` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '员工工号',
-  `employee_type` char(1) NOT NULL COMMENT '员工类型，1：全职；2：兼职；3：试用',
-  `employee_status` char(1) NOT NULL COMMENT '员工状态，1：在职；2：离职',
-  `employee_job` bigint(20) DEFAULT NULL COMMENT '员工职位',
-  `parent_id` bigint(20) DEFAULT NULL COMMENT '直属上级',
+  `user_id` bigint(20) unsigned NOT NULL COMMENT '用户id',
+  `employee_no` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '员工工号',
+  `employee_type` int(1) NOT NULL COMMENT '员工类型，1：全职；2：兼职；3：试用',
+  `employee_status` int(1) NOT NULL COMMENT '员工状态，1：在职；2：离职',
+  `employee_job` int(10) DEFAULT NULL COMMENT '员工职位id',
+  `parent_id` bigint(20) DEFAULT NULL COMMENT '直属上级id',
+  `entry_date` date DEFAULT NULL COMMENT '入职时间',
   `enable_flag` char(1) NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
   `create_by` int(20) NOT NULL COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_update_by` int(20) NOT NULL COMMENT '最后更新人',
   `last_update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`user_id`),
-  UNIQUE KEY `employee_no_UNIQUE` (`employee_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8mb4 COMMENT='员工表';
+  UNIQUE KEY `uk_employee_no` (`employee_no`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='员工表';
 
 CREATE TABLE `sys_role_t` (
   `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
@@ -134,19 +122,35 @@ CREATE TABLE `sys_group_t` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '系统群组表';
 
 CREATE TABLE `sys_app_t` (
-  `app_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '应用id',
+  `app_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '应用id',
   `app_code` varchar(50) NOT NULL COMMENT '应用编码',
   `app_name` varchar(100) NOT NULL COMMENT '应用名称',
   `app_desc` varchar(500) DEFAULT NULL COMMENT '应用描述',
   `context_path` varchar(50) DEFAULT NULL COMMENT '应用上下文',
-  `app_owner` bigint(20) NOT NULL COMMENT '应用责任人',
-  `app_type` char(1) NOT NULL COMMENT '应用类型',
+  `app_owner` bigint(20) unsigned NOT NULL COMMENT '应用责任人',
+  `app_type` int(1) unsigned NOT NULL COMMENT '应用类型,1:系统应用；2:业务应用',
   `app_token` varchar(500) DEFAULT NULL COMMENT '应用静态token',
-  `enable_flag` char(1)  NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
+  `enable_flag` char(1) NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
   `create_by` bigint(20) NOT NULL COMMENT '创建人',
   `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `last_update_by` bigint(20) NOT NULL COMMENT '最后更新人',
   `last_update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
   PRIMARY KEY (`app_id`),
-  UNIQUE KEY `app_code_UNIQUE` (`app_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4  COMMENT='系统应用表';
+  UNIQUE KEY `uk_app_code` (`app_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统应用表';
+
+CREATE TABLE `sys_app_user_rt` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `app_id` bigint(20) unsigned NOT NULL COMMENT '应用id',
+  `role_id` bigint(20) NOT NULL COMMENT '角色id',
+  `user_id` bigint(20) unsigned NOT NULL COMMENT '用户id',
+  `begin_date` date NOT NULL COMMENT '开始时间',
+  `end_date` date NOT NULL COMMENT '结束时间',
+  `enable_flag` char(1) NOT NULL DEFAULT 'Y' COMMENT '有效标识，Y/N',
+  `create_by` int(20) NOT NULL COMMENT '创建人',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `last_update_by` int(20) NOT NULL COMMENT '最后更新人',
+  `last_update_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '最后更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_app_user` (`app_id`,`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='应用用户关系表'

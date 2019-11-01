@@ -7,7 +7,7 @@
                 :formData="formData"
                 @saveCallback="loadDetail()"/>
         </TabPane>
-        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!='1' && $util.checkPermission('appUsers$page',$store.state.permission.permissionList)" >
+        <TabPane :label="$t('appUsers')" name="appUsers" v-if="detailData.appType!=1 && $util.checkPermission('appUsers$page',$store.state.permission.permissionList)" >
             <JFGrid ref="appUserGrid" :gridOp="appUserGrid">
                 <template slot="grid-search-toolbar">
                     <Button icon="md-add" type="primary" @click="showAddUser=true" v-permission="'appUsers$create'">
@@ -20,7 +20,7 @@
                     @saveCallback="loadAppUsers"/>
             </JFGrid>
         </TabPane>
-        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!='1'  && $util.checkPermission('appToken$single',$store.state.permission.permissionList)">
+        <TabPane :label="$t('appToken')" name="appToken" v-if="detailData.appType!=1  && $util.checkPermission('appToken$single',$store.state.permission.permissionList)">
             <Form  :model="appData" :rules="appFormRules">
                 <Spin size="large" fix v-if="appTokenLoading"></Spin>
                 <FormItem :label="$t('appToken')" prop="appToken">

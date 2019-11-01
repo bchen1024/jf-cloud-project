@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019/10/2
  **/
 @Mapper
-public interface IOrganizationMapper extends IBaseMapper<OrganizationEntity> {
+public interface IOrganizationMapper extends IBaseMapper<OrganizationEntity,Long> {
 }

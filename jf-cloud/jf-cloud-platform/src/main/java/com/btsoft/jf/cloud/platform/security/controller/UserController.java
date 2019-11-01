@@ -7,7 +7,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.user.UserSelectQueryDTO;
@@ -46,8 +46,8 @@ public class UserController {
      * @return 分页列表
      **/
     @ApiOperation("分页查询账号")
-    @PostMapping(ControllerContants.Path.PAGE)
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
+    @PostMapping(ControllerConstants.Path.PAGE)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
     public CommonResult<PageResult<UserVO>> findRolePage(@RequestBody UserQueryDTO dto){
         return service.findUserPage(dto);
     }
@@ -60,8 +60,8 @@ public class UserController {
      * @return 用户信息
      **/
     @ApiOperation("用户详情")
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "用户详情", descEN = "User Detail",sort = 20)
+    @GetMapping(ControllerConstants.Path.SINGLE)
+    @JOperator(code = ControllerConstants.Operator.SINGLE, descCN = "用户详情", descEN = "User Detail",sort = 20)
     public CommonResult<UserVO> findUser(Long id){
         return service.findUser(id);
     }
@@ -75,8 +75,8 @@ public class UserController {
      **/
     @JAuditLog
     @ApiOperation("保存用户")
-    @PostMapping(ControllerContants.Path.SAVE)
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存用户", descEN = "Save User",sort = 30)
+    @PostMapping(ControllerConstants.Path.SAVE)
+    @JOperator(code = ControllerConstants.Operator.SAVE, descCN = "保存用户", descEN = "Save User",sort = 30)
     public Result saveUser(@RequestBody UserSaveDTO dto){
         return service.saveUser(dto);
     }

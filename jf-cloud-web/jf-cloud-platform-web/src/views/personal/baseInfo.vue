@@ -40,7 +40,11 @@ export default {
                         {key:'userType',type:'type'},
                         {key:'userStatus',type:'status'}
                     ]},
-                     {cols:[
+                    {cols:[
+                        {key:'userSex',type:'type'},
+                        {key:'passwordErrorNum'}
+                    ]},
+                    {cols:[
                         {key:'passwordUpdateTime'},
                         {key:'lockTime'}
                     ]},

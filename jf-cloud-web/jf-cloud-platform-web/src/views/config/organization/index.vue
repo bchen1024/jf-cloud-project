@@ -1,22 +1,28 @@
 <template>
-    <Layout :style="{height:'100%'}">
-        <Sider style="background:#ffffff;padding:4px;border-right: 1px solid #e8eaec;overflow: auto;width:auto;min-width:200px">
+    <Layout class="jf-layout-full">
+        <Sider class="jf-layout-sider" :width="280">
             <Spin size="large" fix v-if="loading"></Spin>
-            <Tree ref="organizationTree" :empty-text="$t('noOrganizationData')" :render="renderContent" :data="treeData" @on-select-change="onSelectChange"></Tree>
+            <Tree ref="organizationTree" :empty-text="$t('noOrganizationData')" 
+                :render="renderContent" :data="treeData" 
+                @on-select-change="onSelectChange"></Tree>
         </Sider>
-        <Content :style="{background: '#fff',padding:'12px'}">
-            <div style="margin-bottom: 12px;">
+        <Content class="jf-layout-content">
+            <div class="margin-bottom-12">
                 <Button icon="md-add" type="primary" @click="addOrganization()" v-permission="'organization$save'">
                     {{$t('addOrganization')}}
                 </Button>
-                <Button  icon="md-refresh" @click="loadOrganization()">
+                <Button  icon="md-refresh" :loading="loading" @click="loadOrganization()" v-permission="'organization$tree'">
                     {{$t('refresh')}}
                 </Button>
                 <Button type="error" icon="md-trash" @click="deleteOrganization()" v-permission="'organization$delete'" :disabled="!data.orgId">
                     {{$t('delete')}}
                 </Button>
+                <!--保存组织-->
+                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveOrganization()" class="float-right" >
+                    {{$t('save')}}
+                </Button>
             </div>
-            <Form ref='formOrganization' :model="data" :rules="formRules" label-position="top">
+            <Form ref='formOrganization' :model="data" :rules="formRules"  label-position="top">
                 <Row :gutter="32">
                     <Col :span="12">
                         <FormItem :label="$t('orgCn')" prop="orgCn">
@@ -29,24 +35,38 @@
                         </FormItem>
                     </Col>
                 </Row>
-                <Row :gutter="32">
-                    <Col :span="12">
-                        <FormItem :label="$t('orgParent')" prop="parentId">
-                            <Input v-model="data.parentId" />
-                        </FormItem>
-                    </Col>
-                    <Col :span="12">
-                        <FormItem :label="$t('orgDesc')" prop="orgDesc">
-                            <Input v-model="data.orgDesc" />
-                        </FormItem>
-                    </Col>
-                </Row>
-
-                <div style="text-align:right;" v-permission="'organization$save'">
-                    <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveOrganization()">
-                        {{$t('save')}}
-                    </Button>
-                </div>
+                <FormItem :label="$t('orgParent')" prop="parentId">
+                    <Cascader :data="treeData" v-model="data.parentId" change-on-select></Cascader>
+                </FormItem>
+                <FormItem :label="$t('orgDesc')" prop="orgDesc">
+                    <Input v-model="data.orgDesc" type="textarea" :rows="4" :maxlength="200" show-word-limit/>
+                </FormItem>
+                <template v-if="data.orgId">
+                    <Row :gutter="32">
+                        <Col :span="12">
+                            <FormItem :label="$t('createBy')" class="jf-detail-item">
+                                <JFUser :userId="data.createBy"/>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem :label="$t('createDate')" class="jf-detail-item">
+                                {{data.createDate}}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row :gutter="32">
+                        <Col :span="12">
+                            <FormItem :label="$t('lastUpdateBy')" class="jf-detail-item">
+                                <JFUser :userId="data.lastUpdateBy"/>
+                            </FormItem>
+                        </Col>
+                        <Col :span="12">
+                            <FormItem :label="$t('lastUpdateDate')" class="jf-detail-item">
+                                {{data.lastUpdateDate}}
+                            </FormItem>
+                        </Col>
+                    </Row>
+                </template>
             </Form>
         </Content>
     </Layout>
@@ -77,42 +97,33 @@ export default {
         loadOrganization(){
             let vm=this;
             vm.loading=true;
+            vm.data={};
             if(vm.$refs.formOrganization){
                 vm.$refs.formOrganization.resetFields();
             }
-            vm.$http({
-                method:'post',
-                url:'jfcloud/jf-cloud-platform/config/organization/tree',
-                data:{}
-            }).then(result=>{
-                vm.loading=false;
-                if(result && result.success){
-                    vm.treeData=result.data;
-                }
-                
-            }).catch(error=>{
+            vm.$http.post('jfcloud/jf-cloud-platform/config/organization/tree',{}).then(result=>{
+                vm.treeData=result.data;
+            }).catch(error=>{}).then(()=>{
                 vm.loading=false;
             });
         },
         onSelectChange(nodes){
             let vm=this;
             if(nodes && nodes.length>0){
-                vm.data=Object.assign({},nodes[0]);
-                if(vm.data.permissionType=='resources'){
-                    vm.$set(vm.formRules,'parentCode',[]);
-                }else{
-                    vm.$set(vm.formRules,'parentCode',[{required:true,message:vm.$t('validator.notEmpty')}]);
+                if(vm.$refs.formOrganization){
+                    vm.$refs.formOrganization.resetFields();
                 }
+                
+                vm.data=Object.assign({},nodes[0]);
+                let parentIds=nodes[0].__value;
+                console.info(parentIds);
+                let parentId=[];
+                (parentIds?parentIds.split(','):[]).forEach(val => {
+                    parentId.push(parseInt(val));
+                });
+                parentId.pop()
+                vm.$set(vm.data,'parentId',parentId);
                 vm.$util.dispatchUser(vm,vm.data);
-            }
-        },
-        onChange(value){
-            let vm=this;
-            if(value=='resources'){
-                vm.data.parentCode='';
-                vm.$set(vm.formRules,'parentCode',[]);
-            }else{
-                vm.$set(vm.formRules,'parentCode',[{required:true,message:vm.$t('validator.notEmpty')}]);
             }
         },
         addOrganization(){
@@ -146,26 +157,20 @@ export default {
             if(data.children && data.children.length>0){
                 icon='ios-folder-outline';
             }
-            let invalid=false;
-            if(data.enableFlag!='Y'){
-                invalid=true;
-            }
-            let dot=false;
-            if(data.createDate){
-                if(new Date()-new Date(data.createDate)<1000*3600)
-                dot=true;
-            }
             return h('span', [
                 h('Icon', {
-                    props: {
-                        type: icon,
-                        size:16
-                    },
-                    style: {
-                        marginRight: '8px'
-                    }
+                    props: {type: icon,size:16},
+                    style: {marginRight: '8px'}
                 }),
-                h('span',{class:'ivu-tree-title ' + (node.node.selected ?'ivu-tree-title-selected':'')}, data.title)
+                h('span',{class:'ivu-tree-title ' + (node.node.selected ?'ivu-tree-title-selected':''),
+                    on: {
+                        click: () => {
+                            if (!node.node.selected){
+                                this.$refs.organizationTree.handleSelect(node.nodeKey); //手动选择树节点
+                            } 
+                        }
+                    }
+                }, data.title)
             ]);
         },
         /**

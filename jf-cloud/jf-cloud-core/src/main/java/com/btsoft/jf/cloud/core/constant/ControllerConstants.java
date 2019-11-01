@@ -7,7 +7,7 @@ package com.btsoft.jf.cloud.core.constant;
  * @author bchen
  * 请求常量类
  */
-public interface ControllerContants {
+public interface ControllerConstants {
 	
 	public interface Path{
 		public final static String 	CREATE="/create";

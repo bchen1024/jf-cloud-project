@@ -1,7 +1,11 @@
 package com.btsoft.jf.cloud.platform.security.dto.employee;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.Date;
 
 /**
  * @author jeo_cb
@@ -10,11 +14,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class EmployeeUpdateDTO extends BaseDTO {
 
+    private static final long serialVersionUID = -3127396323173544017L;
     private Long userId;
-    private String employeeType;
-    private String employeeStatus;
+    private Integer employeeType;
+    private Integer employeeStatus;
     private Long employeeJob;
     private Long parentId;
+    @JsonFormat(pattern = DateFormatConstants.DATE)
+    private Date entryDate;
 
     public Long getUserId() {
         return userId;
@@ -24,19 +31,19 @@ public class EmployeeUpdateDTO extends BaseDTO {
         this.userId = userId;
     }
 
-    public String getEmployeeType() {
+    public Integer getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(Integer employeeType) {
         this.employeeType = employeeType;
     }
 
-    public String getEmployeeStatus() {
+    public Integer getEmployeeStatus() {
         return employeeStatus;
     }
 
-    public void setEmployeeStatus(String employeeStatus) {
+    public void setEmployeeStatus(Integer employeeStatus) {
         this.employeeStatus = employeeStatus;
     }
 
@@ -54,6 +61,14 @@ public class EmployeeUpdateDTO extends BaseDTO {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     @Override

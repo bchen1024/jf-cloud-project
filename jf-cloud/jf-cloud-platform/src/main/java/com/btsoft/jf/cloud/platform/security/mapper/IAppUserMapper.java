@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/3
  **/
 @Mapper
-public interface IAppUserMapper extends IBaseMapper<AppUserEntity> {
+public interface IAppUserMapper extends IBaseMapper<AppUserEntity,Long> {
 
     /**
      * 分页查询应用用户列表

@@ -3,11 +3,11 @@ package com.btsoft.jf.cloud.platform.security.controller;
 import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
@@ -41,9 +41,9 @@ public class RoleController {
      * @param  dto 查询参数
      * @return 角色分页列表
      **/
-    @PostMapping(ControllerContants.Path.PAGE)
+    @PostMapping(ControllerConstants.Path.PAGE)
     @ApiOperation("分页查询角色")
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "角色列表", descEN = "Role List",sort = 10)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "角色列表", descEN = "Role List",sort = 10)
     public CommonResult<PageResult<RoleVO>> findRolePage(@RequestBody RoleQueryDTO dto){
         return roleService.findRolePage(dto);
     }
@@ -56,8 +56,8 @@ public class RoleController {
      * @return 角色信息
      **/
     @ApiOperation("角色详情")
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "角色详情", descEN = "Role Detail",sort = 20)
+    @GetMapping(ControllerConstants.Path.SINGLE)
+    @JOperator(code = ControllerConstants.Operator.SINGLE, descCN = "角色详情", descEN = "Role Detail",sort = 20)
     public CommonResult<RoleVO> findRole(Long id){
         return roleService.findRole(id);
     }
@@ -71,8 +71,8 @@ public class RoleController {
      **/
     @JAuditLog
     @ApiOperation("保存角色，创建或者更新")
-    @PutMapping(ControllerContants.Path.SAVE)
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存角色", descEN = "Save Role",sort = 30)
+    @PutMapping(ControllerConstants.Path.SAVE)
+    @JOperator(code = ControllerConstants.Operator.SAVE, descCN = "保存角色", descEN = "Save Role",sort = 30)
     public Result saveRole(@RequestBody RoleSaveDTO dto){
         return roleService.saveRole(dto);
     }
@@ -86,9 +86,9 @@ public class RoleController {
      **/
     @JAuditLog
     @ApiOperation("删除角色")
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role",sort = 40)
-    public Result deleteRole(@RequestBody BaseIdAppDTO dto){
+    @DeleteMapping(ControllerConstants.Path.DELETE)
+    @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role",sort = 40)
+    public Result deleteRole(@RequestBody BaseIdDTO dto){
         return roleService.deleteRole(dto);
     }
 

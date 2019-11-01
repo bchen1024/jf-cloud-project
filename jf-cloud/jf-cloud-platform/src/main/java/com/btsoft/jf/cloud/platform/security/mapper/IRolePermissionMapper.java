@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2019/10/10 18:39
  **/
 @Mapper
-public interface IRolePermissionMapper extends IBaseMapper<RolePermissionEntity> {
+public interface IRolePermissionMapper extends IBaseMapper<RolePermissionEntity,Long> {
 
     /**
      * 删除已经去掉的配置
@@ -31,5 +31,5 @@ public interface IRolePermissionMapper extends IBaseMapper<RolePermissionEntity>
      * @param userId 当前用户id
      * @return 受影响行数
      */
-    int grantAdminPermission(@Param("appCode") String appCode,@Param("userId")Long userId);
+    int grantAdminPermission(@Param("appCode") String appCode,@Param("userId")Long userId,@Param("roleId")Long roleId);
 }

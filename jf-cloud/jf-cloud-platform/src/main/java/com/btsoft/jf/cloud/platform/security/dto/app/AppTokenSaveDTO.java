@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class AppTokenSaveDTO extends BaseDTO {
 
+    private static final long serialVersionUID = -2283456523426377678L;
     private Long appId;
     private String appToken;
 

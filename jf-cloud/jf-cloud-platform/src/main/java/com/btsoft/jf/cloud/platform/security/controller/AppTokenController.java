@@ -5,7 +5,7 @@ import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
@@ -36,8 +36,8 @@ public class AppTokenController {
      * @return 应用token
      **/
     @ApiOperation("获取应用Token")
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @JOperator(code =ControllerContants.Operator.SINGLE, descCN = "获取应用Token", descEN = "Get App Token",sort = 1)
+    @GetMapping(ControllerConstants.Path.SINGLE)
+    @JOperator(code = ControllerConstants.Operator.SINGLE, descCN = "获取应用Token", descEN = "Get App Token",sort = 1)
     public CommonResult<AppTokenVO> findAppToken(Long id){
         return service.findAppToken(id);
     }
@@ -51,8 +51,8 @@ public class AppTokenController {
      **/
     @JAuditLog
     @ApiOperation("保存应用Token")
-    @PostMapping(ControllerContants.Path.SAVE)
-    @JOperator(code =ControllerContants.Operator.SAVE, descCN = "保存应用Token", descEN = "Save App Token",sort = 2)
+    @PostMapping(ControllerConstants.Path.SAVE)
+    @JOperator(code = ControllerConstants.Operator.SAVE, descCN = "保存应用Token", descEN = "Save App Token",sort = 2)
     public Result saveAppToken(@RequestBody AppTokenSaveDTO dto){
         return service.saveAppToken(dto);
     }

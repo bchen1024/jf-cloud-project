@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/12 10:32
  **/
 @Mapper
-public interface IAuditLogMapper extends IBaseMapper<AuditLogEntity> {
+public interface IAuditLogMapper extends IBaseMapper<AuditLogEntity,Long> {
 
     /**
      * 分页查询审计日志

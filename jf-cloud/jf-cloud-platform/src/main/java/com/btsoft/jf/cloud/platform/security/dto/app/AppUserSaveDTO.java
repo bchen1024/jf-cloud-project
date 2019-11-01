@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.dto.app;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -16,6 +17,7 @@ import java.util.List;
  **/
 public class AppUserSaveDTO extends BaseDTO {
 
+    private static final long serialVersionUID = 3705004361703874301L;
     @NotNull
     private Long appId;
     @NotEmpty
@@ -23,7 +25,7 @@ public class AppUserSaveDTO extends BaseDTO {
     @NotNull
     private Long roleId;
     @NotEmpty
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private List<Date> dateRange;
 
     public Long getAppId() {

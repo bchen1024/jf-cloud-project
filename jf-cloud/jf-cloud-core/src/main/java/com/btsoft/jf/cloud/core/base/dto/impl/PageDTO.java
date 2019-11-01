@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class PageDTO implements IBasePage {
 
+    private static final long serialVersionUID = 2363325962004654322L;
     @ApiModelProperty("每页大小")
     private Integer pageSize;
     @ApiModelProperty("当前第几页")

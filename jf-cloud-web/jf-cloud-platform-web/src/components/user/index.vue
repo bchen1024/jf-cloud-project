@@ -16,6 +16,7 @@
                     {{displayName}}
                 </label>
                 <div slot="content">
+                    <div v-if="userId">{{$t('userId')}}:{{userId}}</div>
                     <div v-if="displayName">{{$t('userName')}}:{{displayName}}</div>
                     <div v-if="userStatus">{{$t('userStatus')}}:{{userStatus}}</div>
                     <div v-if="userSex">{{$t('userSex')}}:{{userSex}}</div>

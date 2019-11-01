@@ -1,6 +1,5 @@
 package com.btsoft.jf.cloud.platform.security.service;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
@@ -33,7 +32,7 @@ public interface IAppService {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    Result deleteApp(BaseIdAppDTO dto);
+    Result deleteApp(BaseIdDTO dto);
 
     /**
      * 根据应用id获取单个应用

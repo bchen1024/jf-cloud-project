@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/9/28
  **/
 @Mapper
-public interface IUserMapper extends IBaseMapper<UserEntity> {
+public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
 
     /**
      * 根据中文名获取同名用户数量

@@ -2,7 +2,7 @@ package com.btsoft.jf.cloud.platform.security.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
@@ -16,9 +16,11 @@ import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSyncDTO;
 import com.btsoft.jf.cloud.platform.security.entity.PermissionEntity;
+import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity;
 import com.btsoft.jf.cloud.platform.security.enums.PermissionQueryTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.IPermissionMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper;
 import com.btsoft.jf.cloud.platform.security.service.IPermissionService;
 import com.btsoft.jf.cloud.platform.security.vo.permission.PermissionVO;
@@ -48,6 +50,8 @@ public class PermissionServiceImpl implements IPermissionService {
     private RestTemplate restTemplate;
     @Autowired
     private IRolePermissionMapper rolePermissionMapper;
+    @Autowired
+    private IRoleMapper roleMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -67,21 +71,25 @@ public class PermissionServiceImpl implements IPermissionService {
                 new TypeReference<CommonResult<List<PermissionEntity>>>() {
                 });
         if(cr!=null && cr.getSuccess()){
-            int rows=0;
-            BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
-            batchEntity.setAppCode(dto.getAppCode());
             if(!CollectionUtils.isEmpty(cr.getData())) {
+                BatchEntity<PermissionEntity> batchEntity=new BatchEntity<>();
+                batchEntity.setAppCode(dto.getAppCode());
                 batchEntity.setList(cr.getData());
                 //批量插入权限点
-                rows=mapper.createMultiple(batchEntity);
+                int rows=mapper.createMultiple(batchEntity);
+
                 //失效已去掉注解的权限
                 mapper.inValidPermission(batchEntity);
+
+                //授权该应用新增权限给超级管理员
+                RoleEntity superAdminRole = roleMapper.findRoleByCode(JfCloud.getCurrentAppCode(),"superAdmin");
+                if(superAdminRole!=null){
+                    rolePermissionMapper.grantAdminPermission(dto.getAppCode(),batchEntity.getCurrentUserId(),superAdminRole.getRoleId());
+                }
+                return CommonResultUtils.result(rows,OperationTypeEnum.Sync);
             }
-            //授权该应用新增权限给超级管理员
-            rolePermissionMapper.grantAdminPermission(dto.getAppCode(),batchEntity.getCurrentUserId());
-            return CommonResultUtils.result(rows,OperationTypeEnum.Sync);
         }
-        return CommonResultUtils.success(OperationTypeEnum.Sync);
+        return CommonResultUtils.fail(OperationTypeEnum.Sync);
     }
 
     @Override
@@ -108,15 +116,14 @@ public class PermissionServiceImpl implements IPermissionService {
         List<PermissionVO> permissionList=list.stream().map(v->{
             PermissionVO vo=new PermissionVO();
             BeanUtils.copyProperties(v,vo);
+            vo.setValue(vo.getPermissionId());
             if(LanguageEnum.EN.getKey().equals(lang)){
                 vo.setTitle(vo.getPermissionDescEn());
             }else{
                 vo.setTitle(vo.getPermissionDescCn());
             }
-            if(permissionIds!=null){
-                if(permissionIds.contains(vo.getPermissionId())){
-                    vo.setChecked(true);
-                }
+            if(permissionIds.contains(vo.getPermissionId())){
+                vo.setChecked(true);
             }
             return vo;
         }).collect(Collectors.toList());
@@ -142,11 +149,9 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
-    public Result deletePermission(BaseIdAppDTO dto) {
-        PermissionEntity entity=new PermissionEntity();
-        entity.setAppCode(dto.getAppCode());
-        entity.setPermissionId(dto.getId());
-        int rows=mapper.deleteSingle(entity);
+    public Result deletePermission(BaseIdDTO dto) {
+        int rows=mapper.deleteSingleById(dto.getId());
+        //TODO 删除权限关系数据
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
@@ -154,6 +159,10 @@ public class PermissionServiceImpl implements IPermissionService {
         List<PermissionVO> children=all.stream().filter(v->parentCode.equals(v.getParentCode()))
                 .collect(Collectors.toList());
         item.setChildren(children);
+        if(item.getParentIds()==null){
+            item.setParentIds(new ArrayList<>());
+        }
+        item.getParentIds().add(parentCode);
         children.forEach(v->{
             recursePermission(all,v.getPermissionCode(),v);
         });

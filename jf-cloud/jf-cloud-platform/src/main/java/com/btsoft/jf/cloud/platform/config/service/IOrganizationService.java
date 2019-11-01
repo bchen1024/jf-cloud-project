@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.platform.config.service;
 
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.config.dto.organization.OrganizationQueryDTO;
@@ -32,4 +33,22 @@ public interface IOrganizationService {
      * @return 保存结果
      **/
     Result saveOrganization(OrganizationSaveDTO dto);
+
+    /**
+     * 组织架构详情
+     * @author jeo_cb
+     * @date 2019/11/1
+     * @param  id 组织架构id
+     * @return 组织架构信息
+     **/
+    CommonResult<OrganizationVO> findOrganization(Long id);
+
+    /**
+     * 删除组织架构
+     * @author jeo_cb
+     * @date 2019/11/1
+     * @param  dto 删除参数
+     * @return 删除结果
+     **/
+    Result deleteOrganization(BaseIdDTO dto);
 }

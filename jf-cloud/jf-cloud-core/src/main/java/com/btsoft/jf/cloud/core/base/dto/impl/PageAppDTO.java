@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class PageAppDTO extends PageDTO implements IBaseAppDTO {
 
+    private static final long serialVersionUID = -516979503693375594L;
     @ApiModelProperty("应用编码")
     private String appCode;
 

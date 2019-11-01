@@ -131,12 +131,8 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public CommonResult<UserVO> findUser(Long id) {
-        UserEntity entity=new UserEntity();
-        entity.setUserId(id);
-        UserEntity userEntity=mapper.findSingle(entity);
-        UserVO vo=new UserVO();
-        BeanUtils.copyProperties(userEntity,vo);
-        return CommonResultUtils.success(vo);
+        UserEntity userEntity=mapper.findSingleById(id);
+        return CommonResultUtils.result(UserVO.class,userEntity);
     }
 
     @Override

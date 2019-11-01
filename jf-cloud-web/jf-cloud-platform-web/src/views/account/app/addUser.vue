@@ -7,10 +7,10 @@
             :mask-closable="false"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('userName')" label-position="top" prop="userIds">
+                <FormItem :label="$t('userName')"   prop="userIds">
                     <JFUserSelect v-model="data.userIds" multiple/>
                 </FormItem>
-                <FormItem :label="$t('roleName')" label-position="top" prop="roleId">
+                <FormItem :label="$t('roleName')"   prop="roleId">
                     <Select v-model="data.roleId" clearable filterable>
                         <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                     </Select>

@@ -54,6 +54,8 @@ export default{
     employeeStatus:'员工状态',
     employeeJob:'员工职位',
     employeeSuperior:'员工上级',
+    entryDate:'入职时间',
+    employeeOrg:'员工部门',
 
     //权限相关
     method:'方法',

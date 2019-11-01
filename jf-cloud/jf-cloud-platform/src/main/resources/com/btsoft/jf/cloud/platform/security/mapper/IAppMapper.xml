@@ -51,13 +51,13 @@
 			<if test='vo.appOwner!=null'>
 				AND T.APP_OWNER = #{vo.appOwner,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.appType!=null and vo.appType!=""'>
-				AND T.APP_TYPE = #{vo.appType,jdbcType=VARCHAR}
+			<if test='vo.appType!=null'>
+				AND T.APP_TYPE = #{vo.appType,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
 
-	<insert id="createSingle">
+	<insert id="createSingle" useGeneratedKeys="true" keyProperty="appId" parameterType="com.btsoft.jf.cloud.platform.security.entity.AppEntity">
 		INSERT INTO SYS_APP_T (
 			APP_CODE,
 			APP_NAME,
@@ -75,20 +75,20 @@
 			#{vo.appDesc,jdbcType=VARCHAR},
 			#{vo.appToken,jdbcType=VARCHAR},
 			#{vo.contextPath,jdbcType=VARCHAR},
-			#{vo.appType,jdbcType=VARCHAR},
+			#{vo.appType,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
-    <select id="findSingle" resultMap="sqlResultMap">
+    <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
-        WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+        WHERE T.APP_ID=#{id,jdbcType=NUMERIC}
 		  AND T.ENABLE_FLAG='Y'
     </select>
 
-	<delete id="deleteSingle">
-		DELETE FROM SYS_APP_T WHERE APP_ID=#{vo.appId,jdbcType=NUMERIC}
+	<delete id="deleteSingleById">
+		DELETE FROM SYS_APP_T WHERE APP_ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<update id="updateSingle">
@@ -96,7 +96,7 @@
 			T.APP_NAME=#{vo.appName,jdbcType=VARCHAR},
 			T.APP_DESC=#{vo.appDesc,jdbcType=VARCHAR},
 			T.CONTEXT_PATH=#{vo.contextPath,jdbcType=VARCHAR},
-			T.APP_TYPE=#{vo.appType,jdbcType=VARCHAR},
+			T.APP_TYPE=#{vo.appType,jdbcType=NUMERIC},
 			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()

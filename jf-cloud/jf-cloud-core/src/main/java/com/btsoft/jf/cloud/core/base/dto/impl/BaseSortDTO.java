@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class BaseSortDTO implements IBaseSort {
 
+    private static final long serialVersionUID = 5219969906328759649L;
     private String field;
     private String sort;
 

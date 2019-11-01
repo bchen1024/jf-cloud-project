@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.dto.group;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -21,7 +22,7 @@ public class GroupUserSaveDTO extends BaseDTO {
     @NotEmpty
     private List<Long> userIds;
     @NotEmpty
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private List<Date> dateRange;
 
     public Long getGroupId() {

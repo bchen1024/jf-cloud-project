@@ -8,22 +8,22 @@
             :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('roleCode')" label-position="top" prop="roleCode">
+                <FormItem :label="$t('roleCode')"   prop="roleCode">
                     <Input v-model="data.roleCode" />
                 </FormItem>
-                <FormItem :label="$t('roleName')" label-position="top" prop="roleName">
+                <FormItem :label="$t('roleName')"   prop="roleName">
                     <Input v-model="data.roleName"/>
                 </FormItem>
-                <FormItem :label="$t('roleOwner')" label-position="top" prop="roleOwner">
+                <FormItem :label="$t('roleOwner')"   prop="roleOwner">
                     <JFUserSelect v-model="data.roleOwner"/>
                 </FormItem>
-                <FormItem :label="$t('applyStatus')" label-position="top" prop="applyStatus">
+                <FormItem :label="$t('applyStatus')"   prop="applyStatus">
                     <RadioGroup v-model="data.applyStatus" class="full-width">
                         <Radio  label="Y">{{$t('status.applyStatus.Y')}}</Radio>
                         <Radio  label="N">{{$t('status.applyStatus.N')}}</Radio>
                     </RadioGroup>
                 </FormItem>
-                <FormItem :label="$t('roleDesc')" label-position="top">
+                <FormItem :label="$t('roleDesc')"  >
                     <Input type="textarea" v-model="data.roleDesc" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>
             </Form>

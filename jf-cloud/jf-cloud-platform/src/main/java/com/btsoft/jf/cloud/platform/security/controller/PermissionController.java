@@ -3,10 +3,10 @@ package com.btsoft.jf.cloud.platform.security.controller;
 import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionSyncDTO;
@@ -42,8 +42,8 @@ public class PermissionController {
      **/
     @JAuditLog
     @ApiOperation("同步权限")
-    @PostMapping(ControllerContants.Path.SYNC)
-    @JOperator(code = ControllerContants.Operator.SYNC, descCN = "同步权限", descEN = "Sync Permission",sort = 10)
+    @PostMapping(ControllerConstants.Path.SYNC)
+    @JOperator(code = ControllerConstants.Operator.SYNC, descCN = "同步权限", descEN = "Sync Permission",sort = 10)
     public Result syncPermission(@RequestBody PermissionSyncDTO dto){
         return service.syncPermission(dto);
     }
@@ -56,8 +56,8 @@ public class PermissionController {
      * @return 权限树集合
      **/
     @ApiOperation("获取权限树")
-    @PostMapping(ControllerContants.Path.TREE)
-    @JOperator(code = ControllerContants.Operator.TREE, descCN = "权限点树", descEN = "Permission Tree",sort = 20)
+    @PostMapping(ControllerConstants.Path.TREE)
+    @JOperator(code = ControllerConstants.Operator.TREE, descCN = "权限点树", descEN = "Permission Tree",sort = 20)
     public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
         return service.findPermissionTree(dto);
     }
@@ -71,8 +71,8 @@ public class PermissionController {
      **/
     @JAuditLog
     @ApiOperation("保存权限")
-    @PutMapping(ControllerContants.Path.SAVE)
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存权限点", descEN = "Save Permission",sort = 30)
+    @PutMapping(ControllerConstants.Path.SAVE)
+    @JOperator(code = ControllerConstants.Operator.SAVE, descCN = "保存权限点", descEN = "Save Permission",sort = 30)
     public Result savePermission(@RequestBody PermissionSaveDTO dto){
         return service.savePermission(dto);
     }
@@ -86,9 +86,9 @@ public class PermissionController {
      **/
     @JAuditLog
     @ApiOperation("删除权限点")
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @JOperator(code = ControllerContants.Operator.DELETE, descCN = "删除权限点", descEN = "Delete Permission",sort = 40)
-    public Result deletePermission(@RequestBody BaseIdAppDTO dto){
+    @DeleteMapping(ControllerConstants.Path.DELETE)
+    @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除权限点", descEN = "Delete Permission",sort = 40)
+    public Result deletePermission(@RequestBody BaseIdDTO dto){
         return service.deletePermission(dto);
     }
 }

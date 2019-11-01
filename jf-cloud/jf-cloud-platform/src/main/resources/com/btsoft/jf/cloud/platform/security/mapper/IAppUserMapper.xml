@@ -48,7 +48,7 @@
 	</sql>
 
 	<insert id="createSingle">
-		REPLACE INTO SYS_APP_USER_RT (
+		INSERT IGNORE INTO SYS_APP_USER_RT (
 			APP_ID,
 			USER_ID,
 		    ROLE_ID,
@@ -90,8 +90,8 @@
 		</foreach>
 	</insert>
 
-	<delete id="deleteSingle">
-		DELETE FROM SYS_APP_USER_RT WHERE ID=#{vo.id,jdbcType=NUMERIC}
+	<delete id="deleteSingleById">
+		DELETE FROM SYS_APP_USER_RT WHERE ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<select id="findList" resultMap="sqlResultMap">

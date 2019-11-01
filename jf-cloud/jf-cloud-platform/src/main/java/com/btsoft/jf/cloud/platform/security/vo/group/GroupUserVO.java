@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.vo.group;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -17,9 +18,9 @@ public class GroupUserVO extends BaseVO {
     private Long id;
     private Long groupId;
     private Long userId;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date endDate;
 
     public Long getId() {

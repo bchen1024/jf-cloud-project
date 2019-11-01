@@ -11,13 +11,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class AppEntity extends BaseEntity {
 
+    private static final long serialVersionUID = -2211346575757618795L;
     private Long appId;
     private String appCode;
     private String appName;
     private String contextPath;
     private String appDesc;
     private Long appOwner;
-    private String appType;
+    private Integer appType;
     private String appToken;
 
     public Long getAppId() {
@@ -68,11 +69,11 @@ public class AppEntity extends BaseEntity {
         this.appOwner = appOwner;
     }
 
-    public String getAppType() {
+    public Integer getAppType() {
         return appType;
     }
 
-    public void setAppType(String appType) {
+    public void setAppType(Integer appType) {
         this.appType = appType;
     }
 

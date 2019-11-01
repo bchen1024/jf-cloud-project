@@ -2,7 +2,6 @@ package com.btsoft.jf.cloud.platform.security.mapper;
 
 import com.btsoft.jf.cloud.core.base.entity.impl.BatchEntity;
 import com.btsoft.jf.cloud.core.base.mapper.IBaseMapper;
-import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.entity.PermissionEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +14,7 @@ import java.util.List;
  * @date 2019/10/6
  **/
 @Mapper
-public interface IPermissionMapper  extends IBaseMapper<PermissionEntity> {
+public interface IPermissionMapper  extends IBaseMapper<PermissionEntity,Long> {
     
     /**
      * 根据角色获取该角色拥有的权限编码

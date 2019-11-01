@@ -1,7 +1,11 @@
 package com.btsoft.jf.cloud.platform.security.vo.employee;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.Date;
 
 /**
  * 员工VO
@@ -9,13 +13,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @date 2019/10/5
  **/
 public class EmployeeVO extends BaseVO {
+    private static final long serialVersionUID = -2676036672213134227L;
     private Long userId;
     private Long employeeNo;
-    private String employeeType;
-    private String employeeStatus;
+    private Integer employeeType;
+    private Integer employeeStatus;
     private Long employeeJob;
     private String employeeJobName;
     private Long parentId;
+    @JsonFormat(pattern = DateFormatConstants.DATE)
+    private Date entryDate;
+
 
     public Long getUserId() {
         return userId;
@@ -33,19 +41,19 @@ public class EmployeeVO extends BaseVO {
         this.employeeNo = employeeNo;
     }
 
-    public String getEmployeeType() {
+    public Integer getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(Integer employeeType) {
         this.employeeType = employeeType;
     }
 
-    public String getEmployeeStatus() {
+    public Integer getEmployeeStatus() {
         return employeeStatus;
     }
 
-    public void setEmployeeStatus(String employeeStatus) {
+    public void setEmployeeStatus(Integer employeeStatus) {
         this.employeeStatus = employeeStatus;
     }
 
@@ -71,6 +79,14 @@ public class EmployeeVO extends BaseVO {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     @Override

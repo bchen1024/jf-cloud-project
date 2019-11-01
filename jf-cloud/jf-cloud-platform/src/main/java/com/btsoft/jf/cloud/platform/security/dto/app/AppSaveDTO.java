@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class AppSaveDTO extends BaseDTO {
 
+    private static final long serialVersionUID = 1862600659076433630L;
     @ApiModelProperty("应用id,更新时非空")
     private Long appId;
     @ApiModelProperty("应用编码，不能重复")
@@ -24,7 +25,7 @@ public class AppSaveDTO extends BaseDTO {
     @ApiModelProperty("应用上下文")
     private String contextPath;
     @ApiModelProperty("应用类型")
-    private String appType;
+    private Integer appType;
 
     public Long getAppId() {
         return appId;
@@ -74,11 +75,11 @@ public class AppSaveDTO extends BaseDTO {
         this.contextPath = contextPath;
     }
 
-    public String getAppType() {
+    public Integer getAppType() {
         return appType;
     }
 
-    public void setAppType(String appType) {
+    public void setAppType(Integer appType) {
         this.appType = appType;
     }
 

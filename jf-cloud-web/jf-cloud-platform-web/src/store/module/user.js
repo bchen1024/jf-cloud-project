@@ -41,7 +41,10 @@ export default {
           });
           state.userCache=Object.assign({},state.userCache,userCache);
         }
-        state.userSelectInit=true;
+        
+      },
+      setUserSelectInit(state,initFlag){
+        state.userSelectInit=initFlag;
       }
     },
     actions:{
@@ -53,6 +56,9 @@ export default {
       },
       setUserCache({commit},userList){
         commit('setUserCache',userList);
+      },
+      setUserSelectInit({commit},initFlag){
+        commit('setUserSelectInit',initFlag);
       }
     },
     getters: {

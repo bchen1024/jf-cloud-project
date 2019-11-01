@@ -6,7 +6,7 @@ import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeUpdateDTO;
 import com.btsoft.jf.cloud.platform.security.service.IEmployeeService;
@@ -38,8 +38,8 @@ public class EmployeeController {
      * @return 员工列表
      **/
     @ApiOperation("分页查询员工")
-    @PostMapping(ControllerContants.Path.PAGE)
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "员工列表", descEN = "Employee List",sort = 10)
+    @PostMapping(ControllerConstants.Path.PAGE)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "员工列表", descEN = "Employee List",sort = 10)
     public CommonResult<PageResult<EmployeeVO>> findEmployeePage(@RequestBody EmployeeQueryDTO dto){
         return service.findEmployeePage(dto);
     }
@@ -52,8 +52,8 @@ public class EmployeeController {
      * @return 员工信息
      **/
     @ApiOperation("员工详情")
-    @GetMapping(ControllerContants.Path.SINGLE)
-    @JOperator(code = ControllerContants.Operator.SINGLE, descCN = "员工详情", descEN = "Employee Detail",sort = 20)
+    @GetMapping(ControllerConstants.Path.SINGLE)
+    @JOperator(code = ControllerConstants.Operator.SINGLE, descCN = "员工详情", descEN = "Employee Detail",sort = 20)
     public CommonResult<EmployeeVO> findEmployee(Long id){
         return service.findEmployee(id);
     }
@@ -67,8 +67,8 @@ public class EmployeeController {
      **/
     @JAuditLog
     @ApiOperation("编辑员工信息")
-    @PutMapping(ControllerContants.Path.UPDATE)
-    @JOperator(code = ControllerContants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee",sort = 30)
+    @PutMapping(ControllerConstants.Path.UPDATE)
+    @JOperator(code = ControllerConstants.Operator.UPDATE, descCN = "编辑员工", descEN = "Edit Employee",sort = 30)
     public Result updateEmployee(@RequestBody EmployeeUpdateDTO dto){
         return service.updateEmployee(dto);
     }

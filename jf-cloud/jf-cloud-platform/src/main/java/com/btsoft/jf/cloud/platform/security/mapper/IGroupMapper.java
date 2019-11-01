@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019/9/30 15:24
  **/
 @Mapper
-public interface IGroupMapper extends IBaseMapper<GroupEntity> {
+public interface IGroupMapper extends IBaseMapper<GroupEntity,Long> {
 }

@@ -7,7 +7,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupRoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupRoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IGroupService;
@@ -41,8 +41,8 @@ public class GroupRoleController {
      * @return 群组角色列表
      **/
     @ApiOperation("分页查询群组角色")
-    @PostMapping(ControllerContants.Path.PAGE)
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "角色列表", descEN = "Role List",sort = 10)
+    @PostMapping(ControllerConstants.Path.PAGE)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "角色列表", descEN = "Role List",sort = 10)
     public CommonResult<PageResult<GroupRoleVO>> findGroupRoleList(@RequestBody GroupRoleQueryDTO dto){
         return service.findGroupRoleList(dto);
     }
@@ -56,8 +56,8 @@ public class GroupRoleController {
      **/
     @JAuditLog
     @ApiOperation("添加角色")
-    @PostMapping(ControllerContants.Path.CREATE)
-    @JOperator(code =ControllerContants.Operator.CREATE, descCN = "添加角色", descEN = "Add Role",sort = 20)
+    @PostMapping(ControllerConstants.Path.CREATE)
+    @JOperator(code = ControllerConstants.Operator.CREATE, descCN = "添加角色", descEN = "Add Role",sort = 20)
     public Result addGroupRole(@Valid @RequestBody GroupRoleSaveDTO dto){
         return service.addGroupRole(dto);
     }
@@ -71,8 +71,8 @@ public class GroupRoleController {
      **/
     @JAuditLog
     @ApiOperation("删除角色")
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @JOperator(code =ControllerContants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role",sort = 30)
+    @DeleteMapping(ControllerConstants.Path.DELETE)
+    @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除角色", descEN = "Delete Role",sort = 30)
     public Result deleteGroupRole(@RequestBody BaseIdDTO dto){
         return service.deleteGroupRole(dto);
     }

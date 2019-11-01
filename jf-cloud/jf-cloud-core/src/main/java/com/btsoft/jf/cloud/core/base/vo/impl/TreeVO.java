@@ -12,13 +12,25 @@ import java.util.List;
  **/
 public class TreeVO<T> implements ITreeVO {
 
+    private Object value;
     private String title;
+    private String label;
     private Boolean expand;
     private Boolean disabled;
     private Boolean disableCheckbox;
     private Boolean selected;
     private Boolean checked;
     private List<T> children;
+    private List<Object> parentIds;
+
+    @Override
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
 
     @Override
     public String getTitle() {
@@ -27,6 +39,14 @@ public class TreeVO<T> implements ITreeVO {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLabel() {
+        return title;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override
@@ -96,6 +116,14 @@ public class TreeVO<T> implements ITreeVO {
 
     public void setChildren(List<T> children) {
         this.children = children;
+    }
+
+    public List<Object> getParentIds() {
+        return parentIds;
+    }
+
+    public void setParentIds(List<Object> parentIds) {
+        this.parentIds = parentIds;
     }
 
     @Override

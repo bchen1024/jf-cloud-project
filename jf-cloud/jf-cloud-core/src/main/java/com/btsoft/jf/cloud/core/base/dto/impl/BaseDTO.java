@@ -10,6 +10,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class BaseDTO implements IBaseDTO {
 
+    private static final long serialVersionUID = 6442518993727651867L;
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);

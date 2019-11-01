@@ -14,6 +14,10 @@
                 <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="saveRolePermission()" v-permission="'rolePermission$save'">
                     {{$t('save')}}
                 </Button>
+                 <!--同步权限-->
+                <Button icon="md-sync" :loading="syncLoading"  @click="syncPermission()" v-permission="'permission$sync'">
+                    {{$t('syncPermission')}}
+                </Button>
                 <Button  icon="md-refresh" @click="loadPermission()">
                     {{$t('refresh')}}
                 </Button>
@@ -59,7 +63,9 @@ export default {
 
             loading:false,
             saveLoading:false,
-            treeData:[]
+            treeData:[],
+
+            syncLoading:false
         }
     },
     created(){
@@ -134,6 +140,23 @@ export default {
                     vm.saveLoading=false;
                 });
             }
+        },
+        /**
+         * 同步权限
+         */
+        syncPermission(){
+            let vm=this;
+            vm.syncLoading=true;
+            let appInfo=vm.$store.state.app.appInfo;
+            vm.$http.post('jfcloud/jf-cloud-platform/security/permission/sync',{
+                appCode:appInfo.appCode,contextPath:appInfo.contextPath
+            },{
+                headers:{op:'sync'}
+            }).then(result=>{
+                vm.loadPermission();
+            }).catch(error=>{}).then(()=>{
+                vm.syncLoading=false;
+            });
         }
     }
 }

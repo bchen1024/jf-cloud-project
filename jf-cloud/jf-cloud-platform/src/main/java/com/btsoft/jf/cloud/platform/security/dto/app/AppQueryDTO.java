@@ -11,11 +11,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class AppQueryDTO extends SearchKeywordDTO {
 
+    private static final long serialVersionUID = -2068271289832949423L;
     @ApiModelProperty("应用责任人id")
     private Long appOwner;
 
     @ApiModelProperty("应用类型")
-    private String appType;
+    private Integer appType;
 
     public Long getAppOwner() {
         return appOwner;
@@ -25,11 +26,11 @@ public class AppQueryDTO extends SearchKeywordDTO {
         this.appOwner = appOwner;
     }
 
-    public String getAppType() {
+    public Integer getAppType() {
         return appType;
     }
 
-    public void setAppType(String appType) {
+    public void setAppType(Integer appType) {
         this.appType = appType;
     }
 

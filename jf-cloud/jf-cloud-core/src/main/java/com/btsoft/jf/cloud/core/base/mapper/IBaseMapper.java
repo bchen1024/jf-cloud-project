@@ -10,7 +10,7 @@ import java.util.List;
  * @author chenbin
  * @date 2018-10-14 11:08:23
  */
-public interface IBaseMapper<T> extends IBaseBatchMapper<T>{
+public interface IBaseMapper<T,ID> extends IBaseBatchMapper<T>{
 
 	/**
 	 * 插入单个对象
@@ -25,6 +25,13 @@ public interface IBaseMapper<T> extends IBaseBatchMapper<T>{
 	 * @return 返回单个对象
 	 */
 	T findSingle(@Param("vo") T t);
+
+	/**
+	 * 根据id查询单个对象
+	 * @param id 主键id
+	 * @return 返回单个对象
+	 */
+	T findSingleById(@Param("id")ID id);
 
 	/**
 	 * 更新单个对象
@@ -46,6 +53,13 @@ public interface IBaseMapper<T> extends IBaseBatchMapper<T>{
 	 * @return 返回受影响行数
 	 */
 	int deleteSingle(@Param("vo") T t);
+
+	/**
+	 * 根据id删除单个对象
+	 * @param id 主键id
+	 * @return 返回受影响行数
+	 */
+	int deleteSingleById(@Param("id") ID id);
 	
 	/**
 	 * 查询对象列表
@@ -61,6 +75,6 @@ public interface IBaseMapper<T> extends IBaseBatchMapper<T>{
 	 * @param  ids 主键id集合
 	 * @return 对象列表
 	 **/
-	List<T> findListByIds(Collection<? extends Long> ids);
+	List<T> findListByIds(Collection<ID> ids);
 
 }

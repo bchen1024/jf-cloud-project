@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/5
  **/
 @Mapper
-public interface IEmployeeMapper extends IBaseMapper<EmployeeEntity> {
+public interface IEmployeeMapper extends IBaseMapper<EmployeeEntity,Long> {
 
     /**
      * 员工列表查询

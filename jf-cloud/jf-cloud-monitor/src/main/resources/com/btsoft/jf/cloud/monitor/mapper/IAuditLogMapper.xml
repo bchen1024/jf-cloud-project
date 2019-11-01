@@ -37,7 +37,7 @@
 		<trim prefix="where" prefixOverrides="and || or">
 			AND T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
 			<if test='vo.logModule!=null and vo.logModule!=""'>
-				AND T.LOG_MODULE LIKE CONCAT('%',TRIM(#{vo.logModule,jdbcType=VARCHAR}),'%')
+				AND T.LOG_MODULE=#{vo.logModule,jdbcType=VARCHAR}
 			</if>
 			<if test='vo.logMessage!=null and vo.logMessage!=""'>
 				AND T.LOG_MESSAGE LIKE CONCAT('%',TRIM(#{vo.logMessage,jdbcType=VARCHAR}),'%')

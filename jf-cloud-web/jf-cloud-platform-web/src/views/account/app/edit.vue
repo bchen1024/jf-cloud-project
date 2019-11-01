@@ -8,25 +8,25 @@
             :styles="styles"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('appCode')" label-position="top" prop="appCode">
+                <FormItem :label="$t('appCode')" prop="appCode">
                     <Input v-model="data.appCode" :disabled="!isCreate"/>
                 </FormItem>
-                <FormItem :label="$t('appName')" label-position="top" prop="appName">
+                <FormItem :label="$t('appName')" prop="appName">
                     <Input v-model="data.appName"/>
                 </FormItem>
-                <FormItem :label="$t('appOwner')" label-position="top" prop="appOwner">
+                <FormItem :label="$t('appOwner')" prop="appOwner">
                     <JFUserSelect v-model="data.appOwner"/>
                 </FormItem>
-                <FormItem :label="$t('appType')" label-position="top" prop="appType">
+                <FormItem :label="$t('appType')" prop="appType">
                     <RadioGroup v-model="data.appType" class="full-width">
-                        <Radio  label="1">{{$t('type.appType.1')}}</Radio>
-                        <Radio  label="2">{{$t('type.appType.2')}}</Radio>
+                        <Radio  :label="1">{{$t('type.appType.1')}}</Radio>
+                        <Radio  :label="2">{{$t('type.appType.2')}}</Radio>
                     </RadioGroup>
                 </FormItem>
-                <FormItem :label="$t('contextPath')" label-position="top" prop="contextPath">
+                <FormItem :label="$t('contextPath')" prop="contextPath">
                     <Input v-model="data.contextPath"/>
                 </FormItem>
-                <FormItem :label="$t('appDesc')" label-position="top">
+                <FormItem :label="$t('appDesc')"  >
                     <Input type="textarea" v-model="data.appDesc" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>
             </Form>
@@ -43,7 +43,7 @@
         data () {
             let vm=this;
             return {
-                defaultValue:{appType:'1'},
+                defaultValue:{appType:1},
                 saveOp:{
                     url:'jfcloud/jf-cloud-platform/security/app/save'
                 },

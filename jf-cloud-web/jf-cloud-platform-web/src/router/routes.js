@@ -1,6 +1,15 @@
 import ParentView from '@/views/main/components/parent-view/index.vue'
 export default[
     {
+        path:'/error/badGateway',
+        name:'badGateway',
+        component:resolve =>require(['@/views/error/502.vue'],resolve),
+        meta:{
+            hideMenu:true,
+            noNeedLogin:true
+        }
+    },
+    {
         path: '/',
         name: 'main',
         redirect:'home',
@@ -15,15 +24,6 @@ export default[
                 component:resolve =>require(['@/views/error/401.vue'],resolve),
                 meta:{
                     hideMenu:true
-                }
-            },
-            {
-                path:'/error/badGateway',
-                name:'badGateway',
-                component:resolve =>require(['@/views/error/502.vue'],resolve),
-                meta:{
-                    hideMenu:true,
-                    noNeedLogin:true
                 }
             },
             {

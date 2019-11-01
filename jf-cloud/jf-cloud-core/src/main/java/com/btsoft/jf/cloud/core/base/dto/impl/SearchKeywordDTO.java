@@ -11,6 +11,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class SearchKeywordDTO extends PageDTO implements ISearchKeyword {
 
+    private static final long serialVersionUID = -2756512028900689662L;
     @ApiModelProperty("关键字字段")
     private String keywordField;
     @ApiModelProperty("关键字值")

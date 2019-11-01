@@ -9,6 +9,13 @@ import java.util.List;
  **/
 public interface ITreeVO<T> {
 
+    /**
+     * 值
+     * @author jeo_cb
+     * @date 2019/11/1
+     * @return 值
+     **/
+    Object getValue();
 
     /**
      * 标题

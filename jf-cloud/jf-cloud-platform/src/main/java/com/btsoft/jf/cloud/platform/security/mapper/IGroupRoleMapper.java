@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/31
  **/
 @Mapper
-public interface IGroupRoleMapper extends IBaseMapper<GroupRoleEntity> {
+public interface IGroupRoleMapper extends IBaseMapper<GroupRoleEntity,Long> {
 
     /**
      * 群组角色列表

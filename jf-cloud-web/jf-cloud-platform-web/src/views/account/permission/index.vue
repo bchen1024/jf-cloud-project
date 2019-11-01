@@ -25,7 +25,7 @@
                     {{$t('refresh')}}
                 </Button>
                 <!--添加权限-->
-                <Button icon="md-add" @click="addPermission()" v-permission="'permission$save'">
+                <Button icon="md-add" @click="addPermission()" v-permission="'permission$save'" :disabled="!data.permissionId">
                     {{$t('addPermission')}}
                 </Button>
                 <!--删除权限，只有失效的注解权限才能被删除-->
@@ -34,11 +34,13 @@
                     {{$t('delete')}}
                 </Button>
                 <!--保存权限-->
-                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="savePermission()" class="float-right">
+                <Button icon="md-checkmark" :loading="saveLoading" type="primary" @click="savePermission()" class="float-right" 
+                    v-if="!data.permissionId || (data.permissionSource!='annotation' && data.permissionId)" 
+                    >
                     {{$t('save')}}
                 </Button>
             </div>
-            <Form ref='formPermission' :model="data" :rules="formRules" label-position="top" :disabled="disabled">
+            <Form ref='formPermission' :model="data" :rules="formRules" label-position="top"  :disabled="disabled">
                 <Row :gutter="32">
                     <Col :span="12">
                         <FormItem :label="$t('permissionType')"  prop="permissionType">

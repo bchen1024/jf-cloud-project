@@ -10,5 +10,5 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019/10/7
  **/
 @Mapper
-public interface IEmployeeJobMapper extends IBaseMapper<EmployeeJobEntity> {
+public interface IEmployeeJobMapper extends IBaseMapper<EmployeeJobEntity,Long> {
 }

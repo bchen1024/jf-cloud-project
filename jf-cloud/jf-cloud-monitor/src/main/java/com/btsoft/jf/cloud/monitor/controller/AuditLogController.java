@@ -5,7 +5,7 @@ import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.monitor.dto.AuditLogCreateDTO;
 import com.btsoft.jf.cloud.monitor.dto.AuditLogQueryDTO;
 import com.btsoft.jf.cloud.monitor.service.IAuditLogService;
@@ -40,8 +40,8 @@ public class AuditLogController {
 	 * @return 查询结果
 	 **/
 	@ApiOperation("分页查询审计日志")
-	@PostMapping(ControllerContants.Path.PAGE)
-	@JOperator(code = ControllerContants.Operator.PAGE, descCN = "日志列表", descEN = "AuditLog List",sort = 10)
+	@PostMapping(ControllerConstants.Path.PAGE)
+	@JOperator(code = ControllerConstants.Operator.PAGE, descCN = "日志列表", descEN = "AuditLog List",sort = 10)
 	public CommonResult<PageResult<AuditLogVO>> findAuditLogPage(@RequestBody AuditLogQueryDTO dto){
 		return service.findAuditLogPage(dto);
 	}
@@ -54,7 +54,7 @@ public class AuditLogController {
 	 * @return 创建结果
 	 **/
 	@ApiOperation("创建审计日志")
-	@PostMapping(ControllerContants.Path.CREATE)
+	@PostMapping(ControllerConstants.Path.CREATE)
 	public Result createAuditLog(@RequestBody AuditLogCreateDTO dto) {
 		return service.createAuditLog(dto);
 	}

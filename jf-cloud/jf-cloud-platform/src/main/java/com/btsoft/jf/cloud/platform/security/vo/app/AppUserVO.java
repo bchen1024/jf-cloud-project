@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.platform.security.vo.app;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
 import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,9 +23,9 @@ public class AppUserVO extends BaseVO implements IRoleVO {
     private String roleCode;
     private String roleName;
     private String roleDesc;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date beginDate;
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date endDate;
 
     public Long getId() {

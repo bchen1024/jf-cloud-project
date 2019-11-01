@@ -7,7 +7,7 @@
             :mask-closable="false"
         >
             <Form :ref='formId' :model="data" :rules="formRules">
-                <FormItem :label="$t('roleName')" label-position="top" prop="roleIds">
+                <FormItem :label="$t('roleName')"   prop="roleIds">
                     <Select v-model="data.roleIds" clearable filterable multiple>
                         <Option v-for="item in roleList" :value="item.roleId" :key="item.roleId">{{ item.roleName }}</Option>
                     </Select>

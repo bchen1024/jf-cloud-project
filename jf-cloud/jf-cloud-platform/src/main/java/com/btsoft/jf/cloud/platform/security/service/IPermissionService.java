@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.service;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
@@ -51,5 +51,5 @@ public interface IPermissionService {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    Result deletePermission(BaseIdAppDTO dto);
+    Result deletePermission(BaseIdDTO dto);
 }

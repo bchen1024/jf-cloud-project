@@ -4,7 +4,7 @@ import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.permission.PermissionQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IPermissionService;
@@ -41,8 +41,8 @@ public class RolePermissionController {
      * @return 权限树
      */
     @ApiOperation("角色权限树")
-    @PostMapping(ControllerContants.Path.TREE)
-    @JOperator(code = ControllerContants.Operator.TREE, descCN = "角色权限树", descEN = "Role Permission Tree",sort = 10)
+    @PostMapping(ControllerConstants.Path.TREE)
+    @JOperator(code = ControllerConstants.Operator.TREE, descCN = "角色权限树", descEN = "Role Permission Tree",sort = 10)
     public CommonResult<List<PermissionVO>> findPermissionTree(@RequestBody PermissionQueryDTO dto){
         return permissionService.findPermissionTree(dto);
     }
@@ -55,8 +55,8 @@ public class RolePermissionController {
      * @return 保存结果
      */
     @ApiOperation("保存角色权限")
-    @PutMapping(ControllerContants.Path.SAVE)
-    @JOperator(code = ControllerContants.Operator.SAVE, descCN = "保存角色权限", descEN = "Save Role Permission",sort = 20)
+    @PutMapping(ControllerConstants.Path.SAVE)
+    @JOperator(code = ControllerConstants.Operator.SAVE, descCN = "保存角色权限", descEN = "Save Role Permission",sort = 20)
     public Result saveRolePermission(@RequestBody RolePermissionSaveDTO dto){
         return roleService.saveRolePermission(dto);
     }

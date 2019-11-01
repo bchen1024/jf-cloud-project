@@ -57,7 +57,7 @@ export default {
                 let parentCodes=[];
                 vm.loadResourcesCode(vm.treeData,parentCodes);
                 vm.parentCodes=parentCodes;
-            }).then(()=>{
+            }).catch(error=>{}).then(()=>{
                 vm.loading=false;
             });
         },

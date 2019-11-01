@@ -85,10 +85,14 @@
 		)
 	</insert>
 
-    <select id="findSingle" resultMap="sqlResultMap">
+    <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
-        WHERE T.PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC}
+        WHERE T.PERMISSION_ID=#{id,jdbcType=NUMERIC}
     </select>
+
+	<delete id="deleteSingleById">
+		DELETE FROM SYS_PERMISSION_T WHERE PERMISSION_ID=#{id,jdbcType=NUMERIC}
+	</delete>
 
 	<update id="updateSingle">
 		UPDATE SYS_PERMISSION_T T SET
@@ -174,14 +178,9 @@
 					#{item,jdbcType=NUMERIC}
 				</foreach>
 			)
-
 		</if>
 		<if test="roleIds==null or roleIds.isEmpty()">
 			AND 1=2
 		</if>
 	</select>
-
-	<delete id="deleteSingle">
-		DELETE FROM SYS_PERMISSION_T WHERE PERMISSION_ID=#{vo.permissionId,jdbcType=NUMERIC} AND APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
-	</delete>
 </mapper>

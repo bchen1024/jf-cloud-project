@@ -14,7 +14,7 @@ import java.util.List;
  * @date 2019/10/30
  **/
 @Mapper
-public interface IGroupUserMapper extends IBaseMapper<GroupUserEntity> {
+public interface IGroupUserMapper extends IBaseMapper<GroupUserEntity,Long> {
 
     /**
      * 查询群组用户列表

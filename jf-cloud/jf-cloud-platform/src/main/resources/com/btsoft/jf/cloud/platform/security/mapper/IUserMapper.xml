@@ -72,6 +72,9 @@
 			<if test='vo.userType!=null and vo.userType!=""'>
 				AND T.USER_TYPE=#{vo.userType,jdbcType=VARCHAR}
 			</if>
+			<if test='vo.userSex!=null and vo.userSex!=""'>
+				AND T.USER_SEX=#{vo.userSex,jdbcType=VARCHAR}
+			</if>
 			<if test='vo.userStatus!=null and vo.userStatus!=""'>
 				AND T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR}
 			</if>
@@ -110,9 +113,9 @@
 		)
 	</insert>
 
-    <select id="findSingle" resultMap="sqlResultMap">
+    <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
-        WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+        WHERE T.USER_ID=#{id,jdbcType=NUMERIC}
 		  AND T.ENABLE_FLAG='Y'
     </select>
 

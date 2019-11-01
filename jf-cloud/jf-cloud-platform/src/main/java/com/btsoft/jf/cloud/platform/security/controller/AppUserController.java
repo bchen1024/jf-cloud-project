@@ -7,7 +7,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
@@ -39,8 +39,8 @@ public class AppUserController {
      * @return 应用用户
      **/
     @ApiOperation("分页查询应用用户")
-    @PostMapping(ControllerContants.Path.PAGE)
-    @JOperator(code =ControllerContants.Operator.PAGE, descCN = "应用用户列表", descEN = "App User List",sort = 10)
+    @PostMapping(ControllerConstants.Path.PAGE)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "应用用户列表", descEN = "App User List",sort = 10)
     public CommonResult<PageResult<AppUserVO>> findAppUserPage(@RequestBody AppUserQueryDTO dto){
         return service.findAppUserPage(dto);
     }
@@ -54,8 +54,8 @@ public class AppUserController {
      **/
     @JAuditLog
     @ApiOperation("添加用户")
-    @PostMapping(ControllerContants.Path.CREATE)
-    @JOperator(code =ControllerContants.Operator.CREATE, descCN = "添加用户", descEN = "Add User",sort = 20)
+    @PostMapping(ControllerConstants.Path.CREATE)
+    @JOperator(code = ControllerConstants.Operator.CREATE, descCN = "添加用户", descEN = "Add User",sort = 20)
     public Result addAppUser(@RequestBody AppUserSaveDTO dto){
         return service.addAppUser(dto);
     }
@@ -69,8 +69,8 @@ public class AppUserController {
      **/
     @JAuditLog
     @ApiOperation("删除用户")
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @JOperator(code =ControllerContants.Operator.DELETE, descCN = "删除用户", descEN = "Delete User",sort = 30)
+    @DeleteMapping(ControllerConstants.Path.DELETE)
+    @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除用户", descEN = "Delete User",sort = 30)
     public Result deleteAppUser(@RequestBody BaseIdDTO dto){
         return service.deleteAppUser(dto);
     }

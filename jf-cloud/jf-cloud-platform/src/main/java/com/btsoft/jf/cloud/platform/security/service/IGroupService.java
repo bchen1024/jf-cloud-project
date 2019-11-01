@@ -1,6 +1,5 @@
 package com.btsoft.jf.cloud.platform.security.service;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdAppDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
@@ -51,7 +50,7 @@ public interface IGroupService {
      * @param  dto 删除参数
      * @return 删除结果
      **/
-    Result deleteGroup(BaseIdAppDTO dto);
+    Result deleteGroup(BaseIdDTO dto);
 
     /**
      * 查询群组用户列表

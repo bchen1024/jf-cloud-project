@@ -1,7 +1,11 @@
 package com.btsoft.jf.cloud.platform.security.dto.user;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.Date;
 
 /**
  * 用户创建DTO
@@ -20,10 +24,12 @@ public class UserSaveDTO extends BaseDTO {
 
     //region 员工信息
 
-    private String employeeType;
-    private String employeeStatus;
+    private Integer employeeType;
+    private Integer employeeStatus;
     private Long employeeJob;
     private Long parentId;
+    @JsonFormat(pattern = DateFormatConstants.DATE)
+    private Date entryDate;
 
     //endregion
 
@@ -84,19 +90,19 @@ public class UserSaveDTO extends BaseDTO {
         this.userSex = userSex;
     }
 
-    public String getEmployeeType() {
+    public Integer getEmployeeType() {
         return employeeType;
     }
 
-    public void setEmployeeType(String employeeType) {
+    public void setEmployeeType(Integer employeeType) {
         this.employeeType = employeeType;
     }
 
-    public String getEmployeeStatus() {
+    public Integer getEmployeeStatus() {
         return employeeStatus;
     }
 
-    public void setEmployeeStatus(String employeeStatus) {
+    public void setEmployeeStatus(Integer employeeStatus) {
         this.employeeStatus = employeeStatus;
     }
 
@@ -114,6 +120,14 @@ public class UserSaveDTO extends BaseDTO {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Date getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(Date entryDate) {
+        this.entryDate = entryDate;
     }
 
     @Override

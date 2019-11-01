@@ -59,14 +59,14 @@
 		)
 	</insert>
 
-    <select id="findSingle" resultMap="sqlResultMap">
+    <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
-        WHERE T.JOB_ID=#{vo.jobId,jdbcType=NUMERIC}
+        WHERE T.JOB_ID=#{id,jdbcType=NUMERIC}
 		  AND T.ENABLE_FLAG='Y'
     </select>
 
-	<delete id="deleteSingle">
-		DELETE FROM SYS_EMPLOYEE_JOB_T WHERE JOB_ID=#{vo.jobId,jdbcType=NUMERIC}
+	<delete id="deleteSingleById">
+		DELETE FROM SYS_EMPLOYEE_JOB_T WHERE JOB_ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<update id="updateSingle">

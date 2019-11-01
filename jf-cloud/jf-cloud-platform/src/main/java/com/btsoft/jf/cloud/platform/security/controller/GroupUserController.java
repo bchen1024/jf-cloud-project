@@ -7,7 +7,7 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.core.constant.ControllerContants;
+import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IGroupService;
@@ -41,8 +41,8 @@ public class GroupUserController {
      * @return 群组用户列表
      **/
     @ApiOperation("分页查询群组用户")
-    @PostMapping(ControllerContants.Path.PAGE)
-    @JOperator(code = ControllerContants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
+    @PostMapping(ControllerConstants.Path.PAGE)
+    @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
     public CommonResult<PageResult<GroupUserVO>> findGroupUserList(@RequestBody GroupUserQueryDTO dto){
         return service.findGroupUserList(dto);
     }
@@ -56,8 +56,8 @@ public class GroupUserController {
      **/
     @JAuditLog
     @ApiOperation("添加用户")
-    @PostMapping(ControllerContants.Path.CREATE)
-    @JOperator(code =ControllerContants.Operator.CREATE, descCN = "添加用户", descEN = "Add User",sort = 20)
+    @PostMapping(ControllerConstants.Path.CREATE)
+    @JOperator(code = ControllerConstants.Operator.CREATE, descCN = "添加用户", descEN = "Add User",sort = 20)
     public Result addGroupUser(@Valid @RequestBody GroupUserSaveDTO dto){
         return service.addGroupUser(dto);
     }
@@ -71,8 +71,8 @@ public class GroupUserController {
      **/
     @JAuditLog
     @ApiOperation("删除用户")
-    @DeleteMapping(ControllerContants.Path.DELETE)
-    @JOperator(code =ControllerContants.Operator.DELETE, descCN = "删除用户", descEN = "Delete User",sort = 30)
+    @DeleteMapping(ControllerConstants.Path.DELETE)
+    @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除用户", descEN = "Delete User",sort = 30)
     public Result deleteGroupUser(@RequestBody BaseIdDTO dto){
         return service.deleteGroupUser(dto);
     }

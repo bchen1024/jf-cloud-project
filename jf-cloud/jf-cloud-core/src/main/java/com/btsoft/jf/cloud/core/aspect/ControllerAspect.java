@@ -163,7 +163,10 @@ public class ControllerAspect {
      **/
     private void buildAuditLogMessage(Map<String, Object> log,Method targetMethod,JoinPoint joinPoint){
         JAuditLog ja = targetMethod.getAnnotation(JAuditLog.class);
-        String message=ja.message();
+        String message="";
+        if(ja!=null){
+            message=ja.message();
+        }
         if(StringUtils.isEmpty(message)){
             log.put("logMessage", JSON.toJSONString(joinPoint.getArgs()));
         }else{
