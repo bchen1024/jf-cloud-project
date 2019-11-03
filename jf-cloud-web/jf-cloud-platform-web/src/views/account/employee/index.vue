@@ -1,10 +1,17 @@
 <template>
-    <JFGrid :ref="gridId" :gridOp="gridOp">
-        <Edit slot="grid-drawer" :formId="formId" formKey="userId"
-            :visible.sync="showEdit" 
-            :formData="formData"
-            @saveCallback="gridSearch"/>
-    </JFGrid>
+    <Layout class="jf-layout-full">
+        <Sider class="jf-layout-sider" :width="200">
+            <JFOrgTree ref="orgTree"/>
+        </Sider>
+        <Content class="jf-layout-content">
+            <JFGrid :ref="gridId" :gridOp="gridOp">
+                <Edit slot="grid-drawer" :formId="formId" formKey="userId"
+                    :visible.sync="showEdit" 
+                    :formData="formData"
+                    @saveCallback="gridSearch"/>
+            </JFGrid>
+        </Content>
+    </Layout>
 </template>
 <script>
 import Edit from './edit.vue';
@@ -32,7 +39,6 @@ export default {
                         {title:vm.$t('detail'),gridDetail:true},
                     ],
                     columns:[
-                        {key:'userId',width:120},
                         {key:'userId',title:'userName',width:150,format:'user',condition:{type:'string',key:'userName'}},
                         {key:'employeeNo',width:130},
                         {key:'employeeType',width:140,format:'type',condition:{
@@ -48,10 +54,18 @@ export default {
                                {value:2,label:vm.$t('status.employeeStatus.2')}
                             ]
                         }},
-                        {key:'employeeJob',width:150},
                         {key:'entryDate',width:120},
-                        {key:'employeeOrg'},
-                        {key:'parentId',title:'employeeSuperior',width:180,format:'user'}
+                        {key:'employeeOrg',render: (h, params) => {
+                            if(params.row.employeeOrg){
+                                let org=vm.$store.state.cache.orgMap[params.row.employeeOrg];
+                                if(org){
+                                    return h('div',{},org.title);
+                                }
+                            }
+                            return '';
+                        }},
+                        {key:'employeeJob'},
+                        {key:'parentId',title:'employeeSuperior',width:140,format:'user'}
                     ]
                 }
             }

@@ -15,6 +15,7 @@
 		<result column="EMPLOYEE_JOB" property="employeeJob"/>
 		<result column="PARENT_ID" property="parentId"/>
 		<result column="ENTRY_DATE" property="entryDate"/>
+		<result column="EMPLOYEE_ORG" property="employeeOrg"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -26,6 +27,7 @@
 		    T.EMPLOYEE_JOB,
 		    T.PARENT_ID,
 			T.ENTRY_DATE,
+		    T.EMPLOYEE_ORG,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -43,6 +45,9 @@
 			<if test='vo.employeeStatus!=null'>
 				AND T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=NUMERIC}
 			</if>
+			<if test='vo.employeeOrg!=null'>
+				AND T.EMPLOYEE_ORG=#{vo.employeeOrg,jdbcType=NUMERIC}
+			</if>
 		</trim>
 	</sql>
 
@@ -54,6 +59,7 @@
 			EMPLOYEE_JOB,
 		    PARENT_ID,
 			ENTRY_DATE,
+			EMPLOYEE_ORG,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
@@ -63,6 +69,7 @@
 			#{vo.employeeJob,jdbcType=NUMERIC},
 			#{vo.parentId,jdbcType=NUMERIC},
 			#{vo.entryDate},
+			#{vo.employeeOrg,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC},
 			#{vo.currentUserId,jdbcType=NUMERIC}
 		)
@@ -99,6 +106,7 @@
 			T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=NUMERIC},
 			T.EMPLOYEE_JOB=#{vo.employeeJob,jdbcType=NUMERIC},
 			T.PARENT_ID=#{vo.parentId,jdbcType=NUMERIC},
+			T.EMPLOYEE_ORG=#{vo.employeeOrg,jdbcType=NUMERIC},
 			T.ENTRY_DATE=#{vo.entryDate},
 			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()

@@ -4,6 +4,8 @@ import JFStatus from './status/index.vue';
 import JFType from './type/index.vue';
 import JFDetail from './detail/index.vue';
 import JFUserSelect from './user-select/index.vue';
+import JFOrgTree from './org-tree/index.vue';
+import JFOrgCascader from './org-cascader/index.vue';
 
 const jfviews={
     JFGrid,
@@ -11,7 +13,9 @@ const jfviews={
     JFStatus,
     JFType,
     JFDetail,
-    JFUserSelect
+    JFUserSelect,
+    JFOrgTree,
+    JFOrgCascader
 };
 
 const install=function(Vue){

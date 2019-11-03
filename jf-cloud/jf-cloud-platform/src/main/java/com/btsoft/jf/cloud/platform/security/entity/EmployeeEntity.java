@@ -20,6 +20,7 @@ public class EmployeeEntity extends BaseEntity {
     private Long employeeJob;
     private Long parentId;
     private Date entryDate;
+    private Long employeeOrg;
 
     public Long getUserId() {
         return userId;
@@ -75,6 +76,14 @@ public class EmployeeEntity extends BaseEntity {
 
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
+    }
+
+    public Long getEmployeeOrg() {
+        return employeeOrg;
+    }
+
+    public void setEmployeeOrg(Long employeeOrg) {
+        this.employeeOrg = employeeOrg;
     }
 
     @Override

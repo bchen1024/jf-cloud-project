@@ -30,7 +30,7 @@ public class UserSaveDTO extends BaseDTO {
     private Long parentId;
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date entryDate;
-
+    private Long employeeOrg;
     //endregion
 
 
@@ -128,6 +128,14 @@ public class UserSaveDTO extends BaseDTO {
 
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
+    }
+
+    public Long getEmployeeOrg() {
+        return employeeOrg;
+    }
+
+    public void setEmployeeOrg(Long employeeOrg) {
+        this.employeeOrg = employeeOrg;
     }
 
     @Override

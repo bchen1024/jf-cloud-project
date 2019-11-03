@@ -157,12 +157,16 @@ public class PermissionServiceImpl implements IPermissionService {
 
     private void recursePermission(List<PermissionVO> all,String parentCode,PermissionVO item){
         List<PermissionVO> children=all.stream().filter(v->parentCode.equals(v.getParentCode()))
-                .collect(Collectors.toList());
+                .peek(v->{
+                    if(v.getParentIds()==null){
+                        v.setParentIds(new ArrayList<>());
+                    }
+                    if(item.getParentIds()!=null){
+                        v.getParentIds().addAll(item.getParentIds());
+                    }
+                    v.getParentIds().add(parentCode);
+                }).collect(Collectors.toList());
         item.setChildren(children);
-        if(item.getParentIds()==null){
-            item.setParentIds(new ArrayList<>());
-        }
-        item.getParentIds().add(parentCode);
         children.forEach(v->{
             recursePermission(all,v.getPermissionCode(),v);
         });

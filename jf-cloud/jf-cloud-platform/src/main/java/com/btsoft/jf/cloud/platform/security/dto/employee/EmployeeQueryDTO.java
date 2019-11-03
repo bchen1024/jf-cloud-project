@@ -12,6 +12,7 @@ public class EmployeeQueryDTO extends SearchKeywordDTO {
     private static final long serialVersionUID = -1940683593413861277L;
     private Integer employeeType;
     private Integer employeeStatus;
+    private Long employeeOrg;
 
     public Integer getEmployeeType() {
         return employeeType;
@@ -27,6 +28,14 @@ public class EmployeeQueryDTO extends SearchKeywordDTO {
 
     public void setEmployeeStatus(Integer employeeStatus) {
         this.employeeStatus = employeeStatus;
+    }
+
+    public Long getEmployeeOrg() {
+        return employeeOrg;
+    }
+
+    public void setEmployeeOrg(Long employeeOrg) {
+        this.employeeOrg = employeeOrg;
     }
 
     @Override

@@ -53,6 +53,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
         List<OrganizationVO> result=organizationList.stream().filter(v-> v.getParentId()==null || v.getParentId()==0)
                 .collect(Collectors.toList());
         result.forEach(v->{
+            v.setExpand(true);
             recurseOrganization(organizationList,v.getOrgId(),v);
         });
         return CommonResultUtils.success(result);
@@ -85,12 +86,16 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     private void recurseOrganization(List<OrganizationVO> all, Long parentId, OrganizationVO item){
         List<OrganizationVO> children=all.stream().filter(v->parentId.equals(v.getParentId()))
-                .collect(Collectors.toList());
+                .peek(v->{
+                    if(v.getParentIds()==null){
+                        v.setParentIds(new ArrayList<>());
+                    }
+                    if(item.getParentIds()!=null){
+                        v.getParentIds().addAll(item.getParentIds());
+                    }
+                    v.getParentIds().add(parentId);
+                }).collect(Collectors.toList());
         item.setChildren(children);
-        if(item.getParentIds()==null){
-            item.setParentIds(new ArrayList<>());
-        }
-        item.getParentIds().add(item.getParentId());
         children.forEach(v->{
             recurseOrganization(all,v.getOrgId(),v);
         });

@@ -22,6 +22,7 @@ public class EmployeeUpdateDTO extends BaseDTO {
     private Long parentId;
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date entryDate;
+    private Long employeeOrg;
 
     public Long getUserId() {
         return userId;
@@ -69,6 +70,14 @@ public class EmployeeUpdateDTO extends BaseDTO {
 
     public void setEntryDate(Date entryDate) {
         this.entryDate = entryDate;
+    }
+
+    public Long getEmployeeOrg() {
+        return employeeOrg;
+    }
+
+    public void setEmployeeOrg(Long employeeOrg) {
+        this.employeeOrg = employeeOrg;
     }
 
     @Override

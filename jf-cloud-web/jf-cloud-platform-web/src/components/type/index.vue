@@ -6,7 +6,7 @@ export default {
     name:'JFType',
     props:{
         value:{
-            type:String
+            type:[String,Number]
         },
         type:{
             type:String,

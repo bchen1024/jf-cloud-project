@@ -20,6 +20,8 @@ public class EmployeeVO extends BaseVO {
     private Integer employeeStatus;
     private Long employeeJob;
     private String employeeJobName;
+    private Long employeeOrg;
+    private String employeeOrgName;
     private Long parentId;
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date entryDate;
@@ -71,6 +73,22 @@ public class EmployeeVO extends BaseVO {
 
     public void setEmployeeJobName(String employeeJobName) {
         this.employeeJobName = employeeJobName;
+    }
+
+    public Long getEmployeeOrg() {
+        return employeeOrg;
+    }
+
+    public void setEmployeeOrg(Long employeeOrg) {
+        this.employeeOrg = employeeOrg;
+    }
+
+    public String getEmployeeOrgName() {
+        return employeeOrgName;
+    }
+
+    public void setEmployeeOrgName(String employeeOrgName) {
+        this.employeeOrgName = employeeOrgName;
     }
 
     public Long getParentId() {

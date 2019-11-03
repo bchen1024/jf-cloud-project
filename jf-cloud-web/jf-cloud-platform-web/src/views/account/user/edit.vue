@@ -87,8 +87,8 @@
                         </Row>
                         <Row :gutter="32" >
                             <Col :span="12">
-                                <FormItem :label="$t('employeeJob')" prop="employeeJob">
-                                    <Input v-model="data.employeeJob" />
+                                <FormItem :label="$t('entryDate')" prop="entryDate">
+                                    <DatePicker type="date" v-model="data.entryDate" class="full-width" @on-change="data.entryDate=$event"></DatePicker>
                                 </FormItem>
                             </Col>
                             <Col :span="12">
@@ -99,13 +99,13 @@
                         </Row>
                         <Row :gutter="32" >
                             <Col :span="12">
-                                <FormItem :label="$t('employeeOrg')" prop="employeeOrgs">
-                                    <Input v-model="data.employeeOrgs" />
+                                <FormItem :label="$t('employeeOrg')" prop="employeeOrg">
+                                    <JFOrgCascader v-model="data.employeeOrg" />
                                 </FormItem>
                             </Col>
                             <Col :span="12">
-                                <FormItem :label="$t('entryDate')" prop="entryDate">
-                                    <DatePicker type="date" v-model="data.entryDate" class="full-width" @on-change="data.entryDate=$event"></DatePicker>
+                                <FormItem :label="$t('employeeJob')" prop="employeeJob">
+                                    <Input v-model="data.employeeJob" />
                                 </FormItem>
                             </Col>
                         </Row>

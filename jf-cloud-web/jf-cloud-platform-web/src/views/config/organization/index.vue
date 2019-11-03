@@ -2,9 +2,7 @@
     <Layout class="jf-layout-full">
         <Sider class="jf-layout-sider" :width="280">
             <Spin size="large" fix v-if="loading"></Spin>
-            <Tree ref="organizationTree" :empty-text="$t('noOrganizationData')" 
-                :render="renderContent" :data="treeData" 
-                @on-select-change="onSelectChange"></Tree>
+            <JFOrgTree ref="orgTree" @onSelectChange="onSelectChange" @loadCallback="loadCallback"/>
         </Sider>
         <Content class="jf-layout-content">
             <div class="margin-bottom-12">
@@ -36,7 +34,7 @@
                     </Col>
                 </Row>
                 <FormItem :label="$t('orgParent')" prop="parentId">
-                    <Cascader :data="treeData" v-model="data.parentId" change-on-select></Cascader>
+                    <JFOrgCascader v-model="data.parentId"/>
                 </FormItem>
                 <FormItem :label="$t('orgDesc')" prop="orgDesc">
                     <Input v-model="data.orgDesc" type="textarea" :rows="4" :maxlength="200" show-word-limit/>
@@ -90,22 +88,17 @@ export default {
             }
         }
     },
-    created(){
-        this.loadOrganization();
-    },
     methods:{
         loadOrganization(){
+            this.$refs.orgTree.reload(true);
+        },
+        loadCallback(treeDatas){
             let vm=this;
-            vm.loading=true;
             vm.data={};
+            vm.treeData=treeDatas;
             if(vm.$refs.formOrganization){
                 vm.$refs.formOrganization.resetFields();
             }
-            vm.$http.post('jfcloud/jf-cloud-platform/config/organization/tree',{}).then(result=>{
-                vm.treeData=result.data;
-            }).catch(error=>{}).then(()=>{
-                vm.loading=false;
-            });
         },
         onSelectChange(nodes){
             let vm=this;
@@ -113,21 +106,20 @@ export default {
                 if(vm.$refs.formOrganization){
                     vm.$refs.formOrganization.resetFields();
                 }
-                
                 vm.data=Object.assign({},nodes[0]);
-                let parentIds=nodes[0].__value;
-                console.info(parentIds);
-                let parentId=[];
-                (parentIds?parentIds.split(','):[]).forEach(val => {
-                    parentId.push(parseInt(val));
-                });
-                parentId.pop()
-                vm.$set(vm.data,'parentId',parentId);
+                // let parentIds=vm.data.parentIds;
+                // vm.$set(vm.data,'parentId',parentIds || []);
                 vm.$util.dispatchUser(vm,vm.data);
             }
         },
         addOrganization(){
-            
+            let vm=this;
+            var data=vm.data;
+            if(data.orgId){
+                vm.data={parentId:data.orgId};
+            }else{
+                vm.data={};
+            }
         },
         saveOrganization(){
             let vm=this;
@@ -152,42 +144,19 @@ export default {
             });
             
         },
-        renderContent (h, { root, node, data }) {
-            let icon='ios-paper-outline';
-            if(data.children && data.children.length>0){
-                icon='ios-folder-outline';
-            }
-            return h('span', [
-                h('Icon', {
-                    props: {type: icon,size:16},
-                    style: {marginRight: '8px'}
-                }),
-                h('span',{class:'ivu-tree-title ' + (node.node.selected ?'ivu-tree-title-selected':''),
-                    on: {
-                        click: () => {
-                            if (!node.node.selected){
-                                this.$refs.organizationTree.handleSelect(node.nodeKey); //手动选择树节点
-                            } 
-                        }
-                    }
-                }, data.title)
-            ]);
-        },
         /**
          * 删除组织架构
          */
         deleteOrganization(){
             let vm=this;
-            let selected=this.$refs.permissionTree.getSelectedNodes();
+            let selected=this.$refs.organizationTree.getSelectedNodes();
             if(selected.length>0){
                 //存在子级不能删除
                 if(selected[0].children && selected[0].children.length>0){
-                    vm.$Message.warning(vm.$t('deleteOrgWarning'));
+                    vm.$Message.warning(vm.$t('deleteNodeWarning'));
                     return;
                 }
-                vm.$http({
-                    method:'delete',
-                    url:'jfcloud/jf-cloud-platform/security/organization/delete',
+                vm.$http.delete('jfcloud/jf-cloud-platform/config/organization/delete',{
                     data:{id:selected[0].orgId},
                     headers:{op:'delete'}
                 }).then(result=>{
