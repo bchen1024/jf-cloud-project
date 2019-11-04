@@ -1,7 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.entity;
 
 import com.btsoft.jf.cloud.core.base.entity.impl.BaseAppEntity;
-import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -12,7 +11,7 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/8
  **/
-public class UserRoleEntity extends BaseAppEntity {
+public class RoleUserEntity extends BaseAppEntity {
 
     private Long id;
     private Long userId;

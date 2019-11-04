@@ -13,47 +13,16 @@
 import Edit from './edit.vue';
 import editMixins from '@/mixins/editMixins';
 import detailMixins from '@/mixins/detailMixins';
+import detail from '@/mixins/detailMixins';
 export default {
-    mixins:[editMixins,detailMixins],
+    mixins:[editMixins,detailMixins,detail],
     components:{
         Edit
     },
     data(){
         let vm=this;
         return {
-            detailOp:{
-                search:{
-                    url:'jfcloud/jf-cloud-platform/security/user/single'
-                },
-                editPermission:'user$save',
-                autoLoad:vm.autoLoad(vm.detailId),
-                items:[
-                    {cols:[
-                        {key:'userId'},
-                        {key:'userNo'},
-                    ]},
-                    {cols:[
-                        {key:'userCn'},
-                        {key:'userEn'}
-                    ]},
-                    {cols:[
-                        {key:'mobile',valid:'mobileValidated'},
-                        {key:'email',valid:'emailValidated'}
-                    ]},
-                    {cols:[
-                        {key:'userType',type:'type'},
-                        {key:'userStatus',type:'status'}
-                    ]},
-                    {cols:[
-                        {key:'userSex',type:'type'},
-                        {key:'passwordErrorNum'}
-                    ]},
-                    {cols:[
-                        {key:'passwordUpdateTime'},
-                        {key:'lockTime'}
-                    ]},
-                ]
-            }
+            
         }
     },
     methods:{

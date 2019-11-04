@@ -1,0 +1,40 @@
+export default {
+    data(){
+        let vm=this;
+        return {
+            detailOp:{
+                search:{
+                    url:'jfcloud/jf-cloud-platform/security/user/single'
+                },
+                editPermission:'user$save',
+                autoLoad:vm.autoLoad(vm.detailId),
+                items:[
+                    {cols:[
+                        {key:'userId'},
+                        {key:'userNo'},
+                    ]},
+                    {cols:[
+                        {key:'userCn'},
+                        {key:'userEn'}
+                    ]},
+                    {cols:[
+                        {key:'mobile',valid:'mobileValidated'},
+                        {key:'email',valid:'emailValidated'}
+                    ]},
+                    {cols:[
+                        {key:'userType',type:'type'},
+                        {key:'userStatus',type:'status'}
+                    ]},
+                    {cols:[
+                        {key:'userSex',type:'type'},
+                        {key:'passwordErrorNum'}
+                    ]},
+                    {cols:[
+                        {key:'passwordUpdateTime'},
+                        {key:'lockTime'}
+                    ]},
+                ]
+            }
+        }
+    }
+}
