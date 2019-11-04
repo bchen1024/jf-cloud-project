@@ -3,6 +3,7 @@ package com.btsoft.jf.cloud.platform.security.controller;
 import com.btsoft.jf.cloud.core.annotation.JAuditLog;
 import com.btsoft.jf.cloud.core.annotation.JOperator;
 import com.btsoft.jf.cloud.core.annotation.JResource;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdListDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
@@ -145,5 +146,20 @@ public class UserController {
     @ApiOperation("根据用户名称搜索用户")
     public CommonResult<List<UserBaseVO>> findSelectUserList(@RequestBody UserSelectQueryDTO dto){
         return service.findSelectUserList(dto);
+    }
+
+    /**
+     * 清除用户当前信息缓存
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @param  dto 用户id
+     * @return 清除结果
+     **/
+    @JAuditLog
+    @PostMapping("/clearUserEnvCache")
+    @ApiOperation("清除用户环境缓存")
+    @JOperator(code ="clearUserEnvCache", descCN = "清除用户环境缓存", descEN = "Clear User Env Cache",sort = 50)
+    public Result clearUserEnvCache(@RequestBody BaseIdDTO dto){
+        return service.clearUserEnvCache(dto.getId());
     }
 }

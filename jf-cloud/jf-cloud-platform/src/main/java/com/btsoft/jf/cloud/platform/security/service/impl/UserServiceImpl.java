@@ -59,7 +59,7 @@ public class UserServiceImpl implements IUserService {
     @Autowired
     private IPermissionMapper permissionMapper;
     @Autowired
-    private ValueOperations<String,Object> redisTemplate;
+    private ValueOperations<String,Object> valueOperations;
 
     /**
      * 账号分页查询
@@ -73,7 +73,18 @@ public class UserServiceImpl implements IUserService {
         UserEntity entity= EntityUtils.queryDtoToEntity(UserEntity.class,dto);
         Page page= PageHelper.startPage(dto.getCurPage(),dto.getPageSize(),true);
         mapper.findList(entity);
-        return CommonResultUtils.pageResult(UserVO.class,page);
+        CommonResult<PageResult<UserVO>> result=CommonResultUtils.pageResult(UserVO.class,page);
+        if(result.getData() != null && !CollectionUtils.isEmpty(result.getData().getList())){
+            result.getData().getList().forEach(v->{
+                String cacheKey=RedisUtils.getkey("UserEnv",v.getUserId());
+                if(valueOperations.get(cacheKey)!=null){
+                    v.setUserEnvCache(true);
+                }else{
+                    v.setUserEnvCache(false);
+                }
+            });
+        }
+        return result;
     }
 
     /**
@@ -163,7 +174,7 @@ public class UserServiceImpl implements IUserService {
         Long userId= JfCloud.getCurrent().getCurrentUserId();
         String cacheKey=RedisUtils.getkey("UserEnv",userId);
         UserEnvironmentVO result=new UserEnvironmentVO();
-        Object cacheValue=redisTemplate.get(cacheKey);
+        Object cacheValue=valueOperations.get(cacheKey);
         if(cacheValue!=null){
             BeanUtils.copyProperties(cacheValue,result);
             return CommonResultUtils.success(result);
@@ -209,7 +220,7 @@ public class UserServiceImpl implements IUserService {
                 result.setPermissionList(permissionMapper.findPermissionCodeList(roleIds));
             }
         }
-        redisTemplate.set(cacheKey,result, Duration.ofMinutes(30));
+        valueOperations.set(cacheKey,result, Duration.ofMinutes(30));
         return CommonResultUtils.success(result);
     }
 
@@ -235,5 +246,15 @@ public class UserServiceImpl implements IUserService {
     public CommonResult<List<UserBaseVO>> findSelectUserList(UserSelectQueryDTO dto) {
         List<UserEntity> userList=mapper.findSelectUserList(dto);
         return CommonResultUtils.resultList(UserBaseVO.class,userList);
+    }
+
+    @Override
+    public Result clearUserEnvCache(Long userId) {
+        String cacheKey=RedisUtils.getkey("UserEnv",userId);
+        Boolean deleteResult=valueOperations.getOperations().delete(cacheKey);
+        if(deleteResult==null){
+            deleteResult=false;
+        }
+        return deleteResult?CommonResultUtils.success():CommonResultUtils.fail(OperationTypeEnum.Operate);
     }
 }

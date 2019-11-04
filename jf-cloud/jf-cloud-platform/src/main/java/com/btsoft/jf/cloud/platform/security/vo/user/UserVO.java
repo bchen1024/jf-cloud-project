@@ -31,6 +31,8 @@ public class UserVO extends BaseVO  implements IUserEntity {
     private String userSex;
     private Long userPhoto;
 
+    private Boolean userEnvCache;
+
     @Override
     public Long getUserId() {
         return userId;
@@ -150,6 +152,14 @@ public class UserVO extends BaseVO  implements IUserEntity {
 
     public void setUserPhoto(Long userPhoto) {
         this.userPhoto = userPhoto;
+    }
+
+    public Boolean getUserEnvCache() {
+        return userEnvCache;
+    }
+
+    public void setUserEnvCache(Boolean userEnvCache) {
+        this.userEnvCache = userEnvCache;
     }
 
     @Override

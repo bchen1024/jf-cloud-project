@@ -25,6 +25,7 @@ export default{
     mobileValidated:'Mobile Validated',
     emailValidated:'Email Validated',
     createUser:'Create User',
+    clearUserEnvCache:'Clear User Env Cache',
 
     //应用相关
     appCode:'App Code',

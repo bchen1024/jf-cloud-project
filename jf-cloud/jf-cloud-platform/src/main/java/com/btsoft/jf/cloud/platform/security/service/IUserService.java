@@ -101,4 +101,13 @@ public interface IUserService {
      * @return 用户列表
      **/
     CommonResult<List<UserBaseVO>> findSelectUserList(UserSelectQueryDTO dto);
+
+    /**
+     * 清除用户当前信息缓存
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @param  userId 用户id
+     * @return 清除结果
+     **/
+    Result clearUserEnvCache(Long userId);
 }

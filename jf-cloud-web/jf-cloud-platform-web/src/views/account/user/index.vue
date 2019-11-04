@@ -76,13 +76,18 @@ export default {
                             });
                         },permissionCode:'user$updateStatus'},
                         {title:vm.$t('detail'),permissionCode:'user$single',gridDetail:true},
+                        {title:vm.$t('clearUserEnvCache'),permissionCode:'user$clearUserEnvCache',show:(row)=>{
+                            return row.userEnvCache;
+                        },click:(params)=>{
+                            vm.clearUserEnvCache(params.row.userId);
+                        }}
                     ],
                     columns:[
-                        {key:'userId',width:120},
-                        {key:'userNo',width:150,condition:true},
-                        {key:'userCn',width:150,condition:true},
-                        {key:'userEn',width:150,condition:true},
-                        {key:'mobile',width:150,condition:true,render: (h, params) => {
+                        {key:'userId',width:110},
+                        {key:'userNo',width:120,condition:true},
+                        {key:'userCn',width:120,condition:true},
+                        {key:'userEn',width:120,condition:true},
+                        {key:'mobile',width:120,condition:true,render: (h, params) => {
                             if(params.row.mobile){
                                 let props={};
                                 if(params.row.mobileValidated=='Y'){
@@ -112,12 +117,6 @@ export default {
                             }
                             return '';
                         }},
-                        {key:'userSex',width:120,format:'type',condition:{
-                            type:'radio',items:[
-                               {value:'1',label:vm.$t('type.userSex.1')},
-                               {value:'2',label:vm.$t('type.userSex.2')}
-                            ]
-                        }},
                         {key:'userType',width:120,format:'type',condition:{
                             type:'radio',items:[
                                {value:'1',label:vm.$t('type.userType.1')},
@@ -129,6 +128,12 @@ export default {
                                {value:'Y',label:vm.$t('status.userStatus.Y')},
                                {value:'L',label:vm.$t('status.userStatus.L')},
                                {value:'D',label:vm.$t('status.userStatus.D')}
+                            ]
+                        }},
+                        {key:'userSex',width:110,format:'type',condition:{
+                            type:'radio',items:[
+                               {value:'1',label:vm.$t('type.userSex.1')},
+                               {value:'2',label:vm.$t('type.userSex.2')}
                             ]
                         }}
                     ]
@@ -142,24 +147,24 @@ export default {
          */
         updateUserStatus(data){
             let vm=this;
-            vm.$Message.loading({
-                content: this.$t('updating'),
-                duration: 0
-            });
             vm.$http({
                 method:'put',
                 url:'jfcloud/jf-cloud-platform/security/user/updateStatus',
-                data:data
+                data:data,
+                headers:{op:'update'}
             }).then(result=>{
-                vm.$Message.destroy();
-                //成功
-                if(result && result.success){
-                    vm.$Message.success(vm.$t('updateSuccessful'));
-                    vm.gridSearch();
-                }
-            }).catch(error=>{
-                vm.$Message.destroy();
-                vm.$Message.error(vm.$util.handerError(error,vm));
+                vm.gridSearch();
+            })
+        },
+        /**
+         * 清除用户环境缓存
+         */
+        clearUserEnvCache(userId){
+            let vm=this;
+            vm.$http.post('jfcloud/jf-cloud-platform/security/user/clearUserEnvCache',{id:userId},{
+                headers:{op:'delete'}
+            }).then(result=>{
+                vm.gridSearch();
             });
         }
     }

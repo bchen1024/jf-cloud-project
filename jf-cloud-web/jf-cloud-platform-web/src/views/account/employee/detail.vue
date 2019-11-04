@@ -25,7 +25,7 @@ export default {
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/employee/single'
                 },
-                editPermission:'employee$save',
+                editPermission:'employee$update',
                 autoLoad:vm.autoLoad(vm.detailId),
                 userFields:['userId','parentId'],
                 items:[

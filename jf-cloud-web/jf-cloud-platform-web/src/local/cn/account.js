@@ -25,6 +25,7 @@ export default{
     mobileValidated:'手机验证',
     emailValidated:'邮箱验证',
     createUser:'创建用户',
+    clearUserEnvCache:'清除缓存',
 
     //应用相关
     appCode:'应用编码',

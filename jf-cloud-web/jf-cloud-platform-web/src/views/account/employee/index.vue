@@ -33,10 +33,10 @@ export default {
                     logSetting:{module:'Employee'},
                     detail:{name:'employeeDetail'},
                     buttons:[
-                        {title:vm.$t('edit'),click:(params)=>{
+                        {title:vm.$t('edit'),permissionCode:'employee$update',click:(params)=>{
                             vm.openEdit(params.row);
                         }},
-                        {title:vm.$t('detail'),gridDetail:true},
+                        {title:vm.$t('detail'),permissionCode:'employee$single',gridDetail:true},
                     ],
                     columns:[
                         {key:'userId',title:'userName',width:150,format:'user',condition:{type:'string',key:'userName'}},
