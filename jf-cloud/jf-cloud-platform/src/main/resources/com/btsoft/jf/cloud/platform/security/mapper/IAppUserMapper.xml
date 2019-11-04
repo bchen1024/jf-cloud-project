@@ -35,14 +35,14 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-			<if test='vo.appId!=null'>
-				AND T.APP_ID = #{vo.appId,jdbcType=NUMERIC}
+			<if test='param.appId!=null'>
+				AND T.APP_ID = #{param.appId,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.userId!=null'>
-				AND T.USER_ID = #{vo.userId,jdbcType=NUMERIC}
+			<if test='param.userId!=null'>
+				AND T.USER_ID = #{param.userId,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.roleId!=null'>
-				AND T.ROLE_ID = #{vo.roleId,jdbcType=NUMERIC}
+			<if test='param.roleId!=null'>
+				AND T.ROLE_ID = #{param.roleId,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -57,13 +57,13 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.appId,jdbcType=NUMERIC},
-			#{vo.userId,jdbcType=NUMERIC},
-			#{vo.roleId,jdbcType=NUMERIC},
-			#{vo.beginDate},
-			#{vo.endDate},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.appId,jdbcType=NUMERIC},
+			#{param.userId,jdbcType=NUMERIC},
+			#{param.roleId,jdbcType=NUMERIC},
+			#{param.beginDate},
+			#{param.endDate},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -77,7 +77,7 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES
-		<foreach collection="vo.list" item="item"  separator=",">
+		<foreach collection="param.list" item="item"  separator=",">
 			(
 				#{item.appId,jdbcType=NUMERIC},
 				#{item.userId,jdbcType=NUMERIC},
@@ -102,43 +102,51 @@
 	<select id="findAppUserList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
-		<if test='vo.keywordField!=null and vo.keywordField!="" and
-				vo.keywordValue!=null and vo.keywordValue!="" '>
-			<if test='vo.keywordField=="userName"'>
+		<if test='param.keywordField!=null and param.keywordField!="" and
+				param.keywordValue!=null and param.keywordValue!="" '>
+			<if test='param.keywordField=="userName"'>
 				AND EXISTS(
 					SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
-					AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
-					OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
+					AND (U.USER_CN LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
+					OR U.USER_EN LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%'))
 				)
 			</if>
-			<if test='vo.keywordField=="roleName"'>
+			<if test='param.keywordField=="roleName"'>
 				AND EXISTS(
 					SELECT 1 FROM SYS_ROLE_T R WHERE R.ROLE_ID=T.ROLE_ID
-					AND R.ROLE_NAME LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+					AND R.ROLE_NAME LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
 				)
 			</if>
-			<if test='vo.keywordField=="roleCode"'>
+			<if test='param.keywordField=="roleCode"'>
 				AND EXISTS(
 				SELECT 1 FROM SYS_ROLE_T R WHERE R.ROLE_ID=T.ROLE_ID
-				AND R.ROLE_CODE LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+				AND R.ROLE_CODE LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
 				)
 			</if>
 		</if>
 		<!--未生效-->
-		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@NotEffective.getValue'>
+		<if test='param.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@NotEffective.getValue'>
 			AND T.BEGIN_DATE > CURDATE()
 		</if>
 		<!--正常-->
-		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Normal.getValue'>
+		<if test='param.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Normal.getValue'>
 			AND CURDATE() BETWEEN T.BEGIN_DATE AND T.END_DATE AND T.END_DATE > ADDDATE(CURDATE(),7)
 		</if>
 		<!--即将过期-->
-		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@AboutToExpire.getValue'>
+		<if test='param.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@AboutToExpire.getValue'>
 			AND T.END_DATE &lt; ADDDATE(CURDATE(),7)
 		</if>
 		<!--已过期-->
-		<if test='vo.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Expired.getValue'>
+		<if test='param.grantStatus==@com.btsoft.jf.cloud.platform.security.enums.GrantStatusEnum@Expired.getValue'>
 			AND T.END_DATE &lt; CURDATE()
 		</if>
 	</select>
+
+	<delete id="deleteByAppId">
+		DELETE FROM SYS_APP_USER_RT WHERE APP_ID=#{appId,jdbcType=NUMERIC}
+	</delete>
+
+	<delete id="deleteByRoleId">
+		DELETE FROM SYS_APP_USER_RT WHERE ROLE_ID=#{roleId,jdbcType=NUMERIC}
+	</delete>
 </mapper>

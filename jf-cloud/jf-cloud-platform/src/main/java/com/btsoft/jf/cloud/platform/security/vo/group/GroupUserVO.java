@@ -12,11 +12,14 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/30
  **/
-public class GroupUserVO extends BaseVO {
+public class GroupUserVO extends BaseVO implements IGroupVO {
 
     private static final long serialVersionUID = 8736124919414377276L;
     private Long id;
     private Long groupId;
+    private String groupCode;
+    private String groupName;
+    private String groupDesc;
     private Long userId;
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date beginDate;
@@ -31,12 +34,40 @@ public class GroupUserVO extends BaseVO {
         this.id = id;
     }
 
+    @Override
     public Long getGroupId() {
         return groupId;
     }
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    @Override
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    @Override
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    @Override
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
     }
 
     public Long getUserId() {

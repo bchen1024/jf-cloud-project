@@ -1,10 +1,10 @@
 <template>
     <Layout class="jf-layout-full">
         <Sider class="jf-layout-sider" :width="200">
-            <JFOrgTree ref="orgTree"/>
+            <JFOrgTree ref="orgTree" @onSelectChange="onSelectChange"/>
         </Sider>
         <Content class="jf-layout-content">
-            <JFGrid :ref="gridId" :gridOp="gridOp">
+            <JFGrid :ref="gridId" :gridOp="gridOp" @seachBefore="seachBefore">
                 <Edit slot="grid-drawer" :formId="formId" formKey="userId"
                     :visible.sync="showEdit" 
                     :formData="formData"
@@ -57,9 +57,9 @@ export default {
                         {key:'entryDate',width:120},
                         {key:'employeeOrg',render: (h, params) => {
                             if(params.row.employeeOrg){
-                                let org=vm.$store.state.cache.orgMap[params.row.employeeOrg];
-                                if(org){
-                                    return h('div',{},org.title);
+                                let title=vm.$util.getOrgName(vm,params.row.employeeOrg,false);
+                                if(title){
+                                    return h('Tooltip',{props:{content:title,transfer:true,'max-width':400}},title);
                                 }
                             }
                             return '';
@@ -69,6 +69,19 @@ export default {
                     ]
                 }
             }
+        }
+    },
+    methods:{
+        seachBefore(params){
+            let selected=this.$refs.orgTree.getSelectedNodes();
+            if(selected && selected.length>0){
+                params.employeeOrg=selected[0].orgId;
+            }else{
+                params.employeeOrg=null;
+            }
+        },
+        onSelectChange(){
+            this.$refs[this.gridId].search();
         }
     }
 }

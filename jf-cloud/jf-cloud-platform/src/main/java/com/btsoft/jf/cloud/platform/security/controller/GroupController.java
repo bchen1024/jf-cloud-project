@@ -11,6 +11,7 @@ import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IGroupService;
+import com.btsoft.jf.cloud.platform.security.vo.group.GroupBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 群组管理Controller
@@ -89,5 +91,17 @@ public class GroupController {
     @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除群组", descEN = "Delete Group",sort = 40)
     public Result deleteGroup(@Valid @RequestBody BaseIdDTO dto){
         return service.deleteGroup(dto);
+    }
+
+    /**
+     * 获取可选择的群组
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @return 群组列表
+     **/
+    @ApiOperation("选择群组")
+    @PostMapping("/select")
+    public CommonResult<List<GroupBaseVO>> findGroupList(@RequestBody GroupQueryDTO dto){
+        return service.findGroupList(dto);
     }
 }

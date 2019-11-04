@@ -45,12 +45,12 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.orgCn,jdbcType=VARCHAR},
-			#{vo.orgEn,jdbcType=VARCHAR},
-			IFNULL(#{vo.parentId,jdbcType=NUMERIC},0),
-			#{vo.orgDesc,jdbcType=VARCHAR},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.orgCn,jdbcType=VARCHAR},
+			#{param.orgEn,jdbcType=VARCHAR},
+			IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
+			#{param.orgDesc,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -66,13 +66,13 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_ORGANIZATION_T T SET
-			T.ORG_CN=#{vo.orgCn,jdbcType=VARCHAR},
-			T.ORG_EN=#{vo.orgEn,jdbcType=VARCHAR},
-		    T.PARENT_ID=IFNULL(#{vo.parentId,jdbcType=NUMERIC},0),
-			T.ORG_DESC=#{vo.orgDesc,jdbcType=VARCHAR},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.ORG_CN=#{param.orgCn,jdbcType=VARCHAR},
+			T.ORG_EN=#{param.orgEn,jdbcType=VARCHAR},
+		    T.PARENT_ID=IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
+			T.ORG_DESC=#{param.orgDesc,jdbcType=VARCHAR},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.ORG_ID=#{vo.orgId,jdbcType=NUMERIC}
+		WHERE T.ORG_ID=#{param.orgId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">

@@ -66,8 +66,8 @@ public interface IRoleService{
     CommonResult<List<RoleBaseVO>> findRoleList(RoleQueryDTO dto);
 
     /**
+     * 配置角色权限
      * @author jeo_cb
-     * @description 配置角色权限
      * @date 2019/10/10
      * @param dto 配置参数
      * @return 配置结果
@@ -75,11 +75,10 @@ public interface IRoleService{
     Result saveRolePermission(RolePermissionSaveDTO dto);
 
     /**
-     * 填充角色名称
+     * 填充角色信息
      * @author jeo_cb
      * @date 2019/10/31
      * @param list 集合数据
-     * @return void
      */
-    void fillRoleName(List<? extends IRoleVO> list);
+    void fillRoleInfo(List<? extends IRoleVO> list);
 }

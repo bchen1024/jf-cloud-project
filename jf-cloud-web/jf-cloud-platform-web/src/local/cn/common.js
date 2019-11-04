@@ -79,4 +79,7 @@ export default{
     mySetting:'我的选项',
     myLogs:'我的日志',
     myPermission:'我的权限',
+    originalPassword:'原密码',
+    newPassword:'新密码',
+    confirmPassword:'确认密码'
 }

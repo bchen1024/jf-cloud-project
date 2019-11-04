@@ -1,8 +1,8 @@
 package com.btsoft.jf.cloud.core.util;
 
 /**
+ * Redis工具类
  * @author jeo_cb
- * @desc TODO
  * @date 2019/10/28 19:07
  **/
 public class RedisUtils {

@@ -149,7 +149,7 @@ export default {
          */
         deleteOrganization(){
             let vm=this;
-            let selected=this.$refs.organizationTree.getSelectedNodes();
+            let selected=this.$refs.orgTree.getSelectedNodes();
             if(selected.length>0){
                 //存在子级不能删除
                 if(selected[0].children && selected[0].children.length>0){

@@ -35,33 +35,33 @@
 
 	<sql id="base_condition">
 		<trim prefix="where" prefixOverrides="and || or">
-			AND T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
-			<if test='vo.logModule!=null and vo.logModule!=""'>
-				AND T.LOG_MODULE=#{vo.logModule,jdbcType=VARCHAR}
+			AND T.APP_CODE=#{param.appCode,jdbcType=VARCHAR}
+			<if test='param.logModule!=null and param.logModule!=""'>
+				AND T.LOG_MODULE=#{param.logModule,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.logMessage!=null and vo.logMessage!=""'>
-				AND T.LOG_MESSAGE LIKE CONCAT('%',TRIM(#{vo.logMessage,jdbcType=VARCHAR}),'%')
+			<if test='param.logMessage!=null and param.logMessage!=""'>
+				AND T.LOG_MESSAGE LIKE CONCAT('%',TRIM(#{param.logMessage,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.logMethod!=null and vo.logMethod!=""'>
-				AND T.LOG_METHOD LIKE CONCAT('%',TRIM(#{vo.logMethod,jdbcType=VARCHAR}),'%')
+			<if test='param.logMethod!=null and param.logMethod!=""'>
+				AND T.LOG_METHOD LIKE CONCAT('%',TRIM(#{param.logMethod,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.logIp!=null and vo.logIp!=""'>
-				AND T.LOG_IP LIKE CONCAT('%',TRIM(#{vo.logIp,jdbcType=VARCHAR}),'%')
+			<if test='param.logIp!=null and param.logIp!=""'>
+				AND T.LOG_IP LIKE CONCAT('%',TRIM(#{param.logIp,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.logType!=null and vo.logType!=""'>
-				AND T.LOG_TYPE = #{vo.logType,jdbcType=VARCHAR}
+			<if test='param.logType!=null and param.logType!=""'>
+				AND T.LOG_TYPE = #{param.logType,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.userId!=null'>
-				AND T.USER_ID = #{vo.userId,jdbcType=NUMERIC}
+			<if test='param.userId!=null'>
+				AND T.USER_ID = #{param.userId,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.logTime!=null and !vo.logTime.isEmpty()'>
-				AND T.LOG_TIME BETWEEN #{vo.logTime[0]} AND #{vo.logTime[1]}
+			<if test='param.logTime!=null and !param.logTime.isEmpty()'>
+				AND T.LOG_TIME BETWEEN #{param.logTime[0]} AND #{param.logTime[1]}
 			</if>
-			<if test='vo.logStartTime!=null and !vo.logStartTime.isEmpty()'>
-				AND T.LOG_START_TIME BETWEEN #{vo.logStartTime[0]} AND #{vo.logStartTime[1]}
+			<if test='param.logStartTime!=null and !param.logStartTime.isEmpty()'>
+				AND T.LOG_START_TIME BETWEEN #{param.logStartTime[0]} AND #{param.logStartTime[1]}
 			</if>
-			<if test='vo.logEndTime!=null and !vo.logEndTime.isEmpty()'>
-				AND T.LOG_END_TIME BETWEEN #{vo.logEndTime[0]} AND #{vo.logEndTime[1]}
+			<if test='param.logEndTime!=null and !param.logEndTime.isEmpty()'>
+				AND T.LOG_END_TIME BETWEEN #{param.logEndTime[0]} AND #{param.logEndTime[1]}
 			</if>
 		</trim>
 	</sql>
@@ -80,17 +80,17 @@
 			LOG_TYPE,
 			APP_CODE
 		)VALUES(
-			#{vo.logTime},
-			#{vo.userId,jdbcType=NUMERIC},
-			#{vo.logIp,jdbcType=VARCHAR},
-			#{vo.logModule,jdbcType=VARCHAR},
-			#{vo.logMethod,jdbcType=VARCHAR},
-			#{vo.logMessage,jdbcType=VARCHAR},
-			#{vo.logStartTime},
-			#{vo.logEndTime},
-			#{vo.logCost,jdbcType=NUMERIC},
-			#{vo.logType,jdbcType=VARCHAR},
-			#{vo.appCode,jdbcType=VARCHAR}
+			#{param.logTime},
+			#{param.userId,jdbcType=NUMERIC},
+			#{param.logIp,jdbcType=VARCHAR},
+			#{param.logModule,jdbcType=VARCHAR},
+			#{param.logMethod,jdbcType=VARCHAR},
+			#{param.logMessage,jdbcType=VARCHAR},
+			#{param.logStartTime},
+			#{param.logEndTime},
+			#{param.logCost,jdbcType=NUMERIC},
+			#{param.logType,jdbcType=VARCHAR},
+			#{param.appCode,jdbcType=VARCHAR}
 		)
 	</insert>
 

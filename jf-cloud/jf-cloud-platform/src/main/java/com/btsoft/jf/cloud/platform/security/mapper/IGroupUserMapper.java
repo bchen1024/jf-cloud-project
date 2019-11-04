@@ -23,5 +23,14 @@ public interface IGroupUserMapper extends IBaseMapper<GroupUserEntity,Long> {
      * @param  dto 查询参数
      * @return 群组用户列表
      **/
-    List<GroupUserEntity> findGroupUserList(@Param("vo") GroupUserQueryDTO dto);
+    List<GroupUserEntity> findGroupUserList(@Param("param") GroupUserQueryDTO dto);
+
+    /**
+     * 根据群组id删除
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @param groupId 群组id
+     * @return 受影响行数
+     */
+    int deleteByGroupId(@Param("groupId") Long groupId);
 }

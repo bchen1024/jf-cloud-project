@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
+ * 文件上传Service实现类
  * @author jeo_cb
- * @desc TODO
  * @date 2019/10/29 10:34
  **/
 @Service

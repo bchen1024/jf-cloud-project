@@ -36,22 +36,22 @@
 
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
-		    T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		    T.APP_CODE=#{param.appCode,jdbcType=VARCHAR}
 		    AND T.ENABLE_FLAG='Y'
-            <if test='vo.roleCode!=null and vo.roleCode!=""'>
-                AND T.ROLE_CODE LIKE CONCAT('%',TRIM(#{vo.roleCode,jdbcType=VARCHAR}),'%')
+            <if test='param.roleCode!=null and param.roleCode!=""'>
+                AND T.ROLE_CODE LIKE CONCAT('%',TRIM(#{param.roleCode,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.roleName!=null and vo.roleName!=""'>
-                AND T.ROLE_NAME LIKE CONCAT('%',TRIM(#{vo.roleName,jdbcType=VARCHAR}),'%')
+            <if test='param.roleName!=null and param.roleName!=""'>
+                AND T.ROLE_NAME LIKE CONCAT('%',TRIM(#{param.roleName,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.roleDesc!=null and vo.roleDesc!=""'>
-				AND T.ROLE_DESC LIKE CONCAT('%',TRIM(#{vo.roleDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.roleDesc!=null and param.roleDesc!=""'>
+				AND T.ROLE_DESC LIKE CONCAT('%',TRIM(#{param.roleDesc,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.applyStatus!=null and vo.applyStatus!=""'>
-				AND T.APPLY_STATUS = #{vo.applyStatus,jdbcType=VARCHAR}
+			<if test='param.applyStatus!=null and param.applyStatus!=""'>
+				AND T.APPLY_STATUS = #{param.applyStatus,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.roleOwner!=null'>
-				AND T.ROLE_OWNER = #{vo.roleOwner,jdbcType=NUMERIC}
+			<if test='param.roleOwner!=null'>
+				AND T.ROLE_OWNER = #{param.roleOwner,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -67,14 +67,14 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.roleCode,jdbcType=VARCHAR},
-			#{vo.roleName,jdbcType=VARCHAR},
-			#{vo.roleDesc,jdbcType=VARCHAR},
-			#{vo.roleOwner,jdbcType=NUMERIC},
-			#{vo.applyStatus,jdbcType=VARCHAR},
-			#{vo.appCode,jdbcType=VARCHAR},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.roleCode,jdbcType=VARCHAR},
+			#{param.roleName,jdbcType=VARCHAR},
+			#{param.roleDesc,jdbcType=VARCHAR},
+			#{param.roleOwner,jdbcType=NUMERIC},
+			#{param.applyStatus,jdbcType=VARCHAR},
+			#{param.appCode,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -84,14 +84,14 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_ROLE_T T SET
-			T.ROLE_CODE=#{vo.roleCode,jdbcType=VARCHAR},
-			T.ROLE_NAME=#{vo.roleName,jdbcType=VARCHAR},
-			T.ROLE_DESC=#{vo.roleDesc,jdbcType=VARCHAR},
-			T.APPLY_STATUS=#{vo.applyStatus,jdbcType=VARCHAR},
-			T.ROLE_OWNER=#{vo.roleOwner,jdbcType=NUMERIC},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.ROLE_CODE=#{param.roleCode,jdbcType=VARCHAR},
+			T.ROLE_NAME=#{param.roleName,jdbcType=VARCHAR},
+			T.ROLE_DESC=#{param.roleDesc,jdbcType=VARCHAR},
+			T.APPLY_STATUS=#{param.applyStatus,jdbcType=VARCHAR},
+			T.ROLE_OWNER=#{param.roleOwner,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=now()
-		WHERE T.ROLE_ID=#{vo.roleId,jdbcType=NUMERIC}
+		WHERE T.ROLE_ID=#{param.roleId,jdbcType=NUMERIC}
 	</update>
 
     <select id="findSingleById" resultMap="sqlResultMap">

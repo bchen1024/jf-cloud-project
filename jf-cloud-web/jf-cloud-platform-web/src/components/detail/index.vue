@@ -13,7 +13,7 @@
         <template v-for="(item,index) in items">
             <template v-if="item.cols && item.cols.length>0">
                 <Row :gutter="32" :key="'row-'+index">
-                    <Col v-for="col in item.cols" :span="24/item.cols.length" :key="'col-'+col.key">
+                    <Col v-for="col in item.cols" :span="24/item.cols.length" :key="'col-'+col.key+col.type">
                         <DetailItem :item="col" :formData="formData" :key="'item-'+col.key"/>
                     </Col>
                 </Row>

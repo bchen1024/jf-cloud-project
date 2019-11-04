@@ -12,7 +12,7 @@
         <template v-else>
             <Icon v-if="formData[item.key] && formData[item.valid]=='Y'" type='md-checkmark' color='#19be6b' :size="18"/>
             <Icon v-if="formData[item.key] && formData[item.valid]=='N'" type='md-close' color='#ed4014' :size="18"/>
-            {{formData[item.key] || ''}}
+            {{item.render?item.render(item,formData):(formData[item.key] || '')}}
         </template>
     </FormItem>
 </template>

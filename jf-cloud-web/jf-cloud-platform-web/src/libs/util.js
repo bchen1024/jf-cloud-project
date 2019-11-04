@@ -213,5 +213,25 @@ export default {
         }
         let title=vm.$t('status.grantStatus.'+status);
         return h('Tag',{props:{color:color}},title);
+    },
+    getOrgName(vm,orgId,fullName=true,joinStr){
+        let org=vm.$store.state.cache.orgMap[orgId];
+        if(org){
+            if(fullName){
+                let parentIds=org.parentIds || [];
+                let titles=[];
+                parentIds.forEach(item=>{
+                    let orgItem=vm.$store.state.cache.orgMap[item];
+                    if(orgItem){
+                        titles.push(orgItem.title);
+                    }
+                });
+                titles.push(org.title);
+                return titles.join(joinStr || '/');
+            }else{
+                return org.title;
+            }
+        }
+        return '';
     }
 }

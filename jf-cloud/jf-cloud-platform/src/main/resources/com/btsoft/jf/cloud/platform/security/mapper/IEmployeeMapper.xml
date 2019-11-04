@@ -39,14 +39,28 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 		    T.ENABLE_FLAG='Y'
-			<if test='vo.employeeType!=null'>
-				AND T.EMPLOYEE_TYPE=#{vo.employeeType,jdbcType=NUMERIC}
+			<if test='param.employeeType!=null'>
+				AND T.EMPLOYEE_TYPE=#{param.employeeType,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.employeeStatus!=null'>
-				AND T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=NUMERIC}
+			<if test='param.employeeStatus!=null'>
+				AND T.EMPLOYEE_STATUS=#{param.employeeStatus,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.employeeOrg!=null'>
-				AND T.EMPLOYEE_ORG=#{vo.employeeOrg,jdbcType=NUMERIC}
+			<if test='param.employeeOrg!=null'>
+				AND EXISTS(
+					SELECT 1
+					FROM
+					(
+						SELECT T2.ORG_ID
+							FROM SYS_ORGANIZATION_T T1,
+								 SYS_ORGANIZATION_T T2
+							WHERE T1.ORG_ID = T2.PARENT_ID
+						AND (T1.ORG_ID = #{param.employeeOrg,jdbcType=NUMERIC} OR T1.PARENT_ID = #{param.employeeOrg,jdbcType=NUMERIC})
+						UNION
+						SELECT T3.ORG_ID
+							FROM SYS_ORGANIZATION_T T3
+							WHERE T3.ORG_ID = #{param.employeeOrg,jdbcType=NUMERIC}
+					) TT WHERE TT.ORG_ID=T.EMPLOYEE_ORG
+				)
 			</if>
 		</trim>
 	</sql>
@@ -63,15 +77,15 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.userId,jdbcType=NUMERIC},
-			#{vo.employeeType,jdbcType=NUMERIC},
-			#{vo.employeeStatus,jdbcType=NUMERIC},
-			#{vo.employeeJob,jdbcType=NUMERIC},
-			#{vo.parentId,jdbcType=NUMERIC},
-			#{vo.entryDate},
-			#{vo.employeeOrg,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.userId,jdbcType=NUMERIC},
+			#{param.employeeType,jdbcType=NUMERIC},
+			#{param.employeeStatus,jdbcType=NUMERIC},
+			#{param.employeeJob,jdbcType=NUMERIC},
+			#{param.parentId,jdbcType=NUMERIC},
+			#{param.entryDate},
+			#{param.employeeOrg,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -88,13 +102,13 @@
 	<select id="findEmployeeList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
-		<if test='vo.keywordField!=null and vo.keywordField!="" and
-				vo.keywordValue!=null and vo.keywordValue!="" '>
-			<if test='vo.keywordField=="userName"'>
+		<if test='param.keywordField!=null and param.keywordField!="" and
+				param.keywordValue!=null and param.keywordValue!="" '>
+			<if test='param.keywordField=="userName"'>
 				AND EXISTS(
 				SELECT 1 FROM SYS_USER_T U WHERE U.USER_ID=T.USER_ID
-				AND (U.USER_CN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
-				OR U.USER_EN LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%'))
+				AND (U.USER_CN LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
+				OR U.USER_EN LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%'))
 				)
 			</if>
 		</if>
@@ -102,15 +116,22 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_EMPLOYEE_T T SET
-			T.EMPLOYEE_TYPE=#{vo.employeeType,jdbcType=NUMERIC},
-			T.EMPLOYEE_STATUS=#{vo.employeeStatus,jdbcType=NUMERIC},
-			T.EMPLOYEE_JOB=#{vo.employeeJob,jdbcType=NUMERIC},
-			T.PARENT_ID=#{vo.parentId,jdbcType=NUMERIC},
-			T.EMPLOYEE_ORG=#{vo.employeeOrg,jdbcType=NUMERIC},
-			T.ENTRY_DATE=#{vo.entryDate},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.EMPLOYEE_TYPE=#{param.employeeType,jdbcType=NUMERIC},
+			T.EMPLOYEE_STATUS=#{param.employeeStatus,jdbcType=NUMERIC},
+			T.EMPLOYEE_JOB=#{param.employeeJob,jdbcType=NUMERIC},
+			T.PARENT_ID=#{param.parentId,jdbcType=NUMERIC},
+			T.EMPLOYEE_ORG=#{param.employeeOrg,jdbcType=NUMERIC},
+			T.ENTRY_DATE=#{param.entryDate},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
 	</update>
 
+	<update id="deleteEmployeeOrg">
+		UPDATE SYS_EMPLOYEE_T T SET
+			T.EMPLOYEE_ORG=NULL
+			T.LAST_UPDATE_BY=#{currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.EMPLOYEE_ORG=#{orgId,jdbcType=NUMERIC}
+	</update>
 </mapper>

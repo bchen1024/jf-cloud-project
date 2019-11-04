@@ -31,14 +31,14 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-            <if test='vo.jobCn!=null and vo.jobCn!=""'>
-                AND T.JOB_CN LIKE CONCAT('%',TRIM(#{vo.jobCn,jdbcType=VARCHAR}),'%')
+            <if test='param.jobCn!=null and param.jobCn!=""'>
+                AND T.JOB_CN LIKE CONCAT('%',TRIM(#{param.jobCn,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.jobEn!=null and vo.jobEn!=""'>
-                AND T.JOB_EN LIKE CONCAT('%',TRIM(#{vo.jobEn,jdbcType=VARCHAR}),'%')
+            <if test='param.jobEn!=null and param.jobEn!=""'>
+                AND T.JOB_EN LIKE CONCAT('%',TRIM(#{param.jobEn,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.jobDesc!=null and vo.jobDesc!=""'>
-				AND T.JOB_DESC LIKE CONCAT('%',TRIM(#{vo.jobDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.jobDesc!=null and param.jobDesc!=""'>
+				AND T.JOB_DESC LIKE CONCAT('%',TRIM(#{param.jobDesc,jdbcType=VARCHAR}),'%')
 			</if>
 		</trim>
 	</sql>
@@ -51,11 +51,11 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.jobCn,jdbcType=VARCHAR},
-			#{vo.jobEn,jdbcType=VARCHAR},
-			#{vo.jobDesc,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.jobCn,jdbcType=VARCHAR},
+			#{param.jobEn,jdbcType=VARCHAR},
+			#{param.jobDesc,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -71,12 +71,12 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_EMPLOYEE_JOB_T T SET
-			T.JOB_CN=#{vo.jobCn,jdbcType=VARCHAR},
-			T.JOB_EN=#{vo.jobEn,jdbcType=VARCHAR},
-			T.JOB_DESC=#{vo.jobDesc,jdbcType=VARCHAR},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.JOB_CN=#{param.jobCn,jdbcType=VARCHAR},
+			T.JOB_EN=#{param.jobEn,jdbcType=VARCHAR},
+			T.JOB_DESC=#{param.jobDesc,jdbcType=VARCHAR},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.JOB_ID=#{vo.jobId,jdbcType=NUMERIC}
+		WHERE T.JOB_ID=#{param.jobId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">

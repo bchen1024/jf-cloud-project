@@ -36,22 +36,22 @@
 
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
-		    T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
+		    T.APP_CODE=#{param.appCode,jdbcType=VARCHAR}
 		    AND T.ENABLE_FLAG='Y'
-            <if test='vo.groupCode!=null and vo.groupCode!=""'>
-                AND T.GROUP_CODE LIKE CONCAT('%',TRIM(#{vo.groupCode,jdbcType=VARCHAR}),'%')
+            <if test='param.groupCode!=null and param.groupCode!=""'>
+                AND T.GROUP_CODE LIKE CONCAT('%',TRIM(#{param.groupCode,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.groupName!=null and vo.groupName!=""'>
-                AND T.GROUP_NAME LIKE CONCAT('%',TRIM(#{vo.groupName,jdbcType=VARCHAR}),'%')
+            <if test='param.groupName!=null and param.groupName!=""'>
+                AND T.GROUP_NAME LIKE CONCAT('%',TRIM(#{param.groupName,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.groupDesc!=null and vo.groupDesc!=""'>
-				AND T.GROUP_DESC LIKE CONCAT('%',TRIM(#{vo.groupDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.groupDesc!=null and param.groupDesc!=""'>
+				AND T.GROUP_DESC LIKE CONCAT('%',TRIM(#{param.groupDesc,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.applyStatus!=null and vo.applyStatus!=""'>
-				AND T.APPLY_STATUS = #{vo.applyStatus,jdbcType=VARCHAR}
+			<if test='param.applyStatus!=null and param.applyStatus!=""'>
+				AND T.APPLY_STATUS = #{param.applyStatus,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.groupOwner!=null'>
-				AND T.GROUP_OWNER = #{vo.groupOwner,jdbcType=NUMERIC}
+			<if test='param.groupOwner!=null'>
+				AND T.GROUP_OWNER = #{param.groupOwner,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -67,14 +67,14 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.groupCode,jdbcType=VARCHAR},
-			#{vo.groupName,jdbcType=VARCHAR},
-			#{vo.groupDesc,jdbcType=VARCHAR},
-			#{vo.groupOwner,jdbcType=NUMERIC},
-			#{vo.applyStatus,jdbcType=VARCHAR},
-			#{vo.appCode,jdbcType=VARCHAR},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.groupCode,jdbcType=VARCHAR},
+			#{param.groupName,jdbcType=VARCHAR},
+			#{param.groupDesc,jdbcType=VARCHAR},
+			#{param.groupOwner,jdbcType=NUMERIC},
+			#{param.applyStatus,jdbcType=VARCHAR},
+			#{param.appCode,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -84,15 +84,16 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_GROUP_T T SET
-			T.GROUP_CODE=#{vo.groupCode,jdbcType=VARCHAR},
-			T.GROUP_NAME=#{vo.groupName,jdbcType=VARCHAR},
-			T.GROUP_DESC=#{vo.groupDesc,jdbcType=VARCHAR},
-			T.APPLY_STATUS=#{vo.applyStatus,jdbcType=VARCHAR},
-			T.GROUP_OWNER=#{vo.groupOwner,jdbcType=NUMERIC},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.GROUP_CODE=#{param.groupCode,jdbcType=VARCHAR},
+			T.GROUP_NAME=#{param.groupName,jdbcType=VARCHAR},
+			T.GROUP_DESC=#{param.groupDesc,jdbcType=VARCHAR},
+			T.APPLY_STATUS=#{param.applyStatus,jdbcType=VARCHAR},
+			T.GROUP_OWNER=#{param.groupOwner,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.GROUP_ID=#{vo.groupId,jdbcType=NUMERIC}
+		WHERE T.GROUP_ID=#{param.groupId,jdbcType=NUMERIC}
 	</update>
+
 
     <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
@@ -103,5 +104,17 @@
 	<select id="findList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
+	</select>
+
+	<select id="findListByIds" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<if test='list!=null and list.size()>0'>
+			<foreach collection="list" item="item" open="WHERE T.GROUP_ID IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+		<if test='list==null or list.size()==0'>
+			AND 1=2
+		</if>
 	</select>
 </mapper>

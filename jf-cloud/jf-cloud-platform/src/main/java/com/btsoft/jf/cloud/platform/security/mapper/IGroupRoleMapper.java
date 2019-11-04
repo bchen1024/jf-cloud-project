@@ -23,5 +23,23 @@ public interface IGroupRoleMapper extends IBaseMapper<GroupRoleEntity,Long> {
      * @param dto 查询参数
      * @return 群组角色列表
      */
-    List<GroupRoleEntity> findGroupRoleList(@Param("vo") GroupRoleQueryDTO dto);
+    List<GroupRoleEntity> findGroupRoleList(@Param("param") GroupRoleQueryDTO dto);
+
+    /**
+     * 根据群组id删除
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @param groupId 群组id
+     * @return 受影响行数
+     */
+    int deleteByGroupId(@Param("groupId") Long groupId);
+
+    /**
+     * 根据角色id删除
+     * @author jeo_cb
+     * @date 2019/11/4
+     * @param roleId 角色id
+     * @return 受影响行数
+     */
+    int deleteByRoleId(@Param("roleId") Long roleId);
 }

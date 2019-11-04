@@ -1,14 +1,18 @@
 package com.btsoft.jf.cloud.monitor.dto;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 审计日志创建DTO
  * @author jeo_cb
- * @desc TODO
  * @date 2019/10/12 11:07
  **/
-public class AuditLogCreateDTO {
+public class AuditLogCreateDTO implements Serializable {
 
+    private static final long serialVersionUID = 325544368641468514L;
     private Date logTime;
 
     private Long userId;
@@ -117,5 +121,10 @@ public class AuditLogCreateDTO {
 
     public void setAppCode(String appCode) {
         this.appCode = appCode;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

@@ -86,9 +86,12 @@ public class AppServiceImpl implements IAppService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteApp(BaseIdDTO dto) {
         int rows=mapper.deleteSingleById(dto.getId());
         //TODO 删除应用关联数据
+        //删除应用用户角色关系
+        appUserMapper.deleteByAppId(dto.getId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
@@ -112,7 +115,7 @@ public class AppServiceImpl implements IAppService {
         appUserMapper.findAppUserList(dto);
         CommonResult<PageResult<AppUserVO>> result=CommonResultUtils.pageResult(AppUserVO.class,page);
         if(result.getData()!=null && !CollectionUtils.isEmpty(result.getData().getList())){
-            roleService.fillRoleName(result.getData().getList());
+            roleService.fillRoleInfo(result.getData().getList());
         }
         return result;
     }

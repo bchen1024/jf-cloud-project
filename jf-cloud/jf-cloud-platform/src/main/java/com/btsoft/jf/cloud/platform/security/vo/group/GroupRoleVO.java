@@ -9,11 +9,14 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/10/31 16:56
  **/
-public class GroupRoleVO extends BaseVO  implements IRoleVO {
+public class GroupRoleVO extends BaseVO  implements IRoleVO,IGroupVO {
     private static final long serialVersionUID = -6872538825801556078L;
 
     private Long id;
     private Long groupId;
+    private String groupCode;
+    private String groupName;
+    private String groupDesc;
     private Long roleId;
     private String roleCode;
     private String roleName;
@@ -27,12 +30,40 @@ public class GroupRoleVO extends BaseVO  implements IRoleVO {
         this.id = id;
     }
 
+    @Override
     public Long getGroupId() {
         return groupId;
     }
 
     public void setGroupId(Long groupId) {
         this.groupId = groupId;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    @Override
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    @Override
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getGroupDesc() {
+        return groupDesc;
+    }
+
+    @Override
+    public void setGroupDesc(String groupDesc) {
+        this.groupDesc = groupDesc;
     }
 
     @Override

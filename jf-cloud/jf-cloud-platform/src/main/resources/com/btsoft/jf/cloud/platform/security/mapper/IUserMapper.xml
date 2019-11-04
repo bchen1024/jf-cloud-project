@@ -54,35 +54,35 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 		    T.ENABLE_FLAG='Y'
-            <if test='vo.userNo!=null and vo.userNo!=""'>
-                AND T.USER_NO LIKE CONCAT('%',TRIM(#{vo.userNo,jdbcType=VARCHAR}),'%')
+            <if test='param.userNo!=null and param.userNo!=""'>
+                AND T.USER_NO LIKE CONCAT('%',TRIM(#{param.userNo,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.userCn!=null and vo.userCn!=""'>
-				AND T.USER_CN LIKE CONCAT('%',TRIM(#{vo.userCn,jdbcType=VARCHAR}),'%')
+			<if test='param.userCn!=null and param.userCn!=""'>
+				AND T.USER_CN LIKE CONCAT('%',TRIM(#{param.userCn,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.userEn!=null and vo.userEn!=""'>
-				AND T.USER_EN LIKE CONCAT('%',TRIM(#{vo.userEn,jdbcType=VARCHAR}),'%')
+			<if test='param.userEn!=null and param.userEn!=""'>
+				AND T.USER_EN LIKE CONCAT('%',TRIM(#{param.userEn,jdbcType=VARCHAR}),'%')
 			</if>
-            <if test='vo.mobile!=null and vo.mobile!=""'>
-                AND T.MOBILE LIKE CONCAT('%',TRIM(#{vo.mobile,jdbcType=VARCHAR}),'%')
+            <if test='param.mobile!=null and param.mobile!=""'>
+                AND T.MOBILE LIKE CONCAT('%',TRIM(#{param.mobile,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.email!=null and vo.email!=""'>
-				AND T.EMAIL LIKE CONCAT('%',TRIM(#{vo.email,jdbcType=VARCHAR}),'%')
+			<if test='param.email!=null and param.email!=""'>
+				AND T.EMAIL LIKE CONCAT('%',TRIM(#{param.email,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.userType!=null and vo.userType!=""'>
-				AND T.USER_TYPE=#{vo.userType,jdbcType=VARCHAR}
+			<if test='param.userType!=null and param.userType!=""'>
+				AND T.USER_TYPE=#{param.userType,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.userSex!=null and vo.userSex!=""'>
-				AND T.USER_SEX=#{vo.userSex,jdbcType=VARCHAR}
+			<if test='param.userSex!=null and param.userSex!=""'>
+				AND T.USER_SEX=#{param.userSex,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.userStatus!=null and vo.userStatus!=""'>
-				AND T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR}
+			<if test='param.userStatus!=null and param.userStatus!=""'>
+				AND T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.mobileValidated!=null and vo.mobileValidated!=""'>
-				AND T.MOBILE_VALIDATED=#{vo.mobileValidated,jdbcType=VARCHAR}
+			<if test='param.mobileValidated!=null and param.mobileValidated!=""'>
+				AND T.MOBILE_VALIDATED=#{param.mobileValidated,jdbcType=VARCHAR}
 			</if>
-			<if test='vo.emailValidated!=null and vo.emailValidated!=""'>
-				AND T.EMAIL_VALIDATED=#{vo.emailValidated,jdbcType=VARCHAR}
+			<if test='param.emailValidated!=null and param.emailValidated!=""'>
+				AND T.EMAIL_VALIDATED=#{param.emailValidated,jdbcType=VARCHAR}
 			</if>
 		</trim>
 	</sql>
@@ -100,16 +100,16 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.userNo,jdbcType=VARCHAR},
-			#{vo.userCn,jdbcType=VARCHAR},
-			#{vo.userEn,jdbcType=VARCHAR},
-			#{vo.mobile,jdbcType=VARCHAR},
-			#{vo.email,jdbcType=VARCHAR},
-			#{vo.password,jdbcType=VARCHAR},
-			#{vo.userType,jdbcType=VARCHAR},
-			#{vo.userSex,jdbcType=VARCHAR},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.userNo,jdbcType=VARCHAR},
+			#{param.userCn,jdbcType=VARCHAR},
+			#{param.userEn,jdbcType=VARCHAR},
+			#{param.mobile,jdbcType=VARCHAR},
+			#{param.email,jdbcType=VARCHAR},
+			#{param.password,jdbcType=VARCHAR},
+			#{param.userType,jdbcType=VARCHAR},
+			#{param.userSex,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -142,50 +142,50 @@
 
 	<update id="updateUserBaseInfo">
 		UPDATE SYS_USER_T T SET
-			T.USER_CN=#{vo.userCn,jdbcType=VARCHAR},
-			T.USER_EN=#{vo.userEn,jdbcType=VARCHAR},
-			T.USER_SEX=#{vo.userSex,jdbcType=VARCHAR},
-			T.MOBILE=IF(T.MOBILE_VALIDATED='Y',T.MOBILE,#{vo.mobile,jdbcType=VARCHAR}),
-			T.EMAIL=IF(T.EMAIL_VALIDATED='Y',T.EMAIL,#{vo.email,jdbcType=VARCHAR}),
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.USER_CN=#{param.userCn,jdbcType=VARCHAR},
+			T.USER_EN=#{param.userEn,jdbcType=VARCHAR},
+			T.USER_SEX=#{param.userSex,jdbcType=VARCHAR},
+			T.MOBILE=IF(T.MOBILE_VALIDATED='Y',T.MOBILE,#{param.mobile,jdbcType=VARCHAR}),
+			T.EMAIL=IF(T.EMAIL_VALIDATED='Y',T.EMAIL,#{param.email,jdbcType=VARCHAR}),
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
 	</update>
 
 	<update id="updateUserStatus">
 		UPDATE SYS_USER_T T SET
-			T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
-			<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
+			<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
 				T.LOCK_TIME=NOW(),
 			</if>
-			<if test="vo.userStatus!=@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			<if test="param.userStatus!=@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
 				T.LOCK_TIME=NULL,
 			</if>
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
-		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@Y.getKey">
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@Y.getKey">
 			AND T.USER_STATUS IN('L','D')
 		</if>
-		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
 			AND T.USER_STATUS='Y'
 		</if>
-		<if test="vo.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@D.getKey">
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@D.getKey">
 			AND T.USER_STATUS IN('L','Y')
 		</if>
 	</update>
 
 	<select id="validUserMobile" resultType="int">
-		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.MOBILE=#{vo.mobile,jdbcType=VARCHAR}
-		<if test="vo.userId!=null">
-			AND T.USER_ID!=#{vo.userId,jdbcType=NUMERIC}
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.MOBILE=#{param.mobile,jdbcType=VARCHAR}
+		<if test="param.userId!=null">
+			AND T.USER_ID!=#{param.userId,jdbcType=NUMERIC}
 		</if>
 	</select>
 
 	<select id="validUserEmail" resultType="int">
-		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.EMAIL=#{vo.email,jdbcType=VARCHAR}
-		<if test="vo.userId!=null">
-			AND T.USER_ID!=#{vo.userId,jdbcType=NUMERIC}
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.EMAIL=#{param.email,jdbcType=VARCHAR}
+		<if test="param.userId!=null">
+			AND T.USER_ID!=#{param.userId,jdbcType=NUMERIC}
 		</if>
 	</select>
 
@@ -217,10 +217,10 @@
 
 	<update id="updateErrorNumAndStatus">
 		UPDATE SYS_USER_T T SET
-			T.PASSWORD_ERROR_NUM=#{vo.passwordErrorNum,jdbcType=NUMERIC},
-		    T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR},
-		    T.LOCK_TIME=#{vo.lockTime}
-		WHERE T.USER_ID=#{vo.userId,jdbcType=NUMERIC}
+			T.PASSWORD_ERROR_NUM=#{param.passwordErrorNum,jdbcType=NUMERIC},
+		    T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR},
+		    T.LOCK_TIME=#{param.lockTime}
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findSelectUserList" resultMap="sqlResultMap">
@@ -237,19 +237,19 @@
 			T.USER_PHOTO
 		FROM SYS_USER_T T
 		WHERE T.ENABLE_FLAG='Y'
-		<if test='vo.userType!=null and vo.userType!=""'>
-			AND T.USER_TYPE=#{vo.userType,jdbcType=VARCHAR}
+		<if test='param.userType!=null and param.userType!=""'>
+			AND T.USER_TYPE=#{param.userType,jdbcType=VARCHAR}
 		</if>
-		<if test='vo.userStatus!=null and vo.userStatus!=""'>
-			AND T.USER_STATUS=#{vo.userStatus,jdbcType=VARCHAR}
+		<if test='param.userStatus!=null and param.userStatus!=""'>
+			AND T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR}
 		</if>
-		<if test='vo.userSex!=null and vo.userSex!=""'>
-			AND T.USER_SEX=#{vo.userSex,jdbcType=VARCHAR}
+		<if test='param.userSex!=null and param.userSex!=""'>
+			AND T.USER_SEX=#{param.userSex,jdbcType=VARCHAR}
 		</if>
-		<if test='vo.keyword!=null and vo.keyword!=""'>
-			AND (T.USER_CN LIKE CONCAT('%',TRIM(#{vo.keyword,jdbcType=VARCHAR}),'%')
-			  OR T.USER_EN LIKE CONCAT('%',TRIM(#{vo.keyword,jdbcType=VARCHAR}),'%')
-			  OR T.USER_NO LIKE CONCAT('%',TRIM(#{vo.keyword,jdbcType=VARCHAR}),'%')
+		<if test='param.keyword!=null and param.keyword!=""'>
+			AND (T.USER_CN LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
+			  OR T.USER_EN LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
+			  OR T.USER_NO LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
 			)
 		</if>
 		LIMIT 50

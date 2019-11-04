@@ -39,20 +39,20 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-            <if test='vo.appCode!=null and vo.appCode!=""'>
-                AND T.APP_CODE LIKE CONCAT('%',TRIM(#{vo.appCode,jdbcType=VARCHAR}),'%')
+            <if test='param.appCode!=null and param.appCode!=""'>
+                AND T.APP_CODE LIKE CONCAT('%',TRIM(#{param.appCode,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.appName!=null and vo.appName!=""'>
-                AND T.APP_NAME LIKE CONCAT('%',TRIM(#{vo.appName,jdbcType=VARCHAR}),'%')
+            <if test='param.appName!=null and param.appName!=""'>
+                AND T.APP_NAME LIKE CONCAT('%',TRIM(#{param.appName,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.appDesc!=null and vo.appDesc!=""'>
-				AND T.APP_DESC LIKE CONCAT('%',TRIM(#{vo.appDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.appDesc!=null and param.appDesc!=""'>
+				AND T.APP_DESC LIKE CONCAT('%',TRIM(#{param.appDesc,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.appOwner!=null'>
-				AND T.APP_OWNER = #{vo.appOwner,jdbcType=NUMERIC}
+			<if test='param.appOwner!=null'>
+				AND T.APP_OWNER = #{param.appOwner,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.appType!=null'>
-				AND T.APP_TYPE = #{vo.appType,jdbcType=NUMERIC}
+			<if test='param.appType!=null'>
+				AND T.APP_TYPE = #{param.appType,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -69,15 +69,15 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.appCode,jdbcType=VARCHAR},
-			#{vo.appName,jdbcType=VARCHAR},
-			#{vo.appOwner,jdbcType=NUMERIC},
-			#{vo.appDesc,jdbcType=VARCHAR},
-			#{vo.appToken,jdbcType=VARCHAR},
-			#{vo.contextPath,jdbcType=VARCHAR},
-			#{vo.appType,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.appCode,jdbcType=VARCHAR},
+			#{param.appName,jdbcType=VARCHAR},
+			#{param.appOwner,jdbcType=NUMERIC},
+			#{param.appDesc,jdbcType=VARCHAR},
+			#{param.appToken,jdbcType=VARCHAR},
+			#{param.contextPath,jdbcType=VARCHAR},
+			#{param.appType,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -93,14 +93,14 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_APP_T T SET
-			T.APP_NAME=#{vo.appName,jdbcType=VARCHAR},
-			T.APP_DESC=#{vo.appDesc,jdbcType=VARCHAR},
-			T.CONTEXT_PATH=#{vo.contextPath,jdbcType=VARCHAR},
-			T.APP_TYPE=#{vo.appType,jdbcType=NUMERIC},
-			T.APP_OWNER=#{vo.appOwner,jdbcType=NUMERIC},
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.APP_NAME=#{param.appName,jdbcType=VARCHAR},
+			T.APP_DESC=#{param.appDesc,jdbcType=VARCHAR},
+			T.CONTEXT_PATH=#{param.contextPath,jdbcType=VARCHAR},
+			T.APP_TYPE=#{param.appType,jdbcType=NUMERIC},
+			T.APP_OWNER=#{param.appOwner,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+		WHERE T.APP_ID=#{param.appId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">
@@ -122,9 +122,9 @@
 
 	<update id="updateAppToken">
 		UPDATE SYS_APP_T T SET
-			T.APP_TOKEN=#{vo.appToken,jdbcType=VARCHAR},
-		    T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.APP_TOKEN=#{param.appToken,jdbcType=VARCHAR},
+		    T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 		    T.LAST_UPDATE_DATE=NOW()
-		WHERE T.APP_ID=#{vo.appId,jdbcType=NUMERIC}
+		WHERE T.APP_ID=#{param.appId,jdbcType=NUMERIC}
 	</update>
 </mapper>

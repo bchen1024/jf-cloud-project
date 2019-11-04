@@ -32,7 +32,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @param  entity 基本信息入参
      * @return 受影响行数
      **/
-    int updateUserBaseInfo(@Param("vo") UserEntity entity);
+    int updateUserBaseInfo(@Param("param") UserEntity entity);
 
     /**
      * 更新用户状态
@@ -41,7 +41,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @param  entity 状态更新参数
      * @return 受影响行数
      **/
-    int updateUserStatus(@Param("vo") UserEntity entity);
+    int updateUserStatus(@Param("param") UserEntity entity);
 
     /**
      * 校验用户手机号码是否重复
@@ -50,7 +50,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @param entity 用户信息
      * @return 数量
      */
-    int validUserMobile(@Param("vo") UserEntity entity);
+    int validUserMobile(@Param("param") UserEntity entity);
 
     /**
      * 校验用户邮箱是否重复
@@ -59,7 +59,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @param entity 用户信息
      * @return 数量
      */
-    int validUserEmail(@Param("vo") UserEntity entity);
+    int validUserEmail(@Param("param") UserEntity entity);
 
     /**
      * 获取有效的登录用户
@@ -77,7 +77,7 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @param entity 用户信息
      * @return 受影响行数
      */
-    int updateErrorNumAndStatus(@Param("vo") UserEntity entity);
+    int updateErrorNumAndStatus(@Param("param") UserEntity entity);
 
     /**
      * 用户选择
@@ -85,5 +85,5 @@ public interface IUserMapper extends IBaseMapper<UserEntity,Long> {
      * @date 2019/10/4
      * @return 用户列表
      **/
-    List<UserEntity> findSelectUserList(@Param("vo")  UserSelectQueryDTO dto);
+    List<UserEntity> findSelectUserList(@Param("param")  UserSelectQueryDTO dto);
 }

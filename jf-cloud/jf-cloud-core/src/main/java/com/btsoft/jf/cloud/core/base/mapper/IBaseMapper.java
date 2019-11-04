@@ -17,14 +17,14 @@ public interface IBaseMapper<T,ID> extends IBaseBatchMapper<T>{
 	 * @param t 插入对象
 	 * @return 返回受影响行数
 	 */
-	int createSingle(@Param("vo") T t);
+	int createSingle(@Param("param") T t);
 
 	/**
 	 * 查询单个对象
 	 * @param t 查询条件对象
 	 * @return 返回单个对象
 	 */
-	T findSingle(@Param("vo") T t);
+	T findSingle(@Param("param") T t);
 
 	/**
 	 * 根据id查询单个对象
@@ -38,21 +38,21 @@ public interface IBaseMapper<T,ID> extends IBaseBatchMapper<T>{
 	 * @param t 更新对象
 	 * @return 返回受影响行数
 	 */
-	int updateSingle(@Param("vo") T t);
+	int updateSingle(@Param("param") T t);
 
 	/**
 	 * 更新对象某个字段
 	 * @param t 更新对象
 	 * @return 返回受影响行数
 	 */
-	int patchSingle(@Param("vo") T t);
+	int patchSingle(@Param("param") T t);
 
 	/**
 	 * 删除单个对象
 	 * @param t 删除对象
 	 * @return 返回受影响行数
 	 */
-	int deleteSingle(@Param("vo") T t);
+	int deleteSingle(@Param("param") T t);
 
 	/**
 	 * 根据id删除单个对象
@@ -66,7 +66,7 @@ public interface IBaseMapper<T,ID> extends IBaseBatchMapper<T>{
 	 * @param t 查询参数对象
 	 * @return 返回对象列表
 	 */
-	List<T> findList(@Param("vo") T t);
+	List<T> findList(@Param("param") T t);
 
 	/**
 	 * 根据id获取列表

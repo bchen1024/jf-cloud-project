@@ -29,11 +29,11 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-			<if test='vo.groupId!=null'>
-				AND T.GROUP_ID = #{vo.groupId,jdbcType=NUMERIC}
+			<if test='param.groupId!=null'>
+				AND T.GROUP_ID = #{param.groupId,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.roleId!=null'>
-				AND T.ROLE_ID = #{vo.roleId,jdbcType=NUMERIC}
+			<if test='param.roleId!=null'>
+				AND T.ROLE_ID = #{param.roleId,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -45,10 +45,10 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.groupId,jdbcType=NUMERIC},
-			#{vo.roleId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.groupId,jdbcType=NUMERIC},
+			#{param.roleId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -59,12 +59,12 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES
-		<foreach collection="vo.list" item="item"  separator=",">
+		<foreach collection="param.list" item="item"  separator=",">
 			(
 				#{item.groupId,jdbcType=NUMERIC},
 				#{item.roleId,jdbcType=NUMERIC},
-				#{vo.currentUserId,jdbcType=NUMERIC},
-				#{vo.currentUserId,jdbcType=NUMERIC}
+				#{param.currentUserId,jdbcType=NUMERIC},
+				#{param.currentUserId,jdbcType=NUMERIC}
 			)
 		</foreach>
 	</insert>
@@ -81,22 +81,45 @@
 	<select id="findGroupRoleList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
-		<if test='vo.keywordField!=null and vo.keywordField!="" and
-				vo.keywordValue!=null and vo.keywordValue!="" '>
-
+		<if test='param.keywordField!=null and param.keywordField!="" and
+				param.keywordValue!=null and param.keywordValue!="" '>
+			<if test='param.keywordField=="roleName" or param.keywordField=="roleCode" or param.keywordField=="roleDesc"'>
 				AND EXISTS(
 					SELECT 1 FROM SYS_ROLE_T R WHERE R.ROLE_ID=T.ROLE_ID
-					<if test='vo.keywordField=="roleName"'>
+					<if test='param.keywordField=="roleName"'>
 						AND R.ROLE_NAME
 					</if>
-					<if test='vo.keywordField=="roleCode"'>
+					<if test='param.keywordField=="roleCode"'>
 						AND R.ROLE_CODE
 					</if>
-					<if test='vo.keywordField=="roleDesc"'>
+					<if test='param.keywordField=="roleDesc"'>
 						AND R.ROLE_DESC
 					</if>
-					LIKE CONCAT('%',TRIM(#{vo.keywordValue,jdbcType=VARCHAR}),'%')
+					LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='param.keywordField=="groupName" or param.keywordField=="groupCode" or param.keywordField=="groupDesc"'>
+				AND EXISTS(
+				SELECT 1 FROM SYS_GROUP_T G WHERE R.GROUP_ID=T.GROUP_ID
+				<if test='param.keywordField=="groupName"'>
+					AND G.GROUP_NAME
+				</if>
+				<if test='param.keywordField=="groupCode"'>
+					AND G.GROUP_CODE
+				</if>
+				<if test='param.keywordField=="groupDesc"'>
+					AND G.GROUP_DESC
+				</if>
+				LIKE CONCAT('%',TRIM(#{param.keywordValue,jdbcType=VARCHAR}),'%')
+			</if>
 			)
 		</if>
 	</select>
+
+	<delete id="deleteByGroupId">
+		DELETE FROM SYS_GROUP_ROLE_RT WHERE GROUP_ID=#{groupId,jdbcType=NUMERIC}
+	</delete>
+
+	<delete id="deleteByRoleId">
+		DELETE FROM SYS_GROUP_ROLE_RT WHERE ROLE_ID=#{roleId,jdbcType=NUMERIC}
+	</delete>
 </mapper>

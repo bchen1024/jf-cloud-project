@@ -23,5 +23,5 @@ public interface IAuditLogMapper extends IBaseMapper<AuditLogEntity,Long> {
      * @param dto 查询参数
      * @return 查询结果
      **/
-    List<AuditLogEntity> findAuditLogPage(@Param("vo") AuditLogQueryDTO dto);
+    List<AuditLogEntity> findAuditLogPage(@Param("param") AuditLogQueryDTO dto);
 }

@@ -40,21 +40,21 @@
 
 	<sql id="base_condition">
 		<trim prefix="where" prefixOverrides="and || or">
-			T.APP_CODE=#{vo.appCode,jdbcType=VARCHAR}
-			<if test='vo.enableFlag!=null and vo.enableFlag!=""'>
-				AND T.ENABLE_FLAG = #{vo.enableFlag,jdbcType=VARCHAR}
+			T.APP_CODE=#{param.appCode,jdbcType=VARCHAR}
+			<if test='param.enableFlag!=null and param.enableFlag!=""'>
+				AND T.ENABLE_FLAG = #{param.enableFlag,jdbcType=VARCHAR}
 			</if>
-            <if test='vo.permissionCode!=null and vo.permissionCode!=""'>
-                AND T.PERMISSION_CODE LIKE CONCAT('%',TRIM(#{vo.permissionCode,jdbcType=VARCHAR}),'%')
+            <if test='param.permissionCode!=null and param.permissionCode!=""'>
+                AND T.PERMISSION_CODE LIKE CONCAT('%',TRIM(#{param.permissionCode,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.permissionDescCN!=null and vo.permissionDescCN!=""'>
-                AND T.PERMISSION_DESC_CN LIKE CONCAT('%',TRIM(#{vo.permissionDescCn,jdbcType=VARCHAR}),'%')
+            <if test='param.permissionDescCN!=null and param.permissionDescCN!=""'>
+                AND T.PERMISSION_DESC_CN LIKE CONCAT('%',TRIM(#{param.permissionDescCn,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.permissionDescEN!=null and vo.permissionDescEN!=""'>
-                AND T.PERMISSION_DESC_EN LIKE CONCAT('%',trim(#{vo.permissionDescEn,jdbcType=VARCHAR}),'%')
+            <if test='param.permissionDescEN!=null and param.permissionDescEN!=""'>
+                AND T.PERMISSION_DESC_EN LIKE CONCAT('%',trim(#{param.permissionDescEn,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.permissionType!=null and vo.permissionType!=""'>
-				AND T.PERMISSION_TYPE #{vo.permissionType,jdbcType=VARCHAR}
+			<if test='param.permissionType!=null and param.permissionType!=""'>
+				AND T.PERMISSION_TYPE #{param.permissionType,jdbcType=VARCHAR}
 			</if>
 		</trim>
 	</sql>
@@ -72,16 +72,16 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.permissionCode,jdbcType=VARCHAR},
-			#{vo.permissionDescCn,jdbcType=VARCHAR},
-			#{vo.permissionDescEn,jdbcType=VARCHAR},
-			#{vo.permissionType,jdbcType=VARCHAR},
-			#{vo.permissionSource,jdbcType=VARCHAR},
-			IFNULL(#{vo.permissionSort,jdbcType=NUMERIC},0),
-			IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
-			#{vo.appCode,jdbcType=VARCHAR},
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.permissionCode,jdbcType=VARCHAR},
+			#{param.permissionDescCn,jdbcType=VARCHAR},
+			#{param.permissionDescEn,jdbcType=VARCHAR},
+			#{param.permissionType,jdbcType=VARCHAR},
+			#{param.permissionSource,jdbcType=VARCHAR},
+			IFNULL(#{param.permissionSort,jdbcType=NUMERIC},0),
+			IFNULL(#{param.parentCode,jdbcType=VARCHAR},''),
+			#{param.appCode,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -96,15 +96,15 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_PERMISSION_T T SET
-			T.PERMISSION_CODE=#{vo.permissionCode,jdbcType=VARCHAR},
-			T.PERMISSION_DESC_CN=#{vo.permissionDescCn,jdbcType=VARCHAR},
-			T.PERMISSION_DESC_EN=#{vo.permissionDescEn,jdbcType=VARCHAR},
-			T.PERMISSION_TYPE=#{vo.permissionType,jdbcType=VARCHAR},
-			T.PERMISSION_SORT=IFNULL(#{vo.permissionSort,jdbcType=NUMERIC},0),
-			T.PARENT_CODE=IFNULL(#{vo.parentCode,jdbcType=VARCHAR},''),
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.PERMISSION_CODE=#{param.permissionCode,jdbcType=VARCHAR},
+			T.PERMISSION_DESC_CN=#{param.permissionDescCn,jdbcType=VARCHAR},
+			T.PERMISSION_DESC_EN=#{param.permissionDescEn,jdbcType=VARCHAR},
+			T.PERMISSION_TYPE=#{param.permissionType,jdbcType=VARCHAR},
+			T.PERMISSION_SORT=IFNULL(#{param.permissionSort,jdbcType=NUMERIC},0),
+			T.PARENT_CODE=IFNULL(#{param.parentCode,jdbcType=VARCHAR},''),
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		where t.permission_id=#{vo.permissionId,jdbcType=NUMERIC}
+		where t.permission_id=#{param.permissionId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">
@@ -128,7 +128,7 @@
 			LAST_UPDATE_BY
 		)
 		VALUES
-		<foreach collection="vo.list" item="item" separator=",">
+		<foreach collection="param.list" item="item" separator=",">
 			(#{item.permissionCode,jdbcType=VARCHAR},
 			#{item.permissionDescCn,jdbcType=VARCHAR},
 			#{item.permissionDescEn,jdbcType=VARCHAR},
@@ -137,7 +137,7 @@
 			#{item.permissionSource,jdbcType=VARCHAR},
 			IFNULL(#{item.permissionSort,jdbcType=NUMERIC},0),
 			#{item.appCode,jdbcType=VARCHAR},
-			#{vo.appCode,jdbcType=VARCHAR},
+			#{param.appCode,jdbcType=VARCHAR},
 			#{item.currentUserId,jdbcType=NUMERIC},
 			#{item.currentUserId,jdbcType=NUMERIC})
 		</foreach>
@@ -154,12 +154,12 @@
 	<update id="inValidPermission">
 		UPDATE SYS_PERMISSION_T T SET
 			T.ENABLE_FLAG='N',
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.APP_SOURCE=#{vo.appCode,jdbcType=VARCHAR}
+		WHERE T.APP_SOURCE=#{param.appCode,jdbcType=VARCHAR}
 		  AND T.PERMISSION_SOURCE='annotation'
-		<if test="vo.list!=null and vo.list.size()>0">
-			<foreach collection="vo.list" item="item" open="AND (T.PERMISSION_CODE,T.PERMISSION_TYPE,T.PARENT_CODE) NOT IN(" close=")" separator=",">
+		<if test="param.list!=null and param.list.size()>0">
+			<foreach collection="param.list" item="item" open="AND (T.PERMISSION_CODE,T.PERMISSION_TYPE,T.PARENT_CODE) NOT IN(" close=")" separator=",">
 				(#{item.permissionCode,jdbcType=NUMERIC},#{item.permissionType,jdbcType=NUMERIC},IFNULL(#{item.parentCode,jdbcType=VARCHAR},''))
 			</foreach>
 		</if>

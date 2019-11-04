@@ -1,11 +1,16 @@
 <template>
     <Tree ref="organizationTree" :empty-text="$t('noOrganizationData')" 
-                :render="renderContent" :data="$store.state.cache.orgCacheList" 
+                :render="renderContent" :data="orgList" 
                 @on-select-change="onSelectChange"></Tree>
 </template>
 <script>
 export default {
     name:'JFOrgTree',
+    computed:{
+        orgList(){
+            return Object.assign([],[],this.$store.state.cache.orgCacheList);
+        }
+    },
     created(){
         this.reload();
     },
@@ -16,6 +21,9 @@ export default {
         },
         reload(reload=false){
             this.$store.dispatch('loadOrgList',reload);
+        },
+        getSelectedNodes(){
+            return this.$refs.organizationTree.getSelectedNodes();
         },
         renderContent (h, { root, node, data }) {
             let icon='ios-paper-outline';
@@ -32,7 +40,7 @@ export default {
                         click: () => {
                             if (!node.node.selected){
                                 this.$refs.organizationTree.handleSelect(node.nodeKey); //手动选择树节点
-                            } 
+                            }
                         }
                     }
                 }, data.title)

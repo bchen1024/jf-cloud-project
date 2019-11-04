@@ -335,6 +335,17 @@ export default[
                     icon:'md-person',
                     permissionCode:'group$single'
                 }
+            },
+            {
+                path:'/account/employee/detail',
+                name:'employeeDetail',
+                component:resolve =>require(['@/views/account/employee/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','employeeMgt'],
+                    hideMenu:true,
+                    icon:'md-person',
+                    permissionCode:'employee$single'
+                }
             }
         ]
     },

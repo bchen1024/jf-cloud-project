@@ -32,5 +32,5 @@ public interface IPermissionMapper  extends IBaseMapper<PermissionEntity,Long> {
      * @param batch 批量参数
      * @return 受影响行数
      */
-    int inValidPermission(@Param("vo") BatchEntity<PermissionEntity> batch);
+    int inValidPermission(@Param("param") BatchEntity<PermissionEntity> batch);
 }

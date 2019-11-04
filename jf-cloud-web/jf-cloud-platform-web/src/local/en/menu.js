@@ -37,4 +37,5 @@ export default{
     groupDetail:'Group Detail',
     appDetail:'App Detail',
     roleDetail:'Role Detail',
+    employeeDetail:'Employee Detail'
 }

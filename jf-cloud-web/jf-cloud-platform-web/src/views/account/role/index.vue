@@ -46,9 +46,9 @@ export default {
                             return false;
                         }},
                         {title:vm.$t('detail'),permissionCode:'role$single',gridDetail:true},
-                        {title:vm.$t('roleUsers'),permissionCode:'role$roleUsers',gridDetail:{tabId:'roleUsers'}},
                         {title:vm.$t('rolePermission'),permissionCode:'rolePermission$tree',gridDetail:{tabId:'rolePermission'}},
-                        {title:vm.$t('roleGroups'),permissionCode:'role$roleGroups',gridDetail:{tabId:'roleGroups'}}
+                        {title:vm.$t('roleUsers'),permissionCode:'role$roleUsers',gridDetail:{tabId:'roleUsers'}},
+                        {title:vm.$t('roleGroups'),permissionCode:'roleGroups$page',gridDetail:{tabId:'roleGroups'}}
                     ],
                     columns:[
                         {key:'roleCode',width:150,condition:true},

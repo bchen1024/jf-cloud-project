@@ -8,6 +8,7 @@ export default{
     rolePermission:'Role Permission',
     roleUsers:'Role Users',
     roleGroups:'Role Groups',
+    addRole:'Add Role',
 
     //用户相关
     userId:'User ID',
@@ -45,7 +46,7 @@ export default{
     createGroup:'Create Group',
     groupUsers:'Group Users',
     groupRoles:'Group Roles',
-    addRole:'Add Role',
+    addGroup:'Add Group',
 
     //员工相关
     employeeNo:'Employee No',

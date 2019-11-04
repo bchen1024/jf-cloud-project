@@ -79,4 +79,7 @@ export default{
     mySetting:'My Setting',
     myLogs:'My Logs',
     myPermission:'My Permission',
+    originalPassword:'Original Password',
+    newPassword:'New Password',
+    confirmPassword:'Confirm Password'
 }

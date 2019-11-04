@@ -7,7 +7,7 @@
             
         </TabPane>
         <TabPane :label="$t('updatePassword')" name="updatePassword" >
-            
+            <UpdatePassword/>
         </TabPane>
         <TabPane :label="$t('bindEmailMobile')" name="bindEmailMobile" >
             
@@ -31,9 +31,10 @@
 </template>
 <script>
 import BaseInfo from './baseInfo.vue';
+import UpdatePassword from './updatePassword.vue';
 export default {
     components:{
-        BaseInfo
+        BaseInfo,UpdatePassword
     },
     data(){
         return {

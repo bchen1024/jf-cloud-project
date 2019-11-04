@@ -15,20 +15,20 @@ public interface IBaseBatchMapper<T> {
 	 * @param t 删除对象列表
 	 * @return 返回受影响的行数
 	 */
-	int deleteMultiple(@Param("vo") BatchEntity<T> t);
+	int deleteMultiple(@Param("param") BatchEntity<T> t);
 
 	/**
 	 * 批量插入对象
 	 * @param t 插入的对象
 	 * @return 返回受影响的行数
 	 */
-	int createMultiple(@Param("vo") BatchEntity<T> t);
+	int createMultiple(@Param("param") BatchEntity<T> t);
 	
 	/**
 	 * 批量更新对象
 	 * @param t 更新的列表
 	 * @return 返回受影响的行数
 	 */
-	int updateMultiple(@Param("vo") BatchEntity<T> t);
+	int updateMultiple(@Param("param") BatchEntity<T> t);
 
 }

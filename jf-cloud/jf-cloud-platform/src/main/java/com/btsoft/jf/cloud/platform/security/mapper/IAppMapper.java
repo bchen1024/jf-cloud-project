@@ -20,5 +20,5 @@ public interface IAppMapper extends IBaseMapper<AppEntity,Long> {
      * @param  entity 更新数据
      * @return 受影响行数
      **/
-    int updateAppToken(@Param("vo") AppEntity entity);
+    int updateAppToken(@Param("param") AppEntity entity);
 }

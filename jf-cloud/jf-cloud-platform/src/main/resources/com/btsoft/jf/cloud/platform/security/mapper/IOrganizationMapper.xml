@@ -33,17 +33,17 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-            <if test='vo.orgCn!=null and vo.orgCn!=""'>
-                AND T.ORG_CN LIKE CONCAT('%',TRIM(#{vo.orgCn,jdbcType=VARCHAR}),'%')
+            <if test='param.orgCn!=null and param.orgCn!=""'>
+                AND T.ORG_CN LIKE CONCAT('%',TRIM(#{param.orgCn,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='vo.orgEn!=null and vo.orgEn!=""'>
-                AND T.ORG_EN LIKE CONCAT('%',TRIM(#{vo.orgEn,jdbcType=VARCHAR}),'%')
+            <if test='param.orgEn!=null and param.orgEn!=""'>
+                AND T.ORG_EN LIKE CONCAT('%',TRIM(#{param.orgEn,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='vo.orgDesc!=null and vo.orgDesc!=""'>
-				AND T.ORG_DESC LIKE CONCAT('%',TRIM(#{vo.orgDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.orgDesc!=null and param.orgDesc!=""'>
+				AND T.ORG_DESC LIKE CONCAT('%',TRIM(#{param.orgDesc,jdbcType=VARCHAR}),'%')
 			</if>
-			<if test='vo.parentId!=null'>
-				AND T.PARENT_ID= #{vo.parentId,jdbcType=NUMERIC}
+			<if test='param.parentId!=null'>
+				AND T.PARENT_ID= #{param.parentId,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -57,12 +57,12 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{vo.orgCn,jdbcType=VARCHAR},
-			#{vo.orgEn,jdbcType=VARCHAR},
-			#{vo.orgDesc,jdbcType=VARCHAR},
-			IFNULL(#{vo.parentId,jdbcType=VARCHAR},0),
-			#{vo.currentUserId,jdbcType=NUMERIC},
-			#{vo.currentUserId,jdbcType=NUMERIC}
+			#{param.orgCn,jdbcType=VARCHAR},
+			#{param.orgEn,jdbcType=VARCHAR},
+			#{param.orgDesc,jdbcType=VARCHAR},
+			IFNULL(#{param.parentId,jdbcType=VARCHAR},0),
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
 		)
 	</insert>
 
@@ -78,13 +78,13 @@
 
 	<update id="updateSingle">
 		UPDATE SYS_ORGANIZATION_T T SET
-			T.ORG_CN=#{vo.orgCn,jdbcType=VARCHAR},
-			T.ORG_EN=#{vo.orgEn,jdbcType=VARCHAR},
-			T.ORG_DESC=#{vo.orgDesc,jdbcType=VARCHAR},
-			T.PARENT_ID=IFNULL(#{vo.parentId,jdbcType=VARCHAR},0),
-			T.LAST_UPDATE_BY=#{vo.currentUserId,jdbcType=NUMERIC},
+			T.ORG_CN=#{param.orgCn,jdbcType=VARCHAR},
+			T.ORG_EN=#{param.orgEn,jdbcType=VARCHAR},
+			T.ORG_DESC=#{param.orgDesc,jdbcType=VARCHAR},
+			T.PARENT_ID=IFNULL(#{param.parentId,jdbcType=VARCHAR},0),
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=now()
-		WHERE T.ORG_ID=#{vo.orgId,jdbcType=NUMERIC}
+		WHERE T.ORG_ID=#{param.orgId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">

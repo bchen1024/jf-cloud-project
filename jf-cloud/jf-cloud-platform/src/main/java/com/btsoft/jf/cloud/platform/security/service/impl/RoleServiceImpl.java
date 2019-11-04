@@ -13,6 +13,8 @@ import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RolePermissionEntity;
+import com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper;
+import com.btsoft.jf.cloud.platform.security.mapper.IGroupRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRolePermissionMapper;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
@@ -43,7 +45,10 @@ public class RoleServiceImpl implements IRoleService {
     private IRoleMapper mapper;
     @Autowired
     private IRolePermissionMapper rolePermissionMapper;
-
+    @Autowired
+    private IAppUserMapper appUserMapper;
+    @Autowired
+    private IGroupRoleMapper groupRoleMapper;
     /**
      * 角色保存，存在角色id则修改，不存在则新增
      * @author jeo_cb
@@ -74,7 +79,12 @@ public class RoleServiceImpl implements IRoleService {
     @Transactional(rollbackFor = Exception.class)
     public Result deleteRole(BaseIdDTO dto) {
         int rows=mapper.deleteSingleById(dto.getId());
-        //TODO 删除角色关联数据
+        //删除应用用户角色关系表
+        appUserMapper.deleteByRoleId(dto.getId());
+        //删除群组角色关系表
+        groupRoleMapper.deleteByRoleId(dto.getId());
+        //删除角色权限关系
+        rolePermissionMapper.deleteByRoleId(dto.getId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
@@ -134,7 +144,7 @@ public class RoleServiceImpl implements IRoleService {
     }
 
     @Override
-    public void fillRoleName(List<? extends IRoleVO> list) {
+    public void fillRoleInfo(List<? extends IRoleVO> list) {
         List<Long> roleIds=new ArrayList<>();
         if(!CollectionUtils.isEmpty(list)){
             list.forEach(v->{

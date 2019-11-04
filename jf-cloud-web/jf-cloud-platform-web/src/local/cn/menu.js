@@ -36,4 +36,5 @@ export default{
     groupDetail:'群组详情',
     appDetail:'应用详情',
     roleDetail:'角色详情',
+    employeeDetail:'员工详情'
 }

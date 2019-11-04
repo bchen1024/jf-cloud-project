@@ -14,6 +14,7 @@ import com.btsoft.jf.cloud.platform.config.entity.OrganizationEntity;
 import com.btsoft.jf.cloud.platform.config.mapper.IOrganizationMapper;
 import com.btsoft.jf.cloud.platform.config.service.IOrganizationService;
 import com.btsoft.jf.cloud.platform.config.vo.organization.OrganizationVO;
+import com.btsoft.jf.cloud.platform.security.mapper.IEmployeeMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,8 @@ public class OrganizationServiceImpl implements IOrganizationService {
 
     @Autowired
     private IOrganizationMapper mapper;
+    @Autowired
+    private IEmployeeMapper employeeMapper;
 
     @Override
     public CommonResult<List<OrganizationVO>> findOrganizationList(OrganizationQueryDTO dto) {
@@ -80,7 +83,8 @@ public class OrganizationServiceImpl implements IOrganizationService {
     @Override
     public Result deleteOrganization(BaseIdDTO dto) {
         int rows=mapper.deleteSingleById(dto.getId());
-        //TODO 删除应用关联数据
+        //清空员工对应的部门
+        employeeMapper.deleteEmployeeOrg(dto.getId(),JfCloud.getCurrent().getCurrentUserId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 

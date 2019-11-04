@@ -8,6 +8,7 @@ export default{
     rolePermission:'角色权限',
     roleUsers:'角色用户',
     roleGroups:'角色群组',
+    addRole:'添加角色',
 
     //用户相关
     userId:'用户ID',
@@ -46,7 +47,7 @@ export default{
     createGroup:'创建群组',
     groupUsers:'群组用户',
     groupRoles:'群组角色',
-    addRole:'添加角色',
+    addGroup:'添加群组',
 
     //员工相关
     employeeNo:'员工工号',

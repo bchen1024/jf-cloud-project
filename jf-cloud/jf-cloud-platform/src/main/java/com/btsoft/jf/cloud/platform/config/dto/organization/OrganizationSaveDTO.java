@@ -4,13 +4,13 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * TODO 类描述
- *
+ * 组织架构保存DTO
  * @author jeo_cb
  * @date 2019/10/18
  **/
 public class OrganizationSaveDTO extends BaseDTO {
 
+    private static final long serialVersionUID = -52702231084311258L;
     private Long orgId;
     private String orgCn;
     private String orgEn;

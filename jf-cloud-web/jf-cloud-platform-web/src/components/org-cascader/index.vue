@@ -1,5 +1,5 @@
 <template>
-    <Cascader :data="$store.state.cache.orgCacheList" v-model="innerValue" change-on-select></Cascader>
+    <Cascader :data="orgList" v-model="innerValue" change-on-select></Cascader>
 </template>
 <script>
 export default {
@@ -7,6 +7,11 @@ export default {
     props:{
         value:{
             type:[Array,Number]
+        }
+    },
+    computed:{
+        orgList(){
+            return Object.assign([],[],this.$store.state.cache.orgCacheList);
         }
     },
     data(){

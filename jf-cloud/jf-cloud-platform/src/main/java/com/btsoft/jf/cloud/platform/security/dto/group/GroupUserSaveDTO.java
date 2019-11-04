@@ -17,6 +17,7 @@ import java.util.List;
  **/
 public class GroupUserSaveDTO extends BaseDTO {
 
+    private static final long serialVersionUID = -2608943483831981672L;
     @NotNull
     private Long groupId;
     @NotEmpty

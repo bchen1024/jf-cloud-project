@@ -29,11 +29,11 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-			<if test='vo.roleId!=null'>
-				AND T.ROLE_ID = #{vo.roleId,jdbcType=NUMERIC}
+			<if test='param.roleId!=null'>
+				AND T.ROLE_ID = #{param.roleId,jdbcType=NUMERIC}
 			</if>
-			<if test='vo.permissionId!=null'>
-				AND T.PERMISSION_ID = #{vo.permissionId,jdbcType=NUMERIC}
+			<if test='param.permissionId!=null'>
+				AND T.PERMISSION_ID = #{param.permissionId,jdbcType=NUMERIC}
 			</if>
 		</trim>
 	</sql>
@@ -44,28 +44,25 @@
 	</select>
 
 	<insert id="createMultiple">
-		INSERT INTO SYS_ROLE_PERMISSION_RT (
+		INSERT IGNORE INTO SYS_ROLE_PERMISSION_RT (
 			ROLE_ID,
 			PERMISSION_ID,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)
 		VALUES
-		<foreach collection="vo.list" item="item" separator=",">
+		<foreach collection="param.list" item="item" separator=",">
 			(#{item.roleId,jdbcType=NUMERIC},
 			#{item.permissionId,jdbcType=NUMERIC},
 			#{item.currentUserId,jdbcType=NUMERIC},
 			#{item.currentUserId,jdbcType=NUMERIC})
 		</foreach>
-		ON DUPLICATE KEY UPDATE
-		LAST_UPDATE_BY=VALUES(LAST_UPDATE_BY),
-		LAST_UPDATE_DATE=NOW()
 	</insert>
 
 	<delete id="deleteRolePermission">
-		DELETE FROM SYS_ROLE_PERMISSION_RT WHERE ROLE_ID=#{vo.roleId,jdbcType=NUMERIC}
-		<if test="vo.permissionIds!=null and vo.permissionIds.size()>0">
-			<foreach collection="vo.permissionIds" item="item" open="AND PERMISSION_ID NOT IN(" close=")" separator=",">
+		DELETE FROM SYS_ROLE_PERMISSION_RT WHERE ROLE_ID=#{param.roleId,jdbcType=NUMERIC}
+		<if test="param.permissionIds!=null and param.permissionIds.size()>0">
+			<foreach collection="param.permissionIds" item="item" open="AND PERMISSION_ID NOT IN(" close=")" separator=",">
 				#{item,jdbcType=NUMERIC}
 			</foreach>
 		</if>
@@ -93,4 +90,12 @@
 		      AND RP.ENABLE_FLAG='Y'
 		)
 	</insert>
+
+	<delete id="deleteByRoleId">
+		DELETE FROM SYS_ROLE_PERMISSION_RT WHERE ROLE_ID=#{roleId,jdbcType=NUMERIC}
+	</delete>
+
+	<delete id="deleteByPermissionId">
+		DELETE FROM SYS_ROLE_PERMISSION_RT WHERE PERMISSION_ID=#{permissionId,jdbcType=NUMERIC}
+	</delete>
 </mapper>

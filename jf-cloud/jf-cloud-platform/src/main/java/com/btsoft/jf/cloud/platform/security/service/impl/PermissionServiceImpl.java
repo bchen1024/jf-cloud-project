@@ -84,7 +84,8 @@ public class PermissionServiceImpl implements IPermissionService {
                 //授权该应用新增权限给超级管理员
                 RoleEntity superAdminRole = roleMapper.findRoleByCode(JfCloud.getCurrentAppCode(),"superAdmin");
                 if(superAdminRole!=null){
-                    rolePermissionMapper.grantAdminPermission(dto.getAppCode(),batchEntity.getCurrentUserId(),superAdminRole.getRoleId());
+                    int count=rolePermissionMapper.grantAdminPermission(dto.getAppCode(),batchEntity.getCurrentUserId(),superAdminRole.getRoleId());
+                    rows+=count;
                 }
                 return CommonResultUtils.result(rows,OperationTypeEnum.Sync);
             }
@@ -149,9 +150,11 @@ public class PermissionServiceImpl implements IPermissionService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deletePermission(BaseIdDTO dto) {
         int rows=mapper.deleteSingleById(dto.getId());
-        //TODO 删除权限关系数据
+        //删除角色关系关系
+        rolePermissionMapper.deleteByPermissionId(dto.getId());
         return CommonResultUtils.result(rows,OperationTypeEnum.Delete);
     }
 
