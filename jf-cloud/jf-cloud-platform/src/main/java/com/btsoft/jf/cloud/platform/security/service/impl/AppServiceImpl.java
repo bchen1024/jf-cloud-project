@@ -14,12 +14,14 @@ import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.AppEntity;
 import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
 import com.btsoft.jf.cloud.platform.security.entity.RoleEntity;
+import com.btsoft.jf.cloud.platform.security.enums.AppTypeEnum;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
 import com.btsoft.jf.cloud.platform.security.vo.IAppVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import com.github.pagehelper.Page;
@@ -64,21 +66,22 @@ public class AppServiceImpl implements IAppService {
             rows=mapper.createSingle(entity);
         }
         if(rows>0){
-            //默认给应用责任人授予应用管理员角色
-            RoleEntity appAdminRole = roleMapper.findRoleByCode(JfCloud.getCurrentAppCode(),"appAdmin");
-            if(appAdminRole!=null){
-                AppUserEntity appUserEntity=new AppUserEntity();
-                appUserEntity.setAppId(entity.getAppId());
-                appUserEntity.setUserId(dto.getAppOwner());
-                appUserEntity.setRoleId(appAdminRole.getRoleId());
-                //默认半年有效期
-                Calendar cal=Calendar.getInstance();
-                appUserEntity.setBeginDate(cal.getTime());
-                cal.add(Calendar.MONTH,6);
-                appUserEntity.setEndDate(cal.getTime());
-                appUserMapper.createSingle(appUserEntity);
+            if(Integer.valueOf(AppTypeEnum.Business.getValue().toString()).equals(entity.getAppType())) {
+                //默认给应用责任人授予应用管理员角色
+                RoleEntity appAdminRole = roleMapper.findRoleByCode(JfCloud.getCurrentAppCode(), "appAdmin");
+                if (appAdminRole != null) {
+                    AppUserEntity appUserEntity = new AppUserEntity();
+                    appUserEntity.setAppId(entity.getAppId());
+                    appUserEntity.setUserId(dto.getAppOwner());
+                    appUserEntity.setRoleId(appAdminRole.getRoleId());
+                    //默认半年有效期
+                    Calendar cal = Calendar.getInstance();
+                    appUserEntity.setBeginDate(cal.getTime());
+                    cal.add(Calendar.MONTH, 6);
+                    appUserEntity.setEndDate(cal.getTime());
+                    appUserMapper.createSingle(appUserEntity);
+                }
             }
-
         }
         return CommonResultUtils.result(rows, OperationTypeEnum.Save);
     }
@@ -140,5 +143,12 @@ public class AppServiceImpl implements IAppService {
                 }
             });
         }
+    }
+
+    @Override
+    public CommonResult<List<AppBaseVO>> findAppList(AppQueryDTO dto) {
+        AppEntity entity= EntityUtils.queryDtoToEntity(AppEntity.class,dto);
+        List<AppEntity> list=mapper.findList(entity);
+        return CommonResultUtils.resultList(AppBaseVO.class,list);
     }
 }

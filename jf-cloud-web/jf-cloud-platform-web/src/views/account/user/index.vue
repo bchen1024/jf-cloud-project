@@ -76,18 +76,18 @@ export default {
                             });
                         },permissionCode:'user$updateStatus'},
                         {title:vm.$t('detail'),permissionCode:'user$single',gridDetail:true},
-                        {title:vm.$t('clearUserEnvCache'),permissionCode:'user$clearUserEnvCache',show:(row)=>{
-                            return row.userEnvCache;
-                        },click:(params)=>{
-                            vm.clearUserEnvCache(params.row.userId);
-                        }},
-                        {title:vm.$t('userGroups'),permissionCode:'userGroups$page',gridDetail:{tabId:'userGroups'}},
-                        {title:vm.$t('userRoles'),permissionCode:'userRoles$page',gridDetail:{tabId:'userRoles'}},
                         {title:vm.$t('userApps'),permissionCode:'userApps$page',gridDetail:{tabId:'userApps'}},
+                        {title:vm.$t('userRoles'),permissionCode:'userRoles$page',gridDetail:{tabId:'userRoles'}},
+                        {title:vm.$t('userGroups'),permissionCode:'userGroups$page',gridDetail:{tabId:'userGroups'}},
                         {title:vm.$t('employeeDetail'),permissionCode:'employee$single',router:{name:'employeeDetail',query:(row)=>{
                             return {id:row.userId};
                         }},show:(row)=>{
                             return row.userType==1;
+                        }},
+                        {title:vm.$t('clearUserEnvCache'),permissionCode:'user$clearUserEnvCache',show:(row)=>{
+                            return row.userEnvCache;
+                        },click:(params)=>{
+                            vm.clearUserEnvCache(params.row.userId);
                         }}
                     ],
                     columns:[

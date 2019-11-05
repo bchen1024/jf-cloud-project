@@ -11,6 +11,7 @@ import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 应用管理Controller
@@ -89,5 +91,17 @@ public class AppController {
     @JOperator(code = ControllerConstants.Operator.DELETE, descCN = "删除应用", descEN = "Delete App",sort = 40)
     public Result deleteApp(@Valid @RequestBody BaseIdDTO dto){
         return service.deleteApp(dto);
+    }
+
+    /**
+     * 获取可选择的应用
+     * @author jeo_cb
+     * @date 2019/11/5
+     * @return 应用列表
+     **/
+    @ApiOperation("选择应用")
+    @PostMapping("/select")
+    public CommonResult<List<AppBaseVO>> findAppList(@RequestBody AppQueryDTO dto){
+        return service.findAppList(dto);
     }
 }

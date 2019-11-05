@@ -40,6 +40,10 @@
                         {{$t('addApp')}}
                     </Button>
                 </template>
+                <AddApp slot="grid-drawer" formId="addAppForm" formKey="id"
+                    :visible.sync="showAddApp" 
+                    :formData="addAppFormData"
+                    @saveCallback="loadUserApps"/>
             </JFGrid>
         </TabPane>
     </Tabs>
@@ -48,6 +52,7 @@
 import Edit from './edit.vue';
 import AddGroup from './addGroup.vue';
 import AddRole from './addRole.vue';
+import AddApp from './addApp.vue';
 import editMixins from '@/mixins/editMixins';
 import detailMixins from '@/mixins/detailMixins';
 import detail from './detail';
@@ -57,7 +62,7 @@ import userApp from './userApp';
 export default {
     mixins:[editMixins,detailMixins,detail,userGroup,userRole,userApp],
     components:{
-        Edit,AddGroup,AddRole
+        Edit,AddGroup,AddRole,AddApp
     },
     data(){
         let vm=this;

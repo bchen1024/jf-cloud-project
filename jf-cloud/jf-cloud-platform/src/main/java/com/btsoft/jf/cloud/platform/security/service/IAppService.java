@@ -8,6 +8,7 @@ import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.IAppVO;
+import com.btsoft.jf.cloud.platform.security.vo.app.AppBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
 
@@ -81,4 +82,12 @@ public interface IAppService {
      * @param list 集合数据
      */
     void fillAppInfo(List<? extends IAppVO> list);
+
+    /**
+     * 获取可选择的应用
+     * @author jeo_cb
+     * @date 2019/11/5
+     * @return 应用列表
+     **/
+    CommonResult<List<AppBaseVO>> findAppList(AppQueryDTO dto);
 }
