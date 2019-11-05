@@ -2,6 +2,7 @@ package com.btsoft.jf.cloud.platform.security.vo.group;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
+import com.btsoft.jf.cloud.platform.security.vo.IGroupVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IGroupUserMapper">
-	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.GroupUserEntity">
+<mapper namespace="com.btsoft.jf.cloud.platform.security.mapper.IRoleUserMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.security.entity.RoleUserEntity">
 		<result column="APP_CODE" property="appCode"/>
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
@@ -10,7 +10,7 @@
 		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
 
 		<result column="ID" property="id"/>
-		<result column="GROUP_ID" property="groupId"/>
+		<result column="ROLE_ID" property="roleId"/>
 		<result column="USER_ID" property="userId"/>
 		<result column="BEGIN_DATE" property="beginDate"/>
 		<result column="END_DATE" property="endDate"/>
@@ -19,7 +19,7 @@
 	<sql id="base_sql">
 		SELECT
 			T.ID,
-			T.GROUP_ID,
+			T.ROLE_ID,
 			T.USER_ID,
 		    T.BEGIN_DATE,
 		    T.END_DATE,
@@ -29,15 +29,15 @@
 			T.CREATE_DATE,
 			T.LAST_UPDATE_BY,
 			T.LAST_UPDATE_DATE
-		FROM SYS_GROUP_USER_RT T
+		FROM SYS_ROLE_USER_RT T
 	</sql>
 
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.APP_CODE=#{param.appCode,jdbcType=VARCHAR}
 			AND T.ENABLE_FLAG='Y'
-			<if test='param.groupId!=null'>
-				AND T.GROUP_ID = #{param.groupId,jdbcType=NUMERIC}
+			<if test='param.roleId!=null'>
+				AND T.ROLE_ID = #{param.roleId,jdbcType=NUMERIC}
 			</if>
 			<if test='param.userId!=null'>
 				AND T.USER_ID = #{param.userId,jdbcType=NUMERIC}
@@ -46,8 +46,8 @@
 	</sql>
 
 	<insert id="createSingle">
-		REPLACE INTO SYS_GROUP_USER_RT (
-			GROUP_ID,
+		REPLACE INTO SYS_ROLE_USER_RT (
+			ROLE_ID,
 			USER_ID,
 		    BEGIN_DATE,
 		    END_DATE,
@@ -55,7 +55,7 @@
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{param.groupId,jdbcType=NUMERIC},
+			#{param.roleId,jdbcType=NUMERIC},
 			#{param.userId,jdbcType=NUMERIC},
 			#{param.beginDate},
 			#{param.endDate},
@@ -66,8 +66,8 @@
 	</insert>
 
 	<insert id="createMultiple">
-		REPLACE INTO SYS_GROUP_USER_RT (
-			GROUP_ID,
+		REPLACE INTO SYS_ROLE_USER_RT (
+			ROLE_ID,
 			USER_ID,
 			BEGIN_DATE,
 			END_DATE,
@@ -77,7 +77,7 @@
 		)VALUES
 		<foreach collection="param.list" item="item"  separator=",">
 			(
-				#{item.groupId,jdbcType=NUMERIC},
+				#{item.roleId,jdbcType=NUMERIC},
 				#{item.userId,jdbcType=NUMERIC},
 				#{item.beginDate},
 				#{item.endDate},
@@ -89,7 +89,7 @@
 	</insert>
 
 	<delete id="deleteSingleById">
-		DELETE FROM SYS_GROUP_USER_RT WHERE ID=#{id,jdbcType=NUMERIC}
+		DELETE FROM SYS_ROLE_USER_RT WHERE ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<select id="findList" resultMap="sqlResultMap">
@@ -97,7 +97,7 @@
 		<include refid="base_condition"/>
 	</select>
 
-	<select id="findGroupUserList" resultMap="sqlResultMap">
+	<select id="findRoleUserList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
 		<if test='param.keywordField!=null and param.keywordField!="" and
@@ -128,7 +128,7 @@
 		</if>
 	</select>
 
-	<delete id="deleteByGroupId">
-		DELETE FROM SYS_GROUP_USER_RT WHERE GROUP_ID=#{groupId,jdbcType=NUMERIC}
+	<delete id="deleteByRoleId">
+		DELETE FROM SYS_ROLE_USER_RT WHERE ROLE_ID=#{roleId,jdbcType=NUMERIC}
 	</delete>
 </mapper>

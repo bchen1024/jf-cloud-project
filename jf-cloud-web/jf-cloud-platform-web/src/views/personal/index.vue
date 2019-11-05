@@ -10,10 +10,10 @@
             <UpdatePassword/>
         </TabPane>
         <TabPane :label="$t('bindEmailMobile')" name="bindEmailMobile" >
-            
+           
         </TabPane>
         <TabPane :label="$t('myApp')" name="myApp" >
-            
+             <MyApps/>
         </TabPane>
         <TabPane :label="$t('myRole')" name="myRole" >
             
@@ -32,9 +32,10 @@
 <script>
 import BaseInfo from './baseInfo.vue';
 import UpdatePassword from './updatePassword.vue';
+import MyApps from './myApps.vue';
 export default {
     components:{
-        BaseInfo,UpdatePassword
+        BaseInfo,UpdatePassword,MyApps
     },
     data(){
         return {

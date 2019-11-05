@@ -7,7 +7,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.role.RolePermissionSaveDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleSaveDTO;
-import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
+import com.btsoft.jf.cloud.platform.security.vo.IRoleVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleVO;
 

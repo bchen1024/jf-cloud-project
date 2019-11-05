@@ -4,10 +4,14 @@ import com.btsoft.jf.cloud.core.base.dto.impl.BaseIdDTO;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.app.*;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppQueryDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppSaveDTO;
+import com.btsoft.jf.cloud.platform.security.dto.app.AppTokenSaveDTO;
+import com.btsoft.jf.cloud.platform.security.vo.IAppVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppTokenVO;
-import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppVO;
+
+import java.util.List;
 
 /**
  * 角色管理Service接口
@@ -53,33 +57,6 @@ public interface IAppService {
     CommonResult<PageResult<AppVO>> findAppPage(AppQueryDTO dto);
 
     /**
-     * 应用用户列表
-     * @author jeo_cb
-     * @date 2019/10/3
-     * @param  dto 查询参数
-     * @return 应用用户
-     **/
-    CommonResult<PageResult<AppUserVO>> findAppUserPage(AppUserQueryDTO dto);
-
-    /**
-     * 删除单个应用用户
-     * @author jeo_cb
-     * @date 2019/9/29
-     * @param  dto 删除参数
-     * @return 删除结果
-     **/
-    Result deleteAppUser(BaseIdDTO dto);
-    
-    /**
-     * 添加应用用户
-     * @author jeo_cb
-     * @date 2019/10/4
-     * @param  dto 保存参数
-     * @return 保存结果
-     **/
-    Result addAppUser(AppUserSaveDTO dto);
-
-    /**
      * 获取应用Token
      * @author jeo_cb
      * @date 2019/10/5
@@ -96,4 +73,12 @@ public interface IAppService {
      * @return 保存结果
      **/
     Result saveAppToken(AppTokenSaveDTO dto);
+
+    /**
+     * 填充应用信息
+     * @author jeo_cb
+     * @date 2019/10/31
+     * @param list 集合数据
+     */
+    void fillAppInfo(List<? extends IAppVO> list);
 }

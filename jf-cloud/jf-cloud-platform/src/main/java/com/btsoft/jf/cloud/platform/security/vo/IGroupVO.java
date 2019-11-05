@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.vo.group;
+package com.btsoft.jf.cloud.platform.security.vo;
 
 /**
  * 群组VO接口

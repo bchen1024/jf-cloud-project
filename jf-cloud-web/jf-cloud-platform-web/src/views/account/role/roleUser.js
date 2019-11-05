@@ -2,23 +2,23 @@ export default{
     data(){
         let vm=this,query=vm.$route.query,id=query.id;
         return{
-            groupUsersId:'groupUsers',
-            groupUserGrid:{
+            roleUsersId:'roleUsers',
+            roleUserGrid:{
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/page',
-                    defaultParams:{groupId:id},
-                    autoLoad:vm.autoLoad('groupUsers'),
+                    url:'jfcloud/jf-cloud-platform/security/role/user/page',
+                    defaultParams:{roleId:id,appCode:vm.$store.state.app.appInfo.appCode},
+                    autoLoad:vm.autoLoad('roleUsers'),
                 },
                 delete:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/delete'
+                    url:'jfcloud/jf-cloud-platform/security/role/user/delete'
                 },
                 table:{
                     pkId:'id',
                     buttons:[
                         {title:vm.$t('delete'),gridDelete:true}
                     ],
-                    permissionCode:'groupUsers$delete',
-                    logSetting:{module:'GroupUser'},
+                    permissionCode:'roleUsers$delete',
+                    logSetting:{module:'Role User'},
                     showAuditUpdate:true,
                     columns:[
                         {key:'grantStatus',width:150,render:(h,params)=>{
@@ -38,14 +38,14 @@ export default{
                 }
             },
             showAddUser:false,
-            addUserFormData:{groupId:id,appCode:vm.$store.state.app.appInfo.appCode},
+            addUserFormData:{roleId:id,appCode:vm.$store.state.app.appInfo.appCode},
         }
     },
     methods:{
-        loadGroupUsers(){
-            let groupUserGrid=this.$refs.groupUserGrid;
-            if(groupUserGrid){
-                groupUserGrid.search();
+        loadRoleUsers(){
+            let roleUserGrid=this.$refs.roleUserGrid;
+            if(roleUserGrid){
+                roleUserGrid.search();
             }
         },
     }

@@ -1,7 +1,12 @@
 package com.btsoft.jf.cloud.platform.security.vo.role;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
+import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
+import com.btsoft.jf.cloud.platform.security.vo.IRoleVO;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.util.Date;
 
 /**
  * 角色群组
@@ -10,12 +15,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class RoleUserVO extends BaseVO implements IRoleVO {
 
+    private static final long serialVersionUID = -51828922458997341L;
     private Long id;
     private Long userId;
     private Long roleId;
     private String roleCode;
     private String roleName;
     private String roleDesc;
+    @JsonFormat(pattern = DateFormatConstants.DATE)
+    private Date beginDate;
+    @JsonFormat(pattern = DateFormatConstants.DATE)
+    private Date endDate;
 
     public Long getId() {
         return id;
@@ -67,6 +77,22 @@ public class RoleUserVO extends BaseVO implements IRoleVO {
     @Override
     public void setRoleDesc(String roleDesc) {
         this.roleDesc = roleDesc;
+    }
+
+    public Date getBeginDate() {
+        return beginDate;
+    }
+
+    public void setBeginDate(Date beginDate) {
+        this.beginDate = beginDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override

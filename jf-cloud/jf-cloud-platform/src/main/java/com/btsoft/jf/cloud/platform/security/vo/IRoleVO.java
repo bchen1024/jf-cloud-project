@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.vo.role;
+package com.btsoft.jf.cloud.platform.security.vo;
 
 /**
  * @author jeo_cb

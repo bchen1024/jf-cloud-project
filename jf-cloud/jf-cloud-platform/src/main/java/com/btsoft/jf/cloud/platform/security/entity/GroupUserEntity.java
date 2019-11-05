@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.entity;
 
-import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
+import com.btsoft.jf.cloud.core.base.entity.impl.BaseAppEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.Date;
@@ -10,7 +10,7 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/8
  **/
-public class GroupUserEntity extends BaseEntity {
+public class GroupUserEntity extends BaseAppEntity {
 
     private static final long serialVersionUID = 8809855812922153282L;
     private Long id;

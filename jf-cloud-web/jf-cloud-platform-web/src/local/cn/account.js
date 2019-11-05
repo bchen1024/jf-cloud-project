@@ -26,6 +26,10 @@ export default{
     emailValidated:'邮箱验证',
     createUser:'创建用户',
     clearUserEnvCache:'清除缓存',
+    userGroups:'用户群组',
+    userRoles:'用户角色',
+    userApps:'用户应用',
+    addApp:'添加应用',
 
     //应用相关
     appCode:'应用编码',

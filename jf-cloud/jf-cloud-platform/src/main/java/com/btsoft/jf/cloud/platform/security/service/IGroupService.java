@@ -8,7 +8,7 @@ import com.btsoft.jf.cloud.platform.security.dto.group.GroupQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupVO;
-import com.btsoft.jf.cloud.platform.security.vo.group.IGroupVO;
+import com.btsoft.jf.cloud.platform.security.vo.IGroupVO;
 
 import java.util.List;
 

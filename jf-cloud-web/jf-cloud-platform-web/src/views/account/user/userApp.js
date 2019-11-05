@@ -2,23 +2,23 @@ export default{
     data(){
         let vm=this,query=vm.$route.query,id=query.id;
         return{
-            groupUsersId:'groupUsers',
-            groupUserGrid:{
+            userAppsId:'userApps',
+            userAppGrid:{
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/page',
-                    defaultParams:{groupId:id},
-                    autoLoad:vm.autoLoad('groupUsers'),
+                    url:'jfcloud/jf-cloud-platform/security/user/app/page',
+                    defaultParams:{userId:id},
+                    autoLoad:vm.autoLoad('userApps'),
                 },
                 delete:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/delete'
+                    url:'jfcloud/jf-cloud-platform/security/user/app/delete'
                 },
                 table:{
                     pkId:'id',
                     buttons:[
                         {title:vm.$t('delete'),gridDelete:true}
                     ],
-                    permissionCode:'groupUsers$delete',
-                    logSetting:{module:'GroupUser'},
+                    permissionCode:'userApps$delete',
+                    logSetting:{module:'UserApp'},
                     showAuditUpdate:true,
                     columns:[
                         {key:'grantStatus',width:150,render:(h,params)=>{
@@ -31,21 +31,24 @@ export default{
                                {value:'4',label:vm.$t('status.grantStatus.4')}
                             ]
                         }},
-                        {key:'userId',format:'user',title:'userName',condition:{type:'string',key:'userName'}},
+                        {key:'appCode',width:150,condition:true},
+                        {key:'appName',width:200,condition:true},
+                        {key:'roleCode',width:150,condition:true},
+                        {key:'roleName',width:200,condition:true},
                         {key:'beginDate',width:150,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}},
                         {key:'endDate',width:150,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}}
                     ]
                 }
             },
-            showAddUser:false,
-            addUserFormData:{groupId:id,appCode:vm.$store.state.app.appInfo.appCode},
+            showAddApp:false,
+            addAppFormData:{userId:id},
         }
     },
     methods:{
-        loadGroupUsers(){
-            let groupUserGrid=this.$refs.groupUserGrid;
-            if(groupUserGrid){
-                groupUserGrid.search();
+        loadUserApps(){
+            let userAppGrid=this.$refs.userAppGrid;
+            if(userAppGrid){
+                userAppGrid.search();
             }
         },
     }

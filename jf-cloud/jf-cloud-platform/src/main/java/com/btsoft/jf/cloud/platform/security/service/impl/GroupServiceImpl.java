@@ -17,7 +17,7 @@ import com.btsoft.jf.cloud.platform.security.service.IGroupService;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupBaseVO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupVO;
-import com.btsoft.jf.cloud.platform.security.vo.group.IGroupVO;
+import com.btsoft.jf.cloud.platform.security.vo.IGroupVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.dto.group;
+package com.btsoft.jf.cloud.platform.security.dto.role;
 
 import com.btsoft.jf.cloud.core.base.dto.impl.BaseAppDTO;
 import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
@@ -11,27 +11,27 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 群组用户保存DTO
+ * 群组角色保存DTO
  * @author jeo_cb
  * @date 2019/10/30
  **/
-public class GroupUserSaveDTO extends BaseAppDTO {
+public class RoleUserSaveDTO extends BaseAppDTO {
 
-    private static final long serialVersionUID = -2608943483831981672L;
+    private static final long serialVersionUID = 3166592272072758000L;
     @NotNull
-    private Long groupId;
+    private Long roleId;
     @NotEmpty
     private List<Long> userIds;
     @NotEmpty
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private List<Date> dateRange;
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getRoleId() {
+        return roleId;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public List<Long> getUserIds() {

@@ -233,5 +233,13 @@ export default {
             }
         }
         return '';
+    },
+    autoLoad(vm,id){
+        let query=vm.$route.query || {}
+        let tabId=query.tabId;
+        if(!tabId){
+            tabId='detail';
+        }
+        return id==tabId;
     }
 }

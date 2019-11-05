@@ -23,7 +23,19 @@
             </div>
             <Tree ref="permissionTree" :empty-text="$t('noPermissionData')" :data="treeData" multiple show-checkbox></Tree>
         </TabPane>
-        <TabPane :label="$t('roleUsers')" name="roleUsers" v-if="$util.checkPermission('role$roleUsers',$store.state.permission.permissionList)">标签二的内容</TabPane>
+        <TabPane :label="$t('roleUsers')" name="roleUsers" v-if="$util.checkPermission('roleUsers$page',$store.state.permission.permissionList)">
+            <JFGrid ref="roleUserGrid" :gridOp="roleUserGrid">
+                <template slot="grid-search-toolbar">
+                    <Button icon="md-add" type="primary" @click="showAddUser=true" v-permission="'roleUsers$create'">
+                        {{$t('addUser')}}
+                    </Button>
+                </template>
+                <AddUser slot="grid-drawer" formId="addUserForm" formKey="id"
+                    :visible.sync="showAddUser" 
+                    :formData="addUserFormData"
+                    @saveCallback="loadRoleUsers"/>
+            </JFGrid>
+        </TabPane>
         <TabPane :label="$t('roleGroups')" name="roleGroups" v-if="$util.checkPermission('roleGroups$page',$store.state.permission.permissionList)">
             <JFGrid ref="roleGroupGrid" :gridOp="roleGroupGrid">
                 <template slot="grid-search-toolbar">
@@ -42,16 +54,19 @@
 <script>
 import EditRole from './edit.vue';
 import AddGroup from './addGroup.vue';
+import AddUser from './addUser.vue';
 import editMixins from '@/mixins/editMixins';
 import detailMixins from '@/mixins/detailMixins';
 import detail from './detail';
 import rolePermission from './rolePermission';
 import roleGroup from './roleGroup';
+import roleUser from './roleUser';
 export default {
-    mixins:[editMixins,detailMixins,detail,rolePermission,roleGroup],
+    mixins:[editMixins,detailMixins,detail,rolePermission,roleGroup,roleUser],
     components:{
         EditRole,
-        AddGroup
+        AddGroup,
+        AddUser
     },
     data(){
         let vm=this;

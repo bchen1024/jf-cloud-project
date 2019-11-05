@@ -2,7 +2,8 @@ package com.btsoft.jf.cloud.platform.security.vo.app;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
-import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
+import com.btsoft.jf.cloud.platform.security.vo.IAppVO;
+import com.btsoft.jf.cloud.platform.security.vo.IRoleVO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -13,11 +14,14 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/3
  **/
-public class AppUserVO extends BaseVO implements IRoleVO {
+public class AppUserVO extends BaseVO implements IRoleVO, IAppVO {
 
     private static final long serialVersionUID = 7418160838626002613L;
     private Long id;
     private Long appId;
+    private String appCode;
+    private String appName;
+    private String appDesc;
     private Long userId;
     private Long roleId;
     private String roleCode;
@@ -36,12 +40,40 @@ public class AppUserVO extends BaseVO implements IRoleVO {
         this.id = id;
     }
 
+    @Override
     public Long getAppId() {
         return appId;
     }
 
     public void setAppId(Long appId) {
         this.appId = appId;
+    }
+
+    public String getAppCode() {
+        return appCode;
+    }
+
+    @Override
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
+    }
+
+    public String getAppName() {
+        return appName;
+    }
+
+    @Override
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getAppDesc() {
+        return appDesc;
+    }
+
+    @Override
+    public void setAppDesc(String appDesc) {
+        this.appDesc = appDesc;
     }
 
     public Long getUserId() {

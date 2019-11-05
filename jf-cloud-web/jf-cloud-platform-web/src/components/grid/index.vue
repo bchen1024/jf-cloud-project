@@ -261,6 +261,8 @@ export default {
                                             vm.gridDelete(params.row);
                                         }else if(btn.gridDetail){
                                             vm.gridDetail(btn.gridDetail.tabId,params.row);
+                                        }else if(btn.router){
+                                            vm.gridRouter(btn.router,params.row);
                                         }else if(btn.click){
                                             btn.click(params);
                                         }
@@ -550,6 +552,21 @@ export default {
                 });
                 window.open(routeData.href, '_blank');
             }
+        },
+        /**
+         * 路由跳转
+         */
+        gridRouter(router,row){
+            let vm=this;
+            let query={};
+            if(router.query){
+                query=router.query(row);
+            }
+            let routeData = vm.$router.resolve({
+                name: router.name,
+                query:query
+            });
+            window.open(routeData.href, '_blank');
         },
         /**
          * 查看操作日志

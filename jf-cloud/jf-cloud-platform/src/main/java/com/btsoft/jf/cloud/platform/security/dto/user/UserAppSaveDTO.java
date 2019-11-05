@@ -1,6 +1,6 @@
-package com.btsoft.jf.cloud.platform.security.dto.group;
+package com.btsoft.jf.cloud.platform.security.dto.user;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.BaseAppDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.BaseDTO;
 import com.btsoft.jf.cloud.core.constant.DateFormatConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -11,35 +11,45 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 群组用户保存DTO
+ * 用户应用保存DTO
  * @author jeo_cb
- * @date 2019/10/30
+ * @date 2019/10/4
  **/
-public class GroupUserSaveDTO extends BaseAppDTO {
+public class UserAppSaveDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -2608943483831981672L;
+    private static final long serialVersionUID = 3705004361703874301L;
     @NotNull
-    private Long groupId;
+    private Long userId;
     @NotEmpty
-    private List<Long> userIds;
+    private List<Long> appIds;
+    @NotNull
+    private Long roleId;
     @NotEmpty
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private List<Date> dateRange;
 
-    public Long getGroupId() {
-        return groupId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    public List<Long> getUserIds() {
-        return userIds;
+    public List<Long> getAppIds() {
+        return appIds;
     }
 
-    public void setUserIds(List<Long> userIds) {
-        this.userIds = userIds;
+    public void setAppIds(List<Long> appIds) {
+        this.appIds = appIds;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public List<Date> getDateRange() {

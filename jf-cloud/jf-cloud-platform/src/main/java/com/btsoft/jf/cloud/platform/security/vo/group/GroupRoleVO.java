@@ -1,7 +1,8 @@
 package com.btsoft.jf.cloud.platform.security.vo.group;
 
 import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
-import com.btsoft.jf.cloud.platform.security.vo.role.IRoleVO;
+import com.btsoft.jf.cloud.platform.security.vo.IGroupVO;
+import com.btsoft.jf.cloud.platform.security.vo.IRoleVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -9,7 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/10/31 16:56
  **/
-public class GroupRoleVO extends BaseVO  implements IRoleVO,IGroupVO {
+public class GroupRoleVO extends BaseVO  implements IRoleVO, IGroupVO {
     private static final long serialVersionUID = -6872538825801556078L;
 
     private Long id;

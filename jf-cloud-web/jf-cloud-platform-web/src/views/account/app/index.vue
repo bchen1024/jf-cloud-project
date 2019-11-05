@@ -75,23 +75,10 @@ export default {
     methods:{
         syncPermission(rows){
             let vm=this;
-            vm.$Message.loading({
-                content: this.$t('synching'),
-                duration: 0
-            });
-            vm.$http({
-                method:'post',
-                url:'jfcloud/jf-cloud-platform/security/permission/sync',
-                data:{appCode:rows.appCode,contextPath:rows.contextPath}
-            }).then(result=>{
-                this.$Message.destroy();
-                //成功
-                if(result && result.success){
-                    vm.$Message.success(vm.$t('syncSuccessful'));
-                }
-            }).catch(error=>{
-                vm.$Message.destroy();
-                vm.$Message.error(vm.$util.handerError(error,vm));
+            vm.$http.post('jfcloud/jf-cloud-platform/security/permission/sync',{
+                appCode:rows.appCode,contextPath:rows.contextPath
+            },{
+                headers:{op:'sync'}
             });
         }
     }

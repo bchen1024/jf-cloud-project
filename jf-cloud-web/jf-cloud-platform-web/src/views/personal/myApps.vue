@@ -1,24 +1,24 @@
-export default{
+<template>
+    <JFGrid ref="userAppGrid" :gridOp="userAppGrid"></JFGrid>
+</template>
+<script>
+
+export default {
     data(){
-        let vm=this,query=vm.$route.query,id=query.id;
-        return{
-            groupUsersId:'groupUsers',
-            groupUserGrid:{
+        let vm=this;
+        return {
+            userAppGrid:{
                 search:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/page',
-                    defaultParams:{groupId:id},
-                    autoLoad:vm.autoLoad('groupUsers'),
+                    url:'jfcloud/jf-cloud-platform/personal/myApps'
                 },
                 delete:{
-                    url:'jfcloud/jf-cloud-platform/security/group/user/delete'
+                    url:'jfcloud/jf-cloud-platform/personal/role/delete'
                 },
                 table:{
                     pkId:'id',
                     buttons:[
                         {title:vm.$t('delete'),gridDelete:true}
                     ],
-                    permissionCode:'groupUsers$delete',
-                    logSetting:{module:'GroupUser'},
                     showAuditUpdate:true,
                     columns:[
                         {key:'grantStatus',width:150,render:(h,params)=>{
@@ -31,22 +31,16 @@ export default{
                                {value:'4',label:vm.$t('status.grantStatus.4')}
                             ]
                         }},
-                        {key:'userId',format:'user',title:'userName',condition:{type:'string',key:'userName'}},
+                        {key:'appCode',width:150,condition:true},
+                        {key:'appName',width:200,condition:true},
+                        {key:'roleCode',width:150,condition:true},
+                        {key:'roleName',width:200,condition:true},
                         {key:'beginDate',width:150,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}},
                         {key:'endDate',width:150,condition:{type:'datePicker',format:'yyyy-MM-dd',width:200}}
                     ]
                 }
-            },
-            showAddUser:false,
-            addUserFormData:{groupId:id,appCode:vm.$store.state.app.appInfo.appCode},
-        }
-    },
-    methods:{
-        loadGroupUsers(){
-            let groupUserGrid=this.$refs.groupUserGrid;
-            if(groupUserGrid){
-                groupUserGrid.search();
             }
-        },
+        }
     }
 }
+</script>

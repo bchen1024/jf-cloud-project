@@ -13,6 +13,7 @@ import java.util.Date;
  **/
 public class RoleUserEntity extends BaseAppEntity {
 
+    private static final long serialVersionUID = -3514270953801375375L;
     private Long id;
     private Long userId;
     private Long roleId;

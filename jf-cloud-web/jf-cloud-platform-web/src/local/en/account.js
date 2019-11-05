@@ -26,6 +26,9 @@ export default{
     emailValidated:'Email Validated',
     createUser:'Create User',
     clearUserEnvCache:'Clear User Env Cache',
+    userGroups:'User Groups',
+    userRoles:'User Roles',
+    userApps:'User Apps',
 
     //应用相关
     appCode:'App Code',
@@ -38,6 +41,7 @@ export default{
     appType:'App Type',
     appToken:'App Token',
     addUser:'Add User',
+    addApp:'Add App',
 
     //群组相关
     groupCode:'Group Code',

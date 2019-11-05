@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.platform.security.dto.group;
 
-import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordDTO;
+import com.btsoft.jf.cloud.core.base.dto.impl.SearchKeywordAppDTO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author jeo_cb
  * @date 2019/10/30
  **/
-public class GroupUserQueryDTO extends SearchKeywordDTO {
+public class GroupUserQueryDTO extends SearchKeywordAppDTO {
 
     private static final long serialVersionUID = 6912428638928541405L;
     private Long groupId;
