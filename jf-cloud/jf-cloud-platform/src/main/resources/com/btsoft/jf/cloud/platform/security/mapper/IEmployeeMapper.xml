@@ -129,7 +129,7 @@
 
 	<update id="deleteEmployeeOrg">
 		UPDATE SYS_EMPLOYEE_T T SET
-			T.EMPLOYEE_ORG=NULL
+			T.EMPLOYEE_ORG=NULL,
 			T.LAST_UPDATE_BY=#{currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.EMPLOYEE_ORG=#{orgId,jdbcType=NUMERIC}

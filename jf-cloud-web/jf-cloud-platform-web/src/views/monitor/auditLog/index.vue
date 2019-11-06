@@ -23,7 +23,7 @@ export default {
                         {key:'logTime',width:200,condition:{
                             type:'datePicker'
                         }},
-                        {key:'userId',title:'userName',width:150,format:'user',condition:{type:'userSelect',title:'userName'}},
+                        {key:'userId',title:'userName',width:180,format:'user',condition:{type:'userSelect',title:'userName'}},
                         {key:'logModule',width:120,condition:true},
                         {key:'logMethod',width:120,condition:true},
                         {key:'logStartTime',width:200,condition:{
@@ -40,8 +40,7 @@ export default {
                                {value:'performance',label:vm.$t('type.logType.performance')},
                                {value:'login',label:vm.$t('type.logType.login')}
                             ]
-                        }},
-                        {key:'logMessage',minWidth:300,condition:true},
+                        }}
                     ]
                 }
             }

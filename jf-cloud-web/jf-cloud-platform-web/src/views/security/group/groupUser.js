@@ -6,7 +6,7 @@ export default{
             groupUserGrid:{
                 search:{
                     url:'jfcloud/jf-cloud-platform/security/group/user/page',
-                    defaultParams:{groupId:id},
+                    defaultParams:{groupId:id,appCode:vm.$store.state.app.appInfo.appCode},
                     autoLoad:vm.autoLoad('groupUsers'),
                 },
                 delete:{

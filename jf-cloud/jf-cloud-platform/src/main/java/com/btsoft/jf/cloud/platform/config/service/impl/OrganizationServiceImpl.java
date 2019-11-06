@@ -18,6 +18,7 @@ import com.btsoft.jf.cloud.platform.security.mapper.IEmployeeMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class OrganizationServiceImpl implements IOrganizationService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Result deleteOrganization(BaseIdDTO dto) {
         int rows=mapper.deleteSingleById(dto.getId());
         //清空员工对应的部门

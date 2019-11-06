@@ -30,8 +30,8 @@ public interface IEmployeeMapper extends IBaseMapper<EmployeeEntity,Long> {
      * @author jeo_cb
      * @date 2019/11/4
      * @param orgId 部门id
-     * @param currentId 当前用户id
+     * @param currentUserId 当前用户id
      * @return 受影响行数
      */
-    int deleteEmployeeOrg(@Param("param") Long orgId,Long currentId);
+    int deleteEmployeeOrg(@Param("orgId") Long orgId,@Param("currentUserId")Long currentUserId);
 }

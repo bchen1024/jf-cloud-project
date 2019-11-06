@@ -1,9 +1,9 @@
-import ParentView from '@/views/main/components/parent-view/index.vue'
+import ParentView from '@/components/main/components/parent-view/index.vue'
 export default[
     {
         path:'/error/badGateway',
         name:'badGateway',
-        component:resolve =>require(['@/views/error/502.vue'],resolve),
+        component:resolve =>require(['@/components/error/502.vue'],resolve),
         meta:{
             hideMenu:true,
             noNeedLogin:true
@@ -13,7 +13,7 @@ export default[
         path: '/',
         name: 'main',
         redirect:'home',
-        component: resolve =>require(['@/views/main/index.vue'],resolve),
+        component: resolve =>require(['@/components/main/index.vue'],resolve),
         meta:{
             mainMenu:true
         },
@@ -21,7 +21,7 @@ export default[
             {
                 path:'/error/noPermission',
                 name:'noPermission',
-                component:resolve =>require(['@/views/error/401.vue'],resolve),
+                component:resolve =>require(['@/components/error/401.vue'],resolve),
                 meta:{
                     hideMenu:true
                 }
@@ -70,15 +70,6 @@ export default[
                 },
                 children:[
                     {
-                        path:'/account/app',
-                        name:'appMgt',
-                        component:resolve =>require(['@/views/account/app/index.vue'],resolve),
-                        meta:{
-                            icon:'md-apps',
-                            permissionCode:'app$page'
-                        }
-                    },
-                    {
                         path:'/account/user',
                         name:'userMgt',
                         component:resolve =>require(['@/views/account/user/index.vue'],resolve),
@@ -95,29 +86,49 @@ export default[
                             icon:'ios-people',
                             permissionCode:'employee$page'
                         }
-                    },
+                    }
+                ]
+            },
+            {
+                name:'securityMgt',
+                path:'/security',
+                component:ParentView,
+                meta:{
+                    noLink:true,
+                    icon:'ios-people'
+                },
+                children:[
                     {
-                        path:'/account/role',
-                        name:'roleMgt',
-                        component:resolve =>require(['@/views/account/role/index.vue'],resolve),
+                        path:'/security/app',
+                        name:'appMgt',
+                        component:resolve =>require(['@/views/security/app/index.vue'],resolve),
                         meta:{
-                            icon:'md-people',
-                            permissionCode:'role$page'
+                            icon:'md-apps',
+                            permissionCode:'app$page'
                         }
                     },
                     {
-                        path:'/account/group',
+                        path:'/security/group',
                         name:'groupMgt',
-                        component:resolve =>require(['@/views/account/group/index.vue'],resolve),
+                        component:resolve =>require(['@/views/security/group/index.vue'],resolve),
                         meta:{
                             icon:'ios-people',
                             permissionCode:'group$page'
                         }
                     },
                     {
-                        path:'/account/permission',
+                        path:'/security/role',
+                        name:'roleMgt',
+                        component:resolve =>require(['@/views/security/role/index.vue'],resolve),
+                        meta:{
+                            icon:'md-people',
+                            permissionCode:'role$page'
+                        }
+                    },
+                    {
+                        path:'/security/permission',
                         name:'permissionMgt',
-                        component:resolve =>require(['@/views/account/permission/index.vue'],resolve),
+                        component:resolve =>require(['@/views/security/permission/index.vue'],resolve),
                         meta:{
                             icon:'md-lock',
                             permissionCode:'permission$tree'
@@ -126,8 +137,8 @@ export default[
                 ]
             },
             {
-                name:'configMgt',
-                path:'/config',
+                name:'basicConfig',
+                path:'/basic/config',
                 component:ParentView,
                 meta:{
                     noLink:true,
@@ -135,73 +146,85 @@ export default[
                 },
                 children:[
                     {
-                        path:'/config/property',
-                        name:'propertyMgt',
-                        component:resolve =>require(['@/views/config/property/index.vue'],resolve),
-                        meta:{
-                            icon:'md-people',
-                            permissionCode:'property$page'
-                        }
-                    },
-                    
-                    {
-                        path:'/config/code',
-                        name:'codeMgt',
-                        component:resolve =>require(['@/views/config/code/index.vue'],resolve),
-                        meta:{
-                            icon:'md-person',
-                            permissionCode:'code$page'
-                        }
-                    },
-                    {
-                        path:'/config/organization',
+                        path:'/basic/config/organization',
                         name:'organizationMgt',
-                        component:resolve =>require(['@/views/config/organization/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/basic/organization/index.vue'],resolve),
                         meta:{
                             icon:'md-people',
                             permissionCode:'organization$tree'
                         }
                     },
                     {
-                        path:'/config/employeeJob',
+                        path:'/basic/config/employeeJob',
                         name:'jobMgt',
-                        component:resolve =>require(['@/views/config/job/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/basic/job/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             permissionCode:'employeeJob$page'
                         }
-                    },
+                    }
+                ]
+            },
+            {
+                name:'appConfig',
+                path:'/app/config',
+                component:ParentView,
+                meta:{
+                    noLink:true,
+                    icon:'ios-settings'
+                },
+                children:[
                     {
-                        path:'/config/notice',
+                        path:'/app/config/property',
+                        name:'propertyMgt',
+                        component:resolve =>require(['@/views/config/app/property/index.vue'],resolve),
+                        meta:{
+                            icon:'md-people',
+                            permissionCode:'user$page'
+                        }
+                    },
+                    
+                    {
+                        path:'/app/config/code',
+                        name:'codeMgt',
+                        component:resolve =>require(['@/views/config/app/code/index.vue'],resolve),
+                        meta:{
+                            icon:'md-person',
+                            permissionCode:'code$page'
+                        }
+                    },
+                    
+                    {
+                        path:'/app/config/notice',
                         name:'noticeMgt',
-                        component:resolve =>require(['@/views/config/notice/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/app/notice/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             permissionCode:'notice$page'
                         }
                     },
                     {
-                        path:'/config/template',
+                        path:'/app/config/template',
                         name:'templateMgt',
-                        component:resolve =>require(['@/views/config/template/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/app/template/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             permissionCode:'template$page'
                         }
                     },
                     {
-                        path:'/config/i18n',
+                        path:'/app/config/i18n',
                         name:'i18nMgt',
-                        component:resolve =>require(['@/views/config/i18n/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/app/i18n/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             permissionCode:'i18n$page'
                         }
                     },
                     {
-                        path:'/config/personalized',
+                        path:'/app/config/personalized',
                         name:'personalizedMgt',
-                        component:resolve =>require(['@/views/config/personalized/index.vue'],resolve),
+                        component:resolve =>require(['@/views/config/app/personalized/index.vue'],resolve),
                         meta:{
                             icon:'md-person',
                             permissionCode:'personalized$page'
@@ -305,38 +328,6 @@ export default[
                 }
             },
             {
-                path:'/account/role/detail',
-                name:'roleDetail',
-                component:resolve =>require(['@/views/account/role/detail.vue'],resolve),
-                meta:{
-                    parent:['accountMgt','roleMgt'],
-                    hideMenu:true,
-                    icon:'md-person'
-                }
-            },
-            {
-                path:'/account/app/detail',
-                name:'appDetail',
-                component:resolve =>require(['@/views/account/app/detail.vue'],resolve),
-                meta:{
-                    parent:['accountMgt','appMgt'],
-                    hideMenu:true,
-                    icon:'md-person',
-                    permissionCode:'app$single|app$appUsers|app$appToken'
-                }
-            },
-            {
-                path:'/account/group/detail',
-                name:'groupDetail',
-                component:resolve =>require(['@/views/account/group/detail.vue'],resolve),
-                meta:{
-                    parent:['accountMgt','groupMgt'],
-                    hideMenu:true,
-                    icon:'md-person',
-                    permissionCode:'group$single'
-                }
-            },
-            {
                 path:'/account/employee/detail',
                 name:'employeeDetail',
                 component:resolve =>require(['@/views/account/employee/detail.vue'],resolve),
@@ -345,6 +336,38 @@ export default[
                     hideMenu:true,
                     icon:'md-person',
                     permissionCode:'employee$single'
+                }
+            },
+            {
+                path:'/security/role/detail',
+                name:'roleDetail',
+                component:resolve =>require(['@/views/security/role/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','roleMgt'],
+                    hideMenu:true,
+                    icon:'md-person'
+                }
+            },
+            {
+                path:'/security/app/detail',
+                name:'appDetail',
+                component:resolve =>require(['@/views/security/app/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','appMgt'],
+                    hideMenu:true,
+                    icon:'md-person',
+                    permissionCode:'app$single|app$appUsers|app$appToken'
+                }
+            },
+            {
+                path:'/security/group/detail',
+                name:'groupDetail',
+                component:resolve =>require(['@/views/security/group/detail.vue'],resolve),
+                meta:{
+                    parent:['accountMgt','groupMgt'],
+                    hideMenu:true,
+                    icon:'md-person',
+                    permissionCode:'group$single'
                 }
             }
         ]
