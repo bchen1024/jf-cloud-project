@@ -113,4 +113,17 @@ public class PersonalController {
         dto.setUserId(userId);
         return roleUserService.findRoleUserList(dto);
     }
+
+    /**
+     * 切换当前应用
+     * @author jeo_cb
+     * @date 2019/11/6
+     * @return 切换结果
+     */
+    @ApiOperation("切换应用")
+    @PostMapping("switchApp")
+    public Result switchApp(){
+        Long userId= JfCloud.getCurrent().getCurrentUserId();
+        return userService.clearUserEnvCache(userId);
+    }
 }

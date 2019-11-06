@@ -32,6 +32,7 @@ export default {
   },
   methods: {
     selectApp (name) {
+      let vm=this;
       if(name==this.appInfo.appCode){
         return;
       }
@@ -39,8 +40,10 @@ export default {
           title: this.$t('confirm'),
           content: this.$t('switchAppConfirm'),
           onOk: () => {
-              util.setApp(name);
-              location.reload();
+              vm.$http.post('jfcloud/jf-cloud-platform/personal/switchApp').then(result=>{
+                util.setApp(name);
+                location.reload();
+              });
           }
       });
     }
