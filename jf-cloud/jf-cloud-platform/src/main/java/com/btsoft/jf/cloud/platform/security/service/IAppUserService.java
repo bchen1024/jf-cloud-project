@@ -6,7 +6,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserAppSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserAppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.app.AppUserVO;
 
 /**

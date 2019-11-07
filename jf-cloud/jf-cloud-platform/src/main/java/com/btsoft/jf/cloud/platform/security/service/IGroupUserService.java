@@ -6,7 +6,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserGroupSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserGroupSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.group.GroupUserVO;
 
 /**

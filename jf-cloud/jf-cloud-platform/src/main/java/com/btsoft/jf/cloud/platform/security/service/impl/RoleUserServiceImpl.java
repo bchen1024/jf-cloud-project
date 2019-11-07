@@ -9,7 +9,7 @@ import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserRoleSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserRoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.RoleUserEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IRoleUserMapper;
 import com.btsoft.jf.cloud.platform.security.service.IRoleService;

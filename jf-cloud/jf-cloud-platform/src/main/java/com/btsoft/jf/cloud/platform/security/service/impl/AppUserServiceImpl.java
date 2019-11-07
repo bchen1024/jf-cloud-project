@@ -9,7 +9,7 @@ import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.app.AppUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserAppSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserAppSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.AppUserEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IAppUserMapper;
 import com.btsoft.jf.cloud.platform.security.service.IAppService;

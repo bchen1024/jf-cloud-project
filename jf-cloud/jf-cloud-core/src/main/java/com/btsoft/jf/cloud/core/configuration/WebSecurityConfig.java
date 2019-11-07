@@ -21,7 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
         successHandler.setTargetUrlParameter("redirectTo");
         http.authorizeRequests()
-                .antMatchers("/actuator/**","/swagger-ui.html","/webjars/**","/v2/**","/swagger-resources/**")
+                .antMatchers("/actuator/**")
                 .authenticated()
                 .anyRequest().permitAll()
                 .and()

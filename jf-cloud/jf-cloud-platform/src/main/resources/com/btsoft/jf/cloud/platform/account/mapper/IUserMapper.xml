@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.btsoft.jf.cloud.platform.account.mapper.IUserMapper">
+	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.account.entity.UserEntity">
+		<result column="enable_flag" property="enableFlag"/>
+		<result column="create_by" property="createBy"/>
+		<result column="create_date" property="createDate"/>
+		<result column="last_update_by" property="lastUpdateBy"/>
+		<result column="last_update_date" property="lastUpdateDate"/>
+
+		<result column="user_id" property="userId"/>
+		<result column="user_no" property="userNo"/>
+		<result column="user_cn" property="userCn"/>
+		<result column="user_en" property="userEn"/>
+		<result column="password" property="password"/>
+		<result column="mobile" property="mobile"/>
+		<result column="mobile_validated" property="mobileValidated"/>
+		<result column="email" property="email"/>
+		<result column="email_validated" property="emailValidated"/>
+		<result column="user_type" property="userType"/>
+		<result column="user_status" property="userStatus"/>
+		<result column="password_update_time" property="passwordUpdateTime"/>
+		<result column="password_error_num" property="passwordErrorNum"/>
+		<result column="lock_time" property="lockTime"/>
+		<result column="user_sex" property="userSex"/>
+		<result column="user_photo" property="userPhoto"/>
+	</resultMap>
+
+	<sql id="base_sql">
+		SELECT
+			T.USER_ID,
+			T.USER_NO,
+		    T.USER_CN,
+		    T.USER_EN,
+			T.MOBILE,
+			T.MOBILE_VALIDATED,
+			T.EMAIL,
+		    T.EMAIL_VALIDATED,
+			T.USER_TYPE,
+		    T.USER_STATUS,
+		    T.PASSWORD_UPDATE_TIME,
+		    T.PASSWORD_ERROR_NUM,
+		    T.LOCK_TIME,
+			T.USER_SEX,
+			T.USER_PHOTO,
+			T.ENABLE_FLAG,
+			T.CREATE_BY,
+			T.CREATE_DATE,
+			T.LAST_UPDATE_BY,
+			T.LAST_UPDATE_DATE
+		FROM SYS_USER_T T
+	</sql>
+
+	<sql id="base_condition">
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+		    T.ENABLE_FLAG='Y'
+            <if test='param.userNo!=null and param.userNo!=""'>
+                AND T.USER_NO LIKE CONCAT('%',TRIM(#{param.userNo,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='param.userCn!=null and param.userCn!=""'>
+				AND T.USER_CN LIKE CONCAT('%',TRIM(#{param.userCn,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='param.userEn!=null and param.userEn!=""'>
+				AND T.USER_EN LIKE CONCAT('%',TRIM(#{param.userEn,jdbcType=VARCHAR}),'%')
+			</if>
+            <if test='param.mobile!=null and param.mobile!=""'>
+                AND T.MOBILE LIKE CONCAT('%',TRIM(#{param.mobile,jdbcType=VARCHAR}),'%')
+            </if>
+			<if test='param.email!=null and param.email!=""'>
+				AND T.EMAIL LIKE CONCAT('%',TRIM(#{param.email,jdbcType=VARCHAR}),'%')
+			</if>
+			<if test='param.userType!=null and param.userType!=""'>
+				AND T.USER_TYPE=#{param.userType,jdbcType=VARCHAR}
+			</if>
+			<if test='param.userSex!=null and param.userSex!=""'>
+				AND T.USER_SEX=#{param.userSex,jdbcType=VARCHAR}
+			</if>
+			<if test='param.userStatus!=null and param.userStatus!=""'>
+				AND T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR}
+			</if>
+			<if test='param.mobileValidated!=null and param.mobileValidated!=""'>
+				AND T.MOBILE_VALIDATED=#{param.mobileValidated,jdbcType=VARCHAR}
+			</if>
+			<if test='param.emailValidated!=null and param.emailValidated!=""'>
+				AND T.EMAIL_VALIDATED=#{param.emailValidated,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</sql>
+
+	<insert id="createSingle" useGeneratedKeys="true" keyProperty="userId" parameterType="com.btsoft.jf.cloud.platform.account.entity.UserEntity">
+		INSERT INTO SYS_USER_T (
+			USER_NO,
+		    USER_CN,
+		    USER_EN,
+			MOBILE,
+			EMAIL,
+		    PASSWORD,
+			USER_TYPE,
+			USER_SEX,
+			CREATE_BY,
+			LAST_UPDATE_BY
+		)VALUES(
+			#{param.userNo,jdbcType=VARCHAR},
+			#{param.userCn,jdbcType=VARCHAR},
+			#{param.userEn,jdbcType=VARCHAR},
+			#{param.mobile,jdbcType=VARCHAR},
+			#{param.email,jdbcType=VARCHAR},
+			#{param.password,jdbcType=VARCHAR},
+			#{param.userType,jdbcType=VARCHAR},
+			#{param.userSex,jdbcType=VARCHAR},
+			#{param.currentUserId,jdbcType=NUMERIC},
+			#{param.currentUserId,jdbcType=NUMERIC}
+		)
+	</insert>
+
+    <select id="findSingleById" resultMap="sqlResultMap">
+        <include refid="base_sql"/>
+        WHERE T.USER_ID=#{id,jdbcType=NUMERIC}
+		  AND T.ENABLE_FLAG='Y'
+    </select>
+
+	<select id="findList" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<include refid="base_condition"/>
+	</select>
+
+	<select id="findUserCountByUserCn" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.USER_CN=#{userCn,jdbcType=VARCHAR}
+	</select>
+
+	<select id="findListByIds" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<if test="list!=null and list.size()>0">
+			<foreach collection="list" item="item" open="WHERE T.USER_ID IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+		<if test="list==null or list.isEmpty()">
+			WHERE 1=2
+		</if>
+	</select>
+
+	<update id="updateUserBaseInfo">
+		UPDATE SYS_USER_T T SET
+			T.USER_CN=#{param.userCn,jdbcType=VARCHAR},
+			T.USER_EN=#{param.userEn,jdbcType=VARCHAR},
+			T.USER_SEX=#{param.userSex,jdbcType=VARCHAR},
+			T.MOBILE=IF(T.MOBILE_VALIDATED='Y',T.MOBILE,#{param.mobile,jdbcType=VARCHAR}),
+			T.EMAIL=IF(T.EMAIL_VALIDATED='Y',T.EMAIL,#{param.email,jdbcType=VARCHAR}),
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
+	</update>
+
+	<update id="updateUserStatus">
+		UPDATE SYS_USER_T T SET
+			T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR},
+			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
+			<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+				T.LOCK_TIME=NOW(),
+			</if>
+			<if test="param.userStatus!=@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+				T.LOCK_TIME=NULL,
+			</if>
+			T.LAST_UPDATE_DATE=NOW()
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@Y.getKey">
+			AND T.USER_STATUS IN('L','D')
+		</if>
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			AND T.USER_STATUS='Y'
+		</if>
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@D.getKey">
+			AND T.USER_STATUS IN('L','Y')
+		</if>
+	</update>
+
+	<select id="validUserMobile" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.MOBILE=#{param.mobile,jdbcType=VARCHAR}
+		<if test="param.userId!=null">
+			AND T.USER_ID!=#{param.userId,jdbcType=NUMERIC}
+		</if>
+	</select>
+
+	<select id="validUserEmail" resultType="int">
+		SELECT COUNT(1) FROM SYS_USER_T T WHERE T.EMAIL=#{param.email,jdbcType=VARCHAR}
+		<if test="param.userId!=null">
+			AND T.USER_ID!=#{param.userId,jdbcType=NUMERIC}
+		</if>
+	</select>
+
+	<select id="findValidUser" resultMap="sqlResultMap">
+		SELECT
+			T.USER_ID,
+			T.USER_NO,
+			T.PASSWORD,
+			T.USER_CN,
+			T.USER_EN,
+			T.MOBILE,
+			T.MOBILE_VALIDATED,
+			T.EMAIL,
+			T.EMAIL_VALIDATED,
+			T.USER_TYPE,
+			T.USER_STATUS,
+			T.PASSWORD_UPDATE_TIME,
+			T.PASSWORD_ERROR_NUM,
+			T.LOCK_TIME,
+			T.USER_SEX
+		FROM SYS_USER_T T
+		WHERE T.ENABLE_FLAG='Y'
+		AND (T.USER_NO=#{userAccount,jdbcType=VARCHAR} OR
+		     T.MOBILE=#{userAccount,jdbcType=VARCHAR} OR
+		     T.EMAIL=#{userAccount,jdbcType=VARCHAR}
+		)
+		LIMIT 1
+	</select>
+
+	<update id="updateErrorNumAndStatus">
+		UPDATE SYS_USER_T T SET
+			T.PASSWORD_ERROR_NUM=#{param.passwordErrorNum,jdbcType=NUMERIC},
+		    T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR},
+		    T.LOCK_TIME=#{param.lockTime}
+		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
+	</update>
+
+	<select id="findSelectUserList" resultMap="sqlResultMap">
+		SELECT
+			T.USER_ID,
+			T.USER_NO,
+			T.USER_CN,
+			T.USER_EN,
+			T.MOBILE,
+			T.EMAIL,
+			T.USER_TYPE,
+			T.USER_STATUS,
+			T.USER_SEX,
+			T.USER_PHOTO
+		FROM SYS_USER_T T
+		WHERE T.ENABLE_FLAG='Y'
+		<if test='param.userType!=null and param.userType!=""'>
+			AND T.USER_TYPE=#{param.userType,jdbcType=VARCHAR}
+		</if>
+		<if test='param.userStatus!=null and param.userStatus!=""'>
+			AND T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR}
+		</if>
+		<if test='param.userSex!=null and param.userSex!=""'>
+			AND T.USER_SEX=#{param.userSex,jdbcType=VARCHAR}
+		</if>
+		<if test='param.keyword!=null and param.keyword!=""'>
+			AND (T.USER_CN LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
+			  OR T.USER_EN LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
+			  OR T.USER_NO LIKE CONCAT('%',TRIM(#{param.keyword,jdbcType=VARCHAR}),'%')
+			)
+		</if>
+		LIMIT 50
+	</select>
+</mapper>

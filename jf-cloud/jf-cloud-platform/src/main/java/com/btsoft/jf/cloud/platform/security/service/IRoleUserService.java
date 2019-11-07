@@ -6,7 +6,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.role.RoleUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserRoleSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserRoleSaveDTO;
 import com.btsoft.jf.cloud.platform.security.vo.role.RoleUserVO;
 
 /**

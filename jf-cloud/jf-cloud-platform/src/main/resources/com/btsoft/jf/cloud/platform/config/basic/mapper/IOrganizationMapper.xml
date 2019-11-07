@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.btsoft.jf.cloud.platform.config.basic.mapper.IOrganizationMapper">
-	<resultMap id="sqlResultMap" type="com.btsoft.jf.cloud.platform.config.basic.entity.OrganizationEntity">
+	<resultMap id="sqlResultMap"  type="com.btsoft.jf.cloud.platform.config.basic.entity.OrganizationEntity">
 		<result column="ENABLE_FLAG" property="enableFlag"/>
 		<result column="CREATE_BY" property="createBy"/>
 		<result column="CREATE_DATE" property="createDate"/>
@@ -20,8 +20,8 @@
 			T.ORG_ID,
 			T.ORG_CN,
 			T.ORG_EN,
-			T.ORG_DESC,
 			T.PARENT_ID,
+		    T.ORG_DESC,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -33,18 +33,6 @@
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-            <if test='param.orgCn!=null and param.orgCn!=""'>
-                AND T.ORG_CN LIKE CONCAT('%',TRIM(#{param.orgCn,jdbcType=VARCHAR}),'%')
-            </if>
-            <if test='param.orgEn!=null and param.orgEn!=""'>
-                AND T.ORG_EN LIKE CONCAT('%',TRIM(#{param.orgEn,jdbcType=VARCHAR}),'%')
-            </if>
-			<if test='param.orgDesc!=null and param.orgDesc!=""'>
-				AND T.ORG_DESC LIKE CONCAT('%',TRIM(#{param.orgDesc,jdbcType=VARCHAR}),'%')
-			</if>
-			<if test='param.parentId!=null'>
-				AND T.PARENT_ID= #{param.parentId,jdbcType=NUMERIC}
-			</if>
 		</trim>
 	</sql>
 
@@ -52,15 +40,15 @@
 		INSERT INTO SYS_ORGANIZATION_T (
 			ORG_CN,
 			ORG_EN,
-			ORG_DESC,
 			PARENT_ID,
+			ORG_DESC,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
 			#{param.orgCn,jdbcType=VARCHAR},
 			#{param.orgEn,jdbcType=VARCHAR},
+			IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
 			#{param.orgDesc,jdbcType=VARCHAR},
-			IFNULL(#{param.parentId,jdbcType=VARCHAR},0),
 			#{param.currentUserId,jdbcType=NUMERIC},
 			#{param.currentUserId,jdbcType=NUMERIC}
 		)
@@ -80,15 +68,27 @@
 		UPDATE SYS_ORGANIZATION_T T SET
 			T.ORG_CN=#{param.orgCn,jdbcType=VARCHAR},
 			T.ORG_EN=#{param.orgEn,jdbcType=VARCHAR},
+		    T.PARENT_ID=IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
 			T.ORG_DESC=#{param.orgDesc,jdbcType=VARCHAR},
-			T.PARENT_ID=IFNULL(#{param.parentId,jdbcType=VARCHAR},0),
 			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
-			T.LAST_UPDATE_DATE=now()
+			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.ORG_ID=#{param.orgId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<include refid="base_condition"/>
+	</select>
+
+	<select id="findListByIds" resultMap="sqlResultMap">
+		<include refid="base_sql"/>
+		<if test='list!=null and list.size()>0'>
+			<foreach collection="list" item="item" open="WHERE T.ORG_ID IN(" close=")" separator=",">
+				#{item,jdbcType=NUMERIC}
+			</foreach>
+		</if>
+		<if test='list==null or list.size()==0'>
+			AND 1=2
+		</if>
 	</select>
 </mapper>

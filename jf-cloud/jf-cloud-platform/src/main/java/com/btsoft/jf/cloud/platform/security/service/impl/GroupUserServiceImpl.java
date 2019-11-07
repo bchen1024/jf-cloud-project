@@ -9,7 +9,7 @@ import com.btsoft.jf.cloud.core.enums.impl.OperationTypeEnum;
 import com.btsoft.jf.cloud.core.util.CommonResultUtils;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserQueryDTO;
 import com.btsoft.jf.cloud.platform.security.dto.group.GroupUserSaveDTO;
-import com.btsoft.jf.cloud.platform.security.dto.user.UserGroupSaveDTO;
+import com.btsoft.jf.cloud.platform.account.dto.user.UserGroupSaveDTO;
 import com.btsoft.jf.cloud.platform.security.entity.GroupUserEntity;
 import com.btsoft.jf.cloud.platform.security.mapper.IGroupRoleMapper;
 import com.btsoft.jf.cloud.platform.security.mapper.IGroupUserMapper;

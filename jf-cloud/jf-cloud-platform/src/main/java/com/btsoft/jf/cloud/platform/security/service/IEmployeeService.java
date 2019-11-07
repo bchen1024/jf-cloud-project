@@ -3,9 +3,9 @@ package com.btsoft.jf.cloud.platform.security.service;
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
 import com.btsoft.jf.cloud.core.base.result.impl.Result;
-import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeQueryDTO;
-import com.btsoft.jf.cloud.platform.security.dto.employee.EmployeeUpdateDTO;
-import com.btsoft.jf.cloud.platform.security.vo.employee.EmployeeVO;
+import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeQueryDTO;
+import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeUpdateDTO;
+import com.btsoft.jf.cloud.platform.account.vo.employee.EmployeeVO;
 
 /**
  * 员工Service接口
