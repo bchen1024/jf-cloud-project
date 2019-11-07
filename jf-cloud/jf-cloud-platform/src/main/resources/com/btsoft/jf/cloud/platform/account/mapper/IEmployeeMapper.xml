@@ -51,13 +51,13 @@
 					FROM
 					(
 						SELECT T2.ORG_ID
-							FROM SYS_ORGANIZATION_T T1,
-								 SYS_ORGANIZATION_T T2
+							FROM BASIC_ORGANIZATION_T T1,
+								 BASIC_ORGANIZATION_T T2
 							WHERE T1.ORG_ID = T2.PARENT_ID
 						AND (T1.ORG_ID = #{param.employeeOrg,jdbcType=NUMERIC} OR T1.PARENT_ID = #{param.employeeOrg,jdbcType=NUMERIC})
 						UNION
 						SELECT T3.ORG_ID
-							FROM SYS_ORGANIZATION_T T3
+							FROM BASIC_ORGANIZATION_T T3
 							WHERE T3.ORG_ID = #{param.employeeOrg,jdbcType=NUMERIC}
 					) TT WHERE TT.ORG_ID=T.EMPLOYEE_ORG
 				)

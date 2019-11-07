@@ -27,7 +27,7 @@
 			T.CREATE_DATE,
 			T.LAST_UPDATE_BY,
 			T.LAST_UPDATE_DATE
-		FROM SYS_ORGANIZATION_T T
+		FROM BASIC_ORGANIZATION_T T
 	</sql>
 
 	<sql id="base_condition">
@@ -49,7 +49,7 @@
 	</sql>
 
 	<insert id="createSingle">
-		INSERT INTO SYS_ORGANIZATION_T (
+		INSERT INTO BASIC_ORGANIZATION_T (
 			ORG_CN,
 			ORG_EN,
 			ORG_DESC,
@@ -73,11 +73,11 @@
     </select>
 
 	<delete id="deleteSingleById">
-		DELETE FROM SYS_ORGANIZATION_T WHERE ORG_ID=#{id,jdbcType=NUMERIC}
+		DELETE FROM BASIC_ORGANIZATION_T WHERE ORG_ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<update id="updateSingle">
-		UPDATE SYS_ORGANIZATION_T T SET
+		UPDATE BASIC_ORGANIZATION_T T SET
 			T.ORG_CN=#{param.orgCn,jdbcType=VARCHAR},
 			T.ORG_EN=#{param.orgEn,jdbcType=VARCHAR},
 			T.ORG_DESC=#{param.orgDesc,jdbcType=VARCHAR},

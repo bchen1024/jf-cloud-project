@@ -10,41 +10,50 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  **/
 public class PostEntity extends BaseEntity {
 
-    private Long jobId;
-    private String jobCn;
-    private String jobEn;
-    private String jobDesc;
+    private Long postId;
+    private String postCn;
+    private String postEn;
+    private String postDesc;
+    private Integer postLevel;
 
-    public Long getJobId() {
-        return jobId;
+    public Long getPostId() {
+        return postId;
     }
 
-    public void setJobId(Long jobId) {
-        this.jobId = jobId;
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 
-    public String getJobCn() {
-        return jobCn;
+    public String getPostCn() {
+        return postCn;
     }
 
-    public void setJobCn(String jobCn) {
-        this.jobCn = jobCn;
+    public void setPostCn(String postCn) {
+        this.postCn = postCn;
     }
 
-    public String getJobEn() {
-        return jobEn;
+    public String getPostEn() {
+        return postEn;
     }
 
-    public void setJobEn(String jobEn) {
-        this.jobEn = jobEn;
+    public void setPostEn(String postEn) {
+        this.postEn = postEn;
     }
 
-    public String getJobDesc() {
-        return jobDesc;
+    public String getPostDesc() {
+        return postDesc;
     }
 
-    public void setJobDesc(String jobDesc) {
-        this.jobDesc = jobDesc;
+    public void setPostDesc(String postDesc) {
+        this.postDesc = postDesc;
+    }
+
+    public Integer getPostLevel() {
+        return postLevel;
+    }
+
+    public void setPostLevel(Integer postLevel) {
+        this.postLevel = postLevel;
     }
 
     @Override

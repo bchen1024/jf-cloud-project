@@ -8,52 +8,56 @@
 		<result column="LAST_UPDATE_BY" property="lastUpdateBy"/>
 		<result column="LAST_UPDATE_DATE" property="lastUpdateDate"/>
 
-		<result column="JOB_ID" property="jobId"/>
-		<result column="JOB_CN" property="jobCn"/>
-		<result column="JOB_EN" property="jobEn"/>
-		<result column="JOB_DESC" property="jobDesc"/>
+		<result column="POST_ID" property="postId"/>
+		<result column="POST_CN" property="postCn"/>
+		<result column="POST_EN" property="postEn"/>
+		<result column="POST_DESC" property="postDesc"/>
+		<result column="POST_LEVEL" property="postLevel"/>
 	</resultMap>
 
 	<sql id="base_sql">
 		SELECT
-			T.JOB_ID,
-			T.JOB_CN,
-			T.JOB_EN,
-			T.JOB_DESC,
+			T.POST_ID,
+			T.POST_CN,
+			T.POST_EN,
+			T.POST_DESC,
+		    T.POST_LEVEL,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
 			T.LAST_UPDATE_BY,
 			T.LAST_UPDATE_DATE
-		FROM SYS_EMPLOYEE_JOB_T T
+		FROM BASIC_POST_T T
 	</sql>
 
 	<sql id="base_condition">
 		<trim prefix="WHERE" prefixOverrides="AND || OR">
 			T.ENABLE_FLAG='Y'
-            <if test='param.jobCn!=null and param.jobCn!=""'>
-                AND T.JOB_CN LIKE CONCAT('%',TRIM(#{param.jobCn,jdbcType=VARCHAR}),'%')
+            <if test='param.postCn!=null and param.postCn!=""'>
+                AND T.POST_CN LIKE CONCAT('%',TRIM(#{param.postCn,jdbcType=VARCHAR}),'%')
             </if>
-            <if test='param.jobEn!=null and param.jobEn!=""'>
-                AND T.JOB_EN LIKE CONCAT('%',TRIM(#{param.jobEn,jdbcType=VARCHAR}),'%')
+            <if test='param.postEn!=null and param.postEn!=""'>
+                AND T.POST_EN LIKE CONCAT('%',TRIM(#{param.postEn,jdbcType=VARCHAR}),'%')
             </if>
-			<if test='param.jobDesc!=null and param.jobDesc!=""'>
-				AND T.JOB_DESC LIKE CONCAT('%',TRIM(#{param.jobDesc,jdbcType=VARCHAR}),'%')
+			<if test='param.postDesc!=null and param.postDesc!=""'>
+				AND T.POST_DESC LIKE CONCAT('%',TRIM(#{param.postDesc,jdbcType=VARCHAR}),'%')
 			</if>
 		</trim>
 	</sql>
 
 	<insert id="createSingle">
-		INSERT INTO SYS_EMPLOYEE_JOB_T (
-			JOB_CN,
-			JOB_EN,
-			JOB_DESC,
+		INSERT INTO BASIC_POST_T (
+			POST_CN,
+			POST_EN,
+			POST_DESC,
+			POST_LEVEL,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
-			#{param.jobCn,jdbcType=VARCHAR},
-			#{param.jobEn,jdbcType=VARCHAR},
-			#{param.jobDesc,jdbcType=NUMERIC},
+			#{param.postCn,jdbcType=VARCHAR},
+			#{param.postEn,jdbcType=VARCHAR},
+			#{param.postDesc,jdbcType=NUMERIC},
+			#{param.postLevel,jdbcType=NUMERIC},
 			#{param.currentUserId,jdbcType=NUMERIC},
 			#{param.currentUserId,jdbcType=NUMERIC}
 		)
@@ -61,22 +65,23 @@
 
     <select id="findSingleById" resultMap="sqlResultMap">
         <include refid="base_sql"/>
-        WHERE T.JOB_ID=#{id,jdbcType=NUMERIC}
+        WHERE T.POST_ID=#{id,jdbcType=NUMERIC}
 		  AND T.ENABLE_FLAG='Y'
     </select>
 
 	<delete id="deleteSingleById">
-		DELETE FROM SYS_EMPLOYEE_JOB_T WHERE JOB_ID=#{id,jdbcType=NUMERIC}
+		DELETE FROM BASIC_POST_T WHERE POST_ID=#{id,jdbcType=NUMERIC}
 	</delete>
 
 	<update id="updateSingle">
-		UPDATE SYS_EMPLOYEE_JOB_T T SET
-			T.JOB_CN=#{param.jobCn,jdbcType=VARCHAR},
-			T.JOB_EN=#{param.jobEn,jdbcType=VARCHAR},
-			T.JOB_DESC=#{param.jobDesc,jdbcType=VARCHAR},
+		UPDATE BASIC_POST_T T SET
+			T.POST_CN=#{param.postCn,jdbcType=VARCHAR},
+			T.POST_EN=#{param.posten,jdbcType=VARCHAR},
+			T.POST_DESC=#{param.postDesc,jdbcType=VARCHAR},
+			T.POST_LEVEL=#{param.postLevel,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
-		WHERE T.JOB_ID=#{param.jobId,jdbcType=NUMERIC}
+		WHERE T.POST_ID=#{param.postId,jdbcType=NUMERIC}
 	</update>
 
 	<select id="findList" resultMap="sqlResultMap">
@@ -87,7 +92,7 @@
 	<select id="findListByIds" resultMap="sqlResultMap">
 		<include refid="base_sql"/>
 		<if test='list!=null and list.size()>0'>
-			<foreach collection="list" item="item" open="WHERE T.JOB_ID IN(" close=")" separator=",">
+			<foreach collection="list" item="item" open="WHERE T.POST_ID IN(" close=")" separator=",">
 				#{item,jdbcType=NUMERIC}
 			</foreach>
 		</if>
