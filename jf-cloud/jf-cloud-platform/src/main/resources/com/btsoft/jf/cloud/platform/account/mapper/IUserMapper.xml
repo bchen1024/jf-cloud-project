@@ -156,21 +156,21 @@
 		UPDATE SYS_USER_T T SET
 			T.USER_STATUS=#{param.userStatus,jdbcType=VARCHAR},
 			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
-			<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			<if test="param.userStatus==@com.btsoft.jf.cloud.platform.account.enums.UserStatusEnum@L.getKey">
 				T.LOCK_TIME=NOW(),
 			</if>
-			<if test="param.userStatus!=@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+			<if test="param.userStatus!=@com.btsoft.jf.cloud.platform.account.enums.UserStatusEnum@L.getKey">
 				T.LOCK_TIME=NULL,
 			</if>
 			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.USER_ID=#{param.userId,jdbcType=NUMERIC}
-		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@Y.getKey">
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.account.enums.UserStatusEnum@Y.getKey">
 			AND T.USER_STATUS IN('L','D')
 		</if>
-		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@L.getKey">
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.account.enums.UserStatusEnum@L.getKey">
 			AND T.USER_STATUS='Y'
 		</if>
-		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.security.enums.UserStatusEnum@D.getKey">
+		<if test="param.userStatus==@com.btsoft.jf.cloud.platform.account.enums.UserStatusEnum@D.getKey">
 			AND T.USER_STATUS IN('L','Y')
 		</if>
 	</update>
