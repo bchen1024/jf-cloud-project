@@ -16,6 +16,7 @@ public class OrganizationSaveDTO extends BaseDTO {
     private String orgEn;
     private Long parentId;
     private String orgDesc;
+    private Integer orgType;
 
     public Long getOrgId() {
         return orgId;
@@ -55,6 +56,14 @@ public class OrganizationSaveDTO extends BaseDTO {
 
     public void setOrgDesc(String orgDesc) {
         this.orgDesc = orgDesc;
+    }
+
+    public Integer getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(Integer orgType) {
+        this.orgType = orgType;
     }
 
     @Override

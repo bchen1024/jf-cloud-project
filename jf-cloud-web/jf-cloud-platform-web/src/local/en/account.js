@@ -57,7 +57,7 @@ export default{
     employeeNo:'Employee No',
     employeeType:'Employee Type',
     employeeStatus:'Employee Status',
-    employeeJob:'Employee Job',
+    employeePost:'Employee Post',
     employeeSuperior:'Employee Superior',
     entryDate:'Entry Date',
     employeeOrg:'Employee Org',

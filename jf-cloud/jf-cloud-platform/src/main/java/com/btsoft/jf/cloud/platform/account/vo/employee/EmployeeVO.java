@@ -18,8 +18,8 @@ public class EmployeeVO extends BaseVO {
     private Long employeeNo;
     private Integer employeeType;
     private Integer employeeStatus;
-    private Long employeeJob;
-    private String employeeJobName;
+    private Long employeePost;
+    private String employeePostName;
     private Long employeeOrg;
     private String employeeOrgName;
     private Long parentId;
@@ -59,20 +59,20 @@ public class EmployeeVO extends BaseVO {
         this.employeeStatus = employeeStatus;
     }
 
-    public Long getEmployeeJob() {
-        return employeeJob;
+    public Long getEmployeePost() {
+        return employeePost;
     }
 
-    public void setEmployeeJob(Long employeeJob) {
-        this.employeeJob = employeeJob;
+    public void setEmployeePost(Long employeePost) {
+        this.employeePost = employeePost;
     }
 
-    public String getEmployeeJobName() {
-        return employeeJobName;
+    public String getEmployeePostName() {
+        return employeePostName;
     }
 
-    public void setEmployeeJobName(String employeeJobName) {
-        this.employeeJobName = employeeJobName;
+    public void setEmployeePostName(String employeePostName) {
+        this.employeePostName = employeePostName;
     }
 
     public Long getEmployeeOrg() {

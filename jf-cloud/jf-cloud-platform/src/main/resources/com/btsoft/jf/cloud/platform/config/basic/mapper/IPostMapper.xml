@@ -13,6 +13,7 @@
 		<result column="POST_EN" property="postEn"/>
 		<result column="POST_DESC" property="postDesc"/>
 		<result column="POST_LEVEL" property="postLevel"/>
+		<result column="ORG_ID" property="orgId"/>
 	</resultMap>
 
 	<sql id="base_sql">
@@ -22,6 +23,7 @@
 			T.POST_EN,
 			T.POST_DESC,
 		    T.POST_LEVEL,
+		    T.ORG_ID,
 			T.ENABLE_FLAG,
 			T.CREATE_BY,
 			T.CREATE_DATE,
@@ -42,6 +44,23 @@
 			<if test='param.postDesc!=null and param.postDesc!=""'>
 				AND T.POST_DESC LIKE CONCAT('%',TRIM(#{param.postDesc,jdbcType=VARCHAR}),'%')
 			</if>
+			<if test='param.orgId!=null'>
+				AND EXISTS(
+				SELECT 1
+				FROM
+				(
+				SELECT T2.ORG_ID
+				FROM BASIC_ORGANIZATION_T T1,
+				BASIC_ORGANIZATION_T T2
+				WHERE T1.ORG_ID = T2.PARENT_ID
+				AND (T1.ORG_ID = #{param.orgId,jdbcType=NUMERIC} OR T1.PARENT_ID = #{param.orgId,jdbcType=NUMERIC})
+				UNION
+				SELECT T3.ORG_ID
+				FROM BASIC_ORGANIZATION_T T3
+				WHERE T3.ORG_ID = #{param.orgId,jdbcType=NUMERIC}
+				) TT WHERE TT.ORG_ID=T.ORG_ID
+				)
+			</if>
 		</trim>
 	</sql>
 
@@ -51,13 +70,15 @@
 			POST_EN,
 			POST_DESC,
 			POST_LEVEL,
+		    ORG_ID,
 			CREATE_BY,
 			LAST_UPDATE_BY
 		)VALUES(
 			#{param.postCn,jdbcType=VARCHAR},
 			#{param.postEn,jdbcType=VARCHAR},
-			#{param.postDesc,jdbcType=NUMERIC},
-			#{param.postLevel,jdbcType=NUMERIC},
+			#{param.postDesc,jdbcType=VARCHAR},
+			#{param.postLevel,jdbcType=VARCHAR},
+			#{param.orgId,jdbcType=NUMERIC},
 			#{param.currentUserId,jdbcType=NUMERIC},
 			#{param.currentUserId,jdbcType=NUMERIC}
 		)
@@ -76,9 +97,10 @@
 	<update id="updateSingle">
 		UPDATE BASIC_POST_T T SET
 			T.POST_CN=#{param.postCn,jdbcType=VARCHAR},
-			T.POST_EN=#{param.posten,jdbcType=VARCHAR},
+			T.POST_EN=#{param.postEn,jdbcType=VARCHAR},
 			T.POST_DESC=#{param.postDesc,jdbcType=VARCHAR},
-			T.POST_LEVEL=#{param.postLevel,jdbcType=NUMERIC},
+			T.POST_LEVEL=#{param.postLevel,jdbcType=VARCHAR},
+			T.ORG_ID=#{param.orgId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},
 			T.LAST_UPDATE_DATE=NOW()
 		WHERE T.POST_ID=#{param.postId,jdbcType=NUMERIC}

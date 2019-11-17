@@ -104,8 +104,8 @@
                                 </FormItem>
                             </Col>
                             <Col :span="12">
-                                <FormItem :label="$t('employeeJob')" prop="employeeJob">
-                                    <Input v-model="data.employeeJob" />
+                                <FormItem :label="$t('employeePost')" prop="employeePost">
+                                    <Input v-model="data.employeePost" />
                                 </FormItem>
                             </Col>
                         </Row>

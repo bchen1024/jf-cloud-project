@@ -21,6 +21,12 @@ export default{
         userSex:{
             1:'男',
             2:'女'
+        },
+        orgType:{
+            1:'集团',
+            2:'公司',
+            3:'部门',
+            4:'小组'
         }
     },
     status:{

@@ -17,6 +17,7 @@ public class OrganizationVO extends TreeVO<OrganizationVO> {
     private String orgEn;
     private Long parentId;
     private String orgDesc;
+    private Integer orgType;
     private Long createBy;
     private Date createDate;
     private Long lastUpdateBy;
@@ -60,6 +61,14 @@ public class OrganizationVO extends TreeVO<OrganizationVO> {
 
     public void setOrgDesc(String orgDesc) {
         this.orgDesc = orgDesc;
+    }
+
+    public Integer getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(Integer orgType) {
+        this.orgType = orgType;
     }
 
     public Long getCreateBy() {

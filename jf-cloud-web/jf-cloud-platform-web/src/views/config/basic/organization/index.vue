@@ -33,9 +33,24 @@
                         </FormItem>
                     </Col>
                 </Row>
-                <FormItem :label="$t('orgParent')" prop="parentId">
-                    <JFOrgCascader v-model="data.parentId"/>
-                </FormItem>
+                <Row :gutter="32">
+                    <Col :span="12">
+                        <FormItem :label="$t('orgType')" prop="orgType">
+                            <Select v-model="data.orgType">
+                                <Option :value="1">{{$t('type.orgType.1')}}</Option>
+                                <Option :value="2">{{$t('type.orgType.2')}}</Option>
+                                <Option :value="3">{{$t('type.orgType.3')}}</Option>
+                                <Option :value="4">{{$t('type.orgType.4')}}</Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+                    <Col :span="12">
+                        <FormItem :label="$t('orgParent')" prop="parentId">
+                            <JFOrgCascader v-model="data.parentId"/>
+                        </FormItem>
+                    </Col>
+                </Row>
+                
                 <FormItem :label="$t('orgDesc')" prop="orgDesc">
                     <Input v-model="data.orgDesc" type="textarea" :rows="4" :maxlength="200" show-word-limit/>
                 </FormItem>

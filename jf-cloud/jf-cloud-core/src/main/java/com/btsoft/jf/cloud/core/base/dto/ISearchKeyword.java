@@ -1,11 +1,13 @@
 package com.btsoft.jf.cloud.core.base.dto;
 
+import java.io.Serializable;
+
 /**
  * 搜索关键字接口
  * @author jeo_cb
  * @date 2019/9/7
  **/
-public interface ISearchKeyword {
+public interface ISearchKeyword extends Serializable {
 
     /**
      * 获取关键字字段

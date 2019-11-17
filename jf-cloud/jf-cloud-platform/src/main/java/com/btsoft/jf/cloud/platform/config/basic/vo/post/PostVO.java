@@ -1,14 +1,14 @@
-package com.btsoft.jf.cloud.platform.config.basic.entity;
+package com.btsoft.jf.cloud.platform.config.basic.vo.post;
 
-import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
+import com.btsoft.jf.cloud.core.base.vo.impl.BaseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
- * 员工职位Entity
+ * 岗位VO
  * @author jeo_cb
- * @date 2019/10/7
+ * @date 2019/11/15
  **/
-public class PostEntity extends BaseEntity {
+public class PostVO extends BaseVO {
 
     private Long postId;
     private String postCn;
@@ -16,6 +16,7 @@ public class PostEntity extends BaseEntity {
     private String postDesc;
     private String postLevel;
     private Long orgId;
+
     public Long getPostId() {
         return postId;
     }

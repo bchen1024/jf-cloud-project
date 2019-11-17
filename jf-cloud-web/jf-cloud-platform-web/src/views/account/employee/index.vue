@@ -64,7 +64,7 @@ export default {
                             }
                             return '';
                         }},
-                        {key:'employeeJob'},
+                        {key:'employeePost'},
                         {key:'parentId',title:'employeeSuperior',width:140,format:'user'}
                     ]
                 }

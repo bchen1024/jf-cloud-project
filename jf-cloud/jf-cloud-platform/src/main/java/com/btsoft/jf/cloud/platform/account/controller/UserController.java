@@ -49,7 +49,7 @@ public class UserController {
     @ApiOperation("分页查询账号")
     @PostMapping(ControllerConstants.Path.PAGE)
     @JOperator(code = ControllerConstants.Operator.PAGE, descCN = "用户列表", descEN = "User List",sort = 10)
-    public CommonResult<PageResult<UserVO>> findRolePage(@RequestBody UserQueryDTO dto){
+    public CommonResult<PageResult<UserVO>> findUserPage(@RequestBody UserQueryDTO dto){
         return service.findUserPage(dto);
     }
 

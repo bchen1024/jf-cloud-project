@@ -12,7 +12,7 @@
 		<result column="EMPLOYEE_NO" property="employeeNo"/>
 		<result column="EMPLOYEE_TYPE" property="employeeType"/>
 		<result column="EMPLOYEE_STATUS" property="employeeStatus"/>
-		<result column="EMPLOYEE_JOB" property="employeeJob"/>
+		<result column="EMPLOYEE_POST" property="employeePost"/>
 		<result column="PARENT_ID" property="parentId"/>
 		<result column="ENTRY_DATE" property="entryDate"/>
 		<result column="EMPLOYEE_ORG" property="employeeOrg"/>
@@ -24,7 +24,7 @@
 			T.EMPLOYEE_NO,
 		    T.EMPLOYEE_TYPE,
 		    T.EMPLOYEE_STATUS,
-		    T.EMPLOYEE_JOB,
+		    T.EMPLOYEE_POST,
 		    T.PARENT_ID,
 			T.ENTRY_DATE,
 		    T.EMPLOYEE_ORG,
@@ -70,7 +70,7 @@
 			USER_ID,
 		    EMPLOYEE_TYPE,
 		    EMPLOYEE_STATUS,
-			EMPLOYEE_JOB,
+			EMPLOYEE_POST,
 		    PARENT_ID,
 			ENTRY_DATE,
 			EMPLOYEE_ORG,
@@ -80,7 +80,7 @@
 			#{param.userId,jdbcType=NUMERIC},
 			#{param.employeeType,jdbcType=NUMERIC},
 			#{param.employeeStatus,jdbcType=NUMERIC},
-			#{param.employeeJob,jdbcType=NUMERIC},
+			#{param.employeePost,jdbcType=NUMERIC},
 			#{param.parentId,jdbcType=NUMERIC},
 			#{param.entryDate},
 			#{param.employeeOrg,jdbcType=NUMERIC},
@@ -118,7 +118,7 @@
 		UPDATE SYS_EMPLOYEE_T T SET
 			T.EMPLOYEE_TYPE=#{param.employeeType,jdbcType=NUMERIC},
 			T.EMPLOYEE_STATUS=#{param.employeeStatus,jdbcType=NUMERIC},
-			T.EMPLOYEE_JOB=#{param.employeeJob,jdbcType=NUMERIC},
+			T.EMPLOYEE_POST=#{param.employeePost,jdbcType=NUMERIC},
 			T.PARENT_ID=#{param.parentId,jdbcType=NUMERIC},
 			T.EMPLOYEE_ORG=#{param.employeeOrg,jdbcType=NUMERIC},
 			T.ENTRY_DATE=#{param.entryDate},

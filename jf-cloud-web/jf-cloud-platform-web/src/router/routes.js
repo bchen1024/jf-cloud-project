@@ -155,12 +155,11 @@ export default[
                         }
                     },
                     {
-                        path:'/basic/config/employeeJob',
-                        name:'jobMgt',
-                        component:resolve =>require(['@/views/config/basic/job/index.vue'],resolve),
+                        path:'/basic/config/post',
+                        name:'postMgt',
+                        component:resolve =>require(['@/views/config/basic/post/index.vue'],resolve),
                         meta:{
-                            icon:'md-person',
-                            permissionCode:'employeeJob$page'
+                            icon:'md-person'
                         }
                     }
                 ]

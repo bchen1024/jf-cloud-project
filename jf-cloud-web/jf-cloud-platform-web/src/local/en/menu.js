@@ -28,7 +28,7 @@ export default{
     monitorMgt:'Monitor',
     auditLog:'Audit Log',
     serverLog:'Server Log',
-    jobMgt:'Job',
+    postMgt:'Post',
 
     //非菜单路由
     personal:'Personal',

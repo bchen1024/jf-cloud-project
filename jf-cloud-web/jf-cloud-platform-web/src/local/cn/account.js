@@ -58,7 +58,7 @@ export default{
     employeeNo:'员工工号',
     employeeType:'员工类型',
     employeeStatus:'员工状态',
-    employeeJob:'员工职位',
+    employeePost:'员工职位',
     employeeSuperior:'员工上级',
     entryDate:'入职时间',
     employeeOrg:'员工部门',

@@ -11,6 +11,7 @@
 		<result column="ORG_ID" property="orgId"/>
 		<result column="ORG_CN" property="orgCn"/>
 		<result column="ORG_EN" property="orgEn"/>
+		<result column="ORG_TYPE" property="orgType"/>
 		<result column="PARENT_ID" property="parentId"/>
 		<result column="ORG_DESC" property="orgDesc"/>
 	</resultMap>
@@ -20,6 +21,7 @@
 			T.ORG_ID,
 			T.ORG_CN,
 			T.ORG_EN,
+		    T.ORG_TYPE,
 			T.PARENT_ID,
 		    T.ORG_DESC,
 			T.ENABLE_FLAG,
@@ -40,6 +42,7 @@
 		INSERT INTO BASIC_ORGANIZATION_T (
 			ORG_CN,
 			ORG_EN,
+		    ORG_TYPE,
 			PARENT_ID,
 			ORG_DESC,
 			CREATE_BY,
@@ -47,6 +50,7 @@
 		)VALUES(
 			#{param.orgCn,jdbcType=VARCHAR},
 			#{param.orgEn,jdbcType=VARCHAR},
+			#{param.orgType,jdbcType=NUMERIC},
 			IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
 			#{param.orgDesc,jdbcType=VARCHAR},
 			#{param.currentUserId,jdbcType=NUMERIC},
@@ -68,6 +72,7 @@
 		UPDATE BASIC_ORGANIZATION_T T SET
 			T.ORG_CN=#{param.orgCn,jdbcType=VARCHAR},
 			T.ORG_EN=#{param.orgEn,jdbcType=VARCHAR},
+			T.ORG_TYPE=#{param.orgType,jdbcType=NUMERIC},
 		    T.PARENT_ID=IFNULL(#{param.parentId,jdbcType=NUMERIC},0),
 			T.ORG_DESC=#{param.orgDesc,jdbcType=VARCHAR},
 			T.LAST_UPDATE_BY=#{param.currentUserId,jdbcType=NUMERIC},

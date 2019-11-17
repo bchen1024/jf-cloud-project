@@ -30,7 +30,7 @@ export default{
     monitorMgt:'监控管理',
     auditLog:'审计日志',
     serverLog:'服务日志',
-    jobMgt:'岗位配置',
+    postMgt:'岗位配置',
 
     //非菜单路由
     personal:'个人中心',

@@ -43,7 +43,7 @@ export default {
                     ]},
                     {cols:[
                         {key:'parentId',label:vm.$t('employeeSuperior'),type:'user'},
-                        {key:'employeeJob'}
+                        {key:'employeePost'}
                     ]},
                     {key:'employeeOrg',render:(item,data)=>{
                         let orgName=vm.$util.getOrgName(vm,data.employeeOrg);

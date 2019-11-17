@@ -18,7 +18,7 @@ public class EmployeeUpdateDTO extends BaseDTO {
     private Long userId;
     private Integer employeeType;
     private Integer employeeStatus;
-    private Long employeeJob;
+    private Long employeePost;
     private Long parentId;
     @JsonFormat(pattern = DateFormatConstants.DATE)
     private Date entryDate;
@@ -48,12 +48,12 @@ public class EmployeeUpdateDTO extends BaseDTO {
         this.employeeStatus = employeeStatus;
     }
 
-    public Long getEmployeeJob() {
-        return employeeJob;
+    public Long getEmployeePost() {
+        return employeePost;
     }
 
-    public void setEmployeeJob(Long employeeJob) {
-        this.employeeJob = employeeJob;
+    public void setEmployeePost(Long employeePost) {
+        this.employeePost = employeePost;
     }
 
     public Long getParentId() {

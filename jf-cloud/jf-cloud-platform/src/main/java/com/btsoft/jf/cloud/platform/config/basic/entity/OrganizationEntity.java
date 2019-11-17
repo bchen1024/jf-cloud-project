@@ -14,6 +14,7 @@ public class OrganizationEntity extends BaseEntity {
     private String orgCn;
     private String orgEn;
     private Long parentId;
+    private Integer orgType;
     private String orgDesc;
 
     public Long getOrgId() {
@@ -46,6 +47,14 @@ public class OrganizationEntity extends BaseEntity {
 
     public void setParentId(Long parentId) {
         this.parentId = parentId;
+    }
+
+    public Integer getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(Integer orgType) {
+        this.orgType = orgType;
     }
 
     public String getOrgDesc() {
