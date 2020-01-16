@@ -1,5 +1,7 @@
 package com.btsoft.jf.cloud.monitor.entity;
 
+import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
+
 import java.util.Date;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Date;
  * @author jeo_cb
  * @date 2019/10/12 10:32
  **/
-public class AuditLogEntity {
+public class AuditLogEntity extends BaseEntity {
 
     private Long logId;
 

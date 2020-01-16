@@ -1,23 +1,20 @@
-package com.btsoft.jf.cloud.core.base.result.impl;
+package com.btsoft.jf.core.base.page.impl;
 
-import com.btsoft.jf.cloud.core.base.result.IPageResult;
+import com.btsoft.jf.core.base.page.IPage;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import java.util.List;
-
 /**
- * 分页结果
+ * 分页VO
  * @author jeo_cb
- * @date 2019/8/29
+ * @date 2020/1/13
  **/
-public class PageResult<T> implements IPageResult<T> {
+public class PageVO implements IPage {
 
-    private static final long serialVersionUID = -5917870207487396144L;
+    private static final long serialVersionUID = 6737936329754720011L;
     private Integer pageSize;
     private Integer curPage;
     private Long total;
     private Integer totalPage;
-    private List<T> list;
 
     @Override
     public Integer getPageSize() {
@@ -37,7 +34,6 @@ public class PageResult<T> implements IPageResult<T> {
         this.curPage = curPage;
     }
 
-    @Override
     public Long getTotal() {
         return total;
     }
@@ -46,22 +42,12 @@ public class PageResult<T> implements IPageResult<T> {
         this.total = total;
     }
 
-    @Override
     public Integer getTotalPage() {
         return totalPage;
     }
 
     public void setTotalPage(Integer totalPage) {
         this.totalPage = totalPage;
-    }
-
-    @Override
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.btsoft.jf.cloud.core.base.mapper;
 
+import com.btsoft.jf.cloud.core.base.entity.impl.BaseEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author chenbin
  * @date 2018-10-14 11:08:23
  */
-public interface IBaseMapper<T,ID> extends IBaseBatchMapper<T>{
+public interface IBaseMapper<T extends BaseEntity,ID> extends IBaseBatchMapper<T>{
 
 	/**
 	 * 插入单个对象
