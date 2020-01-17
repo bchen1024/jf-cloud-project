@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.service;
+package com.btsoft.jf.cloud.platform.account.service;
 
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;

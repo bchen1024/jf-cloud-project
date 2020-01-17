@@ -1,4 +1,4 @@
-package com.btsoft.jf.cloud.platform.security.service.impl;
+package com.btsoft.jf.cloud.platform.account.service.impl;
 
 import com.btsoft.jf.cloud.core.base.result.impl.CommonResult;
 import com.btsoft.jf.cloud.core.base.result.impl.PageResult;
@@ -10,7 +10,7 @@ import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeQueryDTO;
 import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeUpdateDTO;
 import com.btsoft.jf.cloud.platform.account.entity.EmployeeEntity;
 import com.btsoft.jf.cloud.platform.account.mapper.IEmployeeMapper;
-import com.btsoft.jf.cloud.platform.security.service.IEmployeeService;
+import com.btsoft.jf.cloud.platform.account.service.IEmployeeService;
 import com.btsoft.jf.cloud.platform.account.vo.employee.EmployeeVO;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;

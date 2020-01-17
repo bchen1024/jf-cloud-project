@@ -9,7 +9,7 @@ import com.btsoft.jf.cloud.core.base.result.impl.Result;
 import com.btsoft.jf.cloud.core.constant.ControllerConstants;
 import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeQueryDTO;
 import com.btsoft.jf.cloud.platform.account.dto.employee.EmployeeUpdateDTO;
-import com.btsoft.jf.cloud.platform.security.service.IEmployeeService;
+import com.btsoft.jf.cloud.platform.account.service.IEmployeeService;
 import com.btsoft.jf.cloud.platform.account.vo.employee.EmployeeVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

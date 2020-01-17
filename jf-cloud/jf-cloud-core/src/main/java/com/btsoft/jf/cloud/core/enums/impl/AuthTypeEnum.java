@@ -5,7 +5,7 @@ package com.btsoft.jf.cloud.core.enums.impl;
  * @author jeo_cb
  * @date 2019/10/29 10:58
  **/
-public enum AuthType {
+public enum AuthTypeEnum {
     /** 所有用户**/
     AllUser,
     /** 登录用户**/

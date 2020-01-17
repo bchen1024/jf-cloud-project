@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.core.annotation;
 
-import com.btsoft.jf.cloud.core.enums.impl.AuthType;
+import com.btsoft.jf.cloud.core.enums.impl.AuthTypeEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -25,6 +25,6 @@ public @interface JOperator {
 	//排序
 	int sort() default 0;
 	//授权类型
-	AuthType authType() default AuthType.AuthUser;
+	AuthTypeEnum authType() default AuthTypeEnum.AuthUser;
 	
 }

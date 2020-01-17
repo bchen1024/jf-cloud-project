@@ -29,7 +29,7 @@ public class CommonResultUtils {
         return new Result(operationType.getKey()+".successful",operationType.getCnName()+"成功",true);
     }
     public static Result success(){
-        return new Result(OperationTypeEnum.Operate+".successful",OperationTypeEnum.Operate.getCnName()+"成功",true);
+        return success(OperationTypeEnum.Operate);
     }
 
     public static <T> CommonResult<PageResult<T>> pageResult(Class<T> clazz, Page page){
