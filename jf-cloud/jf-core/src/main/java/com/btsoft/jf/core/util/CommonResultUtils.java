@@ -1,10 +1,10 @@
 package com.btsoft.jf.core.util;
 
 import com.alibaba.fastjson.JSON;
-import com.btsoft.jf.core.base.page.impl.PageVO;
-import com.btsoft.jf.core.base.result.impl.CommonResult;
-import com.btsoft.jf.core.base.result.impl.PageResult;
-import com.btsoft.jf.core.base.result.impl.Result;
+import com.btsoft.jf.core.pojo.page.impl.PageVO;
+import com.btsoft.jf.core.pojo.result.impl.CommonResult;
+import com.btsoft.jf.core.pojo.result.impl.PageResult;
+import com.btsoft.jf.core.pojo.result.impl.Result;
 import com.btsoft.jf.core.constant.CodeConstants;
 import com.github.pagehelper.Page;
 
@@ -59,7 +59,7 @@ public class CommonResultUtils {
      * @param page 分页对象
      * @return 分页结果
      **/
-    public static <T> CommonResult<PageResult<T>> pageResult(Class<T> clazz, Page page){
+    public static <T> CommonResult<PageResult<T>> pageResult(Class<T> clazz, Page<?> page){
         CommonResult<PageResult<T>> commonResult=new CommonResult<>();
         PageResult<T> pageResult=new PageResult<>();
         PageVO pageVO=new PageVO();

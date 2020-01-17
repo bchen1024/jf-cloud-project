@@ -1,0 +1,11 @@
+package com.btsoft.jf.core.pojo.vo;
+
+import java.io.Serializable;
+
+/**
+ * 基类BaseVO接口
+ * @author jeo_cb
+ * @date 2020/1/13
+ **/
+public interface IBaseVO extends Serializable {
+}

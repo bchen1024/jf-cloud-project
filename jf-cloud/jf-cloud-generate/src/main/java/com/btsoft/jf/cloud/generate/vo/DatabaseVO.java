@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.generate.vo;
 
-import com.btsoft.jf.core.base.vo.impl.BaseVO;
+import com.btsoft.jf.core.pojo.vo.impl.BaseVO;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**

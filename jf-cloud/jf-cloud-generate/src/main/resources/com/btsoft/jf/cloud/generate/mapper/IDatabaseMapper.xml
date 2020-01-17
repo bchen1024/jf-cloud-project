@@ -39,15 +39,4 @@
 		    T.STATUS=1
 		</trim>
 	</sql>
-
-<!--	<select id="getList" resultMap="sqlResultMap">-->
-<!--		<include refid="base_sql"/>-->
-<!--		<include refid="base_condition"/>-->
-<!--	</select>-->
-	<select id="getById" resultMap="sqlResultMap">
-		<include refid="base_sql"/>
-		<trim prefix="WHERE" prefixOverrides="AND || OR">
-			T.ID=#{0}
-		</trim>
-	</select>
 </mapper>

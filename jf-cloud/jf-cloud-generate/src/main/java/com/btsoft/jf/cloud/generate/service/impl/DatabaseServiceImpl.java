@@ -3,7 +3,7 @@ package com.btsoft.jf.cloud.generate.service.impl;
 import com.btsoft.jf.cloud.generate.entity.DatabaseEntity;
 import com.btsoft.jf.cloud.generate.service.IDatabaseService;
 import com.btsoft.jf.cloud.generate.vo.DatabaseVO;
-import com.btsoft.jf.core.base.service.impl.BaseServiceImpl;
+import com.btsoft.jf.core.service.impl.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

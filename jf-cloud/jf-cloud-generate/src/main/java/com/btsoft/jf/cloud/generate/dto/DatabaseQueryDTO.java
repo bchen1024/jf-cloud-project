@@ -1,6 +1,6 @@
 package com.btsoft.jf.cloud.generate.dto;
 
-import com.btsoft.jf.core.base.dto.impl.SearchKeywordPageDTO;
+import com.btsoft.jf.core.pojo.dto.impl.SearchKeywordPageDTO;
 
 /**
  * 数据库查询DTO

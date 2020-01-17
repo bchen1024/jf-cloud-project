@@ -1,20 +1,28 @@
 package com.btsoft.jf.cloud.generate.entity;
 
 
-import com.btsoft.jf.core.base.entity.impl.BaseEntity;
+import com.btsoft.jf.core.mapper.annotation.Column;
+import com.btsoft.jf.core.mapper.annotation.Table;
+import com.btsoft.jf.core.mapper.entity.impl.BaseEntity;
 
 /**
  * 数据库实体
  * @author jeo_cb
  * @date 2020/1/12
  **/
+@Table(name = "db_database_t")
 public class DatabaseEntity extends BaseEntity<Long> {
 
     private static final long serialVersionUID = 4477559355032496845L;
+    @Column
     private String name;
+    @Column
     private String url;
+    @Column
     private String type;
+    @Column(name = "user_name")
     private String userName;
+    @Column
     private String password;
 
     public String getName() {

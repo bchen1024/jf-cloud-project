@@ -1,7 +1,7 @@
 package com.btsoft.jf.cloud.generate.service;
 
 import com.btsoft.jf.cloud.generate.vo.DatabaseVO;
-import com.btsoft.jf.core.base.service.IBaseService;
+import com.btsoft.jf.core.service.IBaseService;
 
 /**
  * 数据库Service接口

@@ -2,7 +2,7 @@ package com.btsoft.jf.core.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.btsoft.jf.core.base.dto.ISearchKeywordPageDTO;
+import com.btsoft.jf.core.pojo.dto.ISearchKeywordPageDTO;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.slf4j.Logger;
@@ -34,7 +34,6 @@ public class BeanUtils {
             try{
                 Field field=FieldUtils.getField(clazz,dto.getKeywordField(),true);
                 if(field!=null){
-                    logger.error(field.getGenericType().getClass().toString());
                     if(Number.class.isAssignableFrom(field.getGenericType().getClass())){
                         if(StringUtils.isNumeric(dto.getKeywordValue().toString())){
                             jsonObj.put(dto.getKeywordField(),dto.getKeywordValue());

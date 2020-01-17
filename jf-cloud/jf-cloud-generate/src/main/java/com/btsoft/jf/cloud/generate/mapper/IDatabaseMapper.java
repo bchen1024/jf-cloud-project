@@ -1,7 +1,7 @@
 package com.btsoft.jf.cloud.generate.mapper;
 
 import com.btsoft.jf.cloud.generate.entity.DatabaseEntity;
-import com.btsoft.jf.core.base.mapper.IBaseMapper;
+import com.btsoft.jf.core.mapper.IBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
