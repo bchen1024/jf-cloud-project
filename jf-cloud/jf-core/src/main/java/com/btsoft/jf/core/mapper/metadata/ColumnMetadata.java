@@ -16,6 +16,8 @@ public class ColumnMetadata implements Serializable {
     private String alias;
     private String fieldName;
     private boolean primaryKey;
+    private boolean allowInsert;
+    private boolean allowUpdate;
 
     public String getColumnName() {
         return columnName;
@@ -47,6 +49,22 @@ public class ColumnMetadata implements Serializable {
 
     public void setPrimaryKey(boolean primaryKey) {
         this.primaryKey = primaryKey;
+    }
+
+    public boolean isAllowInsert() {
+        return allowInsert;
+    }
+
+    public void setAllowInsert(boolean allowInsert) {
+        this.allowInsert = allowInsert;
+    }
+
+    public boolean isAllowUpdate() {
+        return allowUpdate;
+    }
+
+    public void setAllowUpdate(boolean allowUpdate) {
+        this.allowUpdate = allowUpdate;
     }
 
     @Override

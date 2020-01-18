@@ -64,7 +64,7 @@ public class SqlProviderSupport {
      * @param clazz 实体Class
      * @return 表元数据
      */
-    public static TableMetadata initTableMetadata(Class<?> clazz){
+    private static TableMetadata initTableMetadata(Class<?> clazz){
         TableMetadata tableMetadata=null;
         Table table=clazz.getAnnotation(Table.class);
         if(table!=null){
@@ -126,6 +126,8 @@ public class SqlProviderSupport {
                 if(StringUtils.isNotEmpty(column.alias())){
                     columnMetadata.setAlias(column.alias());
                 }
+                columnMetadata.setAllowInsert(column.allowInsert());
+                columnMetadata.setAllowUpdate(column.allowUpdate());
 
                 //是否主键
                 Id id=field.getAnnotation(Id.class);
@@ -145,7 +147,7 @@ public class SqlProviderSupport {
      * @param clazz 实体Class
      * @return 表元数据
      */
-    public static TableMetadata getTableMetadata(Class<?> clazz){
+    private static TableMetadata getTableMetadata(Class<?> clazz){
         TableMetadata tableMetadata= TABLE_CACHE.get(clazz);
         if(tableMetadata==null){
             tableMetadata=initTableMetadata(clazz);
@@ -168,7 +170,7 @@ public class SqlProviderSupport {
      * @param obj 参数
      * @return 查询sql
      */
-    public static String getSelectSql(Class<?> clazz, boolean distinct, boolean count,boolean primaryKey,boolean batchPrimaryKey,Object obj){
+    static String getSelectSql(Class<?> clazz, boolean distinct, boolean count, boolean primaryKey, boolean batchPrimaryKey, Object obj){
         TableMetadata tableMetadata=getTableMetadata(clazz);
         if(tableMetadata!=null){
             SQL sql=new SQL();
@@ -201,7 +203,7 @@ public class SqlProviderSupport {
      * @param obj 参数
      * @return 删除sql
      */
-    public static String getDeleteSql(Class<?> clazz,boolean primaryKey,boolean batchPrimaryKey,Object obj){
+    static String getDeleteSql(Class<?> clazz, boolean primaryKey, boolean batchPrimaryKey, Object obj){
         TableMetadata tableMetadata=getTableMetadata(clazz);
         if(tableMetadata!=null){
             SQL sql=new SQL();
@@ -214,6 +216,32 @@ public class SqlProviderSupport {
             //主键where条件
             List<ColumnMetadata> columnMetadataList=tableMetadata.getColumnMetadataList();
             buildPrimaryKeyWhereSql(columnMetadataList,sql,primaryKey,batchPrimaryKey,obj);
+            return sql.toString();
+        }
+        return null;
+    }
+
+    /**
+     * 获取插入Sql
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  clazz 实体class
+     * @return 插入Sql
+     **/
+    static String getInsertSql(Class<?> clazz,Object obj){
+        TableMetadata tableMetadata=getTableMetadata(clazz);
+        if(tableMetadata!=null){
+            SQL sql=new SQL();
+            //插入Table
+            sql.INSERT_INTO(tableMetadata.getTableName());
+            //插入字段
+            List<ColumnMetadata> columnMetadataList=tableMetadata.getColumnMetadataList();
+            JSONObject jsonObject= JSON.parseObject(JSON.toJSONString(obj));
+            List<String> columns=new ArrayList<>();
+            columnMetadataList.forEach(v->{
+            });
+            Map<String,String> fieldColumnMap=tableMetadata.getFieldColumnMap();
+            //sql.INTO_COLUMNS()；
             return sql.toString();
         }
         return null;

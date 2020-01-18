@@ -22,4 +22,10 @@ public @interface Column {
 
 	/**别名**/
 	String alias() default "";
+
+	/**允许插入**/
+	boolean allowInsert() default true;
+
+	/**允许更新**/
+	boolean allowUpdate() default true;
 }

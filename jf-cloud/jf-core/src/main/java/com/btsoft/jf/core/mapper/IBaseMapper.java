@@ -110,4 +110,22 @@ public interface IBaseMapper<T extends BaseEntity<ID>,ID extends Serializable> {
      */
     @DeleteProvider(type = BaseMapperImpl.class,method = "deleteByIds")
     int deleteByIds(Collection<ID> list);
+
+    /**
+     * 总数
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  entity 实体对象
+     * @return 总数
+     **/
+    int count(T entity);
+
+    /**
+     * 重复校验
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  entity 实体对象
+     * @return 重复次数
+     **/
+    int same(T entity);
 }

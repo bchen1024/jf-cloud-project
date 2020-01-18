@@ -101,6 +101,21 @@ public class BaseMapperImpl<T extends BaseEntity<ID>, ID extends Serializable>{
         return SqlProviderSupport.getDeleteSql(getEntityClass(context),false,true,list);
     }
 
+    /**
+     * 总数
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  entity 实体对象
+     * @return 总数
+     **/
+    public String count(T entity){
+        return SqlProviderSupport.getSelectSql(entity.getClass(),false,true,false,false,entity);
+    }
+
+    public String same(T entity){
+        return null;
+    }
+
     private Class<?> getEntityClass(ProviderContext context) {
         Class<?> mapperType = context.getMapperType();
         for (Type parent : mapperType.getGenericInterfaces()) {

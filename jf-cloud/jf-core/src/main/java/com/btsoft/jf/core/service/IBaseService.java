@@ -86,4 +86,13 @@ public interface IBaseService<V extends BaseVO,ID>{
      * @return 受影响行数
      **/
     CommonResult<Integer> deleteByIds(Collection<ID> ids);
+
+    /**
+     * 总数
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  dto 查询条件
+     * @return 总数
+     **/
+    <D> CommonResult<Integer> count(D dto);
 }

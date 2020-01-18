@@ -74,6 +74,13 @@ public class BaseServiceImpl<V extends BaseVO,T extends BaseEntity<ID>,ID extend
         return CommonResultUtils.result(clazz,entity);
     }
 
+    /**
+     * 根据主键id集合查询列表
+     * @author jeo_cb
+     * @date 2020/1/12
+     * @param  ids 主键id集合
+     * @return 列表集合
+     **/
     @Override
     public CommonResult<List<V>> getListByIds(Collection<ID> ids) {
         if(CollectionUtils.isEmpty(ids)){
@@ -173,5 +180,23 @@ public class BaseServiceImpl<V extends BaseVO,T extends BaseEntity<ID>,ID extend
         int rows=mapper.deleteByIds(ids);
         //返回受影响行数
         return CommonResultUtils.result(rows,rows);
+    }
+
+    /**
+     * 总数
+     * @author jeo_cb
+     * @date 2020/1/17
+     * @param  dto 查询条件
+     * @return 总数
+     **/
+    @Override
+    public <D> CommonResult<Integer> count(D dto) {
+        //获取Entity实体Class
+        Class<T> clazz = (Class<T>) ClassUtils.getParameterizedType(this.getClass(),1);
+        //将查询DTO转换成Entity实体
+        T entity= BeanUtils.dtoToEntity(clazz,dto);
+        //查询总数
+        int count=mapper.count(entity);
+        return CommonResultUtils.success(count);
     }
 }
