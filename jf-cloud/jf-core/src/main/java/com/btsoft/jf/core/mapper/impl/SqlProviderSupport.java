@@ -2,9 +2,12 @@ package com.btsoft.jf.core.mapper.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.btsoft.jf.core.context.impl.JfSupport;
+import com.btsoft.jf.core.mapper.IMetaObjectHandler;
 import com.btsoft.jf.core.mapper.annotation.Column;
 import com.btsoft.jf.core.mapper.annotation.Id;
 import com.btsoft.jf.core.mapper.annotation.Table;
+import com.btsoft.jf.core.mapper.enums.MapperMethod;
 import com.btsoft.jf.core.mapper.metadata.ColumnMetadata;
 import com.btsoft.jf.core.mapper.metadata.TableMetadata;
 import org.apache.commons.collections4.CollectionUtils;
@@ -231,6 +234,8 @@ public class SqlProviderSupport {
     static String getInsertSql(Class<?> clazz,Object obj){
         TableMetadata tableMetadata=getTableMetadata(clazz);
         if(tableMetadata!=null){
+            IMetaObjectHandler metaObjectHandler= JfSupport.getContext().getBean("defaultMetaObjectHandlerImpl",IMetaObjectHandler.class);
+            metaObjectHandler.handler(obj, MapperMethod.Insert);
             SQL sql=new SQL();
             //插入Table
             sql.INSERT_INTO(tableMetadata.getTableName());
@@ -239,9 +244,22 @@ public class SqlProviderSupport {
             JSONObject jsonObject= JSON.parseObject(JSON.toJSONString(obj));
             List<String> columns=new ArrayList<>();
             columnMetadataList.forEach(v->{
+                Object value=jsonObject.get(v.getFieldName());
+                if(v.isAllowInsert() && value!=null){
+                    columns.add(v.getColumnName());
+                }
             });
-            Map<String,String> fieldColumnMap=tableMetadata.getFieldColumnMap();
-            //sql.INTO_COLUMNS()；
+            sql.INTO_COLUMNS(columns.toArray(new String[0]));
+
+            //插入值
+            List<String> values=new ArrayList<>();
+            columnMetadataList.forEach(v->{
+                Object value=jsonObject.get(v.getFieldName());
+                if(v.isAllowInsert() && value!=null){
+                    values.add(String.format(VALUE,v.getFieldName()));
+                }
+            });
+            sql.INTO_VALUES(values.toArray(new String[0]));
             return sql.toString();
         }
         return null;

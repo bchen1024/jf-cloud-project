@@ -55,7 +55,7 @@ public class BaseMapperImpl<T extends BaseEntity<ID>, ID extends Serializable>{
      * @return 受影响行数
      **/
     public String insert(T entity) {
-        return null;
+        return SqlProviderSupport.getInsertSql(entity.getClass(),entity);
     }
 
     /**

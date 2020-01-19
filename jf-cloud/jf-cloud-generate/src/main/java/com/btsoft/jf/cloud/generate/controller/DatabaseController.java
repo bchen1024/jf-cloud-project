@@ -1,6 +1,7 @@
 package com.btsoft.jf.cloud.generate.controller;
 
 import com.btsoft.jf.cloud.generate.dto.DatabaseQueryDTO;
+import com.btsoft.jf.cloud.generate.dto.DatabaseSaveDTO;
 import com.btsoft.jf.cloud.generate.service.IDatabaseService;
 import com.btsoft.jf.cloud.generate.vo.DatabaseVO;
 import com.btsoft.jf.core.pojo.result.impl.CommonResult;
@@ -53,5 +54,11 @@ public class DatabaseController {
     @ApiOperation("批量删除")
     public CommonResult<Integer> deleteByIds(@RequestBody List<Long> ids){
         return databaseService.deleteByIds(ids);
+    }
+
+    @PostMapping("/insert")
+    @ApiOperation("插入")
+    public CommonResult<Long> insert(@RequestBody DatabaseSaveDTO dto){
+        return databaseService.insert(dto);
     }
 }

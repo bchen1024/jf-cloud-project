@@ -65,4 +65,12 @@ public interface IBaseEntity<ID extends Serializable> extends Serializable {
      * @return 最后备注
      **/
     String getRemark();
+
+    /**
+     * 获取当前登录者id
+     * @author jeo_cb
+     * @date 2020/1/19
+     * @return 当前登录者id
+     */
+    Long getCurrentUserId();
 }

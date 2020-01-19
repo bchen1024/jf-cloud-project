@@ -9,5 +9,6 @@ public interface CodeConstants {
 
     interface Global{
         String SUCCESS="success";
+        String ERROR="error";
     }
 }

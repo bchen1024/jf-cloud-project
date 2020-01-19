@@ -1,5 +1,6 @@
 package com.btsoft.jf.core.mapper.entity.impl;
 
+import com.btsoft.jf.core.context.impl.JfSupport;
 import com.btsoft.jf.core.mapper.annotation.Column;
 import com.btsoft.jf.core.mapper.annotation.Id;
 import com.btsoft.jf.core.mapper.entity.IBaseEntity;
@@ -90,6 +91,11 @@ public class BaseEntity<ID extends Serializable> implements IBaseEntity<ID> {
     @Override
     public String getRemark() {
         return remark;
+    }
+
+    @Override
+    public Long getCurrentUserId() {
+        return JfSupport.getCurrent(true).getCurrentUserId();
     }
 
     public void setRemark(String remark) {

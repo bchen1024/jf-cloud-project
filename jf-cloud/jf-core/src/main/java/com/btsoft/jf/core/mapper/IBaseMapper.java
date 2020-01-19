@@ -3,6 +3,7 @@ package com.btsoft.jf.core.mapper;
 import com.btsoft.jf.core.mapper.entity.impl.BaseEntity;
 import com.btsoft.jf.core.mapper.impl.BaseMapperImpl;
 import org.apache.ibatis.annotations.DeleteProvider;
+import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 
 import java.io.Serializable;
@@ -53,6 +54,7 @@ public interface IBaseMapper<T extends BaseEntity<ID>,ID extends Serializable> {
      * @param  entity 实体对象
      * @return 受影响行数
      **/
+    @InsertProvider(type = BaseMapperImpl.class,method = "insert")
     int insert(T entity);
 
     /**
